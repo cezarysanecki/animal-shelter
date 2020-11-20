@@ -27,6 +27,7 @@
             <groupId>pl.csanecki</groupId>
             <artifactId>model</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

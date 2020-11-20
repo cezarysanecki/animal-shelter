@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<vavr.version>0.10.3</vavr.version>
+		<liquidbase.version>4.2.0</liquidbase.version>
 	</properties>
 
 	<dependencies>
@@ -26,12 +28,12 @@
 		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
-			<version>0.10.3</version>
+			<version>${vavr.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>4.2.0</version>
+			<version>${liquidbase.version}</version>
 		</dependency>
 
 		<dependency>

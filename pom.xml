@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>webservice</module>
+		<module>model</module>
 	</modules>
 
 	<properties>

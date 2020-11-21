@@ -12,16 +12,16 @@ import pl.csanecki.animalshelter.dto.AnimalRequest;
 @RequestMapping("/animals")
 public class AnimalRestController {
 
-    private AnimalSerivce animalSerivce;
+    private AnimalService animalService;
 
     @Autowired
-    public AnimalRestController(AnimalSerivce animalSerivce) {
-        this.animalSerivce = animalSerivce;
+    public AnimalRestController(AnimalService animalService) {
+        this.animalService = animalService;
     }
 
     @PostMapping
     public ResponseEntity<AnimalCreated> acceptIntoShelter(AnimalRequest animal) {
-        animalSerivce.accept(animal);
+        animalService.accept(animal);
 
         throw new UnsupportedOperationException();
     }

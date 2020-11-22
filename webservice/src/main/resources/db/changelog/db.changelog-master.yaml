@@ -35,3 +35,23 @@ databaseChangeLog:
                   type: BIGINT
             tableName: animals
 
+  - changeSet:
+      id: add-date-tables-to-animals
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: animals
+      changes:
+        - addColumn:
+            tableName: animals
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: admitted at
+                  type: DATETIME
+                  defaultValueDate: CURRENT_TIMESTAMP
+              - column:
+                  name: adopted at
+                  type: DATETIME

@@ -53,7 +53,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
                     rs.getString("kind"),
                     rs.getInt("age"),
                     rs.getString("admittedAt"),
-                    rs.getString("adpotedAt")
+                    rs.getString("adoptedAt")
             );
         }
     }

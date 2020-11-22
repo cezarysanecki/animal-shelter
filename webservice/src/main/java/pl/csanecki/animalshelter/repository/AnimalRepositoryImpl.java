@@ -4,12 +4,16 @@ import io.vavr.control.Option;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 import pl.csanecki.animalshelter.service.AnimalRepository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class AnimalRepositoryImpl implements AnimalRepository {
 
@@ -21,12 +25,22 @@ public class AnimalRepositoryImpl implements AnimalRepository {
 
     @Override
     public Option<AnimalDetails> save(AnimalRequest animal) {
-        int id = jdbcTemplate.update(
-                "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
-                animal.name, animal.kind, animal.age
-        );
+        KeyHolder holder = new GeneratedKeyHolder();
 
-        return findAnimalBy(id);
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            preparedStatement.setString(1, animal.name);
+            preparedStatement.setString(2, animal.kind);
+            preparedStatement.setInt(3, animal.age);
+            return preparedStatement;
+        }, holder);
+
+        return Option.of(holder.getKey())
+                    .map(key -> findAnimalBy(key.intValue()))
+                    .getOrElse(Option.none());
     }
 
     @Override

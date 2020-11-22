@@ -15,7 +15,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public AnimalCreated accept(AnimalRequest animal) {
+    public Option<AnimalDetails> accept(AnimalRequest animal) {
         return animalRepository.save(animal);
     }
 

@@ -20,6 +20,8 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public AnimalDetails getAnimalBy(int id) {
+        animalRepository.findAnimalBy(id);
+
         return null;
     }
 }

@@ -21,12 +21,12 @@ public class AnimalRepositoryImpl implements AnimalRepository {
 
     @Override
     public Option<AnimalDetails> save(AnimalRequest animal) {
-        jdbcTemplate.update(
+        int id = jdbcTemplate.update(
                 "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
                 animal.name, animal.kind, animal.age
         );
 
-        return null;
+        return findAnimalBy(id);
     }
 
     @Override

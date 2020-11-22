@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.controller;
 
+import io.vavr.collection.List;
 import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,12 @@ public class AnimalRestController {
 
         return animalDetails.map(ResponseEntity::ok)
                 .getOrElse(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AnimalDetails>> getAnimals() {
+        animalService.getAllAnimals();
+
+        return null;
     }
 }

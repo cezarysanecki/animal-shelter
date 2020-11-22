@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.controller;
 
+import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,9 @@ public class AnimalRestController {
 
     @GetMapping("/:id")
     public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable int id) {
-        animalService.getAnimalBy(id);
+        Option<AnimalDetails> animalDetails = animalService.getAnimalBy(id);
 
-        throw new UnsupportedOperationException();
+        return animalDetails.map(ResponseEntity::ok)
+                .getOrElse(() -> ResponseEntity.notFound().build());
     }
 }

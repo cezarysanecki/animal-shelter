@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/animals")
 public class AnimalRestController {
@@ -37,9 +39,9 @@ public class AnimalRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AnimalDetails>> getAnimals() {
-        animalService.getAllAnimals();
+    public ResponseEntity<Collection<AnimalDetails>> getAnimals() {
+        List<AnimalDetails> allAnimals = animalService.getAllAnimals();
 
-        return null;
+        return ResponseEntity.ok(allAnimals.asJava());
     }
 }

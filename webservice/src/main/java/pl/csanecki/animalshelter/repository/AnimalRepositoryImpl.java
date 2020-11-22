@@ -2,10 +2,14 @@ package pl.csanecki.animalshelter.repository;
 
 import io.vavr.control.Option;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import pl.csanecki.animalshelter.dto.AnimalCreated;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 import pl.csanecki.animalshelter.service.AnimalRepository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AnimalRepositoryImpl implements AnimalRepository {
 
@@ -28,5 +32,19 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     @Override
     public Option<AnimalDetails> findAnimalBy(int id) {
         return null;
+    }
+
+    private static final class AnimalDetailsMapper implements RowMapper<AnimalDetails> {
+
+        public AnimalDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new AnimalDetails(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("kind"),
+                    rs.getInt("age"),
+                    rs.getString("admittedAt"),
+                    rs.getString("adpotedAt")
+            );
+        }
     }
 }

@@ -1,7 +1,6 @@
 package pl.csanecki.animalshelter.controller;
 
 import io.vavr.control.Option;
-import pl.csanecki.animalshelter.dto.AnimalCreated;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 

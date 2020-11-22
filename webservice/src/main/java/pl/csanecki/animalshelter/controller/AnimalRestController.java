@@ -13,7 +13,7 @@ import pl.csanecki.animalshelter.dto.AnimalRequest;
 @RequestMapping("/animals")
 public class AnimalRestController {
 
-    private AnimalService animalService;
+    private final AnimalService animalService;
 
     @Autowired
     public AnimalRestController(AnimalService animalService) {

@@ -26,7 +26,7 @@ public class AnimalRestController {
         throw new UnsupportedOperationException();
     }
 
-    @GetMapping("/:id")
+    @GetMapping("/{id}")
     public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable int id) {
         Option<AnimalDetails> animalDetails = animalService.getAnimalBy(id);
 

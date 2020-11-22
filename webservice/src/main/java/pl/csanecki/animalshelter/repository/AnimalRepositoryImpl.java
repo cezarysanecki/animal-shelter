@@ -4,7 +4,6 @@ import io.vavr.control.Option;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import pl.csanecki.animalshelter.dto.AnimalCreated;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 import pl.csanecki.animalshelter.service.AnimalRepository;
@@ -21,7 +20,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public AnimalCreated save(AnimalRequest animal) {
+    public Option<AnimalDetails> save(AnimalRequest animal) {
         jdbcTemplate.update(
                 "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
                 animal.name, animal.kind, animal.age

@@ -2,9 +2,9 @@ package pl.csanecki.animalshelter.controller;
 
 import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.csanecki.animalshelter.dto.AnimalCreated;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 
@@ -20,10 +20,11 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalCreated> acceptIntoShelter(@RequestBody AnimalRequest animal) {
-        animalService.accept(animal);
+    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AnimalRequest animalRequest) {
+        Option<AnimalDetails> createdAnimalDetails = animalService.accept(animalRequest);
 
-        throw new UnsupportedOperationException();
+        return createdAnimalDetails.map(animal -> ResponseEntity.status(HttpStatus.CREATED).body(animal))
+                .getOrElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}")

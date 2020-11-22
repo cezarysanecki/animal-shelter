@@ -15,6 +15,11 @@ public class AnimalRepositoryImpl implements AnimalRepository {
 
     @Override
     public AnimalCreated save(AnimalRequest animal) {
-        throw new UnsupportedOperationException();
+        jdbcTemplate.update(
+                "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
+                animal.name, animal.kind, animal.age
+        );
+
+        return null;
     }
 }

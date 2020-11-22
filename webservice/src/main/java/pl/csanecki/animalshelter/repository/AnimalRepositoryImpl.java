@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.repository;
 
+import io.vavr.collection.List;
 import io.vavr.control.Option;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -55,6 +56,14 @@ public class AnimalRepositoryImpl implements AnimalRepository {
         } catch (EmptyResultDataAccessException ex) {
             return Option.none();
         }
+    }
+
+    @Override
+    public List<AnimalDetails> findAll() {
+        return List.ofAll(jdbcTemplate.query(
+                "SELECT * FROM animals",
+                new AnimalDetailsMapper()
+        ));
     }
 
     private static final class AnimalDetailsMapper implements RowMapper<AnimalDetails> {

@@ -2,6 +2,7 @@ package pl.csanecki.animalshelter.service;
 
 import pl.csanecki.animalshelter.controller.AnimalService;
 import pl.csanecki.animalshelter.dto.AnimalCreated;
+import pl.csanecki.animalshelter.dto.AnimalDetails;
 import pl.csanecki.animalshelter.dto.AnimalRequest;
 
 public class AnimalServiceImpl implements AnimalService {
@@ -15,5 +16,10 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public AnimalCreated accept(AnimalRequest animal) {
         return animalRepository.save(animal);
+    }
+
+    @Override
+    public AnimalDetails getAnimalBy(int id) {
+        return null;
     }
 }

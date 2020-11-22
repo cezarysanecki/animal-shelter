@@ -49,9 +49,9 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: admitted at
+                  name: admittedAt
                   type: DATETIME
                   defaultValueDate: CURRENT_TIMESTAMP
               - column:
-                  name: adopted at
+                  name: adoptedAt
                   type: DATETIME

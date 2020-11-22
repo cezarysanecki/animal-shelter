@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.service;
 
+import io.vavr.control.Option;
 import pl.csanecki.animalshelter.controller.AnimalService;
 import pl.csanecki.animalshelter.dto.AnimalCreated;
 import pl.csanecki.animalshelter.dto.AnimalDetails;
@@ -19,9 +20,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public AnimalDetails getAnimalBy(int id) {
-        animalRepository.findAnimalBy(id);
-
-        return null;
+    public Option<AnimalDetails> getAnimalBy(int id) {
+        return animalRepository.findAnimalBy(id);
     }
 }

@@ -1,7 +1,6 @@
 package pl.csanecki.animalshelter.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.csanecki.animalshelter.controller.AnimalService;
@@ -12,7 +11,6 @@ import pl.csanecki.animalshelter.service.AnimalServiceImpl;
 import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
-@ComponentScan("pl.csanecki.animalshelter")
 public class AnimalConfig {
 
     @Bean

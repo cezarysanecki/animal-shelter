@@ -24,7 +24,7 @@ public class AnimalConfig {
     }
 
     @Bean
-    public AnimalService animalSerivce(AnimalRepository animalRepository) {
+    public AnimalService animalService(AnimalRepository animalRepository) {
         return new AnimalServiceImpl(animalRepository);
     }
 }

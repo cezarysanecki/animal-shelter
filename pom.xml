@@ -28,6 +28,7 @@
 		<vavr.version>0.10.3</vavr.version>
 		<liquidbase.version>4.2.0</liquidbase.version>
 		<mysql.version>8.0.22</mysql.version>
+		<archunit.version>0.14.1</archunit.version>
 	</properties>
 
 	<dependencies>
@@ -36,6 +37,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit5</artifactId>
+			<version>${archunit.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

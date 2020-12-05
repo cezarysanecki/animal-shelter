@@ -7,8 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import pl.csanecki.animalshelter.dto.AnimalDetails;
-import pl.csanecki.animalshelter.dto.AnimalRequest;
+import pl.csanecki.animalshelter.model.AnimalDetails;
+import pl.csanecki.animalshelter.model.AnimalRequest;
 import pl.csanecki.animalshelter.service.AnimalRepository;
 
 import java.sql.PreparedStatement;

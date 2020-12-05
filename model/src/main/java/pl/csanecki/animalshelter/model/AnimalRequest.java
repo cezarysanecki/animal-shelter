@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.dto;
+package pl.csanecki.animalshelter.model;
 
 public class AnimalRequest {
 

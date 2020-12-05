@@ -16,6 +16,10 @@ public class AnimalKind {
                 .orElseThrow(() -> new IllegalArgumentException("Not valid kind of animal"));
     }
 
+    public static AnimalKind of(String kind) {
+        return new AnimalKind(kind);
+    }
+
     public enum AvailableKind {
         DOG, CAT;
     }

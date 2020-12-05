@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.domain.animal.model;
 
+import lombok.NonNull;
 import lombok.Value;
 
 import java.util.Arrays;
@@ -9,7 +10,7 @@ public class AnimalKind {
 
     AvailableKind kind;
 
-    private AnimalKind(String kind) {
+    private AnimalKind(@NonNull String kind) {
         this.kind = Arrays.stream(AvailableKind.values())
                 .filter(availableKind -> availableKind.name().equals(kind))
                 .findFirst()

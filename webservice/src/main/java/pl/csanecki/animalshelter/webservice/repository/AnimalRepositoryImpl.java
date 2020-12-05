@@ -7,9 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
-import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
-import pl.csanecki.animalshelter.webservice.service.AnimalRepository;
+import pl.csanecki.animalshelter.domain.service.AnimalRepository;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalEntity;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public Option<AnimalDetails> save(AdmittedAnimal animal) {
+    public Option<AnimalEntity> save(AnimalEntity animal) {
         KeyHolder holder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -45,31 +44,31 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public Option<AnimalDetails> findAnimalBy(int id) {
+    public Option<AnimalEntity> findAnimalBy(int id) {
         try {
-            AnimalDetails animalDetails = jdbcTemplate.queryForObject(
+            AnimalEntity animalEntity = jdbcTemplate.queryForObject(
                     "SELECT * FROM animals WHERE id = ?",
                     new AnimalDetailsMapper(),
                     id
             );
-            return Option.of(animalDetails);
+            return Option.of(animalEntity);
         } catch (EmptyResultDataAccessException ex) {
             return Option.none();
         }
     }
 
     @Override
-    public List<AnimalDetails> findAll() {
+    public List<AnimalEntity> findAll() {
         return List.ofAll(jdbcTemplate.query(
                 "SELECT * FROM animals",
                 new AnimalDetailsMapper()
         ));
     }
 
-    private static final class AnimalDetailsMapper implements RowMapper<AnimalDetails> {
+    private static final class AnimalDetailsMapper implements RowMapper<AnimalEntity> {
 
-        public AnimalDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new AnimalDetails(
+        public AnimalEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new AnimalEntity(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("kind"),

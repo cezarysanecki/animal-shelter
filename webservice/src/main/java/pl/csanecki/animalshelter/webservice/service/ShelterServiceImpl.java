@@ -2,15 +2,15 @@ package pl.csanecki.animalshelter.webservice.service;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import pl.csanecki.animalshelter.webservice.controller.AnimalService;
+import pl.csanecki.animalshelter.webservice.controller.ShelterService;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
 import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
 
-public class AnimalServiceImpl implements AnimalService {
+public class ShelterServiceImpl implements ShelterService {
 
     private final AnimalRepository animalRepository;
 
-    public AnimalServiceImpl(AnimalRepository animalRepository) {
+    public ShelterServiceImpl(AnimalRepository animalRepository) {
         this.animalRepository = animalRepository;
     }
 

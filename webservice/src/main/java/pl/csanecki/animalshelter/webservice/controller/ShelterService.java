@@ -6,7 +6,7 @@ import io.vavr.control.Try;
 import pl.csanecki.animalshelter.domain.animal.AddAnimalCommand;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
 
-public interface AnimalService {
+public interface ShelterService {
     Try<AnimalDetails> accept(AddAnimalCommand command);
 
     Option<AnimalDetails> getAnimalBy(int id);

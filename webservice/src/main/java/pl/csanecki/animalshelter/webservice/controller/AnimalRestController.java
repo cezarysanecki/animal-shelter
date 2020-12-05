@@ -18,11 +18,11 @@ import java.util.Collection;
 @RequestMapping("/animals")
 public class AnimalRestController {
 
-    private final AnimalService animalService;
+    private final ShelterService shelterService;
 
     @Autowired
-    public AnimalRestController(AnimalService animalService) {
-        this.animalService = animalService;
+    public AnimalRestController(ShelterService shelterService) {
+        this.shelterService = shelterService;
     }
 
     @PostMapping
@@ -35,7 +35,7 @@ public class AnimalRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable int id) {
-        Option<AnimalDetails> animalDetails = animalService.getAnimalBy(id);
+        Option<AnimalDetails> animalDetails = shelterService.getAnimalBy(id);
 
         return animalDetails.map(ResponseEntity::ok)
                 .getOrElse(() -> ResponseEntity.notFound().build());
@@ -43,7 +43,7 @@ public class AnimalRestController {
 
     @GetMapping
     public ResponseEntity<Collection<AnimalDetails>> getAnimals() {
-        List<AnimalDetails> allAnimals = animalService.getAllAnimals();
+        List<AnimalDetails> allAnimals = shelterService.getAllAnimals();
 
         return ResponseEntity.ok(allAnimals.asJava());
     }

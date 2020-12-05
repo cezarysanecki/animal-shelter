@@ -3,13 +3,17 @@ package pl.csanecki.animalshelter.webservice.controller;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
+import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
+import pl.csanecki.animalshelter.domain.animal.AddAnimalCommand;
+import pl.csanecki.animalshelter.domain.animal.model.AnimalAge;
+import pl.csanecki.animalshelter.domain.animal.model.AnimalKind;
+import pl.csanecki.animalshelter.domain.animal.model.AnimalName;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
 
 import java.util.Collection;
@@ -26,10 +30,17 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AdmittedAnimal admittedAnimal) {
-        Option<AnimalDetails> createdAnimalDetails = animalService.accept(admittedAnimal);
+    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
+        Try<AnimalDetails> result = shelterService.accept(
+                new AddAnimalCommand(
+                        AnimalName.of(addAnimalRequest.getName()),
+                        AnimalKind.of(addAnimalRequest.getKind()),
+                        AnimalAge.of(addAnimalRequest.getAge())
+                )
+        );
 
-        return createdAnimalDetails.map(animal -> ResponseEntity.status(HttpStatus.CREATED).body(animal))
+        return result
+                .map(animal -> ResponseEntity.status(HttpStatus.CREATED).body(animal))
                 .getOrElse(ResponseEntity.notFound().build());
     }
 

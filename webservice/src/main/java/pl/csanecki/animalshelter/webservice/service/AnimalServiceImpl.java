@@ -1,8 +1,8 @@
-package pl.csanecki.animalshelter.service;
+package pl.csanecki.animalshelter.webservice.service;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import pl.csanecki.animalshelter.controller.AnimalService;
+import pl.csanecki.animalshelter.webservice.controller.AnimalService;
 import pl.csanecki.animalshelter.model.AnimalDetails;
 import pl.csanecki.animalshelter.model.AnimalRequest;
 

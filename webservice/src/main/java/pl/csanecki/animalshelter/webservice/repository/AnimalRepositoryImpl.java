@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.repository;
+package pl.csanecki.animalshelter.webservice.repository;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
@@ -9,7 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import pl.csanecki.animalshelter.model.AnimalDetails;
 import pl.csanecki.animalshelter.model.AnimalRequest;
-import pl.csanecki.animalshelter.service.AnimalRepository;
+import pl.csanecki.animalshelter.webservice.service.AnimalRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

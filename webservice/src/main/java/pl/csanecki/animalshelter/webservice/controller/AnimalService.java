@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.controller;
+package pl.csanecki.animalshelter.webservice.controller;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;

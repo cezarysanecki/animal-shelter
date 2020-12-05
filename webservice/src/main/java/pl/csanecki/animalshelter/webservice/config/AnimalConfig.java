@@ -3,10 +3,9 @@ package pl.csanecki.animalshelter.webservice.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.csanecki.animalshelter.webservice.controller.ShelterService;
 import pl.csanecki.animalshelter.webservice.repository.AnimalRepositoryImpl;
-import pl.csanecki.animalshelter.webservice.service.AnimalRepository;
-import pl.csanecki.animalshelter.webservice.service.ShelterServiceImpl;
+import pl.csanecki.animalshelter.domain.service.AnimalRepository;
+import pl.csanecki.animalshelter.domain.service.ShelterService;
 
 @Configuration(proxyBeanMethods = false)
 public class AnimalConfig {
@@ -18,6 +17,6 @@ public class AnimalConfig {
 
     @Bean
     public ShelterService shelterService(AnimalRepository animalRepository) {
-        return new ShelterServiceImpl(animalRepository);
+        return new ShelterService(animalRepository);
     }
 }

@@ -20,7 +20,7 @@
 
 	<modules>
 		<module>webservice</module>
-		<module>model</module>
+		<module>domain</module>
 	</modules>
 
 	<properties>

@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.model;
+package pl.csanecki.animalshelter.domain;
 
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -11,8 +11,8 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 public class ArchitectureTests {
 
     @ArchTest
-    public static final ArchRule should_not_contain_any_webservice_references_in_model = noClasses()
-            .that(resideInAPackage("..pl.csanecki.animalshelter.model.."))
+    public static final ArchRule should_not_contain_any_webservice_references_in_domain = noClasses()
+            .that(resideInAPackage("..pl.csanecki.animalshelter.domain.."))
             .should()
             .dependOnClassesThat()
             .resideInAnyPackage("..pl.csanecki.animalshelter.webservice..");

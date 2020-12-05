@@ -25,7 +25,7 @@
 
         <dependency>
             <groupId>pl.csanecki</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>domain</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

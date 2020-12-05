@@ -1,13 +1,16 @@
 package pl.csanecki.animalshelter.webservice.controller;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
+import lombok.AllArgsConstructor;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
 import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
+import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
 
 import java.util.Collection;
 
@@ -44,4 +47,13 @@ public class AnimalRestController {
 
         return ResponseEntity.ok(allAnimals.asJava());
     }
+}
+
+@Value
+@AllArgsConstructor(onConstructor_ = { @JsonCreator })
+class AddAnimalRequest {
+
+    String name;
+    String kind;
+    int age;
 }

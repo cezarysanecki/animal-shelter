@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.webservice.controller;
+package pl.csanecki.animalshelter.webservice.web;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.vavr.collection.List;

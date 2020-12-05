@@ -2,11 +2,12 @@ package pl.csanecki.animalshelter.webservice.controller;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
+import io.vavr.control.Try;
+import pl.csanecki.animalshelter.domain.animal.AddAnimalCommand;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
-import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
 
 public interface AnimalService {
-    Option<AnimalDetails> accept(AdmittedAnimal animal);
+    Try<AnimalDetails> accept(AddAnimalCommand command);
 
     Option<AnimalDetails> getAnimalBy(int id);
 

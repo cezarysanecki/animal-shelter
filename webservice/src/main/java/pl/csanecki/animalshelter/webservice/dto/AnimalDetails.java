@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.model;
+package pl.csanecki.animalshelter.webservice.dto;
 
 public class AnimalDetails {
 

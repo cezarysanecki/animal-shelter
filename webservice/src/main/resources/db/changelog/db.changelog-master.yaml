@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-animals
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: animals
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: animal_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: kind
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: age
+                  type: BIGINT
+            tableName: animals
+
+  - changeSet:
+      id: add-date-tables-to-animals
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: animals
+      changes:
+        - addColumn:
+            tableName: animals
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: admittedAt
+                  type: DATETIME
+                  defaultValueDate: CURRENT_TIMESTAMP
+              - column:
+                  name: adoptedAt
+                  type: DATETIME

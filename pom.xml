@@ -26,8 +26,6 @@
 	<properties>
 		<java.version>11</java.version>
 		<vavr.version>0.10.3</vavr.version>
-		<liquidbase.version>4.2.0</liquidbase.version>
-		<mysql.version>8.0.22</mysql.version>
 		<archunit.version>0.14.1</archunit.version>
 	</properties>
 
@@ -35,6 +33,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.vavr</groupId>
+			<artifactId>vavr</artifactId>
+			<version>${vavr.version}</version>
 		</dependency>
 
 		<dependency>

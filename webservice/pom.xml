@@ -12,7 +12,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <vavr.version>0.10.3</vavr.version>
         <liquidbase.version>4.2.0</liquidbase.version>
         <mysql.version>8.0.22</mysql.version>
     </properties>
@@ -31,19 +30,14 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-            <version>${vavr.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquidbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
-import pl.csanecki.animalshelter.webservice.dto.AnimalRequest;
+import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
 
 import java.util.Collection;
 
@@ -23,8 +23,8 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AnimalRequest animalRequest) {
-        Option<AnimalDetails> createdAnimalDetails = animalService.accept(animalRequest);
+    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AdmittedAnimal admittedAnimal) {
+        Option<AnimalDetails> createdAnimalDetails = animalService.accept(admittedAnimal);
 
         return createdAnimalDetails.map(animal -> ResponseEntity.status(HttpStatus.CREATED).body(animal))
                 .getOrElse(ResponseEntity.notFound().build());

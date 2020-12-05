@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
-import pl.csanecki.animalshelter.webservice.dto.AnimalRequest;
+import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
 import pl.csanecki.animalshelter.webservice.service.AnimalRepository;
 
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public Option<AnimalDetails> save(AnimalRequest animal) {
+    public Option<AnimalDetails> save(AdmittedAnimal animal) {
         KeyHolder holder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {

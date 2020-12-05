@@ -4,7 +4,7 @@ import io.vavr.collection.List;
 import io.vavr.control.Option;
 import pl.csanecki.animalshelter.webservice.controller.AnimalService;
 import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
-import pl.csanecki.animalshelter.webservice.dto.AnimalRequest;
+import pl.csanecki.animalshelter.webservice.dto.AdmittedAnimal;
 
 public class AnimalServiceImpl implements AnimalService {
 
@@ -15,7 +15,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public Option<AnimalDetails> accept(AnimalRequest animal) {
+    public Option<AnimalDetails> accept(AdmittedAnimal animal) {
         return animalRepository.save(animal);
     }
 

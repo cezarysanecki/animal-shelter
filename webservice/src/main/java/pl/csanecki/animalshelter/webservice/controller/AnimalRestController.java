@@ -3,7 +3,6 @@ package pl.csanecki.animalshelter.webservice.controller;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,8 @@ import pl.csanecki.animalshelter.domain.animal.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.animal.model.AnimalAge;
 import pl.csanecki.animalshelter.domain.animal.model.AnimalKind;
 import pl.csanecki.animalshelter.domain.animal.model.AnimalName;
-import pl.csanecki.animalshelter.webservice.dto.AnimalDetails;
+import pl.csanecki.animalshelter.domain.service.ShelterService;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalEntity;
 
 import java.util.Collection;
 
@@ -30,8 +30,8 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
-        Try<AnimalDetails> result = shelterService.accept(
+    public ResponseEntity<AnimalEntity> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
+        Option<AnimalEntity> result = shelterService.accept(
                 new AddAnimalCommand(
                         AnimalName.of(addAnimalRequest.getName()),
                         AnimalKind.of(addAnimalRequest.getKind()),
@@ -45,16 +45,16 @@ public class AnimalRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable int id) {
-        Option<AnimalDetails> animalDetails = shelterService.getAnimalBy(id);
+    public ResponseEntity<AnimalEntity> getAnimalDetails(@PathVariable int id) {
+        Option<AnimalEntity> animalDetails = shelterService.getAnimalBy(id);
 
         return animalDetails.map(ResponseEntity::ok)
                 .getOrElse(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<Collection<AnimalDetails>> getAnimals() {
-        List<AnimalDetails> allAnimals = shelterService.getAllAnimals();
+    public ResponseEntity<Collection<AnimalEntity>> getAnimals() {
+        List<AnimalEntity> allAnimals = shelterService.getAllAnimals();
 
         return ResponseEntity.ok(allAnimals.asJava());
     }

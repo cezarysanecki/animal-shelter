@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.csanecki.animalshelter.domain.animal.AddAnimalCommand;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalAge;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalKind;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalName;
+import pl.csanecki.animalshelter.domain.animal.validation.AnimalAge;
+import pl.csanecki.animalshelter.domain.animal.validation.AnimalKind;
+import pl.csanecki.animalshelter.domain.animal.validation.AnimalName;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
 
@@ -34,9 +34,9 @@ public class AnimalRestController {
     public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
         Option<AnimalData> result = shelterService.accept(
                 new AddAnimalCommand(
-                        AnimalName.of(addAnimalRequest.getName()),
-                        AnimalKind.of(addAnimalRequest.getKind()),
-                        AnimalAge.of(addAnimalRequest.getAge())
+                        new AnimalName(addAnimalRequest.getName()),
+                        new AnimalKind(addAnimalRequest.getKind()),
+                        new AnimalAge(addAnimalRequest.getAge())
                 )
         );
 
@@ -73,7 +73,7 @@ class AddAnimalRequest {
 @Value
 class AnimalDetails {
 
-    int id;
+    long id;
     String name;
     String kind;
     int age;
@@ -82,9 +82,9 @@ class AnimalDetails {
 
     AnimalDetails(AnimalData animalData) {
         this.id = animalData.id.getAnimalId();
-        this.name = animalData.animalInformation.name.getName();
-        this.kind = animalData.animalInformation.kind.getKind().name();
-        this.age = animalData.animalInformation.age.getAge();
+        this.name = animalData.animalDescription.name.name;
+        this.kind = animalData.animalDescription.kind.kind;
+        this.age = animalData.animalDescription.age.age;
         this.admittedAt = animalData.admittedAt;
         this.adoptedAt = animalData.adoptedAt;
     }

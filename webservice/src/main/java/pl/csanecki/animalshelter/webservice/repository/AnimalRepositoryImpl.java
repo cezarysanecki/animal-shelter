@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.AnimalRepository;
 import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalInformation;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalDescription;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalId;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -26,7 +26,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public Option<AnimalData> save(AnimalInformation animalInformation) {
+    public Option<AnimalData> save(AnimalDescription animalDescription) {
         KeyHolder holder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -34,14 +34,14 @@ public class AnimalRepositoryImpl implements AnimalRepository {
                     "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
-            preparedStatement.setString(1, animalInformation.name.getName());
-            preparedStatement.setString(2, animalInformation.kind.getKind().name());
-            preparedStatement.setInt(3, animalInformation.age.getAge());
+            preparedStatement.setString(1, animalDescription.name.name);
+            preparedStatement.setString(2, animalDescription.kind.kind);
+            preparedStatement.setInt(3, animalDescription.age.age);
             return preparedStatement;
         }, holder);
 
         return Option.of(holder.getKey())
-                    .map(key -> findAnimalBy(new AnimalId(key.intValue())))
+                    .map(key -> findAnimalBy(new AnimalId(key.longValue())))
                     .getOrElse(none());
     }
 

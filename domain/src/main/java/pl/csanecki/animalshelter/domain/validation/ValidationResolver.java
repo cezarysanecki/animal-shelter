@@ -1,8 +1,8 @@
-package pl.csanecki.animalshelter.domain.animal.validation.item;
+package pl.csanecki.animalshelter.domain.validation;
 
-import pl.csanecki.animalshelter.domain.animal.validation.item.result.FailedItemValidationResult;
-import pl.csanecki.animalshelter.domain.animal.validation.item.result.ItemValidationResult;
-import pl.csanecki.animalshelter.domain.animal.validation.item.result.SucceededItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.item.FailedItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.item.ItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.item.SucceededItemValidationResult;
 
 import java.util.ArrayList;
 import java.util.List;

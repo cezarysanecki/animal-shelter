@@ -1,7 +1,8 @@
-package pl.csanecki.animalshelter.domain.animal.validation.item;
+package pl.csanecki.animalshelter.domain.animal.validation;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import pl.csanecki.animalshelter.domain.validation.ValidationItem;
 
 @RequiredArgsConstructor
 public class AnimalName extends ValidationItem {

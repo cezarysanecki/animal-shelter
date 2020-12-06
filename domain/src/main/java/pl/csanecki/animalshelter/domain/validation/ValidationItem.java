@@ -1,6 +1,6 @@
-package pl.csanecki.animalshelter.domain.animal.validation.item;
+package pl.csanecki.animalshelter.domain.validation;
 
-import pl.csanecki.animalshelter.domain.animal.validation.item.result.ItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.item.ItemValidationResult;
 
 public abstract class ValidationItem {
 

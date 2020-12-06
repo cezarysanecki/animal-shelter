@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.domain.animal.validation.result;
+package pl.csanecki.animalshelter.domain.validation.result;
 
 public class SucceededValidationResult implements ValidationResult {
 }

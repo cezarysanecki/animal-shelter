@@ -1,10 +1,9 @@
-package pl.csanecki.animalshelter.domain.animal.validation;
+package pl.csanecki.animalshelter.domain.validation;
 
-import pl.csanecki.animalshelter.domain.animal.validation.item.ValidationItem;
-import pl.csanecki.animalshelter.domain.animal.validation.item.result.FailedItemValidationResult;
-import pl.csanecki.animalshelter.domain.animal.validation.result.FailedValidationResult;
-import pl.csanecki.animalshelter.domain.animal.validation.result.SucceededValidationResult;
-import pl.csanecki.animalshelter.domain.animal.validation.result.ValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.FailedValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.SucceededValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.ValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.item.FailedItemValidationResult;
 
 import java.util.Set;
 import java.util.stream.Collectors;

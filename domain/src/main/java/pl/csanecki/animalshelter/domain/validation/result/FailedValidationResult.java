@@ -1,7 +1,7 @@
-package pl.csanecki.animalshelter.domain.animal.validation.result;
+package pl.csanecki.animalshelter.domain.validation.result;
 
 import lombok.Value;
-import pl.csanecki.animalshelter.domain.animal.validation.item.result.FailedItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.item.FailedItemValidationResult;
 
 import java.util.Set;
 

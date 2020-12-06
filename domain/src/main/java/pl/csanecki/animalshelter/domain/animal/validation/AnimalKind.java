@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class AnimalKind extends ValidationItem {
 
     @NonNull
-    private final String kind;
+    public final String kind;
 
     @Override
     public void validateItem() {

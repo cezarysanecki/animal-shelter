@@ -6,7 +6,7 @@ import pl.csanecki.animalshelter.domain.validation.item.ValidationItem;
 @RequiredArgsConstructor
 public class AnimalAge extends ValidationItem {
 
-    private final int age;
+    public final int age;
 
     @Override
     protected void validateItem() {

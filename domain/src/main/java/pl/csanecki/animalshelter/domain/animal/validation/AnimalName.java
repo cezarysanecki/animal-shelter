@@ -8,7 +8,7 @@ import pl.csanecki.animalshelter.domain.validation.item.ValidationItem;
 public class AnimalName extends ValidationItem {
 
     @NonNull
-    private final String name;
+    public final String name;
 
     @Override
     public void validateItem() {

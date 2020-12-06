@@ -16,6 +16,7 @@ import pl.csanecki.animalshelter.domain.animal.model.AnimalName;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
 
+import java.time.Instant;
 import java.util.Collection;
 
 @RestController
@@ -30,7 +31,7 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalData> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
+    public ResponseEntity<AnimalDetails> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
         Option<AnimalData> result = shelterService.accept(
                 new AddAnimalCommand(
                         AnimalName.of(addAnimalRequest.getName()),
@@ -40,23 +41,23 @@ public class AnimalRestController {
         );
 
         return result
-                .map(animal -> ResponseEntity.status(HttpStatus.CREATED).body(animal))
+                .map(animal -> ResponseEntity.status(HttpStatus.CREATED).body(new AnimalDetails(animal)))
                 .getOrElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnimalData> getAnimalDetails(@PathVariable int id) {
-        Option<AnimalData> animalDetails = shelterService.getAnimalBy(id);
+    public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable int id) {
+        Option<AnimalData> result = shelterService.getAnimalBy(id);
 
-        return animalDetails.map(ResponseEntity::ok)
+        return result.map(animal -> ResponseEntity.ok().body(new AnimalDetails(animal)))
                 .getOrElse(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<Collection<AnimalData>> getAnimals() {
+    public ResponseEntity<Collection<AnimalDetails>> getAnimals() {
         List<AnimalData> allAnimals = shelterService.getAllAnimals();
 
-        return ResponseEntity.ok(allAnimals.asJava());
+        return ResponseEntity.ok(allAnimals.map(AnimalDetails::new).asJava());
     }
 }
 
@@ -67,4 +68,24 @@ class AddAnimalRequest {
     String name;
     String kind;
     int age;
+}
+
+@Value
+class AnimalDetails {
+
+    int id;
+    String name;
+    String kind;
+    int age;
+    Instant admittedAt;
+    Instant adoptedAt;
+
+    AnimalDetails(AnimalData animalData) {
+        this.id = animalData.id.getAnimalId();
+        this.name = animalData.animalInformation.name.getName();
+        this.kind = animalData.animalInformation.kind.getKind().name();
+        this.age = animalData.animalInformation.age.getAge();
+        this.admittedAt = animalData.admittedAt;
+        this.adoptedAt = animalData.adoptedAt;
+    }
 }

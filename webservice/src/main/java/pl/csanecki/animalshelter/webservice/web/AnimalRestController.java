@@ -14,7 +14,7 @@ import pl.csanecki.animalshelter.domain.animal.model.AnimalAge;
 import pl.csanecki.animalshelter.domain.animal.model.AnimalKind;
 import pl.csanecki.animalshelter.domain.animal.model.AnimalName;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalEntity;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
 
 import java.util.Collection;
 
@@ -30,8 +30,8 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalEntity> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
-        Option<AnimalEntity> result = shelterService.accept(
+    public ResponseEntity<AnimalData> acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
+        Option<AnimalData> result = shelterService.accept(
                 new AddAnimalCommand(
                         AnimalName.of(addAnimalRequest.getName()),
                         AnimalKind.of(addAnimalRequest.getKind()),
@@ -45,16 +45,16 @@ public class AnimalRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnimalEntity> getAnimalDetails(@PathVariable int id) {
-        Option<AnimalEntity> animalDetails = shelterService.getAnimalBy(id);
+    public ResponseEntity<AnimalData> getAnimalDetails(@PathVariable int id) {
+        Option<AnimalData> animalDetails = shelterService.getAnimalBy(id);
 
         return animalDetails.map(ResponseEntity::ok)
                 .getOrElse(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<Collection<AnimalEntity>> getAnimals() {
-        List<AnimalEntity> allAnimals = shelterService.getAllAnimals();
+    public ResponseEntity<Collection<AnimalData>> getAnimals() {
+        List<AnimalData> allAnimals = shelterService.getAllAnimals();
 
         return ResponseEntity.ok(allAnimals.asJava());
     }

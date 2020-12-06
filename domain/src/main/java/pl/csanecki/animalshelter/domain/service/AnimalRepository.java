@@ -2,13 +2,14 @@ package pl.csanecki.animalshelter.domain.service;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalEntity;
+import pl.csanecki.animalshelter.domain.animal.model.AnimalId;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalInformation;
 
 public interface AnimalRepository {
-    Option<AnimalEntity> save(AnimalEntity animal);
+    Option<AnimalData> save(AnimalInformation animalInformation);
 
-    Option<AnimalEntity> findAnimalBy(int id);
+    Option<AnimalData> findAnimalBy(AnimalId id);
 
-    List<AnimalEntity> findAll();
+    List<AnimalData> findAll();
 }

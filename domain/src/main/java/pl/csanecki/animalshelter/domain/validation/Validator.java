@@ -1,9 +1,7 @@
 package pl.csanecki.animalshelter.domain.validation;
 
-import pl.csanecki.animalshelter.domain.validation.result.FailedValidationResult;
-import pl.csanecki.animalshelter.domain.validation.result.SucceededValidationResult;
-import pl.csanecki.animalshelter.domain.validation.result.ValidationResult;
-import pl.csanecki.animalshelter.domain.validation.result.item.FailedItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.item.ValidationItem;
+import pl.csanecki.animalshelter.domain.validation.result.FailedItemValidationResult;
 
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
 package pl.csanecki.animalshelter.domain.validation.result;
 
-public interface ValidationResult {
+public interface ItemValidationResult {
 }

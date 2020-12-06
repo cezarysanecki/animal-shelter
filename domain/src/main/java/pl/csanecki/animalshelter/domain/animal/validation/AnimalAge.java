@@ -1,7 +1,7 @@
 package pl.csanecki.animalshelter.domain.animal.validation;
 
 import lombok.RequiredArgsConstructor;
-import pl.csanecki.animalshelter.domain.validation.ValidationItem;
+import pl.csanecki.animalshelter.domain.validation.item.ValidationItem;
 
 @RequiredArgsConstructor
 public class AnimalAge extends ValidationItem {
@@ -11,7 +11,7 @@ public class AnimalAge extends ValidationItem {
     @Override
     protected void validateItem() {
         if (age < 0) {
-            resolver.populateError("Cannot use negative integer as number of ages");
+            addError("Cannot use negative integer as number of ages");
         }
     }
 

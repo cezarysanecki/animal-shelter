@@ -2,7 +2,7 @@ package pl.csanecki.animalshelter.domain.animal.validation;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.csanecki.animalshelter.domain.validation.ValidationItem;
+import pl.csanecki.animalshelter.domain.validation.item.ValidationItem;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -16,7 +16,7 @@ public class AnimalKind extends ValidationItem {
     @Override
     public void validateItem() {
         if (AvailableKind.of(kind).isEmpty()) {
-            resolver.populateError("Not valid kind of animal");
+            addError("Not valid kind of animal");
         }
     }
 

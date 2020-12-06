@@ -2,7 +2,7 @@ package pl.csanecki.animalshelter.domain.animal.validation;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.csanecki.animalshelter.domain.validation.ValidationItem;
+import pl.csanecki.animalshelter.domain.validation.item.ValidationItem;
 
 @RequiredArgsConstructor
 public class AnimalName extends ValidationItem {
@@ -13,7 +13,7 @@ public class AnimalName extends ValidationItem {
     @Override
     public void validateItem() {
         if (name.length() < 3) {
-            resolver.populateError("Cannot use name shorter than 3 characters");
+            addError("Cannot use name shorter than 3 characters");
         }
     }
 

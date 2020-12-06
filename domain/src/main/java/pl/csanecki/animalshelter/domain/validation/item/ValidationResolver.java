@@ -1,15 +1,17 @@
-package pl.csanecki.animalshelter.domain.validation;
+package pl.csanecki.animalshelter.domain.validation.item;
 
-import pl.csanecki.animalshelter.domain.validation.result.item.FailedItemValidationResult;
-import pl.csanecki.animalshelter.domain.validation.result.item.ItemValidationResult;
-import pl.csanecki.animalshelter.domain.validation.result.item.SucceededItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.FailedItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.ItemValidationResult;
+import pl.csanecki.animalshelter.domain.validation.result.SucceededItemValidationResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationResolver {
+class ValidationResolver {
 
     private final List<String> errorMessages = new ArrayList<>();
+
+    ValidationResolver() {}
 
     public void populateError(String errorMessage) {
         errorMessages.add(errorMessage);

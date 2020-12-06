@@ -3,17 +3,19 @@ package pl.csanecki.animalshelter.webservice.repository;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import pl.csanecki.animalshelter.domain.animal.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.AnimalRepository;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalEntity;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalInformation;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+
+import static io.vavr.control.Option.none;
 
 public class AnimalRepositoryImpl implements AnimalRepository {
 
@@ -24,7 +26,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public Option<AnimalEntity> save(AnimalEntity animal) {
+    public Option<AnimalData> save(AnimalInformation animalInformation) {
         KeyHolder holder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -32,50 +34,38 @@ public class AnimalRepositoryImpl implements AnimalRepository {
                     "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS
             );
-            preparedStatement.setString(1, animal.name);
-            preparedStatement.setString(2, animal.kind);
-            preparedStatement.setInt(3, animal.age);
+            preparedStatement.setString(1, animalInformation.name.getName());
+            preparedStatement.setString(2, animalInformation.kind.getKind().name());
+            preparedStatement.setInt(3, animalInformation.age.getAge());
             return preparedStatement;
         }, holder);
 
         return Option.of(holder.getKey())
-                    .map(key -> findAnimalBy(key.intValue()))
-                    .getOrElse(Option.none());
+                    .map(key -> findAnimalBy(new AnimalId(key.intValue())))
+                    .getOrElse(none());
     }
 
     @Override
-    public Option<AnimalEntity> findAnimalBy(int id) {
+    public Option<AnimalData> findAnimalBy(AnimalId animalId) {
         try {
             AnimalEntity animalEntity = jdbcTemplate.queryForObject(
                     "SELECT * FROM animals WHERE id = ?",
-                    new AnimalDetailsMapper(),
-                    id
+                    new BeanPropertyRowMapper<>(AnimalEntity.class),
+                    animalId.getAnimalId()
             );
-            return Option.of(animalEntity);
+            return Option.of(animalEntity)
+                    .map(AnimalEntity::toAnimalData)
+                    .orElse(none());
         } catch (EmptyResultDataAccessException ex) {
-            return Option.none();
+            return none();
         }
     }
 
     @Override
-    public List<AnimalEntity> findAll() {
+    public List<AnimalData> findAll() {
         return List.ofAll(jdbcTemplate.query(
                 "SELECT * FROM animals",
-                new AnimalDetailsMapper()
-        ));
-    }
-
-    private static final class AnimalDetailsMapper implements RowMapper<AnimalEntity> {
-
-        public AnimalEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new AnimalEntity(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("kind"),
-                    rs.getInt("age"),
-                    rs.getString("admittedAt"),
-                    rs.getString("adoptedAt")
-            );
-        }
+                new BeanPropertyRowMapper<>(AnimalEntity.class)
+        )).map(AnimalEntity::toAnimalData);
     }
 }

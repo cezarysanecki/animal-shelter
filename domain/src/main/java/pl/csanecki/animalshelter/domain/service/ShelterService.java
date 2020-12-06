@@ -2,9 +2,10 @@ package pl.csanecki.animalshelter.domain.service;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
 import pl.csanecki.animalshelter.domain.animal.AddAnimalCommand;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalEntity;
+import pl.csanecki.animalshelter.domain.animal.model.AnimalId;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
+import pl.csanecki.animalshelter.domain.service.entity.AnimalInformation;
 
 public class ShelterService {
 
@@ -14,19 +15,19 @@ public class ShelterService {
         this.animalRepository = animalRepository;
     }
 
-    public Option<AnimalEntity> accept(AddAnimalCommand command) {
-        return animalRepository.save(new AnimalEntity(
-                command.getAnimalName().getName(),
-                command.getAnimalKind().getKind().name(),
-                command.getAnimalAge().getAge()
+    public Option<AnimalData> accept(AddAnimalCommand command) {
+        return animalRepository.save(new AnimalInformation(
+                command.getAnimalName(),
+                command.getAnimalKind(),
+                command.getAnimalAge()
         ));
     }
 
-    public Option<AnimalEntity> getAnimalBy(int id) {
-        return animalRepository.findAnimalBy(id);
+    public Option<AnimalData> getAnimalBy(int id) {
+        return animalRepository.findAnimalBy(new AnimalId(id));
     }
 
-    public List<AnimalEntity> getAllAnimals() {
+    public List<AnimalData> getAllAnimals() {
         return animalRepository.findAll();
     }
 }

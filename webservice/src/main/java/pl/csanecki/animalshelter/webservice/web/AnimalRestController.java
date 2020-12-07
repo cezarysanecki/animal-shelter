@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
+
 @RestController
 @RequestMapping("/animals")
 public class AnimalRestController {
@@ -39,7 +43,12 @@ public class AnimalRestController {
 @AllArgsConstructor(onConstructor_ = { @JsonCreator })
 class AddAnimalRequest {
 
+    @NotEmpty
+    @Size(min = 3, max = 25)
     String name;
+
     String kind;
+
+    @PositiveOrZero
     int age;
 }

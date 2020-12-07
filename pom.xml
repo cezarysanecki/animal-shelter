@@ -28,8 +28,6 @@
 
 		<vavr.version>0.10.3</vavr.version>
 		<lombok.version>1.18.4</lombok.version>
-
-		<archunit.version>0.14.1</archunit.version>
 	</properties>
 
 	<dependencies>
@@ -50,12 +48,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.tngtech.archunit</groupId>
-			<artifactId>archunit-junit5</artifactId>
-			<version>${archunit.version}</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

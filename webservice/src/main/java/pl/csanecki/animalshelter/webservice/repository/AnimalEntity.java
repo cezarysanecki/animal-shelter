@@ -1,12 +1,6 @@
 package pl.csanecki.animalshelter.webservice.repository;
 
 import lombok.Data;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalAge;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalId;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalKind;
-import pl.csanecki.animalshelter.domain.animal.model.AnimalName;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalData;
-import pl.csanecki.animalshelter.domain.service.entity.AnimalDescription;
 
 import java.time.Instant;
 
@@ -19,8 +13,4 @@ public class AnimalEntity {
     int age;
     Instant admittedAt;
     Instant adoptedAt;
-
-    AnimalData toAnimalData() {
-        return new AnimalData(new AnimalId(id), new AnimalDescription(AnimalName.of(name), AnimalKind.of(kind), AnimalAge.of(age)), admittedAt, adoptedAt);
-    }
 }

@@ -12,6 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
         <liquidbase.version>4.2.0</liquidbase.version>
         <mysql.version>8.0.22</mysql.version>
     </properties>
@@ -29,6 +30,11 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>

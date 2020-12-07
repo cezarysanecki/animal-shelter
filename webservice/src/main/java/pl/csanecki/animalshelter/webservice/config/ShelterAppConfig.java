@@ -8,7 +8,7 @@ import pl.csanecki.animalshelter.domain.service.AnimalRepository;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
 @Configuration(proxyBeanMethods = false)
-public class AnimalConfig {
+public class ShelterAppConfig {
 
     @Bean
     public AnimalRepository animalRepository(JdbcTemplate jdbcTemplate) {

@@ -2,9 +2,9 @@ package pl.csanecki.animalshelter.domain.service;
 
 public class ShelterService {
 
-    private final AnimalRepository animalRepository;
+    private final ShelterRepository shelterRepository;
 
-    public ShelterService(AnimalRepository animalRepository) {
-        this.animalRepository = animalRepository;
+    public ShelterService(ShelterRepository shelterRepository) {
+        this.shelterRepository = shelterRepository;
     }
 }

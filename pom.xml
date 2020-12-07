@@ -28,6 +28,8 @@
 
 		<vavr.version>0.10.3</vavr.version>
 		<lombok.version>1.18.4</lombok.version>
+
+		<rest-assured.version>4.3.2</rest-assured.version>
 	</properties>
 
 	<dependencies>
@@ -56,6 +58,26 @@
 				<exclusion>
 					<groupId>org.junit.vintage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+			<version>${rest-assured.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-web</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-webmvc</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-test</artifactId>
+					<groupId>org.springframework</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>

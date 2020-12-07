@@ -12,7 +12,7 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 @RestController
-@RequestMapping("/animals")
+@RequestMapping("/shelter/animals")
 public class ShelterController {
 
     private final ShelterService shelterService;

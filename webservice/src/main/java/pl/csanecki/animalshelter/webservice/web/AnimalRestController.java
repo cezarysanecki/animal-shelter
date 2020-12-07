@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
@@ -24,7 +25,7 @@ public class AnimalRestController {
     }
 
     @PostMapping
-    public ResponseEntity acceptIntoShelter(@RequestBody AddAnimalRequest addAnimalRequest) {
+    public ResponseEntity<Void> acceptIntoShelter(@Valid @RequestBody AddAnimalRequest addAnimalRequest) {
         return null;
     }
 

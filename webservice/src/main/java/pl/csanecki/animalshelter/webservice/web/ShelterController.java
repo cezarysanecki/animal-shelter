@@ -13,12 +13,12 @@ import javax.validation.constraints.Size;
 
 @RestController
 @RequestMapping("/animals")
-public class AnimalRestController {
+public class ShelterController {
 
     private final ShelterService shelterService;
 
     @Autowired
-    public AnimalRestController(ShelterService shelterService) {
+    public ShelterController(ShelterService shelterService) {
         this.shelterService = shelterService;
     }
 

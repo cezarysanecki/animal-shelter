@@ -1,7 +1,5 @@
 package pl.csanecki.animalshelter.webservice.web;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +39,6 @@ public class AnimalRestController {
 }
 
 @Value
-@AllArgsConstructor(onConstructor_ = { @JsonCreator })
 class AddAnimalRequest {
 
     @NotEmpty

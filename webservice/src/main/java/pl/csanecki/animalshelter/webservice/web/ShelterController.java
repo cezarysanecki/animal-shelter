@@ -4,6 +4,13 @@ import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
+import pl.csanecki.animalshelter.domain.model.AnimalAge;
+import pl.csanecki.animalshelter.domain.model.AnimalId;
+import pl.csanecki.animalshelter.domain.model.AnimalKind;
+import pl.csanecki.animalshelter.domain.model.AnimalName;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
 import javax.validation.Valid;
@@ -24,7 +31,17 @@ public class ShelterController {
 
     @PostMapping
     public ResponseEntity<Void> acceptIntoShelter(@Valid @RequestBody AddAnimalRequest addAnimalRequest) {
-        return null;
+        AnimalId animalId = shelterService.acceptIntoShelter(new AddAnimalCommand(
+                AnimalName.of(addAnimalRequest.getName()),
+                AnimalKind.of(addAnimalRequest.getKind()),
+                AnimalAge.of(addAnimalRequest.getAge())
+        ));
+
+        return ResponseEntity.created(
+                UriComponentsBuilder.fromPath("/shelter/animals/{id}")
+                        .buildAndExpand(animalId.getAnimalId())
+                        .toUri()
+        ).build();
     }
 
     @GetMapping("/{id}")
@@ -42,7 +59,7 @@ public class ShelterController {
 class AddAnimalRequest {
 
     @NotEmpty
-    @Size(min = 3, max = 25)
+    @Size(min = AnimalName.MIN_LENGTH, max = AnimalName.MAX_LENGTH)
     String name;
 
     String kind;

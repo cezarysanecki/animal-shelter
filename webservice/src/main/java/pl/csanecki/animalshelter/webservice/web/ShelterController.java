@@ -4,8 +4,7 @@ import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalAge;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
@@ -38,7 +37,7 @@ public class ShelterController {
         ));
 
         return ResponseEntity.created(
-                UriComponentsBuilder.fromPath("/shelter/animals/{id}")
+                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(animalId.getAnimalId())
                         .toUri()
         ).build();

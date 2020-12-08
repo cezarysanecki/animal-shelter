@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.hamcrest.Matchers.endsWith;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -42,7 +43,7 @@ class ShelterControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andExpect(header().string(HttpHeaders.LOCATION, "/shelter/animals/" + animalId.getAnimalId()));
+                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/shelter/animals/" + animalId.getAnimalId())));
     }
 
     private String animalToAdmit() throws IOException {

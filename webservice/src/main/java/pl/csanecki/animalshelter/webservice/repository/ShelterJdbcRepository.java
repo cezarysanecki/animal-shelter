@@ -48,7 +48,6 @@ public class ShelterJdbcRepository implements ShelterRepository {
     }
 
     @Override
-    @Transactional
     public Option<AnimalDetails> getAnimalDetails(AnimalId animalId) {
         return Try.ofSupplier(() -> of(
                 jdbcTemplate.queryForObject("SELECT * FROM animals WHERE id = ?",

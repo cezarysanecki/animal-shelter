@@ -8,10 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
-import pl.csanecki.animalshelter.domain.model.AnimalAge;
-import pl.csanecki.animalshelter.domain.model.AnimalId;
-import pl.csanecki.animalshelter.domain.model.AnimalKind;
-import pl.csanecki.animalshelter.domain.model.AnimalName;
+import pl.csanecki.animalshelter.domain.model.*;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
 import javax.validation.Valid;
@@ -68,6 +65,7 @@ class AddAnimalRequest {
     @Size(min = AnimalName.MIN_LENGTH, max = AnimalName.MAX_LENGTH)
     String name;
 
+    @ValueOfAnimalKind(enumClass = AnimalKindType.class)
     String kind;
 
     @PositiveOrZero

@@ -1,16 +1,21 @@
 package pl.csanecki.animalshelter.webservice.repository;
 
 import io.vavr.control.Option;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
+import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
+import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+
+import static io.vavr.control.Option.none;
 
 public class ShelterJdbcRepository implements ShelterRepository {
 
@@ -39,5 +44,20 @@ public class ShelterJdbcRepository implements ShelterRepository {
         return Option.of(holder.getKey())
                 .map(key -> AnimalId.of(key.longValue()))
                 .getOrElseThrow(() -> { throw new DatabaseRuntimeError("Cannot get id for admitted animal"); });
+    }
+
+    @Override
+    @Transactional
+    public Option<AnimalDetails> getAnimalDetails(AnimalId animalId) {
+
+            AnimalEntity animalEntity = jdbcTemplate.queryForObject(
+                    "SELECT * FROM animals WHERE id = ?",
+                    new BeanPropertyRowMapper<>(AnimalEntity.class),
+                    animalId.getAnimalId()
+            );
+
+            return Option.of(animalEntity)
+                    .map(AnimalEntity::toAnimalDetails)
+                    .orElse(none());
     }
 }

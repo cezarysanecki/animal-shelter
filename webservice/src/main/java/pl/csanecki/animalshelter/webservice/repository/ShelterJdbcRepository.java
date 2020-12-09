@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.webservice.repository;
 
+import io.vavr.collection.List;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
+import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterRepository;
@@ -55,5 +57,11 @@ public class ShelterJdbcRepository implements ShelterRepository {
                 animalId.getAnimalId()))
         ).getOrElse(none())
                 .map(AnimalEntity::toAnimalDetails);
+    }
+
+    @Override
+    public List<AnimalShortInfo> getAnimalsInfo() {
+        return List.ofAll(jdbcTemplate.query("SELECT * FROM animals", new BeanPropertyRowMapper<>(AnimalEntity.class)))
+                .map(AnimalEntity::toAnimalShortInfo);
     }
 }

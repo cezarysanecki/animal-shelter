@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = ValueOfAnimalKindValidator.class)
 public @interface ValueOfAnimalKind {
     Class<? extends Enum<?>> enumClass();
-    String message() default "must be any of enum {enumClass}";
+    String message() default "{javax.validation.constraints.ValueOfAnimalKind.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

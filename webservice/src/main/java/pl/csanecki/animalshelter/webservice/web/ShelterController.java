@@ -54,10 +54,10 @@ public class ShelterController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AnimalShortInfo>> getAnimals() {
-        List<AnimalShortInfo> animalsInfo = shelterService.getAnimalsInfo();
+    public ResponseEntity<AnimalsShortInfo> getAnimals() {
+        List<AnimalShortInfo> animals = shelterService.getAnimalsInfo();
 
-        return ResponseEntity.ok(animalsInfo);
+        return ResponseEntity.ok(new AnimalsShortInfo(animals));
     }
 }
 
@@ -72,4 +72,10 @@ class AddAnimalRequest {
 
     @PositiveOrZero
     int age;
+}
+
+@Value
+class AnimalsShortInfo {
+
+    List<AnimalShortInfo> animals;
 }

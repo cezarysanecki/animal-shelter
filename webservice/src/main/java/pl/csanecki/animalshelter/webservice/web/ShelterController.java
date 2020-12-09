@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalAge;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
@@ -44,8 +45,10 @@ public class ShelterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getAnimalDetails(@PathVariable long id) {
-        return null;
+    public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable long id) {
+        AnimalDetails animalDetails = shelterService.getAnimalDetails(AnimalId.of(id));
+
+        return ResponseEntity.ok(animalDetails);
     }
 
     @GetMapping

@@ -1,13 +1,13 @@
 package pl.csanecki.animalshelter.webservice.repository;
 
 import io.vavr.control.Option;
+import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
-import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterRepository;
@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import static io.vavr.control.Option.none;
+import static io.vavr.control.Option.of;
 
 public class ShelterJdbcRepository implements ShelterRepository {
 
@@ -49,15 +50,11 @@ public class ShelterJdbcRepository implements ShelterRepository {
     @Override
     @Transactional
     public Option<AnimalDetails> getAnimalDetails(AnimalId animalId) {
-
-            AnimalEntity animalEntity = jdbcTemplate.queryForObject(
-                    "SELECT * FROM animals WHERE id = ?",
-                    new BeanPropertyRowMapper<>(AnimalEntity.class),
-                    animalId.getAnimalId()
-            );
-
-            return Option.of(animalEntity)
-                    .map(AnimalEntity::toAnimalDetails)
-                    .orElse(none());
+        return Try.ofSupplier(() -> of(
+                jdbcTemplate.queryForObject("SELECT * FROM animals WHERE id = ?",
+                new BeanPropertyRowMapper<>(AnimalEntity.class),
+                animalId.getAnimalId()))
+        ).getOrElse(none())
+                .map(AnimalEntity::toAnimalDetails);
     }
 }

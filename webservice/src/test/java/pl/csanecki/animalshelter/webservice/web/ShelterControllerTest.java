@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.webservice.web;
 
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
@@ -18,13 +20,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pl.csanecki.animalshelter.webservice.model.AnimalFixture.animalInShelter;
 import static pl.csanecki.animalshelter.webservice.model.AnimalFixture.anyAnimalId;
 
 @ExtendWith(SpringExtension.class)
@@ -44,6 +47,23 @@ class ShelterControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
                 .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/shelter/animals/" + animalId.getAnimalId())));
+    }
+
+    @Test
+    void should_return_animal_details_by_animal_id(@Autowired MockMvc mockMvc, @Autowired ShelterService shelterService) throws Exception {
+        AnimalDetails animalDetails = animalInShelter(65);
+
+        given(shelterService.getAnimalDetails(animalId)).willReturn(animalDetails);
+
+        mockMvc.perform(get("/shelter/animals/{id}", animalId.getAnimalId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(animalDetails.getId()), Long.class))
+                .andExpect(jsonPath("$.name", is(animalDetails.getName())))
+                .andExpect(jsonPath("$.kind", is(animalDetails.getKind())))
+                .andExpect(jsonPath("$.age", is(animalDetails.getAge())))
+                .andExpect(jsonPath("$.admittedAt").isNotEmpty())
+                .andExpect(jsonPath("$.adoptedAt").value(nullValue()));
     }
 
     private String animalToAdmit() throws IOException {

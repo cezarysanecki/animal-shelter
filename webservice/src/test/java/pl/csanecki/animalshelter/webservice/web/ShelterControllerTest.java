@@ -1,6 +1,5 @@
 package pl.csanecki.animalshelter.webservice.web;
 
-import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
+import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,8 +28,7 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pl.csanecki.animalshelter.webservice.model.AnimalFixture.animalInShelter;
-import static pl.csanecki.animalshelter.webservice.model.AnimalFixture.anyAnimalId;
+import static pl.csanecki.animalshelter.webservice.model.AnimalFixture.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ShelterController.class)
@@ -64,6 +64,18 @@ class ShelterControllerTest {
                 .andExpect(jsonPath("$.age", is(animalDetails.getAge())))
                 .andExpect(jsonPath("$.admittedAt").isNotEmpty())
                 .andExpect(jsonPath("$.adoptedAt").value(nullValue()));
+    }
+
+    @Test
+    void should_return_animals_short_info(@Autowired MockMvc mockMvc, @Autowired ShelterService shelterService) throws Exception {
+        List<AnimalShortInfo> animals = animalsInShelter();
+
+        given(shelterService.getAnimalsInfo()).willReturn(animals);
+
+        mockMvc.perform(get("/shelter/animals"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.animals", hasSize(animals.size())));
     }
 
     private String animalToAdmit() throws IOException {

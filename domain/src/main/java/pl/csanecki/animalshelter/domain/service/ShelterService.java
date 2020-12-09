@@ -17,6 +17,7 @@ public class ShelterService {
     }
 
     public AnimalDetails getAnimalDetails(AnimalId animalId) {
-        return shelterRepository.getAnimalDetails(animalId).get();
+        return shelterRepository.getAnimalDetails(animalId)
+                .getOrElseThrow(() -> new IllegalArgumentException("Cannot find details of animal with id: " + animalId.getAnimalId()));
     }
 }

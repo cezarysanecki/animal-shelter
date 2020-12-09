@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.domain.service;
 
+import io.vavr.control.Try;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
@@ -13,7 +14,8 @@ public class ShelterService {
     }
 
     public AnimalId acceptIntoShelter(AddAnimalCommand command) {
-        return shelterRepository.registerAnimal(command);
+        return Try.of(() -> shelterRepository.registerAnimal(command))
+                .getOrElseThrow(() -> new IllegalArgumentException("Cannot accept animal into shelter"));
     }
 
     public AnimalDetails getAnimalDetails(AnimalId animalId) {

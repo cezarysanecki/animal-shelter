@@ -2,8 +2,11 @@ package pl.csanecki.animalshelter.domain.service;
 
 import io.vavr.control.Try;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
+import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
+
+import java.util.List;
 
 public class ShelterService {
 
@@ -21,5 +24,9 @@ public class ShelterService {
     public AnimalDetails getAnimalDetails(AnimalId animalId) {
         return shelterRepository.getAnimalDetails(animalId)
                 .getOrElseThrow(() -> new IllegalArgumentException("Cannot find details of animal with id: " + animalId.getAnimalId()));
+    }
+
+    public List<AnimalShortInfo> getAnimalsInfo() {
+        return shelterRepository.getAnimalsInfo().asJava();
     }
 }

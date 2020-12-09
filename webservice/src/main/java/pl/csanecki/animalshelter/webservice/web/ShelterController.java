@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
+import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.model.AnimalAge;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @RestController
 @RequestMapping("/shelter/animals")
@@ -52,8 +54,10 @@ public class ShelterController {
     }
 
     @GetMapping
-    public ResponseEntity getAnimals() {
-        return null;
+    public ResponseEntity<List<AnimalShortInfo>> getAnimals() {
+        List<AnimalShortInfo> animalsInfo = shelterService.getAnimalsInfo();
+
+        return ResponseEntity.ok(animalsInfo);
     }
 }
 

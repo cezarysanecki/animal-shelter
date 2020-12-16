@@ -21,7 +21,7 @@ public class AnimalEntity {
     Instant adoptedAt;
 
     AnimalDetails toAnimalDetails() {
-        return new AnimalDetails(AnimalId.of(id), AnimalName.of(name), AnimalKind.of(kind), AnimalAge.of(age), adoptedAt, adoptedAt);
+        return new AnimalDetails(AnimalId.of(id), AnimalName.of(name), AnimalKind.of(kind), AnimalAge.of(age), admittedAt, adoptedAt);
     }
 
     AnimalShortInfo toAnimalShortInfo() {

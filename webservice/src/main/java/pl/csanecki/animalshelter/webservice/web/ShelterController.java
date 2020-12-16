@@ -56,6 +56,11 @@ public class ShelterController {
 
         return ResponseEntity.ok(new AnimalsShortInfo(animals));
     }
+
+    @PostMapping("/{id}/adopt")
+    public ResponseEntity<Void> adoptAnimal(@PathVariable long id) {
+        return ResponseEntity.ok().build();
+    }
 }
 
 @Value

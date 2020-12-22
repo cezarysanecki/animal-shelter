@@ -1,6 +1,7 @@
 package pl.csanecki.animalshelter.domain.service;
 
 import io.vavr.control.Try;
+import lombok.extern.slf4j.Slf4j;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
@@ -8,6 +9,7 @@ import pl.csanecki.animalshelter.domain.model.AnimalId;
 
 import java.util.List;
 
+@Slf4j
 public class ShelterService {
 
     private final ShelterRepository shelterRepository;

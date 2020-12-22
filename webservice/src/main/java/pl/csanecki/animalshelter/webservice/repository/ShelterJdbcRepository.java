@@ -64,4 +64,11 @@ public class ShelterJdbcRepository implements ShelterRepository {
         return List.ofAll(jdbcTemplate.query("SELECT * FROM animals", new BeanPropertyRowMapper<>(AnimalEntity.class)))
                 .map(AnimalEntity::toAnimalShortInfo);
     }
+
+    @Override
+    public void updateAdoptedAtToNow(AnimalId animalId) {
+        Try.ofSupplier(() ->
+                jdbcTemplate.update("UPDATE animals SET `adopted at` = NOW() WHERE `id` = ?", animalId.getAnimalId())
+        ).getOrElseThrow(() -> { throw new DatabaseRuntimeError("Cannot update adopted at for animal id " + animalId.getAnimalId()); });
+    }
 }

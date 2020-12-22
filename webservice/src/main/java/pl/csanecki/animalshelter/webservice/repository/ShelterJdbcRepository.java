@@ -67,8 +67,10 @@ public class ShelterJdbcRepository implements ShelterRepository {
 
     @Override
     public void updateAdoptedAtToNow(AnimalId animalId) {
-        Try.ofSupplier(() ->
-                jdbcTemplate.update("UPDATE animals SET `adopted at` = NOW() WHERE `id` = ?", animalId.getAnimalId())
-        ).getOrElseThrow(() -> { throw new DatabaseRuntimeError("Cannot update adopted at for animal id " + animalId.getAnimalId()); });
+        int rowAffected = jdbcTemplate.update("UPDATE animals SET `adopted at` = NOW() WHERE `id` = ? AND `adopted at` IS NULL", animalId.getAnimalId());
+
+        if (rowAffected == 0) {
+            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + animalId.getAnimalId());
+        }
     }
 }

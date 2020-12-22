@@ -14,4 +14,6 @@ public interface ShelterRepository {
     Option<AnimalDetails> getAnimalDetails(AnimalId animalId);
 
     List<AnimalShortInfo> getAnimalsInfo();
+
+    void updateAdoptedAtToNow(AnimalId animalId);
 }

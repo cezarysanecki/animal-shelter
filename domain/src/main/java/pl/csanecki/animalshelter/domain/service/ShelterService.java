@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
+import pl.csanecki.animalshelter.domain.command.Result;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 
 import java.util.List;
@@ -30,5 +31,13 @@ public class ShelterService {
 
     public List<AnimalShortInfo> getAnimalsInfo() {
         return shelterRepository.getAnimalsInfo().asJava();
+    }
+
+    public Try<Result> adoptAnimal(AnimalId animalId) {
+        return Try.of(() -> {
+            AnimalDetails animalDetails = getAnimalDetails(animalId);
+            shelterRepository.updateAdoptedAtToNow(AnimalId.of(animalDetails.getId()));
+            return Result.SUCCESS;
+        }).onFailure(e -> log.error("Failed to adopt animal", e));
     }
 }

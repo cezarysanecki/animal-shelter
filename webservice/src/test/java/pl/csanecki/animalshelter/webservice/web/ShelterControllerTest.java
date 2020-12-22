@@ -1,5 +1,6 @@
 package pl.csanecki.animalshelter.webservice.web;
 
+import io.vavr.control.Try;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
+import pl.csanecki.animalshelter.domain.command.Result;
 import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
@@ -76,6 +78,14 @@ class ShelterControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.animals", hasSize(animals.size())));
+    }
+
+    @Test
+    void should_adopt_animal(@Autowired MockMvc mockMvc, @Autowired ShelterService shelterService) throws Exception {
+        given(shelterService.adoptAnimal(animalId)).willReturn(Try.success(Result.SUCCESS));
+
+        mockMvc.perform(post("/shelter/animals/{id}/adopt", animalId.getAnimalId()))
+                .andExpect(status().isOk());
     }
 
     private String animalToAdmit() throws IOException {

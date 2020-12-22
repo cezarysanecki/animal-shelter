@@ -1,13 +1,16 @@
 package pl.csanecki.animalshelter.webservice.web;
 
+import io.vavr.control.Try;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
+import pl.csanecki.animalshelter.domain.command.Result;
 import pl.csanecki.animalshelter.domain.model.*;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
@@ -59,7 +62,11 @@ public class ShelterController {
 
     @PostMapping("/{id}/adopt")
     public ResponseEntity<Void> adoptAnimal(@PathVariable long id) {
-        return ResponseEntity.ok().build();
+        Try<Result> result = shelterService.adoptAnimal(AnimalId.of(id));
+
+        return result
+                .map(success -> ResponseEntity.ok().<Void>build())
+                .getOrElse(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 }
 

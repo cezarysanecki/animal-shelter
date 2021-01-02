@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "animal-shelter-new"
+    }
+  },
+  "defaultProject": "animal-shelter-new",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AnimalShortInfo} from "../../types/animals.type";
 
 @Component({
   selector: 'app-animals-browser',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./animals-browser.component.css']
 })
 export class AnimalsBrowserComponent implements OnInit {
+
+  animals: AnimalShortInfo[] = [];
 
   constructor() { }
 

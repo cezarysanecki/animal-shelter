@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AnimalsHttpService} from "../../services/animals-http.service";
 
-@Component({
-  selector: 'app-animals-browser',
-  templateUrl: './animals-browser.component.html'
+@Injectable({
+  providedIn: 'root'
 })
 export class AnimalsBrowserService {
 

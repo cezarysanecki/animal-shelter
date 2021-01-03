@@ -9,4 +9,8 @@ export class AnimalsBrowserService {
   constructor(
     private animalsHttpService: AnimalsHttpService
   ) { }
+
+  getAnimals() {
+    return this.animalsHttpService.getAnimals();
+  }
 }

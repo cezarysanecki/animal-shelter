@@ -14,6 +14,6 @@ export class AnimalsHttpService {
   ) {}
 
   getAnimals() {
-    return this.httpClient.get<AnimalShortInfo[]>(`${this.config.apiUrl}/animals`);
+    return this.httpClient.get<AnimalShortInfo[]>('/shelter/animals');
   }
 }

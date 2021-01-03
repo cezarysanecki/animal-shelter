@@ -4,6 +4,9 @@ import { AnimalsBrowserComponent } from './animals-browser/animals-browser.compo
 
 @NgModule({
   declarations: [AnimalsBrowserComponent],
+  exports: [
+    AnimalsBrowserComponent
+  ],
   imports: [
     CommonModule
   ]

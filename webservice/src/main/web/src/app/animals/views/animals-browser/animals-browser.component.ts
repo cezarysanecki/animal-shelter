@@ -12,7 +12,6 @@ export class AnimalsBrowserComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

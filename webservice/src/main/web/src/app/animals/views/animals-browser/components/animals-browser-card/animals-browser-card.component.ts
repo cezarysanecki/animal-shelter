@@ -9,7 +9,5 @@ export class AnimalsBrowserCardComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit() { }
 }

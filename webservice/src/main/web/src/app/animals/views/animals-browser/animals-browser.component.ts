@@ -3,8 +3,7 @@ import {AnimalShortInfo} from "../../types/animals.type";
 
 @Component({
   selector: 'app-animals-browser',
-  templateUrl: './animals-browser.component.html',
-  styleUrls: ['./animals-browser.component.css']
+  templateUrl: './animals-browser.component.html'
 })
 export class AnimalsBrowserComponent implements OnInit {
 

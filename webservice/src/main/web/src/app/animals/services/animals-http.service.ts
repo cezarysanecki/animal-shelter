@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Config, CONFIG} from "../../core/config/config";
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,7 @@ import {HttpClient} from "@angular/common/http";
 export class AnimalsHttpService {
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    @Inject(CONFIG) private config: Config
   ) {}
 }

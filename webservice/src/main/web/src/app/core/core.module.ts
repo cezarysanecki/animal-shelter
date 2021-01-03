@@ -4,7 +4,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {CONFIG, Config} from "./config/config";
 
 const config: Config = {
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'http://localhost:8080/shelter'
 }
 
 @NgModule({

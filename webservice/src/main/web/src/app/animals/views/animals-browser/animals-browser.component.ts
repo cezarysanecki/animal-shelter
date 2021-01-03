@@ -14,6 +14,10 @@ export class AnimalsBrowserComponent implements OnInit {
     private animalBrowserService: AnimalsBrowserService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.animalBrowserService.getAnimals().subscribe(animals => {
+      this.animals = animals;
+    });
+  }
 
 }

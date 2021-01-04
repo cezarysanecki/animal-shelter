@@ -1,6 +1,9 @@
 <div class="container mt-5">
   <div class="row justify-content-around">
-    <div [className]="isDetailsOpen ? 'col-9' : 'col-12'">
+    <div class="col-lg-3 col-12" *ngIf="isDetailsOpen">
+      asd
+    </div>
+    <div [className]="isDetailsOpen ? 'col-lg-9 col-12' : 'col-12'">
       <div class="container">
         <div class="row justify-content-around">
           <app-animals-browser-card *ngFor="let animal of animals"
@@ -9,9 +12,6 @@
           ></app-animals-browser-card>
         </div>
       </div>
-    </div>
-    <div class="col-3" *ngIf="isDetailsOpen">
-      asd
     </div>
   </div>
 </div>

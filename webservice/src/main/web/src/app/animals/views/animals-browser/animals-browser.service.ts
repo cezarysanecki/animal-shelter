@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {AnimalsHttpService} from "../../services/animals-http.service";
+import { Injectable } from '@angular/core';
+import { AnimalsHttpService } from "@animals/services/animals-http.service";
 
 @Injectable({
   providedIn: 'root'

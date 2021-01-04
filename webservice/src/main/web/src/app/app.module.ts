@@ -1,12 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import {CoreModule} from "./core/core.module";
-import {AnimalsModule} from "./animals/animals.module";
-import {HttpClientModule} from "@angular/common/http";
-import { TranslocoRootModule } from './transloco/transloco-root.module';
-import {TranslocoMessageFormatModule} from "@ngneat/transloco-messageformat";
+import { TranslocoMessageFormatModule } from "@ngneat/transloco-messageformat";
+import { AppComponent } from "./app.component";
+import { CoreModule } from "@core/core.module";
+import { AnimalsModule } from "@animals/animals.module";
+import { HttpClientModule } from "@angular/common/http";
+import { TranslocoRootModule } from "@transloco/transloco-root.module";
 
 @NgModule({
   declarations: [

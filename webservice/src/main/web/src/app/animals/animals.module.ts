@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {AnimalsBrowserModule} from "./views/animals-browser/animals-browser.module";
+import { AnimalsBrowserModule } from "./views/animals-browser/animals-browser.module";
 
 @NgModule({
   declarations: [],

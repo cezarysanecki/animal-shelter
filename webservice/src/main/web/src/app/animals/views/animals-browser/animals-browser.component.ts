@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AnimalShortInfo} from "../../types/animals.type";
-import {AnimalsBrowserService} from "./animals-browser.service";
+import { AnimalShortInfo } from "@animals/types/animals.type";
+import { AnimalsBrowserService } from "./animals-browser.service";
 
 @Component({
   selector: 'app-animals-browser',

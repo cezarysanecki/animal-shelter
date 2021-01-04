@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AnimalShortInfo} from "../../../../types/animals.type";
-import {AnimalKind} from "../../../../enums/animal-kind.enum";
+import {AnimalShortInfo} from "@animals/types/animals.type";
+import {AnimalKind} from "@animals/enums/animal-kind.enum";
 
 @Component({
   selector: 'app-animals-browser-card',

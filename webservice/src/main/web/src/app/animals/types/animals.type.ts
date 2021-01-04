@@ -1,4 +1,4 @@
-import {AnimalKind} from "../enums/animal-kind.enum";
+import { AnimalKind } from "@animals/enums/animal-kind.enum";
 
 export type AnimalsResult = {
   animals: AnimalShortInfo[];

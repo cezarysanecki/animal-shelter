@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {AnimalsBrowserComponent} from "./animals-browser.component";
 import {AnimalsBrowserCardComponent} from "./components/animals-browser-card/animals-browser-card.component";
 import {AnimalsBrowserService} from "./animals-browser.service";
+import {TranslocoRootModule} from "../../../transloco/transloco-root.module";
 
 @NgModule({
   declarations: [AnimalsBrowserComponent, AnimalsBrowserCardComponent],
@@ -13,7 +14,8 @@ import {AnimalsBrowserService} from "./animals-browser.service";
     AnimalsBrowserService
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    TranslocoRootModule
   ]
 })
 export class AnimalsBrowserModule { }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AnimalKind } from "@animals/enums";
 import { AnimalShortInfo } from "@animals/types";
 
@@ -7,7 +7,7 @@ import { AnimalShortInfo } from "@animals/types";
   templateUrl: './animals-browser-card.component.html',
   styleUrls: ['./animals-browser-card.component.css']
 })
-export class AnimalsBrowserCardComponent implements OnInit {
+export class AnimalsBrowserCardComponent {
 
   @Input()
   animal: AnimalShortInfo;
@@ -16,8 +16,6 @@ export class AnimalsBrowserCardComponent implements OnInit {
   openDetails: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
-
-  ngOnInit() { }
 
   openAnimalDetails() {
     this.openDetails.emit(this.animal);

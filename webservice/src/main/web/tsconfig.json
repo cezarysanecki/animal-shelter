@@ -15,6 +15,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@env/*": ["./src/environments/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@core/*": ["./src/app/core/*"],
+      "@animals/*": ["./src/app/animals/*"],
+      "@transloco/*": ["./src/app/transloco/*"]
+    }
   }
 }

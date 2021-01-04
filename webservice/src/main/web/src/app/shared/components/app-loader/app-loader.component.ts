@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy} from '@angular/core';
-import {Subscription} from "rxjs";
-import {AppLoaderService} from "./app-loader.service";
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from "rxjs";
+import { AppLoaderService } from "./app-loader.service";
 
 @Component({
   selector: 'app-app-loader',
@@ -9,13 +9,11 @@ import {AppLoaderService} from "./app-loader.service";
 })
 export class AppLoaderComponent implements OnDestroy {
 
-  @Input()
-  isLoading: boolean;
+  isLoading = false;
 
   onSubscriptionLoader: Subscription;
 
   constructor() {
-    this.isLoading = false;
     this.onSubscriptionLoader = AppLoaderService.onGetSubjectLoader().subscribe((isLoading: boolean) => {
       this.isLoading = isLoading;
     });

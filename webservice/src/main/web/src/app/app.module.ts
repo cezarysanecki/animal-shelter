@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import {CoreModule} from "./core/core.module";
 import {AnimalsModule} from "./animals/animals.module";
 import {HttpClientModule} from "@angular/common/http";
+import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {HttpClientModule} from "@angular/common/http";
     CoreModule,
     BrowserModule,
     AnimalsModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslocoRootModule
   ],
   providers: [],
   bootstrap: [AppComponent]

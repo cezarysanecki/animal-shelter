@@ -1,0 +1,10 @@
+{
+  "show-details": "Pokaż szczegóły",
+  "animal-card": {
+    "age": "Wiek: "
+  },
+  "animal-kind": {
+    "dog": "Pies",
+    "cat": "Kot"
+  }
+}

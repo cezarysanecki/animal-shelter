@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimalShortInfo } from "@animals/types";
 import { AnimalsBrowserService } from "@animals/views/animals-browser/animals-browser.service";
+import { withLoader } from "@core/decorators";
 
 @Component({
   selector: 'app-animals-browser',
@@ -15,9 +16,10 @@ export class AnimalsBrowserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.animalBrowserService.getAnimals().subscribe(data => {
+    withLoader(
+      this.animalBrowserService.getAnimals()
+    ).subscribe(data => {
       this.animals = data.animals;
     });
   }
-
 }

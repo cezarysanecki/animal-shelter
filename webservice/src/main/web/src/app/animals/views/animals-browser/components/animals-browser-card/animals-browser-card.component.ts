@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AnimalShortInfo} from "../../../../types/animals.type";
+import {AnimalKind} from "../../../../enums/animal-kind.enum";
 
 @Component({
   selector: 'app-animals-browser-card',
@@ -14,4 +15,8 @@ export class AnimalsBrowserCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() { }
+
+  translateAnimalKind(kind: AnimalKind) {
+    return AnimalKind[kind];
+  }
 }

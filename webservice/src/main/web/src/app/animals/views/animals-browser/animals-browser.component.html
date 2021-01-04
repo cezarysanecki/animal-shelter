@@ -1,6 +1,8 @@
-<div class="row justify-content-around">
-  <app-animals-browser-card *ngFor="let animal of animals"
-    [animal] = animal
-  ></app-animals-browser-card>
+<div class="container mt-5">
+  <div class="row justify-content-around">
+    <app-animals-browser-card *ngFor="let animal of animals"
+      [animal] = animal
+    ></app-animals-browser-card>
+  </div>
 </div>
 <app-app-loader></app-app-loader>

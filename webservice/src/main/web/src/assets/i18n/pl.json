@@ -1,7 +1,7 @@
 {
   "show-details": "Pokaż szczegóły",
   "animal-card": {
-    "age": "Wiek:"
+    "age": "{ age, select, 1 {rok} 2 {lata} 3 {lata} 4 {lata} other {lat} }"
   },
   "animal-kind": {
     "dog": "Pies",

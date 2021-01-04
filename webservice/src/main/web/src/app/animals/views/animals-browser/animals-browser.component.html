@@ -1,8 +1,17 @@
 <div class="container mt-5">
   <div class="row justify-content-around">
-    <app-animals-browser-card *ngFor="let animal of animals"
-      [animal] = animal
-    ></app-animals-browser-card>
+    <div class="col-9">
+      <div class="container">
+        <div class="row justify-content-around">
+          <app-animals-browser-card *ngFor="let animal of animals"
+                                    [animal] = animal
+          ></app-animals-browser-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      asd
+    </div>
   </div>
 </div>
 <app-app-loader></app-app-loader>

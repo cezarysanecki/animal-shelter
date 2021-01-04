@@ -16,7 +16,11 @@ export class AnimalsBrowserCardComponent implements OnInit {
 
   ngOnInit() { }
 
-  translateAnimalKind(kind: AnimalKind) {
-    return AnimalKind[kind];
+  decideImageToLoad(url: string) {
+    return url != null ? url : `assets/images/animal-kinds/${AnimalKind[this.animal.kind]}.jpg`;
+  }
+
+  translateAnimalKind() {
+    return `animal-kind.${AnimalKind[this.animal.kind]}`;
   }
 }

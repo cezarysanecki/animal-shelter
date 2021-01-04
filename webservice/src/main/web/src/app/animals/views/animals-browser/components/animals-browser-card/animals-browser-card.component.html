@@ -1,10 +1,10 @@
 <div class="col-lg-4 col-md-6 col-12" *transloco="let t">
   <div class="card mx-auto card-width mb-4">
-    <img class="card-img-top" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=1200:*" alt="Card image cap">
+    <img class="card-img-top" [src]="decideImageToLoad(null)">
     <div class="card-body">
       <h5 class="card-title text-center">{{ animal.name }}</h5>
       <div class="mb-3 animal-desc">
-        <p class="card-text">{{ t(translateAnimalKind(animal.kind)) }}</p>
+        <p class="card-text">{{ t(translateAnimalKind()) }}</p>
         {{ animal.age + ' ' + t('animal-card.age', { age: animal.age }) }}
       </div>
       <div class="text-center">

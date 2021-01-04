@@ -1,4 +1,4 @@
 export enum AnimalKind {
-  DOG = "Pies",
-  CAT = "Kot"
+  DOG = 'animal-kind.dog',
+  CAT = 'animal-kind.cat'
 }

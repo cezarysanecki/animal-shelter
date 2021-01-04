@@ -16,7 +16,7 @@
         {{ animal.age + ' ' + t('animal-card.age', { age: animal.age }) }}
       </div>
       <div class="text-center">
-        <a href="#" class="btn btn-primary">{{ t('show-details') }}</a>
+        <a class="btn btn-primary" (click)="openAnimalDetails()">{{ t('show-details') }}</a>
       </div>
     </div>
   </div>

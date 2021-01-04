@@ -9,6 +9,8 @@ import { withLoader } from "@core/decorators";
 })
 export class AnimalsBrowserComponent implements OnInit {
 
+  isDetailsOpen = false;
+
   animals: AnimalShortInfo[] = [];
 
   constructor(
@@ -21,5 +23,9 @@ export class AnimalsBrowserComponent implements OnInit {
     ).subscribe(data => {
       this.animals = data.animals;
     });
+  }
+
+  openDetails(animal) {
+    this.isDetailsOpen = true;
   }
 }

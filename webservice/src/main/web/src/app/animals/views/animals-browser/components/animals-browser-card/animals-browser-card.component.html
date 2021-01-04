@@ -4,7 +4,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ animal.name }}</h5>
       <p class="card-text">{{ t(translateAnimalKind(animal.kind)) }}</p>
-      <p class="card-text">{{ t('animal-card.age') + animal.age }}</p>
+      <p class="card-text">{{ t('animal-card.age') + ' ' + animal.age }}</p>
       <a href="#" class="btn btn-primary">{{ t('show-details') }}</a>
     </div>
   </div>

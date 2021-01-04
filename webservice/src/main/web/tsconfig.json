@@ -20,6 +20,7 @@
       "@env/*": ["./src/environments/*"],
       "@assets/*": ["./src/assets/*"],
       "@core/*": ["./src/app/core/*"],
+      "@shared/*": ["./src/app/shared/*"],
       "@animals/*": ["./src/app/animals/*"],
       "@transloco/*": ["./src/app/transloco/*"]
     }

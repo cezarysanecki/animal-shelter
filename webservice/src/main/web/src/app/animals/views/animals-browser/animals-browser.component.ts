@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AnimalShortInfo } from "@animals/types";
+import { AnimalDetails, AnimalShortInfo } from "@animals/types";
 import { AnimalsBrowserService } from "@animals/views/animals-browser/animals-browser.service";
 import { withLoader } from "@core/decorators";
 
@@ -8,6 +8,8 @@ import { withLoader } from "@core/decorators";
   templateUrl: './animals-browser.component.html'
 })
 export class AnimalsBrowserComponent implements OnInit {
+
+  currentAnimal: AnimalDetails = null;
 
   animals: AnimalShortInfo[] = [];
 
@@ -23,5 +25,11 @@ export class AnimalsBrowserComponent implements OnInit {
     });
   }
 
-  openDetails(animalId: number) { }
+  openDetails(animalId: number) {
+    withLoader(
+      this.animalBrowserService.getAnimalDetails(animalId)
+    ).subscribe(data => {
+      this.currentAnimal = data;
+    });
+  }
 }

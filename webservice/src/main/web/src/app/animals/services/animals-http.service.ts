@@ -14,4 +14,8 @@ export class AnimalsHttpService {
   getAnimals() {
     return this.httpClient.get<AnimalsResult>('/shelter/animals');
   }
+
+  getAnimalDetails(animalId: number) {
+    return this.httpClient.get<AnimalsResult>(`/shelter/animals/${animalId}`);
+  }
 }

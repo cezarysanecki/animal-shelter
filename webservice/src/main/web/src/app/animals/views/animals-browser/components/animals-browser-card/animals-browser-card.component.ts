@@ -18,7 +18,7 @@ export class AnimalsBrowserCardComponent {
   constructor() { }
 
   openAnimalDetails() {
-    this.openDetails.emit(this.animal);
+    this.openDetails.emit(this.animal.id);
   }
 
   decideImageToLoad(url: string) {

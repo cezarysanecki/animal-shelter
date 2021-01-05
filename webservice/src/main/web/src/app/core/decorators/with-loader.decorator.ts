@@ -4,5 +4,7 @@ import { AppLoaderService } from "@shared/components/app-loader/app-loader.servi
 
 export function withLoader<T>(observable: Observable<T>) {
   AppLoaderService.onSetSubjectLoader(true);
-  return observable.pipe(finalize(() => AppLoaderService.onSetSubjectLoader(false)))
+  return observable.pipe(
+    finalize(() => AppLoaderService.onSetSubjectLoader(false))
+  );
 }

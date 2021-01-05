@@ -4,8 +4,7 @@ import { AnimalsBrowserComponent } from "@animals/views/animals-browser/animals-
 import { AnimalsBrowserService } from "@animals/views/animals-browser/animals-browser.service";
 import { AnimalsBrowserCardComponent } from "@animals/views/animals-browser/components/animals-browser-card";
 import { TranslocoRootModule } from "@transloco/transloco-root.module";
-import { SharedModule } from "@shared/shared.module";
-import {AnimalDetailsComponent} from "@animals/views/animals-browser/components/animal-details/animal-details.component";
+import { AnimalDetailsComponent } from "@animals/views/animals-browser/components/animal-details/animal-details.component";
 
 @NgModule({
   declarations: [
@@ -21,8 +20,7 @@ import {AnimalDetailsComponent} from "@animals/views/animals-browser/components/
   ],
   imports: [
     CommonModule,
-    TranslocoRootModule,
-    SharedModule
+    TranslocoRootModule
   ]
 })
 export class AnimalsBrowserModule { }

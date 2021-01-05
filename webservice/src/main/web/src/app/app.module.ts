@@ -6,6 +6,7 @@ import { CoreModule } from "@core/core.module";
 import { HttpClientModule } from "@angular/common/http";
 import { TranslocoRootModule } from "@transloco/transloco-root.module";
 import { AnimalsModule } from "@animals/animals.module";
+import { SharedModule } from "@shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AnimalsModule } from "@animals/animals.module";
     AnimalsModule,
     HttpClientModule,
     TranslocoRootModule,
-    TranslocoMessageFormatModule.init()
+    TranslocoMessageFormatModule.init(),
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

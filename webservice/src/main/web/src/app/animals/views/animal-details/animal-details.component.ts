@@ -9,7 +9,7 @@ export class AnimalDetailsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
+  close() { }
 }

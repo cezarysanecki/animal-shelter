@@ -6,7 +6,8 @@ import { AnimalDetailsComponent } from './views/animal-details/animal-details.co
 @NgModule({
   declarations: [AnimalDetailsComponent],
   exports: [
-    AnimalsBrowserModule
+    AnimalsBrowserModule,
+    AnimalDetailsComponent
   ],
   imports: [
     CommonModule,

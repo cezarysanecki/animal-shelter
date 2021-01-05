@@ -2,11 +2,11 @@
   <div class="row justify-content-around">
     <app-animals-browser-card *ngFor="let animal of animals"
                               [animal] = animal
-                              (openDetails) = "openDetails($event)"
+                              (openDetails) = "handleOpenDetails($event)"
     ></app-animals-browser-card>
   </div>
 </div>
 <app-animal-details
   *ngIf="currentAnimal"
-  (closeDetails)="handleClose()"
+  (closeDetails)="handleCloseDetails()"
 ></app-animal-details>

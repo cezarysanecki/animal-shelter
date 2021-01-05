@@ -25,7 +25,7 @@ export class AnimalsBrowserComponent implements OnInit {
     });
   }
 
-  openDetails(animalId: number) {
+  handleOpenDetails(animalId: number) {
     withLoader(
       this.animalBrowserService.getAnimalDetails(animalId)
     ).subscribe(data => {
@@ -33,7 +33,7 @@ export class AnimalsBrowserComponent implements OnInit {
     });
   }
 
-  handleClose() {
+  handleCloseDetails() {
     this.currentAnimal = null;
   }
 }

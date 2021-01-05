@@ -13,4 +13,8 @@ export class AnimalsBrowserService {
   getAnimals() {
     return this.animalsHttpService.getAnimals();
   }
+
+  getAnimalDetails(animalId: number) {
+    return this.animalsHttpService.getAnimalDetails(animalId);
+  }
 }

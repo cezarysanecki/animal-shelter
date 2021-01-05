@@ -8,4 +8,5 @@
 </div>
 <app-animal-details
   *ngIf="currentAnimal"
+  (closeDetails)="handleClose()"
 ></app-animal-details>

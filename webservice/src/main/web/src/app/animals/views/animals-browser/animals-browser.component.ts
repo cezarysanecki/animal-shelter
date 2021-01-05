@@ -32,4 +32,8 @@ export class AnimalsBrowserComponent implements OnInit {
       this.currentAnimal = data;
     });
   }
+
+  handleClose() {
+    this.currentAnimal = null;
+  }
 }

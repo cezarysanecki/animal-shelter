@@ -7,6 +7,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { TranslocoRootModule } from "@transloco/transloco-root.module";
 import { AnimalsModule } from "@animals/animals.module";
 import { SharedModule } from "@shared/shared.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SharedModule } from "@shared/shared.module";
     HttpClientModule,
     TranslocoRootModule,
     TranslocoMessageFormatModule.init(),
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

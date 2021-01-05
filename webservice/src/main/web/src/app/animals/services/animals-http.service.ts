@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { AnimalsResult } from "@animals/types";
+import { AnimalDetails, AnimalsResult } from "@animals/types";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,6 @@ export class AnimalsHttpService {
   }
 
   getAnimalDetails(animalId: number) {
-    return this.httpClient.get<AnimalsResult>(`/shelter/animals/${animalId}`);
+    return this.httpClient.get<AnimalDetails>(`/shelter/animals/${animalId}`);
   }
 }

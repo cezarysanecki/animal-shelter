@@ -11,3 +11,12 @@ export type AnimalShortInfo = {
   age: number;
   inShelter: boolean;
 }
+
+export type AnimalDetails = {
+  id: number;
+  name: string;
+  kind: AnimalKind;
+  age: number;
+  "admittedAt": string,
+  "adoptedAt": string
+}

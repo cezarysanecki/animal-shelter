@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AnimalDetails } from "@animals/types";
 
 @Component({
   selector: 'app-animal-details',
@@ -7,11 +8,17 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AnimalDetailsComponent implements OnInit {
 
+  @Input()
+  animal: AnimalDetails;
+
+  @Output()
+  closeDetails: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() { }
 
   close() {
-
+    this.closeDetails.emit();
   }
 }

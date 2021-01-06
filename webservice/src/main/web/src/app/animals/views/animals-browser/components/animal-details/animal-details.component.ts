@@ -8,12 +8,12 @@ import { animate, style, transition, trigger } from "@angular/animations";
   styleUrls: ['./animal-details.component.css'],
   animations: [
     trigger('dialog', [
-      transition('void => *', [
-        style({ transform: 'translate(-100%)' }),
+      transition(':enter', [
+        style({ opacity: '0' }),
         animate(300)
       ]),
-      transition('* => void', [
-        animate(300, style({ transform: 'translate(-100%)' }))
+      transition(':leave', [
+        animate(300, style({ opacity: '0' }))
       ])
     ])
   ]

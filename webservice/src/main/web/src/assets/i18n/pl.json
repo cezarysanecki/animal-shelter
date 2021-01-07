@@ -1,0 +1,15 @@
+{
+  "show-details": "Pokaż szczegóły",
+  "animal-details": {
+    "age": "{ age, select, 1 {rok} 2 {lata} 3 {lata} 4 {lata} other {lat} }",
+    "kind": "Rodzaj: ",
+    "age-desc": "Wiek: ",
+    "admitted": "Przyjęty: ",
+    "adopted": "Zaadoptowany: ",
+    "not-adopted": "Nadal czeka na dom :("
+  },
+  "animal-kind": {
+    "dog": "Pies",
+    "cat": "Kot"
+  }
+}

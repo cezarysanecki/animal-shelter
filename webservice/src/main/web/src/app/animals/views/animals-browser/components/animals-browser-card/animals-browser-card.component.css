@@ -1,0 +1,24 @@
+.card-width {
+  width: 15rem;
+}
+
+.animal-desc p {
+  margin: 0;
+}
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.adoptedImg {
+  opacity: 1;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("src/assets/images/adopted_watermark.png");
+}
+
+.adoptedImg img {
+  opacity: 0.2;
+}

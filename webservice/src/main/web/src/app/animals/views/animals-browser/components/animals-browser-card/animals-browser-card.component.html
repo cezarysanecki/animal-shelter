@@ -1,0 +1,23 @@
+<div class="col-lg-4 col-md-6 col-12" *transloco="let t">
+  <div class="card mx-auto card-width mb-4">
+    <div *ngIf="animal.inShelter; then normalImg else adoptedImg"></div>
+    <ng-template #normalImg>
+      <img class="card-img-top" [src]="animal.imageUrl"/>
+    </ng-template>
+    <ng-template #adoptedImg>
+      <div class="card-img-top adoptedImg">
+        <img class="card-img-top" [src]="animal.imageUrl"/>
+      </div>
+    </ng-template>
+    <div class="card-body">
+      <h5 class="card-title text-center">{{ animal.name }}</h5>
+      <div class="mb-3 animal-desc">
+        <p class="card-text">{{ t(animal.translocoKind) }}</p>
+        {{ animal.age + ' ' + t('animal-details.age', { age: animal.age }) }}
+      </div>
+      <div class="text-center">
+        <a class="btn btn-primary" (click)="openAnimalDetails()">{{ t('show-details') }}</a>
+      </div>
+    </div>
+  </div>
+</div>

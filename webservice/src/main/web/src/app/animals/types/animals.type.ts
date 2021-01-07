@@ -1,13 +1,10 @@
 import { AnimalKind } from "@animals/enums";
 
-export type AnimalsResult = {
-  animals: AnimalShortInfo[];
-}
-
 export type AnimalShortInfo = {
   id: number;
   name: string;
-  kind: AnimalKind;
+  translocoKind: string;
+  imageUrl: string;
   age: number;
   inShelter: boolean;
 }
@@ -15,8 +12,9 @@ export type AnimalShortInfo = {
 export type AnimalDetails = {
   id: number;
   name: string;
-  kind: AnimalKind;
+  translocoKind: string;
+  imageUrl: string;
   age: number;
-  "admittedAt": string,
-  "adoptedAt": string
+  admittedAt: string,
+  adoptedAt: string
 }

@@ -5,8 +5,25 @@
         <h5 class="modal-title" id="exampleModalLabel">{{ animal.name }}</h5>
         <button type="button" class="close" (click)="close()">&times;</button>
       </div>
-      <div class="modal-body">
-        {{ animal.kind }}
+      <div class="modal-body" *transloco="let t">
+        <img class="animal-img mb-3" src="{{ animal.imageUrl }}"/>
+        <p>
+          {{ t('animal-details.kind') + t(animal.translocoKind) }}
+        </p>
+        <p>
+          {{ t('animal-details.age-desc') + animal.age + ' ' + t('animal-details.age', { age: animal.age }) }}
+        </p>
+        <p>
+          {{ t('animal-details.admitted') + (animal.admittedAt | date: 'yyyy-MM-dd') }}
+        </p>
+        <p>
+          <ng-container *ngIf="animal.adoptedAt">
+            {{ t('animal-details.adopted') + (animal.adoptedAt | date: 'yyyy-MM-dd') }}
+          </ng-container>
+          <ng-container *ngIf="!animal.adoptedAt">
+            {{ t('animal-details.not-adopted') }}
+          </ng-container>
+        </p>
       </div>
     </div>
   </div>

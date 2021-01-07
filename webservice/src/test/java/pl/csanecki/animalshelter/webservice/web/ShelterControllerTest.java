@@ -77,7 +77,7 @@ class ShelterControllerTest {
         mockMvc.perform(get("/shelter/animals"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.animals", hasSize(animals.size())));
+                .andExpect(jsonPath("$.[*]]", hasSize(animals.size())));
     }
 
     @Test

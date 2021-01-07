@@ -1,7 +1,3 @@
-export type GetAnimalsResult = {
-  animals: GetAnimalsRecord[];
-}
-
 export type GetAnimalsRecord = {
   id: number;
   name: string;

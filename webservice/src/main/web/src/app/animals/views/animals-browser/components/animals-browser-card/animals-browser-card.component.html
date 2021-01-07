@@ -2,17 +2,17 @@
   <div class="card mx-auto card-width mb-4">
     <div *ngIf="animal.inShelter; then normalImg else adoptedImg"></div>
     <ng-template #normalImg>
-      <img class="card-img-top" [src]="decideImageToLoad(null)"/>
+      <img class="card-img-top" [src]="animal.imageUrl"/>
     </ng-template>
     <ng-template #adoptedImg>
       <div class="card-img-top adoptedImg">
-        <img class="card-img-top" [src]="decideImageToLoad(null)"/>
+        <img class="card-img-top" [src]="animal.imageUrl"/>
       </div>
     </ng-template>
     <div class="card-body">
       <h5 class="card-title text-center">{{ animal.name }}</h5>
       <div class="mb-3 animal-desc">
-        <p class="card-text">{{ t(translateAnimalKind()) }}</p>
+        <p class="card-text">{{ t(animal.translocoKind) }}</p>
         {{ animal.age + ' ' + t('animal-card.age', { age: animal.age }) }}
       </div>
       <div class="text-center">

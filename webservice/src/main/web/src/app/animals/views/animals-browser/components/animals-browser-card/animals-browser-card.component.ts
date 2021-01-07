@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AnimalKind } from "@animals/enums";
 import { AnimalShortInfo } from "@animals/types";
 
 @Component({
@@ -19,13 +18,5 @@ export class AnimalsBrowserCardComponent {
 
   openAnimalDetails() {
     this.openDetails.emit(this.animal.id);
-  }
-
-  decideImageToLoad(url: string) {
-    return url != null ? url : `assets/images/animal-kinds/${AnimalKind[this.animal.kind]}.jpg`;
-  }
-
-  translateAnimalKind() {
-    return `animal-kind.${AnimalKind[this.animal.kind]}`;
   }
 }

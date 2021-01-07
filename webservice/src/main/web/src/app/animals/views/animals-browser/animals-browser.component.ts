@@ -20,8 +20,8 @@ export class AnimalsBrowserComponent implements OnInit {
   ngOnInit() {
     withLoader(
       this.animalBrowserService.getAnimals()
-    ).subscribe(data => {
-      this.animals = data.animals;
+    ).subscribe(animals => {
+      this.animals = animals;
     });
   }
 

@@ -16,7 +16,6 @@ export class AnimalsBrowserService {
 
   getAnimals() {
     return this.animalsHttpService.getAnimals().pipe(
-      map(result => result.animals),
       map(animals => animals.map(animal => AnimalsBrowserService.convertToAnimalShortInfo(animal)))
     );
   }

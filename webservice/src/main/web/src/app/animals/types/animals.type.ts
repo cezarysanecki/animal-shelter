@@ -1,5 +1,3 @@
-import { AnimalKind } from "@animals/enums";
-
 export type AnimalShortInfo = {
   id: number;
   name: string;

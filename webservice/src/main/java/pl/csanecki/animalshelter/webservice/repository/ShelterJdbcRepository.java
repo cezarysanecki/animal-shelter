@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
-import pl.csanecki.animalshelter.domain.model.AnimalId;
 import pl.csanecki.animalshelter.domain.service.ShelterRepository;
 
 import java.sql.PreparedStatement;
@@ -30,7 +29,7 @@ public class ShelterJdbcRepository implements ShelterRepository {
 
     @Override
     @Transactional
-    public AnimalId registerAnimal(AddAnimalCommand command) {
+    public long registerAnimal(AddAnimalCommand command) {
         KeyHolder holder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -39,22 +38,22 @@ public class ShelterJdbcRepository implements ShelterRepository {
                     Statement.RETURN_GENERATED_KEYS
             );
             preparedStatement.setString(1, command.getAnimalName());
-            preparedStatement.setString(2, command.getAnimalKind());
+            preparedStatement.setString(2, command.getAnimalKind().name());
             preparedStatement.setInt(3, command.getAnimalAge());
             return preparedStatement;
         }, holder);
 
         return Option.of(holder.getKey())
-                .map(key -> AnimalId.of(key.longValue()))
+                .map(Number::longValue)
                 .getOrElseThrow(() -> { throw new DatabaseRuntimeError("Cannot get id for admitted animal"); });
     }
 
     @Override
-    public Option<AnimalDetails> getAnimalDetails(AnimalId animalId) {
+    public Option<AnimalDetails> getAnimalDetails(long animalId) {
         return Try.ofSupplier(() -> of(
                 jdbcTemplate.queryForObject("SELECT * FROM animals WHERE id = ?",
                 new BeanPropertyRowMapper<>(AnimalEntity.class),
-                animalId.getAnimalId()))
+                animalId))
         ).getOrElse(none())
                 .map(AnimalEntity::toAnimalDetails);
     }
@@ -66,11 +65,11 @@ public class ShelterJdbcRepository implements ShelterRepository {
     }
 
     @Override
-    public void updateAdoptedAtToNow(AnimalId animalId) {
-        int rowAffected = jdbcTemplate.update("UPDATE animals SET adoptedAt = NOW() WHERE id = ? AND adoptedAt IS NULL", animalId.getAnimalId());
+    public void updateAdoptedAtToNow(long animalId) {
+        int rowAffected = jdbcTemplate.update("UPDATE animals SET adoptedAt = NOW() WHERE id = ? AND adoptedAt IS NULL", animalId);
 
         if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + animalId.getAnimalId());
+            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + animalId);
         }
     }
 }

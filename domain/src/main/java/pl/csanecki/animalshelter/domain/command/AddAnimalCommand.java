@@ -1,26 +1,28 @@
 package pl.csanecki.animalshelter.domain.command;
 
-import lombok.Value;
-import pl.csanecki.animalshelter.domain.model.AnimalAge;
 import pl.csanecki.animalshelter.domain.model.AnimalKind;
-import pl.csanecki.animalshelter.domain.model.AnimalName;
 
-@Value
 public class AddAnimalCommand {
 
-    AnimalName animalName;
-    AnimalKind animalKind;
-    AnimalAge animalAge;
+    private final String animalName;
+    private final AnimalKind animalKind;
+    private final int animalAge;
 
-    public String getAnimalName() {
-        return animalName.getAnimalName();
+    public AddAnimalCommand(final String animalName, final AnimalKind animalKind, final int animalAge) {
+        this.animalName = animalName;
+        this.animalKind = animalKind;
+        this.animalAge = animalAge;
     }
 
-    public String getAnimalKind() {
-        return animalKind.getAnimalKind();
+    public String getAnimalName() {
+        return animalName;
+    }
+
+    public AnimalKind getAnimalKind() {
+        return animalKind;
     }
 
     public int getAnimalAge() {
-        return animalAge.getAnimalAge();
+        return animalAge;
     }
 }

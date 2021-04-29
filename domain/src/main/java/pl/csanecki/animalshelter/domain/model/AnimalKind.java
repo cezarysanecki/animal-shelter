@@ -1,21 +1,15 @@
 package pl.csanecki.animalshelter.domain.model;
 
-import lombok.Value;
+import java.util.Arrays;
 
-@Value
-public class AnimalKind {
+public enum AnimalKind {
 
-    String animalKind;
+    CAT, DOG;
 
-    private AnimalKind(String animalKind) {
-        if (AnimalKindType.isNotValid(animalKind)) {
-            throw new IllegalArgumentException("Not valid kind of animal");
-        }
-
-        this.animalKind = animalKind;
-    }
-
-    public static AnimalKind of(String kind) {
-        return new AnimalKind(kind);
+    public static AnimalKind findAnimalKind(String name) {
+        return Arrays.stream(values())
+                .filter(value -> value.name().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

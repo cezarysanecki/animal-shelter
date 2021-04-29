@@ -1,17 +1,21 @@
 package pl.csanecki.animalshelter.webservice.web;
 
 import io.vavr.control.Try;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.command.Result;
-import pl.csanecki.animalshelter.domain.model.*;
+import pl.csanecki.animalshelter.domain.model.AnimalKind;
 import pl.csanecki.animalshelter.domain.service.ShelterService;
 
 import javax.validation.Valid;
@@ -33,22 +37,22 @@ public class ShelterController {
 
     @PostMapping
     public ResponseEntity<Void> acceptIntoShelter(@Valid @RequestBody AddAnimalRequest addAnimalRequest) {
-        AnimalId animalId = shelterService.acceptIntoShelter(new AddAnimalCommand(
-                AnimalName.of(addAnimalRequest.getName()),
-                AnimalKind.of(addAnimalRequest.getKind()),
-                AnimalAge.of(addAnimalRequest.getAge())
+        long animalId = shelterService.acceptIntoShelter(new AddAnimalCommand(
+                addAnimalRequest.getName(),
+                AnimalKind.findAnimalKind(addAnimalRequest.getKind()),
+                addAnimalRequest.getAge()
         ));
 
         return ResponseEntity.created(
                 ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                        .buildAndExpand(animalId.getAnimalId())
+                        .buildAndExpand(animalId)
                         .toUri()
         ).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable long id) {
-        AnimalDetails animalDetails = shelterService.getAnimalDetails(AnimalId.of(id));
+        AnimalDetails animalDetails = shelterService.getAnimalDetails(id);
 
         return ResponseEntity.ok(animalDetails);
     }
@@ -62,7 +66,7 @@ public class ShelterController {
 
     @PostMapping("/{id}/adopt")
     public ResponseEntity<Void> adoptAnimal(@PathVariable long id) {
-        Try<Result> result = shelterService.adoptAnimal(AnimalId.of(id));
+        Try<Result> result = shelterService.adoptAnimal(id);
 
         return result
                 .map(success -> ResponseEntity.ok().<Void>build())
@@ -70,16 +74,30 @@ public class ShelterController {
     }
 }
 
-@Value
 class AddAnimalRequest {
 
-    @NotEmpty
-    @Size(min = AnimalName.MIN_LENGTH, max = AnimalName.MAX_LENGTH)
     String name;
-
-    @ValueOfAnimalKind(enumClass = AnimalKindType.class)
     String kind;
-
-    @PositiveOrZero
     int age;
+
+    AddAnimalRequest(
+            @NotEmpty @Size(max = 250) final String name,
+            @ValueOfAnimalKind(enumClass = AnimalKind.class) final String kind,
+            @PositiveOrZero final int age) {
+        this.name = name;
+        this.kind = kind;
+        this.age = age;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    String getKind() {
+        return kind;
+    }
+
+    int getAge() {
+        return age;
+    }
 }

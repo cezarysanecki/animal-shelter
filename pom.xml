@@ -5,7 +5,7 @@
 	<groupId>pl.csanecki</groupId>
 	<artifactId>animalshelter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AnimalShelter</name>
+	<name>animalshelter</name>
 	<description>New way of creating AnimalShelter</description>
 
 	<packaging>pom</packaging>

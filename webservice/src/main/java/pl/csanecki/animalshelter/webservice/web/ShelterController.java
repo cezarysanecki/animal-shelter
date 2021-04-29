@@ -1,7 +1,6 @@
 package pl.csanecki.animalshelter.webservice.web;
 
 import io.vavr.control.Try;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,16 +74,30 @@ public class ShelterController {
     }
 }
 
-@Value
 class AddAnimalRequest {
 
-    @NotEmpty
-    @Size(min = 0, max = 250)
     String name;
-
-    @ValueOfAnimalKind(enumClass = AnimalKind.class)
     String kind;
-
-    @PositiveOrZero
     int age;
+
+    AddAnimalRequest(
+            @NotEmpty @Size(max = 250) final String name,
+            @ValueOfAnimalKind(enumClass = AnimalKind.class) final String kind,
+            @PositiveOrZero final int age) {
+        this.name = name;
+        this.kind = kind;
+        this.age = age;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    String getKind() {
+        return kind;
+    }
+
+    int getAge() {
+        return age;
+    }
 }

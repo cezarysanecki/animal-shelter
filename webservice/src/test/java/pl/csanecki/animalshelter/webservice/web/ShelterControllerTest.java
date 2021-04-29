@@ -69,7 +69,7 @@ class ShelterControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(animalDetails.getId()), Long.class))
                 .andExpect(jsonPath("$.name", is(animalDetails.getName())))
-                .andExpect(jsonPath("$.kind", is(animalDetails.getKind())))
+                .andExpect(jsonPath("$.kind", is(animalDetails.getKind().name())))
                 .andExpect(jsonPath("$.age", is(animalDetails.getAge())))
                 .andExpect(jsonPath("$.admittedAt").isNotEmpty())
                 .andExpect(jsonPath("$.adoptedAt").value(nullValue()));

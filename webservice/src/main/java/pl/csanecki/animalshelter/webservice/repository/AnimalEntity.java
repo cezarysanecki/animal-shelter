@@ -1,13 +1,11 @@
 package pl.csanecki.animalshelter.webservice.repository;
 
-import lombok.Data;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.model.AnimalKind;
 
 import java.time.Instant;
 
-@Data
 public class AnimalEntity {
 
     long id;

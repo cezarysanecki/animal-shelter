@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<packaging>pom</packaging>
-
-	<name>AnimalShelter</name>
 	<groupId>pl.csanecki</groupId>
 	<artifactId>animalshelter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>AnimalShelter</name>
 	<description>New way of creating AnimalShelter</description>
 
-	<modules>
-		<module>webservice</module>
-		<module>domain</module>
-	</modules>
+	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>11</java.version>
@@ -22,6 +16,11 @@
 		<vavr.version>0.10.3</vavr.version>
 		<lombok.version>1.18.4</lombok.version>
 	</properties>
+
+	<modules>
+		<module>webservice</module>
+		<module>domain</module>
+	</modules>
 
 	<dependencies>
 		<dependency>

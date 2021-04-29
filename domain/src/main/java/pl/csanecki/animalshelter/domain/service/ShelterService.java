@@ -1,7 +1,6 @@
 package pl.csanecki.animalshelter.domain.service;
 
 import io.vavr.control.Try;
-import lombok.extern.slf4j.Slf4j;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
@@ -9,7 +8,6 @@ import pl.csanecki.animalshelter.domain.command.Result;
 
 import java.util.List;
 
-@Slf4j
 public class ShelterService {
 
     private final ShelterRepository shelterRepository;
@@ -36,6 +34,6 @@ public class ShelterService {
         return Try.of(() -> {
             shelterRepository.updateAdoptedAtToNow(animalId);
             return Result.SUCCESS;
-        }).onFailure(e -> log.error("Failed to adopt animal", e));
+        });
     }
 }

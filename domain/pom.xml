@@ -11,4 +11,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>domain</name>
     <description>New way of creating AnimalShelter - domain</description>
+
+    <properties>
+        <java.version>15</java.version>
+    </properties>
 </project>

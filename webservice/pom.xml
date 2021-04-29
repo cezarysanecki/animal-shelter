@@ -28,7 +28,6 @@
             <groupId>pl.csanecki</groupId>
             <artifactId>domain</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>

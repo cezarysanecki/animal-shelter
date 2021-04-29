@@ -12,10 +12,6 @@
     <name>domain</name>
     <description>New way of creating AnimalShelter - domain</description>
 
-    <properties>
-        <java.version>15</java.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>

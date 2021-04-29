@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>15</java.version>
 
 		<vavr.version>0.10.3</vavr.version>
 		<lombok.version>1.18.4</lombok.version>

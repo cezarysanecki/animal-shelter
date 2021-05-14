@@ -7,6 +7,7 @@ import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -52,5 +53,9 @@ public class AutoCommandsBus implements CommandsBus {
         return Optional.ofNullable(argument)
                 .filter(not(type -> Command.class.equals(argument)))
                 .filter(type -> Command.class.isAssignableFrom((Class<?>) type));
+    }
+
+    Map<Type, CommandHandler> getHandlers() {
+        return new HashMap<>(handlers);
     }
 }

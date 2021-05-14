@@ -28,8 +28,8 @@ public class AutoCommandsBus implements CommandsBus {
 
     private Type obtainHandledCommand(final HandleCommand handler) {
         ParameterizedType handleCommandType = Arrays.stream(handler.getClass().getGenericInterfaces())
-                .filter(this::isParameterizedTypeClass)
-                .map(this::castToParameterizedTypeClass)
+                .filter(type -> type instanceof ParameterizedType)
+                .map(type -> (ParameterizedType) type)
                 .filter(this::isHandleCommandInterfaceImplemented)
                 .findFirst()
                 .orElseThrow(NotImplementedHandleCommandInterfaceException::new);
@@ -40,25 +40,13 @@ public class AutoCommandsBus implements CommandsBus {
                 .orElseThrow(NotImplementedCommandInterfaceException::new);
     }
 
-    private boolean isParameterizedTypeClass(final Type type) {
-        return type instanceof ParameterizedType;
-    }
-
-    private ParameterizedType castToParameterizedTypeClass(final Type genericInterface) {
-        return (ParameterizedType) genericInterface;
-    }
-
     private boolean isHandleCommandInterfaceImplemented(final ParameterizedType type) {
         return type.getRawType().equals(HandleCommand.class);
     }
 
-    private Type acquireCommandImplementationType(final Type type) {
-        return Optional.ofNullable(type)
-                .filter(this::isCommandInterfaceImplemented)
+    private Type acquireCommandImplementationType(final Type argument) {
+        return Optional.ofNullable(argument)
+                .filter(type -> Command.class.isAssignableFrom((Class<?>) type))
                 .orElseThrow(NotImplementedCommandInterfaceException::new);
-    }
-
-    private boolean isCommandInterfaceImplemented(final Type type) {
-        return Command.class.isAssignableFrom((Class<?>) type);
     }
 }

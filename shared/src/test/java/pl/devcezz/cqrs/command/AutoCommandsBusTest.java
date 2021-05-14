@@ -35,10 +35,9 @@ class AutoCommandsBusTest {
         AutoCommandsBus commandsBus = new AutoCommandsBus(
                 Set.of(firstCommandHandler)
         );
-        FirstCommand command = new FirstCommand();
 
         // when/then
-        assertThatThrownBy(() -> commandsBus.send(command))
+        assertThatThrownBy(() -> commandsBus.send(new FirstCommand()))
             .isInstanceOf(TestException.class);
     }
 

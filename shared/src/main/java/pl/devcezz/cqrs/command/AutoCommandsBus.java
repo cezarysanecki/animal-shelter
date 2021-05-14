@@ -38,6 +38,7 @@ public class AutoCommandsBus implements CommandsBus {
 
         return Arrays.stream(handleCommandType.getActualTypeArguments())
                 .map(this::acquireCommandImplementationType)
+                .flatMap(Optional::stream)
                 .findFirst()
                 .orElseThrow(NotImplementedCommandInterfaceException::new);
     }
@@ -46,10 +47,9 @@ public class AutoCommandsBus implements CommandsBus {
         return type.getRawType().equals(HandleCommand.class);
     }
 
-    private Type acquireCommandImplementationType(final Type argument) {
+    private Optional<Type> acquireCommandImplementationType(final Type argument) {
         return Optional.ofNullable(argument)
                 .filter(not(type -> Command.class.equals(argument)))
-                .filter(type -> Command.class.isAssignableFrom((Class<?>) type))
-                .orElseThrow(NotImplementedCommandInterfaceException::new);
+                .filter(type -> Command.class.isAssignableFrom((Class<?>) type));
     }
 }

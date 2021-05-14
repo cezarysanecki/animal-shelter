@@ -1,7 +1,7 @@
 package pl.devcezz.cqrs.command;
 
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedHandleCommandInterfaceException;
+import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -15,36 +15,36 @@ import static java.util.function.Predicate.not;
 
 public class AutoCommandsBus implements CommandsBus {
 
-    private final Map<Type, HandleCommand> handlers;
+    private final Map<Type, CommandHandler> handlers;
 
-    public AutoCommandsBus(final Set<HandleCommand> handlers) {
+    public AutoCommandsBus(final Set<CommandHandler> handlers) {
         this.handlers = handlers.stream()
                 .collect(Collectors.toMap(this::obtainHandledCommand, handler -> handler));
     }
 
     @Override
     public void send(final Command command) {
-        var handleCommand = handlers.get(command.getClass());
-        handleCommand.handle(command);
+        var commandHandler = handlers.get(command.getClass());
+        commandHandler.handle(command);
     }
 
-    private Type obtainHandledCommand(final HandleCommand handler) {
-        ParameterizedType handleCommandType = Arrays.stream(handler.getClass().getGenericInterfaces())
+    private Type obtainHandledCommand(final CommandHandler handler) {
+        ParameterizedType commandHandlerType = Arrays.stream(handler.getClass().getGenericInterfaces())
                 .filter(type -> type instanceof ParameterizedType)
                 .map(type -> (ParameterizedType) type)
-                .filter(this::isHandleCommandInterfaceImplemented)
+                .filter(this::isCommandHandlerInterfaceImplemented)
                 .findFirst()
-                .orElseThrow(NotImplementedHandleCommandInterfaceException::new);
+                .orElseThrow(NotImplementedCommandHandlerInterfaceException::new);
 
-        return Arrays.stream(handleCommandType.getActualTypeArguments())
+        return Arrays.stream(commandHandlerType.getActualTypeArguments())
                 .map(this::acquireCommandImplementationType)
                 .flatMap(Optional::stream)
                 .findFirst()
                 .orElseThrow(NotImplementedCommandInterfaceException::new);
     }
 
-    private boolean isHandleCommandInterfaceImplemented(final ParameterizedType type) {
-        return type.getRawType().equals(HandleCommand.class);
+    private boolean isCommandHandlerInterfaceImplemented(final ParameterizedType type) {
+        return type.getRawType().equals(CommandHandler.class);
     }
 
     private Optional<Type> acquireCommandImplementationType(final Type argument) {

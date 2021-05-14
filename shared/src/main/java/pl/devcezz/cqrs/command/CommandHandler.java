@@ -1,5 +1,5 @@
 package pl.devcezz.cqrs.command;
 
-public interface HandleCommand<T extends Command> {
+public interface CommandHandler<T extends Command> {
     void handle(T command);
 }

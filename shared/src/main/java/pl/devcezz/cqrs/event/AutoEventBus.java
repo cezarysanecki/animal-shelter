@@ -1,7 +1,7 @@
 package pl.devcezz.cqrs.event;
 
 import pl.devcezz.cqrs.exception.NotImplementedEventInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedHandleEventInterfaceException;
+import pl.devcezz.cqrs.exception.NotImplementedEventHandlerInterfaceException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -15,29 +15,29 @@ import static java.util.function.Predicate.not;
 
 public class AutoEventBus implements EventsBus {
 
-    private final Map<Type, Set<HandleEvent>> handlers;
+    private final Map<Type, Set<EventHandler>> handlers;
 
-    public AutoEventBus(final Set<HandleEvent> handlers) {
+    public AutoEventBus(final Set<EventHandler> handlers) {
         this.handlers = handlers.stream()
                 .collect(Collectors.groupingBy(this::obtainHandledEvent, Collectors.toSet()));
     }
 
-    private Type obtainHandledEvent(final HandleEvent handler) {
-        ParameterizedType handleEventType = Arrays.stream(handler.getClass().getGenericInterfaces())
+    private Type obtainHandledEvent(final EventHandler handler) {
+        ParameterizedType eventHandlerType = Arrays.stream(handler.getClass().getGenericInterfaces())
                 .filter(type -> type instanceof ParameterizedType)
                 .map(type -> (ParameterizedType) type)
-                .filter(this::isHandleEventInterfaceImplemented)
+                .filter(this::isEventHandlerInterfaceImplemented)
                 .findFirst()
-                .orElseThrow(NotImplementedHandleEventInterfaceException::new);
+                .orElseThrow(NotImplementedEventHandlerInterfaceException::new);
 
-        return Arrays.stream(handleEventType.getActualTypeArguments())
+        return Arrays.stream(eventHandlerType.getActualTypeArguments())
                 .map(this::acquireEventImplementationType)
                 .findFirst()
                 .orElseThrow(NotImplementedEventInterfaceException::new);
     }
 
-    private boolean isHandleEventInterfaceImplemented(final ParameterizedType type) {
-        return type.getRawType().equals(HandleEvent.class);
+    private boolean isEventHandlerInterfaceImplemented(final ParameterizedType type) {
+        return type.getRawType().equals(EventHandler.class);
     }
 
     private Type acquireEventImplementationType(final Type argument) {

@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.function.Predicate.not;
+
 public class AutoCommandsBus implements CommandsBus {
 
     private final Map<Type, HandleCommand> handlers;
@@ -46,6 +48,7 @@ public class AutoCommandsBus implements CommandsBus {
 
     private Type acquireCommandImplementationType(final Type argument) {
         return Optional.ofNullable(argument)
+                .filter(not(type -> Command.class.equals(argument)))
                 .filter(type -> Command.class.isAssignableFrom((Class<?>) type))
                 .orElseThrow(NotImplementedCommandInterfaceException::new);
     }

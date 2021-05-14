@@ -1,5 +1,6 @@
 package pl.devcezz.cqrs.command;
 
+import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
 
@@ -24,8 +25,8 @@ public class AutoCommandsBus implements CommandsBus {
 
     @Override
     public void send(final Command command) {
-        var commandHandler = handlers.get(command.getClass());
-        commandHandler.handle(command);
+        Optional.ofNullable(handlers.get(command.getClass()))
+                .ifPresentOrElse(handler -> handler.handle(command), () -> { throw new NoHandlerForCommandException(); });
     }
 
     private Type obtainHandledCommand(final CommandHandler handler) {

@@ -2,6 +2,7 @@ package pl.devcezz.cqrs.command;
 
 import org.junit.jupiter.api.Test;
 import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
+import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -55,6 +56,16 @@ class AutoCommandsBusTest {
         assertThatThrownBy(() -> commandsBus.send(command))
                 .isInstanceOf(NoHandlerForCommandException.class);
     }
+
+    @Test
+    void shouldThrowExceptionWhenHandlerNotUsingImplementationOfCommand() {
+        // given
+        WrongCommandHandler wrongCommandHandler = new WrongCommandHandler();
+
+        // when/then
+        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(wrongCommandHandler)))
+                .isInstanceOf(NotImplementedCommandInterfaceException.class);
+    }
 }
 
 class FirstCommand implements Command {}
@@ -64,6 +75,12 @@ class FirstCommandHandler implements CommandHandler<FirstCommand> {
     @Override
     public void handle(final FirstCommand command) {
         throw new TestException();
+    }
+}
+class WrongCommandHandler implements CommandHandler<Command> {
+    @Override
+    public void handle(final Command command) {
+
     }
 }
 

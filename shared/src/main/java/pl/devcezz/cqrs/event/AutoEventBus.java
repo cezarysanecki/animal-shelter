@@ -49,7 +49,7 @@ public class AutoEventBus implements EventsBus {
 
     @Override
     public void publish(final Event event) {
-        handlers.get(event)
+        handlers.get(event.getClass())
                 .forEach(handler -> handler.handle(event));
     }
 }

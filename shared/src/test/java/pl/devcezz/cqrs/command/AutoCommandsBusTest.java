@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
@@ -71,7 +72,7 @@ class AutoCommandsBusTest {
 class FirstCommand implements Command {}
 class SecondCommand implements Command {}
 
-class FirstCommandHandler implements CommandHandler<FirstCommand> {
+class FirstCommandHandler implements CommandHandler<FirstCommand>, Serializable {
     @Override
     public void handle(final FirstCommand command) {
         throw new TestException();

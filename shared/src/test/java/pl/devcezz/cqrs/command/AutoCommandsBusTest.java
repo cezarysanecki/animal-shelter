@@ -5,8 +5,6 @@ import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +21,7 @@ class AutoCommandsBusTest {
         );
 
         // when
-        Map<Type, CommandHandler> handlers = commandsBus.getHandlers();
+        var handlers = commandsBus.getHandlers();
 
         // then
         assertThat(handlers.get(FirstCommand.class)).isEqualTo(firstCommandHandler);

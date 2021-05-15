@@ -19,7 +19,8 @@
 	<modules>
 		<module>webservice</module>
 		<module>domain</module>
-	</modules>
+        <module>shared</module>
+    </modules>
 
 	<dependencies>
 		<dependency>

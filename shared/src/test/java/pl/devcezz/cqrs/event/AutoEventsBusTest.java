@@ -53,16 +53,16 @@ class AutoEventsBusTest {
         try {
             Path tempDirPath = tempDir.resolve(String.format("auto_commands_bus_test_%s", System.currentTimeMillis()));
             return Files.createFile(tempDirPath);
-        } catch (InvalidPathException | IOException ex) {
-            throw new FailTestException("Cannot create empty file for test");
+        } catch (InvalidPathException | IOException e) {
+            throw new FailTestException("Cannot create empty file for test", e);
         }
     }
 
     private List<String> readFileLines(final Path path) {
         try {
             return Files.readAllLines(path);
-        } catch (IOException ex) {
-            throw new FailTestException("Cannot read content of test file: " + path.getFileName());
+        } catch (IOException e) {
+            throw new FailTestException("Cannot read content of test file: " + path.getFileName(), e);
         }
     }
 }
@@ -93,7 +93,7 @@ class FirstMailEventHandler implements EventHandler<MailEvent> {
         try {
             Files.write(path, List.of(message), StandardOpenOption.APPEND);
         } catch (IOException e) {
-            throw new FailTestException("Cannot write message to file: "+ path.getFileName());
+            throw new FailTestException("Cannot write message to file: "+ path.getFileName(), e);
         }
     }
 }
@@ -121,7 +121,7 @@ class SecondMailEventHandler implements EventHandler<MailEvent> {
         try {
             Files.write(path, List.of(message), StandardOpenOption.APPEND);
         } catch (IOException e) {
-            throw new FailTestException("Cannot write message to file: "+ path.getFileName());
+            throw new FailTestException("Cannot write message to file: "+ path.getFileName(), e);
         }
     }
 }

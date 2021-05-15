@@ -73,16 +73,16 @@ class AutoCommandsBusTest {
     private Path createEmptyTestFile() {
         try {
             return tempDir.resolve(String.format("auto_commands_bus_test_%s", System.currentTimeMillis()));
-        } catch (InvalidPathException ex) {
-            throw new FailTestException("Cannot create empty file for test");
+        } catch (InvalidPathException e) {
+            throw new FailTestException("Cannot create empty file for test", e);
         }
     }
 
     private List<String> readFileLines(final Path path) {
         try {
             return Files.readAllLines(path);
-        } catch (IOException ex) {
-            throw new FailTestException("Cannot read content of test file: " + path.getFileName());
+        } catch (IOException e) {
+            throw new FailTestException("Cannot read content of test file: " + path.getFileName(), e);
         }
     }
 }
@@ -113,7 +113,7 @@ class ProperCommandHandler implements CommandHandler<HandledCommand>, Serializab
         try {
             Files.write(path, List.of(message));
         } catch (IOException e) {
-            throw new FailTestException("Cannot write message to file: "+ path.getFileName());
+            throw new FailTestException("Cannot write message to file: "+ path.getFileName(), e);
         }
     }
 }

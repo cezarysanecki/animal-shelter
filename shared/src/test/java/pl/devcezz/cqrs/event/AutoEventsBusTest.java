@@ -21,7 +21,7 @@ class AutoEventsBusTest {
     Path tempDir;
 
     @Test
-    void shouldProperlySetEventsBus() {
+    void should_properly_set_events_bus() {
         FirstMailEventHandler firstMailEventHandler = new FirstMailEventHandler();
         SecondMailEventHandler secondMailEventHandler = new SecondMailEventHandler();
         AutoEventsBus autoEventsBus = new AutoEventsBus(
@@ -35,7 +35,7 @@ class AutoEventsBusTest {
     }
 
     @Test
-    void shouldHandleEvent() {
+    void should_event_handler_handle_event() {
         Path path = TestFiles.createTestFileInDir("auto_events_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoEventsBus autoEventsBus = new AutoEventsBus(
                 Set.of(
@@ -50,7 +50,7 @@ class AutoEventsBusTest {
     }
 
     @Test
-    void shouldThrowExceptionIfNoHandlerForEvent() {
+    void should_fail_when_no_event_handler_for_event() {
         AutoEventsBus autoEventsBus = new AutoEventsBus(
                 Set.of(new FirstMailEventHandler())
         );
@@ -60,13 +60,13 @@ class AutoEventsBusTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenHandlerWithoutGeneric() {
+    void should_fail_when_set_event_handler_without_generic() {
         assertThatThrownBy(() -> new AutoEventsBus(Set.of(new EventHandlerWithoutGeneric())))
                 .isInstanceOf(NotImplementedEventHandlerInterfaceException.class);
     }
 
     @Test
-    void shouldThrowExceptionWhenHandlerNotUsingImplementationOfEvent() {
+    void should_fail_when_set_event_handler_without_generic_event_implementation() {
         assertThatThrownBy(() -> new AutoEventsBus(Set.of(new EventHandlerForEventInterface())))
                 .isInstanceOf(NotImplementedEventInterfaceException.class);
     }

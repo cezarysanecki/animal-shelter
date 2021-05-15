@@ -21,7 +21,7 @@ class AutoCommandsBusTest {
     Path tempDir;
 
     @Test
-    void shouldProperlySetCommandsBus() {
+    void should_properly_set_commands_bus() {
         ProperCommandHandler properCommandHandler = new ProperCommandHandler();
         AutoCommandsBus commandsBus = new AutoCommandsBus(
                 Set.of(properCommandHandler)
@@ -34,7 +34,7 @@ class AutoCommandsBusTest {
     }
 
     @Test
-    void shouldHandleCommand() {
+    void should_command_handler_handle_command() {
         Path path = TestFiles.createTestFileInDir("auto_commands_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoCommandsBus commandsBus = new AutoCommandsBus(
                 Set.of(new ProperCommandHandler(path, "Command handled"))
@@ -46,7 +46,7 @@ class AutoCommandsBusTest {
     }
 
     @Test
-    void shouldThrowExceptionIfNoHandlerForCommand() {
+    void should_fail_when_no_command_handler_for_command() {
         AutoCommandsBus commandsBus = new AutoCommandsBus(
                 Set.of(new ProperCommandHandler())
         );
@@ -56,19 +56,19 @@ class AutoCommandsBusTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenHandlerWithoutGeneric() {
+    void should_fail_when_set_command_handler_without_generic() {
         assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new CommandHandlerWithoutGeneric())))
                 .isInstanceOf(NotImplementedCommandHandlerInterfaceException.class);
     }
 
     @Test
-    void shouldThrowExceptionWhenHandlerNotUsingImplementationOfCommand() {
+    void should_fail_when_set_command_handler_without_generic_command_implementation() {
         assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new CommandHandlerForCommandInterface())))
                 .isInstanceOf(NotImplementedCommandInterfaceException.class);
     }
 
     @Test
-    void shouldThrowExceptionWhenTwoHandlersForOneImplementationOfCommand() {
+    void should_fail_when_two_command_handlers_for_command() {
         assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new ProperCommandHandler(), new RedundantCommandHandler())))
                 .isInstanceOf(IllegalStateException.class);
     }

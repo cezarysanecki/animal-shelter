@@ -53,7 +53,7 @@ public class AutoEventsBus implements EventsBus {
         Optional.ofNullable(handlers.get(event.getClass()))
                 .ifPresentOrElse(handlers -> handlers.forEach(
                         handler -> handler.handle(event)
-                ), () -> { throw new NoHandlerForEventException(); });
+                ), () -> { throw new NoHandlerForEventException(event); });
     }
 
     Map<Type, Set<EventHandler>> getHandlers() {

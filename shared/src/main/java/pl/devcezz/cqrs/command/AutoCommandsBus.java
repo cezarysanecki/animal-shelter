@@ -27,7 +27,7 @@ public class AutoCommandsBus implements CommandsBus {
     @Override
     public void send(final Command command) {
         Optional.ofNullable(handlers.get(command.getClass()))
-                .ifPresentOrElse(handler -> handler.handle(command), () -> { throw new NoHandlerForCommandException(); });
+                .ifPresentOrElse(handler -> handler.handle(command), () -> { throw new NoHandlerForCommandException(command); });
     }
 
     private Type obtainHandledCommand(final CommandHandler handler) {

@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 import static java.util.function.Predicate.not;
 
-public class AutoEventBus implements EventsBus {
+public class AutoEventsBus implements EventsBus {
 
     private final Map<Type, Set<EventHandler>> handlers;
 
-    public AutoEventBus(final Set<EventHandler> handlers) {
+    public AutoEventsBus(final Set<EventHandler> handlers) {
         this.handlers = handlers.stream()
                 .collect(Collectors.groupingBy(this::obtainHandledEvent, Collectors.toSet()));
     }

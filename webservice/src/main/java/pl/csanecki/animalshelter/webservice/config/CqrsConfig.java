@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.devcezz.cqrs.command.AutoCommandsBus;
 import pl.devcezz.cqrs.command.CommandHandler;
 import pl.devcezz.cqrs.command.CommandsBus;
-import pl.devcezz.cqrs.event.AutoEventBus;
+import pl.devcezz.cqrs.event.AutoEventsBus;
 import pl.devcezz.cqrs.event.EventHandler;
 import pl.devcezz.cqrs.event.EventsBus;
 
@@ -21,6 +21,6 @@ class CqrsConfig {
 
     @Bean
     EventsBus eventsBus(Set<EventHandler> handlers) {
-        return new AutoEventBus(handlers);
+        return new AutoEventsBus(handlers);
     }
 }

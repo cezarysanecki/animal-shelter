@@ -7,17 +7,17 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class AutoEventBusTest {
+class AutoEventsBusTest {
 
     @Test
     void shouldProperlySetEventsBus() {
         FirstMailEventHandler firstMailEventHandler = new FirstMailEventHandler();
         SecondMailEventHandler secondMailEventHandler = new SecondMailEventHandler();
-        AutoEventBus autoEventBus = new AutoEventBus(
+        AutoEventsBus autoEventsBus = new AutoEventsBus(
                 Set.of(firstMailEventHandler, secondMailEventHandler)
         );
 
-        var handlers = autoEventBus.getHandlers();
+        var handlers = autoEventsBus.getHandlers();
 
         assertThat(handlers.get(MailEvent.class)).containsExactlyInAnyOrder(firstMailEventHandler, secondMailEventHandler);
         assertThat(handlers.get(ChatEvent.class)).isNull();

@@ -32,11 +32,11 @@ class AutoEventsBusTest {
     @Test
     void shouldHandleEvent() {
         Path path = TestFiles.createTestFileInDir("auto_events_bus_test_%s" + System.currentTimeMillis(), tempDir);
-
-        FirstMailEventHandler firstMailEventHandler = new FirstMailEventHandler(path, "Event handled - first");
-        SecondMailEventHandler secondMailEventHandler = new SecondMailEventHandler(path, "Event handled - second");
         AutoEventsBus autoEventsBus = new AutoEventsBus(
-                Set.of(firstMailEventHandler, secondMailEventHandler)
+                Set.of(
+                        new FirstMailEventHandler(path, "Event handled - first"),
+                        new SecondMailEventHandler(path, "Event handled - second")
+                )
         );
 
         autoEventsBus.publish(new MailEvent());

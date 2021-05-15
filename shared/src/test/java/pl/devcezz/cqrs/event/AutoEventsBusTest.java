@@ -2,6 +2,7 @@ package pl.devcezz.cqrs.event;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import pl.devcezz.cqrs.exception.NoHandlerForEventException;
 import pl.devcezz.tests.TestFiles;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class AutoEventsBusTest {
 
@@ -43,6 +45,16 @@ class AutoEventsBusTest {
         autoEventsBus.publish(new MailEvent());
 
         assertThat(TestFiles.readFileLines(path)).containsExactlyInAnyOrder("Event handled - first", "Event handled - second");
+    }
+
+    @Test
+    void shouldThrowExceptionIfNoHandlerForEvent() {
+        AutoEventsBus autoEventsBus = new AutoEventsBus(
+                Set.of(new FirstMailEventHandler())
+        );
+
+        assertThatThrownBy(() -> autoEventsBus.publish(new ChatEvent()))
+                .isInstanceOf(NoHandlerForEventException.class);
     }
 }
 

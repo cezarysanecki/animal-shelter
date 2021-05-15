@@ -1,5 +1,6 @@
 package pl.devcezz.cqrs.event;
 
+import pl.devcezz.cqrs.exception.NoHandlerForEventException;
 import pl.devcezz.cqrs.exception.NotImplementedEventInterfaceException;
 import pl.devcezz.cqrs.exception.NotImplementedEventHandlerInterfaceException;
 
@@ -49,8 +50,10 @@ public class AutoEventsBus implements EventsBus {
 
     @Override
     public void publish(final Event event) {
-        handlers.get(event.getClass())
-                .forEach(handler -> handler.handle(event));
+        Optional.ofNullable(handlers.get(event.getClass()))
+                .ifPresentOrElse(handlers -> handlers.forEach(
+                        handler -> handler.handle(event)
+                ), () -> { throw new NoHandlerForEventException(); });
     }
 
     Map<Type, Set<EventHandler>> getHandlers() {

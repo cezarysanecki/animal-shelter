@@ -3,6 +3,8 @@ package pl.devcezz.cqrs.event;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.cqrs.exception.NoHandlerForEventException;
+import pl.devcezz.cqrs.exception.NotImplementedEventHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.NotImplementedEventInterfaceException;
 import pl.devcezz.tests.TestFiles;
 
 import java.io.Serializable;
@@ -56,6 +58,18 @@ class AutoEventsBusTest {
         assertThatThrownBy(() -> autoEventsBus.publish(new ChatEvent()))
                 .isInstanceOf(NoHandlerForEventException.class);
     }
+
+    @Test
+    void shouldThrowExceptionWhenHandlerWithoutGeneric() {
+        assertThatThrownBy(() -> new AutoEventsBus(Set.of(new EventHandlerWithoutGeneric())))
+                .isInstanceOf(NotImplementedEventHandlerInterfaceException.class);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenHandlerNotUsingImplementationOfEvent() {
+        assertThatThrownBy(() -> new AutoEventsBus(Set.of(new EventHandlerForEventInterface())))
+                .isInstanceOf(NotImplementedEventInterfaceException.class);
+    }
 }
 
 class MailEvent implements Event {}
@@ -97,5 +111,17 @@ class SecondMailEventHandler implements EventHandler<MailEvent> {
     public void handle(final MailEvent event) {
         Optional.ofNullable(path)
                 .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
+    }
+}
+class EventHandlerWithoutGeneric implements EventHandler {
+    @Override
+    public void handle(final Event event) {
+
+    }
+}
+class EventHandlerForEventInterface implements EventHandler<Event> {
+    @Override
+    public void handle(final Event event) {
+
     }
 }

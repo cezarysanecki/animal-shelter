@@ -3,6 +3,7 @@ package pl.devcezz.cqrs.command;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
+import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
 import pl.devcezz.tests.TestFiles;
 
@@ -55,8 +56,14 @@ class AutoCommandsBusTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenHandlerWithoutGeneric() {
+        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new CommandHandlerWithoutGeneric())))
+                .isInstanceOf(NotImplementedCommandHandlerInterfaceException.class);
+    }
+
+    @Test
     void shouldThrowExceptionWhenHandlerNotUsingImplementationOfCommand() {
-        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new IncorrectCommandHandler())))
+        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new CommandHandlerForCommandInterface())))
                 .isInstanceOf(NotImplementedCommandInterfaceException.class);
     }
 
@@ -95,7 +102,13 @@ class RedundantCommandHandler implements CommandHandler<HandledCommand> {
 
     }
 }
-class IncorrectCommandHandler implements CommandHandler<Command> {
+class CommandHandlerWithoutGeneric implements CommandHandler {
+    @Override
+    public void handle(final Command command) {
+
+    }
+}
+class CommandHandlerForCommandInterface implements CommandHandler<Command> {
     @Override
     public void handle(final Command command) {
 

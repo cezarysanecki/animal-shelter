@@ -5,16 +5,20 @@ import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
 import pl.devcezz.tests.FailTestException;
+import pl.devcezz.tests.TestFiles;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -38,7 +42,7 @@ class AutoCommandsBusTest {
 
     @Test
     void shouldHandleCommand() {
-        Path path = createEmptyTestFile();
+        Path path = TestFiles.createTestFileInDir("auto_commands_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoCommandsBus commandsBus = new AutoCommandsBus(
                 Set.of(new ProperCommandHandler(path, "Command handled"))
         );
@@ -70,14 +74,6 @@ class AutoCommandsBusTest {
                 .isInstanceOf(IllegalStateException.class);
     }
 
-    private Path createEmptyTestFile() {
-        try {
-            return tempDir.resolve(String.format("auto_commands_bus_test_%s", System.currentTimeMillis()));
-        } catch (InvalidPathException e) {
-            throw new FailTestException("Cannot create empty file for test", e);
-        }
-    }
-
     private List<String> readFileLines(final Path path) {
         try {
             return Files.readAllLines(path);
@@ -106,15 +102,7 @@ class ProperCommandHandler implements CommandHandler<HandledCommand>, Serializab
     @Override
     public void handle(final HandledCommand command) {
         Optional.ofNullable(path)
-                .ifPresent(path -> this.writeMessage());
-    }
-
-    private void writeMessage() {
-        try {
-            Files.write(path, List.of(message));
-        } catch (IOException e) {
-            throw new FailTestException("Cannot write message to file: "+ path.getFileName(), e);
-        }
+                .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
     }
 }
 class RedundantCommandHandler implements CommandHandler<HandledCommand> {

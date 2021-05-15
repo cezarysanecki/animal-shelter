@@ -3,6 +3,7 @@ package pl.devcezz.cqrs.event;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.tests.FailTestException;
+import pl.devcezz.tests.TestFiles;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AutoEventsBusTest {
@@ -36,7 +39,7 @@ class AutoEventsBusTest {
 
     @Test
     void shouldHandleEvent() {
-        Path path = createEmptyTestFile();
+        Path path = TestFiles.createTestFileInDir("auto_events_bus_test_%s" + System.currentTimeMillis(), tempDir);
 
         FirstMailEventHandler firstMailEventHandler = new FirstMailEventHandler(path, "Event handled - first");
         SecondMailEventHandler secondMailEventHandler = new SecondMailEventHandler(path, "Event handled - second");
@@ -47,15 +50,6 @@ class AutoEventsBusTest {
         autoEventsBus.publish(new MailEvent());
 
         assertThat(readFileLines(path)).containsExactlyInAnyOrder("Event handled - first", "Event handled - second");
-    }
-
-    private Path createEmptyTestFile() {
-        try {
-            Path tempDirPath = tempDir.resolve(String.format("auto_commands_bus_test_%s", System.currentTimeMillis()));
-            return Files.createFile(tempDirPath);
-        } catch (InvalidPathException | IOException e) {
-            throw new FailTestException("Cannot create empty file for test", e);
-        }
     }
 
     private List<String> readFileLines(final Path path) {
@@ -86,18 +80,9 @@ class FirstMailEventHandler implements EventHandler<MailEvent> {
     @Override
     public void handle(final MailEvent event) {
         Optional.ofNullable(path)
-                .ifPresent(path -> this.writeMessage());
-    }
-
-    private void writeMessage() {
-        try {
-            Files.write(path, List.of(message), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            throw new FailTestException("Cannot write message to file: "+ path.getFileName(), e);
-        }
+                .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
     }
 }
-
 class SecondMailEventHandler implements EventHandler<MailEvent> {
 
     private Path path;
@@ -114,14 +99,6 @@ class SecondMailEventHandler implements EventHandler<MailEvent> {
     @Override
     public void handle(final MailEvent event) {
         Optional.ofNullable(path)
-                .ifPresent(path -> this.writeMessage());
-    }
-
-    private void writeMessage() {
-        try {
-            Files.write(path, List.of(message), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            throw new FailTestException("Cannot write message to file: "+ path.getFileName(), e);
-        }
+                .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
     }
 }

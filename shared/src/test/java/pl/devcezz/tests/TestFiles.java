@@ -28,4 +28,12 @@ public class TestFiles {
             throw new FailTestException("Cannot write message to file: " + path.getFileName(), e);
         }
     }
+
+    public static List<String> readFileLines(final Path path) {
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            throw new FailTestException("Cannot read content of test file: " + path.getFileName(), e);
+        }
+    }
 }

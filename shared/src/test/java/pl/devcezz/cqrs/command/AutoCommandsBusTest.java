@@ -4,21 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
-import pl.devcezz.tests.FailTestException;
 import pl.devcezz.tests.TestFiles;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static java.nio.file.StandardOpenOption.APPEND;
-import static java.nio.file.StandardOpenOption.CREATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -49,7 +41,7 @@ class AutoCommandsBusTest {
 
         commandsBus.send(new HandledCommand());
 
-        assertThat(readFileLines(path)).containsExactlyInAnyOrder("Command handled");
+        assertThat(TestFiles.readFileLines(path)).containsExactlyInAnyOrder("Command handled");
     }
 
     @Test
@@ -72,14 +64,6 @@ class AutoCommandsBusTest {
     void shouldThrowExceptionWhenTwoHandlersForOneImplementationOfCommand() {
         assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new ProperCommandHandler(), new RedundantCommandHandler())))
                 .isInstanceOf(IllegalStateException.class);
-    }
-
-    private List<String> readFileLines(final Path path) {
-        try {
-            return Files.readAllLines(path);
-        } catch (IOException e) {
-            throw new FailTestException("Cannot read content of test file: " + path.getFileName(), e);
-        }
     }
 }
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.tests.TestFiles;
 
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Set;
@@ -48,7 +49,7 @@ class AutoEventsBusTest {
 class MailEvent implements Event {}
 class ChatEvent implements Event {}
 
-class FirstMailEventHandler implements EventHandler<MailEvent> {
+class FirstMailEventHandler implements EventHandler<MailEvent>, Serializable {
 
     private Path path;
     private String message;

@@ -24,100 +24,86 @@ class AutoCommandsBusTest {
 
     @Test
     void shouldProperlySetCommandsBus() {
-        // given
-        FirstCommandHandler firstCommandHandler = new FirstCommandHandler();
+        ProperCommandHandler properCommandHandler = new ProperCommandHandler();
         AutoCommandsBus commandsBus = new AutoCommandsBus(
-                Set.of(firstCommandHandler)
+                Set.of(properCommandHandler)
         );
 
-        // when
         var handlers = commandsBus.getHandlers();
 
-        // then
-        assertThat(handlers.get(FirstCommand.class)).isEqualTo(firstCommandHandler);
-        assertThat(handlers.get(SecondCommand.class)).isNull();
+        assertThat(handlers.get(HandledCommand.class)).isEqualTo(properCommandHandler);
+        assertThat(handlers.get(NotHandledCommand.class)).isNull();
     }
 
     @Test
-    void shouldHandleCommand() throws IOException {
-        // given
-        String messageForHandler = "First command handled";
-        Path path = createTestFile();
-
-        FirstCommandHandler firstCommandHandler = new FirstCommandHandler(path, messageForHandler);
+    void shouldHandleCommand() {
+        Path path = createEmptyTestFile();
         AutoCommandsBus commandsBus = new AutoCommandsBus(
-                Set.of(firstCommandHandler)
+                Set.of(new ProperCommandHandler(path, "First command handled"))
         );
 
-        // when
-        commandsBus.send(new FirstCommand());
+        commandsBus.send(new HandledCommand());
 
-        // then
-        assertThat(Files.readAllLines(path)).containsExactlyInAnyOrder(messageForHandler);
+        assertThat(readFileLines(path)).containsExactlyInAnyOrder("First command handled");
     }
 
     @Test
     void shouldThrowExceptionIfNoHandlerForCommand() {
-        // given
-        FirstCommandHandler firstCommandHandler = new FirstCommandHandler();
         AutoCommandsBus commandsBus = new AutoCommandsBus(
-                Set.of(firstCommandHandler)
+                Set.of(new ProperCommandHandler())
         );
-        SecondCommand command = new SecondCommand();
 
-        // when/then
-        assertThatThrownBy(() -> commandsBus.send(command))
+        assertThatThrownBy(() -> commandsBus.send(new NotHandledCommand()))
                 .isInstanceOf(NoHandlerForCommandException.class);
     }
 
     @Test
     void shouldThrowExceptionWhenHandlerNotUsingImplementationOfCommand() {
-        // given
-        WrongCommandHandler wrongCommandHandler = new WrongCommandHandler();
-
-        // when/then
-        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(wrongCommandHandler)))
+        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new IncorrectCommandHandler())))
                 .isInstanceOf(NotImplementedCommandInterfaceException.class);
     }
 
     @Test
     void shouldThrowExceptionWhenTwoHandlersForOneImplementationOfCommand() {
-        // given
-        FirstCommandHandler firstCommandHandler = new FirstCommandHandler();
-        Handler handler = new Handler();
-
-        // when/then
-        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(firstCommandHandler, handler)))
+        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(new ProperCommandHandler(), new RedundantCommandHandler())))
                 .isInstanceOf(IllegalStateException.class);
     }
 
-    private Path createTestFile() {
+    private Path createEmptyTestFile() {
         try {
-            return tempDir.resolve(String.format("command_handler_%s", System.currentTimeMillis()));
+            return tempDir.resolve(String.format("auto_commands_bus_test_%s", System.currentTimeMillis()));
         } catch (InvalidPathException ex) {
-            throw new EndTestException();
+            throw new FailTestException("Cannot create empty file for test");
+        }
+    }
+
+    private List<String> readFileLines(final Path path) {
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException ex) {
+            throw new FailTestException("Cannot read content of test file: " + path.getFileName());
         }
     }
 }
 
-class FirstCommand implements Command {}
-class SecondCommand implements Command {}
+class HandledCommand implements Command {}
+class NotHandledCommand implements Command {}
 
-class FirstCommandHandler implements CommandHandler<FirstCommand>, Serializable {
+class ProperCommandHandler implements CommandHandler<HandledCommand>, Serializable {
 
     private Path path;
     private String message;
 
-    FirstCommandHandler() {
+    ProperCommandHandler() {
     }
 
-    FirstCommandHandler(final Path path, final String message) {
+    ProperCommandHandler(final Path path, final String message) {
         this.path = path;
         this.message = message;
     }
 
     @Override
-    public void handle(final FirstCommand command) {
+    public void handle(final HandledCommand command) {
         Optional.ofNullable(path)
                 .ifPresent(path -> this.writeMessage());
     }
@@ -126,21 +112,25 @@ class FirstCommandHandler implements CommandHandler<FirstCommand>, Serializable 
         try {
             Files.write(path, List.of(message));
         } catch (IOException e) {
-            throw new EndTestException();
+            throw new FailTestException("Cannot write message to file: "+ path.getFileName());
         }
     }
 }
-class Handler implements CommandHandler<FirstCommand> {
+class RedundantCommandHandler implements CommandHandler<HandledCommand> {
     @Override
-    public void handle(final FirstCommand command) {
+    public void handle(final HandledCommand command) {
 
     }
 }
-class WrongCommandHandler implements CommandHandler<Command> {
+class IncorrectCommandHandler implements CommandHandler<Command> {
     @Override
     public void handle(final Command command) {
 
     }
 }
 
-class EndTestException extends RuntimeException {}
+class FailTestException extends RuntimeException {
+    FailTestException(final String message) {
+        super(message);
+    }
+}

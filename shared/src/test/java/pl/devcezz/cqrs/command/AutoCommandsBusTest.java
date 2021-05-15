@@ -39,12 +39,12 @@ class AutoCommandsBusTest {
     void shouldHandleCommand() {
         Path path = createEmptyTestFile();
         AutoCommandsBus commandsBus = new AutoCommandsBus(
-                Set.of(new ProperCommandHandler(path, "First command handled"))
+                Set.of(new ProperCommandHandler(path, "Command handled"))
         );
 
         commandsBus.send(new HandledCommand());
 
-        assertThat(readFileLines(path)).containsExactlyInAnyOrder("First command handled");
+        assertThat(readFileLines(path)).containsExactlyInAnyOrder("Command handled");
     }
 
     @Test

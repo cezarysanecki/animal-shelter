@@ -2,6 +2,7 @@ package pl.devcezz.cqrs.event;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import pl.devcezz.tests.FailTestException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -122,11 +123,5 @@ class SecondMailEventHandler implements EventHandler<MailEvent> {
         } catch (IOException e) {
             throw new FailTestException("Cannot write message to file: "+ path.getFileName());
         }
-    }
-}
-
-class FailTestException extends RuntimeException {
-    FailTestException(final String message) {
-        super(message);
     }
 }

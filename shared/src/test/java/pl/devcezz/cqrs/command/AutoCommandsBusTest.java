@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
 import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
+import pl.devcezz.tests.FailTestException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -126,11 +127,5 @@ class IncorrectCommandHandler implements CommandHandler<Command> {
     @Override
     public void handle(final Command command) {
 
-    }
-}
-
-class FailTestException extends RuntimeException {
-    FailTestException(final String message) {
-        super(message);
     }
 }

@@ -80,6 +80,17 @@ class AutoCommandsBusTest {
                 .isInstanceOf(NotImplementedCommandInterfaceException.class);
     }
 
+    @Test
+    void shouldThrowExceptionWhenTwoHandlersForOneImplementationOfCommand() {
+        // given
+        FirstCommandHandler firstCommandHandler = new FirstCommandHandler();
+        Handler handler = new Handler();
+
+        // when/then
+        assertThatThrownBy(() -> new AutoCommandsBus(Set.of(firstCommandHandler, handler)))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
     private Path createTestFile() {
         try {
             return tempDir.resolve(String.format("command_handler_%s", System.currentTimeMillis()));
@@ -117,6 +128,12 @@ class FirstCommandHandler implements CommandHandler<FirstCommand>, Serializable 
         } catch (IOException e) {
             throw new EndTestException();
         }
+    }
+}
+class Handler implements CommandHandler<FirstCommand> {
+    @Override
+    public void handle(final FirstCommand command) {
+
     }
 }
 class WrongCommandHandler implements CommandHandler<Command> {

@@ -52,4 +52,8 @@ public class AutoEventBus implements EventsBus {
         handlers.get(event.getClass())
                 .forEach(handler -> handler.handle(event));
     }
+
+    Map<Type, Set<EventHandler>> getHandlers() {
+        return handlers;
+    }
 }

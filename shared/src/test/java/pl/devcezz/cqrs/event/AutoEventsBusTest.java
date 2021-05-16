@@ -39,14 +39,14 @@ class AutoEventsBusTest {
         Path path = TestFiles.createTestFileInDir("auto_events_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoEventsBus autoEventsBus = new AutoEventsBus(
                 Set.of(
-                        new FirstMailEventHandler(path, "Event handled - first"),
-                        new SecondMailEventHandler(path, "Event handled - second")
+                        new FirstMailEventHandler(path),
+                        new SecondMailEventHandler(path)
                 )
         );
 
-        autoEventsBus.publish(new MailEvent());
+        autoEventsBus.publish(new MailEvent("Message"));
 
-        assertThat(TestFiles.readFileLines(path)).containsExactlyInAnyOrder("Event handled - first", "Event handled - second");
+        assertThat(TestFiles.readFileLines(path)).containsExactly("Message", "Message");
     }
 
     @Test
@@ -72,45 +72,48 @@ class AutoEventsBusTest {
     }
 }
 
-class MailEvent implements Event {}
+class MailEvent implements Event {
+
+    final String message;
+
+    MailEvent(final String message) {
+        this.message = message;
+    }
+}
 class ChatEvent implements Event {}
 
 class FirstMailEventHandler implements EventHandler<MailEvent>, Serializable {
 
     private Path path;
-    private String message;
 
     FirstMailEventHandler() {
     }
 
-    FirstMailEventHandler(final Path path, final String message) {
+    FirstMailEventHandler(final Path path) {
         this.path = path;
-        this.message = message;
     }
 
     @Override
     public void handle(final MailEvent event) {
         Optional.ofNullable(path)
-                .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
+                .ifPresent(path -> TestFiles.writeMessageToFile(path, event.message));
     }
 }
 class SecondMailEventHandler implements EventHandler<MailEvent> {
 
     private Path path;
-    private String message;
 
     SecondMailEventHandler() {
     }
 
-    SecondMailEventHandler(final Path path, final String message) {
+    SecondMailEventHandler(final Path path) {
         this.path = path;
-        this.message = message;
     }
 
     @Override
     public void handle(final MailEvent event) {
         Optional.ofNullable(path)
-                .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
+                .ifPresent(path -> TestFiles.writeMessageToFile(path, event.message));
     }
 }
 class EventHandlerWithoutGeneric implements EventHandler {

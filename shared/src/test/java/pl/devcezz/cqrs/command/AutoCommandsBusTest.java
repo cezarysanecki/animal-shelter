@@ -37,12 +37,12 @@ class AutoCommandsBusTest {
     void should_command_handler_handle_command() {
         Path path = TestFiles.createTestFileInDir("auto_commands_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoCommandsBus commandsBus = new AutoCommandsBus(
-                Set.of(new ProperCommandHandler(path, "Command handled"))
+                Set.of(new ProperCommandHandler(path))
         );
 
-        commandsBus.send(new HandledCommand());
+        commandsBus.send(new HandledCommand("Message"));
 
-        assertThat(TestFiles.readFileLines(path)).containsExactlyInAnyOrder("Command handled");
+        assertThat(TestFiles.readFileLines(path)).containsExactlyInAnyOrder("Message");
     }
 
     @Test
@@ -74,26 +74,30 @@ class AutoCommandsBusTest {
     }
 }
 
-class HandledCommand implements Command {}
+class HandledCommand implements Command {
+    final String message;
+
+    HandledCommand(final String message) {
+        this.message = message;
+    }
+}
 class NotHandledCommand implements Command {}
 
 class ProperCommandHandler implements CommandHandler<HandledCommand>, Serializable {
 
     private Path path;
-    private String message;
 
     ProperCommandHandler() {
     }
 
-    ProperCommandHandler(final Path path, final String message) {
+    ProperCommandHandler(final Path path) {
         this.path = path;
-        this.message = message;
     }
 
     @Override
     public void handle(final HandledCommand command) {
         Optional.ofNullable(path)
-                .ifPresent(path -> TestFiles.writeMessageToFile(path, message));
+                .ifPresent(path -> TestFiles.writeMessageToFile(path, command.message));
     }
 }
 class RedundantCommandHandler implements CommandHandler<HandledCommand> {

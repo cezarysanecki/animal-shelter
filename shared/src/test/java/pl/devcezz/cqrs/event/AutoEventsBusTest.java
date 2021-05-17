@@ -2,9 +2,9 @@ package pl.devcezz.cqrs.event;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import pl.devcezz.cqrs.exception.NoHandlerForEventException;
-import pl.devcezz.cqrs.exception.NotImplementedEventHandlerInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedEventInterfaceException;
+import pl.devcezz.cqrs.exception.event.NoHandlerForEventException;
+import pl.devcezz.cqrs.exception.event.NotImplementedEventHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.event.NotImplementedEventInterfaceException;
 import pl.devcezz.tests.TestFiles;
 
 import java.io.Serializable;

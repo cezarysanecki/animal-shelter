@@ -2,9 +2,9 @@ package pl.devcezz.cqrs.command;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
-import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
+import pl.devcezz.cqrs.exception.command.NoHandlerForCommandException;
+import pl.devcezz.cqrs.exception.command.NotImplementedCommandHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.command.NotImplementedCommandInterfaceException;
 import pl.devcezz.tests.TestFiles;
 
 import java.io.Serializable;

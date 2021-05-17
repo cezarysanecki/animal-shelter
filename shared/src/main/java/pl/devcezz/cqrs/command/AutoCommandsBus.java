@@ -1,8 +1,8 @@
 package pl.devcezz.cqrs.command;
 
-import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
-import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.command.NoHandlerForCommandException;
+import pl.devcezz.cqrs.exception.command.NotImplementedCommandInterfaceException;
+import pl.devcezz.cqrs.exception.command.NotImplementedCommandHandlerInterfaceException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

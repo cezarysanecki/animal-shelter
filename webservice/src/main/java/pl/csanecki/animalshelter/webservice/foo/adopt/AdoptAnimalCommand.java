@@ -8,7 +8,7 @@ public class AdoptAnimalCommand implements Command {
 
     public final UUID id;
 
-    AdoptAnimalCommand(final UUID id) {
+    public AdoptAnimalCommand(final UUID id) {
         this.id = id;
     }
 }

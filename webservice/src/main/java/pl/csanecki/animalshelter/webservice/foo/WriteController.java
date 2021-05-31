@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.webservice.web.write;
+package pl.csanecki.animalshelter.webservice.foo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

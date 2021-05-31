@@ -13,6 +13,6 @@ public class AddAnimalCommandHandler implements CommandHandler<AddAnimalCommand>
 
     @Override
     public void handle(final AddAnimalCommand command) {
-
+        repository.registerAnimal(command);
     }
 }

@@ -1,11 +1,11 @@
 package pl.csanecki.animalshelter.webservice.model;
 
+import io.vavr.collection.List;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
 import pl.csanecki.animalshelter.domain.model.AnimalKind;
 
 import java.time.Instant;
-import java.util.List;
 
 public class AnimalFixture {
 

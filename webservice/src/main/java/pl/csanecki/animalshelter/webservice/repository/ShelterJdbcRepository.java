@@ -5,16 +5,9 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.transaction.annotation.Transactional;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
-import pl.csanecki.animalshelter.domain.command.AddAnimalCommand;
 import pl.csanecki.animalshelter.domain.service.ShelterRepository;
-
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;
@@ -25,27 +18,6 @@ public class ShelterJdbcRepository implements ShelterRepository {
 
     public ShelterJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Override
-    @Transactional
-    public long registerAnimal(AddAnimalCommand command) {
-        KeyHolder holder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS
-            );
-            preparedStatement.setString(1, command.getAnimalName());
-            preparedStatement.setString(2, command.getAnimalKind().name());
-            preparedStatement.setInt(3, command.getAnimalAge());
-            return preparedStatement;
-        }, holder);
-
-        return Option.of(holder.getKey())
-                .map(Number::longValue)
-                .getOrElseThrow(() -> { throw new DatabaseRuntimeError("Cannot get id for admitted animal"); });
     }
 
     @Override
@@ -62,14 +34,5 @@ public class ShelterJdbcRepository implements ShelterRepository {
     public List<AnimalShortInfo> getAnimalsInfo() {
         return List.ofAll(jdbcTemplate.query("SELECT * FROM animals", new BeanPropertyRowMapper<>(AnimalEntity.class)))
                 .map(AnimalEntity::toAnimalShortInfo);
-    }
-
-    @Override
-    public void updateAdoptedAtToNow(long animalId) {
-        int rowAffected = jdbcTemplate.update("UPDATE animals SET adoptedAt = NOW() WHERE id = ? AND adoptedAt IS NULL", animalId);
-
-        if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + animalId);
-        }
     }
 }

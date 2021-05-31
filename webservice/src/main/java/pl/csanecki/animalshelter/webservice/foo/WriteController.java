@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.csanecki.animalshelter.webservice.foo.add.AddAnimalCommand;
+import pl.csanecki.animalshelter.webservice.foo.adopt.AdoptAnimalCommand;
 import pl.devcezz.cqrs.command.CommandsBus;
 
 import java.util.UUID;
@@ -43,8 +44,10 @@ class WriteController {
     }
 
     @PostMapping("/{uuid}/adopt")
-    ResponseEntity<Void> adoptAnimal(@PathVariable String uuid) {
-        commandsBus.send(new AdoptAnimalCommand(uuid));
+    ResponseEntity<Void> adoptAnimal(@PathVariable UUID uuid) {
+        commandsBus.send(
+                new AdoptAnimalCommand(uuid)
+        );
 
         return ResponseEntity.ok().build();
     }

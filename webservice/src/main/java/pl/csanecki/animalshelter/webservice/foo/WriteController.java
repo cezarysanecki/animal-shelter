@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.csanecki.animalshelter.webservice.web.addanimal.AddAnimalCommand;
-import pl.csanecki.animalshelter.webservice.web.adoptanimal.AdoptAnimalCommand;
+import pl.csanecki.animalshelter.webservice.foo.add.AddAnimalCommand;
 import pl.devcezz.cqrs.command.CommandsBus;
 
 import java.util.UUID;
@@ -26,12 +25,19 @@ class WriteController {
     }
 
     @PostMapping
-    ResponseEntity<Void> acceptIntoShelter(@RequestBody AddAnimalCommand command) {
-        commandsBus.send(command);
+    ResponseEntity<Void> acceptIntoShelter(@RequestBody AddAnimalRequest request) {
+        commandsBus.send(
+                new AddAnimalCommand(
+                        request.id,
+                        request.name,
+                        request.kind,
+                        request.age
+                )
+        );
 
         return ResponseEntity.created(
                 ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                        .buildAndExpand(command.getUuid())
+                        .buildAndExpand(request.id)
                         .toUri()
         ).build();
     }

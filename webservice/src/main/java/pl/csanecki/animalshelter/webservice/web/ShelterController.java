@@ -1,5 +1,7 @@
 package pl.csanecki.animalshelter.webservice.web;
 
+import io.vavr.collection.List;
+import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,32 +10,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.csanecki.animalshelter.domain.animal.AnimalDetails;
 import pl.csanecki.animalshelter.domain.animal.AnimalShortInfo;
-import pl.csanecki.animalshelter.domain.service.ShelterService;
-
-import java.util.List;
+import pl.csanecki.animalshelter.domain.service.ShelterRepository;
 
 @RestController
 @RequestMapping("/shelter/animals")
 public class ShelterController {
 
-    private final ShelterService shelterService;
+    private final ShelterRepository shelterRepository;
 
     @Autowired
-    public ShelterController(ShelterService shelterService) {
-        this.shelterService = shelterService;
+    public ShelterController(ShelterRepository shelterRepository) {
+        this.shelterRepository = shelterRepository;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AnimalDetails> getAnimalDetails(@PathVariable long id) {
-        AnimalDetails animalDetails = shelterService.getAnimalDetails(id);
+        Option<AnimalDetails> animalDetails = shelterRepository.getAnimalDetails(id);
 
-        return ResponseEntity.ok(animalDetails);
+        return ResponseEntity.ok(animalDetails.getOrElseThrow(IllegalArgumentException::new));
     }
 
     @GetMapping
-    public ResponseEntity<List<AnimalShortInfo>> getAnimals() {
-        List<AnimalShortInfo> animals = shelterService.getAnimalsInfo();
+    public ResponseEntity getAnimals() {
+        List<AnimalShortInfo> animalsInfo = shelterRepository.getAnimalsInfo();
 
-        return ResponseEntity.ok(animals);
+        return ResponseEntity.ok(animalsInfo.asJava());
     }
 }

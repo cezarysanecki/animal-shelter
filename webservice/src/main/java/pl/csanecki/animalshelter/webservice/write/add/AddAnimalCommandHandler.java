@@ -1,6 +1,6 @@
-package pl.csanecki.animalshelter.webservice.foo.add;
+package pl.csanecki.animalshelter.webservice.write.add;
 
-import pl.csanecki.animalshelter.webservice.foo.ShelterWriteRepository;
+import pl.csanecki.animalshelter.webservice.write.ShelterWriteRepository;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 public class AddAnimalCommandHandler implements CommandHandler<AddAnimalCommand> {

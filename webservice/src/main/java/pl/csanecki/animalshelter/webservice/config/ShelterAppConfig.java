@@ -3,8 +3,8 @@ package pl.csanecki.animalshelter.webservice.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.csanecki.animalshelter.webservice.foo.ShelterJdbcWriteRepository;
-import pl.csanecki.animalshelter.webservice.foo.ShelterWriteRepository;
+import pl.csanecki.animalshelter.webservice.write.ShelterJdbcWriteRepository;
+import pl.csanecki.animalshelter.webservice.write.ShelterWriteRepository;
 
 @Configuration(proxyBeanMethods = false)
 public class ShelterAppConfig {

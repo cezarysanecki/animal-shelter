@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.webservice.foo.add;
+package pl.csanecki.animalshelter.webservice.write.add;
 
 import pl.devcezz.cqrs.command.Command;
 

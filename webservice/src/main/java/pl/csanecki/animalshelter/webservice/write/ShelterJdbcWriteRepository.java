@@ -1,8 +1,8 @@
-package pl.csanecki.animalshelter.webservice.foo;
+package pl.csanecki.animalshelter.webservice.write;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import pl.csanecki.animalshelter.webservice.foo.add.AddAnimalCommand;
+import pl.csanecki.animalshelter.webservice.write.add.AddAnimalCommand;
 import pl.csanecki.animalshelter.webservice.repository.DatabaseRuntimeError;
 
 import java.util.UUID;

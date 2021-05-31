@@ -1,6 +1,6 @@
-package pl.csanecki.animalshelter.webservice.foo;
+package pl.csanecki.animalshelter.webservice.write;
 
-import pl.csanecki.animalshelter.webservice.foo.add.AddAnimalCommand;
+import pl.csanecki.animalshelter.webservice.write.add.AddAnimalCommand;
 
 import java.util.UUID;
 

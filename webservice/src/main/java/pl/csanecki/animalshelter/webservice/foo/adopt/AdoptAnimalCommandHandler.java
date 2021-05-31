@@ -7,7 +7,7 @@ public class AdoptAnimalCommandHandler implements CommandHandler<AdoptAnimalComm
 
     private final ShelterWriteRepository repository;
 
-    AdoptAnimalCommandHandler(final ShelterWriteRepository repository) {
+    public AdoptAnimalCommandHandler(final ShelterWriteRepository repository) {
         this.repository = repository;
     }
 

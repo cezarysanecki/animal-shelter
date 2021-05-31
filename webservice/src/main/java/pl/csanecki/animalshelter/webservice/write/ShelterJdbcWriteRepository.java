@@ -19,8 +19,8 @@ public class ShelterJdbcWriteRepository implements ShelterWriteRepository {
     @Transactional
     public void registerAnimal(AddAnimalCommand command) {
         int rowAffected = jdbcTemplate.update(
-                "INSERT INTO animals(name, kind, age) VALUES(?, ?, ?)",
-                command.name, command.kind, command.age
+                "INSERT INTO animals(name, kind, age, uuid) VALUES(?, ?, ?, ?)",
+                command.name, command.kind, command.age, command.id.toString()
         );
 
         if (rowAffected == 0) {

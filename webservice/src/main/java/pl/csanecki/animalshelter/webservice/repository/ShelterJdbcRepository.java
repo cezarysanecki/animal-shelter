@@ -24,7 +24,7 @@ public class ShelterJdbcRepository implements ShelterRepository {
     public Option<AnimalDetails> getAnimalDetails(long animalId) {
         return Try.ofSupplier(() -> of(
                 jdbcTemplate.queryForObject("SELECT * FROM animals WHERE id = ?",
-                new BeanPropertyRowMapper<>(AnimalEntity.class),
+                BeanPropertyRowMapper.newInstance(AnimalEntity.class),
                 animalId))
         ).getOrElse(none())
                 .map(AnimalEntity::toAnimalDetails);

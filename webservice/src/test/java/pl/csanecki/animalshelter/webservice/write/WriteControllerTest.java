@@ -1,7 +1,5 @@
 package pl.csanecki.animalshelter.webservice.write;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,6 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;

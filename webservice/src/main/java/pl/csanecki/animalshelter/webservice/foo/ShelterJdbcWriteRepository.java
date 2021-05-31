@@ -33,7 +33,7 @@ public class ShelterJdbcWriteRepository implements ShelterWriteRepository {
         int rowAffected = jdbcTemplate.update("UPDATE animals SET adoptedAt = NOW() WHERE uuid = ? AND adoptedAt IS NULL", uuid);
 
         if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + animalId);
+            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + uuid);
         }
     }
 }

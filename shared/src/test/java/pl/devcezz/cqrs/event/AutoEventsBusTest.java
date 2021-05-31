@@ -21,20 +21,6 @@ class AutoEventsBusTest {
     Path tempDir;
 
     @Test
-    void should_properly_set_events_bus() {
-        FirstMailEventHandler firstMailEventHandler = new FirstMailEventHandler();
-        SecondMailEventHandler secondMailEventHandler = new SecondMailEventHandler();
-        AutoEventsBus autoEventsBus = new AutoEventsBus(
-                Set.of(firstMailEventHandler, secondMailEventHandler)
-        );
-
-        var handlers = autoEventsBus.getHandlers();
-
-        assertThat(handlers.get(MailEvent.class)).containsExactlyInAnyOrder(firstMailEventHandler, secondMailEventHandler);
-        assertThat(handlers.get(ChatEvent.class)).isNull();
-    }
-
-    @Test
     void should_event_handler_handle_event() {
         Path path = TestFiles.createTestFileInDir("auto_events_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoEventsBus autoEventsBus = new AutoEventsBus(
@@ -101,10 +87,7 @@ class FirstMailEventHandler implements EventHandler<MailEvent>, Serializable {
 }
 class SecondMailEventHandler implements EventHandler<MailEvent> {
 
-    private Path path;
-
-    SecondMailEventHandler() {
-    }
+    private final Path path;
 
     SecondMailEventHandler(final Path path) {
         this.path = path;

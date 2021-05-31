@@ -21,19 +21,6 @@ class AutoCommandsBusTest {
     Path tempDir;
 
     @Test
-    void should_properly_set_commands_bus() {
-        ProperCommandHandler properCommandHandler = new ProperCommandHandler();
-        AutoCommandsBus commandsBus = new AutoCommandsBus(
-                Set.of(properCommandHandler)
-        );
-
-        var handlers = commandsBus.getHandlers();
-
-        assertThat(handlers.get(HandledCommand.class)).isEqualTo(properCommandHandler);
-        assertThat(handlers.get(NotHandledCommand.class)).isNull();
-    }
-
-    @Test
     void should_command_handler_handle_command() {
         Path path = TestFiles.createTestFileInDir("auto_commands_bus_test_%s" + System.currentTimeMillis(), tempDir);
         AutoCommandsBus commandsBus = new AutoCommandsBus(

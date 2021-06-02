@@ -1,13 +1,12 @@
 package pl.devcezz.cqrs.command;
 
-import pl.devcezz.cqrs.exception.NoHandlerForCommandException;
-import pl.devcezz.cqrs.exception.NotImplementedCommandInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedCommandHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.command.NoHandlerForCommandException;
+import pl.devcezz.cqrs.exception.command.NotImplementedCommandHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.command.NotImplementedCommandInterfaceException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -53,9 +52,5 @@ public class AutoCommandsBus implements CommandsBus {
         return Optional.ofNullable(argument)
                 .filter(not(type -> Command.class.equals(argument)))
                 .filter(type -> Command.class.isAssignableFrom((Class<?>) type));
-    }
-
-    Map<Type, CommandHandler> getHandlers() {
-        return new HashMap<>(handlers);
     }
 }

@@ -2,9 +2,9 @@ package pl.devcezz.cqrs.event;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import pl.devcezz.cqrs.exception.NoHandlerForEventException;
-import pl.devcezz.cqrs.exception.NotImplementedEventHandlerInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedEventInterfaceException;
+import pl.devcezz.cqrs.exception.event.NoHandlerForEventException;
+import pl.devcezz.cqrs.exception.event.NotImplementedEventHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.event.NotImplementedEventInterfaceException;
 import pl.devcezz.tests.TestFiles;
 
 import java.io.Serializable;
@@ -19,20 +19,6 @@ class AutoEventsBusTest {
 
     @TempDir
     Path tempDir;
-
-    @Test
-    void should_properly_set_events_bus() {
-        FirstMailEventHandler firstMailEventHandler = new FirstMailEventHandler();
-        SecondMailEventHandler secondMailEventHandler = new SecondMailEventHandler();
-        AutoEventsBus autoEventsBus = new AutoEventsBus(
-                Set.of(firstMailEventHandler, secondMailEventHandler)
-        );
-
-        var handlers = autoEventsBus.getHandlers();
-
-        assertThat(handlers.get(MailEvent.class)).containsExactlyInAnyOrder(firstMailEventHandler, secondMailEventHandler);
-        assertThat(handlers.get(ChatEvent.class)).isNull();
-    }
 
     @Test
     void should_event_handler_handle_event() {
@@ -101,10 +87,7 @@ class FirstMailEventHandler implements EventHandler<MailEvent>, Serializable {
 }
 class SecondMailEventHandler implements EventHandler<MailEvent> {
 
-    private Path path;
-
-    SecondMailEventHandler() {
-    }
+    private final Path path;
 
     SecondMailEventHandler(final Path path) {
         this.path = path;

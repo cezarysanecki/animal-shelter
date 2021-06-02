@@ -1,8 +1,8 @@
 package pl.devcezz.cqrs.event;
 
-import pl.devcezz.cqrs.exception.NoHandlerForEventException;
-import pl.devcezz.cqrs.exception.NotImplementedEventInterfaceException;
-import pl.devcezz.cqrs.exception.NotImplementedEventHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.event.NoHandlerForEventException;
+import pl.devcezz.cqrs.exception.event.NotImplementedEventHandlerInterfaceException;
+import pl.devcezz.cqrs.exception.event.NotImplementedEventInterfaceException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -54,9 +54,5 @@ public class AutoEventsBus implements EventsBus {
                 .ifPresentOrElse(handlers -> handlers.forEach(
                         handler -> handler.handle(event)
                 ), () -> { throw new NoHandlerForEventException(event); });
-    }
-
-    Map<Type, Set<EventHandler>> getHandlers() {
-        return handlers;
     }
 }

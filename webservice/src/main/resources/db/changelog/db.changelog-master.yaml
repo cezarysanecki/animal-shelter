@@ -55,3 +55,20 @@ databaseChangeLog:
               - column:
                   name: adoptedAt
                   type: DATETIME
+
+  - changeSet:
+      id: add-uuid-column-to-animals
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: animals
+      changes:
+        - addColumn:
+            tableName: animals
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: UUID

@@ -23,7 +23,7 @@ public class ShelterJdbcWriteRepository implements ShelterWriteRepository {
                 command.name, command.kind, command.age, command.id.toString());
 
         if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Cannot get id for admitted animal");
+            throw new DatabaseRuntimeError("Cannot insert animal: " + command.id);
         }
     }
 
@@ -34,7 +34,7 @@ public class ShelterJdbcWriteRepository implements ShelterWriteRepository {
                 uuid.toString());
 
         if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Someone has updated adopted at for animal in the meantime, animal: " + uuid);
+            throw new DatabaseRuntimeError("Cannot adopt animal: " + uuid);
         }
     }
 }

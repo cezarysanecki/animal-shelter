@@ -20,21 +20,21 @@ public class ShelterJdbcWriteRepository implements ShelterWriteRepository {
     public void registerAnimal(AddAnimalCommand command) {
         int rowAffected = jdbcTemplate.update(
                 "INSERT INTO animals(name, kind, age, uuid) VALUES(?, ?, ?, ?)",
-                command.name, command.kind, command.age, command.id.toString());
+                command.name, command.kind, command.age, command.animalId.toString());
 
         if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Cannot insert animal: " + command.id);
+            throw new DatabaseRuntimeError("Cannot insert animal of id: " + command.animalId);
         }
     }
 
     @Override
-    public void updateAdoptedAtToNow(UUID uuid) {
+    public void updateAdoptedAtToNow(UUID animalId) {
         int rowAffected = jdbcTemplate.update(
                 "UPDATE animals SET adoptedAt = NOW() WHERE uuid = ? AND adoptedAt IS NULL",
-                uuid.toString());
+                animalId.toString());
 
         if (rowAffected == 0) {
-            throw new DatabaseRuntimeError("Cannot adopt animal: " + uuid);
+            throw new DatabaseRuntimeError("Cannot adopt animal of id: " + animalId);
         }
     }
 }

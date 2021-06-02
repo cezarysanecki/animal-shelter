@@ -29,7 +29,7 @@ class WriteController {
     ResponseEntity<Void> acceptIntoShelter(@RequestBody AddAnimalRequest request) {
         commandsBus.send(
                 new AddAnimalCommand(
-                        request.id,
+                        request.animalId,
                         request.name,
                         request.kind,
                         request.age
@@ -38,7 +38,7 @@ class WriteController {
 
         return ResponseEntity.created(
                 ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                        .buildAndExpand(request.id)
+                        .buildAndExpand(request.animalId)
                         .toUri()
         ).build();
     }
@@ -55,13 +55,13 @@ class WriteController {
 
 class AddAnimalRequest {
 
-    final UUID id;
+    final UUID animalId;
     final String name;
     final String kind;
     final int age;
 
     AddAnimalRequest(final String name, final String kind, final int age) {
-        this.id = UUID.randomUUID();
+        this.animalId = UUID.randomUUID();
         this.name = name;
         this.kind = kind;
         this.age = age;

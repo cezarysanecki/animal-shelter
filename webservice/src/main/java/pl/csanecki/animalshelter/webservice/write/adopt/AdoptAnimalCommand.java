@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class AdoptAnimalCommand implements Command {
 
-    public final UUID id;
+    public final UUID animalId;
 
-    public AdoptAnimalCommand(final UUID id) {
-        this.id = id;
+    public AdoptAnimalCommand(final UUID animalId) {
+        this.animalId = animalId;
     }
 }

@@ -13,6 +13,6 @@ public class AdoptAnimalCommandHandler implements CommandHandler<AdoptAnimalComm
 
     @Override
     public void handle(final AdoptAnimalCommand command) {
-        repository.updateAdoptedAtToNow(command.id);
+        repository.updateAdoptedAtToNow(command.animalId);
     }
 }

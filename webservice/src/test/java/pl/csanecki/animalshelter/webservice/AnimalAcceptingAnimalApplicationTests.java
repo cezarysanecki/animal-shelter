@@ -14,10 +14,10 @@ import pl.csanecki.animalshelter.webservice.config.ShelterAppConfig;
 
 import javax.sql.DataSource;
 
-@SpringBootTest(classes = AnimalShelterApplicationTests.Config.class)
+@SpringBootTest(classes = AnimalAcceptingAnimalApplicationTests.Config.class)
 @ActiveProfiles("container")
 @Testcontainers
-class AnimalShelterApplicationTests {
+class AnimalAcceptingAnimalApplicationTests {
 
 	@Container
 	private static final MySQLContainer DB_CONTAINER = new MySQLContainer()

@@ -1,5 +1,7 @@
 package pl.csanecki.animalshelter.___;
 
+import pl.csanecki.animalshelter.___.species.AddSpeciesCommand;
+import pl.csanecki.animalshelter.___.species.Species;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 class AddingSpecies implements CommandHandler<AddSpeciesCommand> {
@@ -12,6 +14,12 @@ class AddingSpecies implements CommandHandler<AddSpeciesCommand> {
 
     @Override
     public void handle(final AddSpeciesCommand command) {
-        Species species = Species.of(command.getSpecies());
+        Species species = new Species(command.getSpecies());
+
+        if (shelterRepository.contains(species)) {
+            throw new IllegalArgumentException("Species " + species.getValue() + " already exists");
+        }
+
+        shelterRepository.save(species);
     }
 }

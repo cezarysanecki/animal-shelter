@@ -32,7 +32,7 @@ import static pl.csanecki.animalshelter.webservice.model.AnimalFixture.anyAnimal
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ShelterController.class)
 @ContextConfiguration(classes = MockMvcConfig.class)
-class ShelterControllerTest {
+class AcceptingAnimalControllerTest {
 
     long animalId = anyAnimalId();
 

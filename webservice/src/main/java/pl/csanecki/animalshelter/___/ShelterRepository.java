@@ -1,10 +1,16 @@
 package pl.csanecki.animalshelter.___;
 
-import io.vavr.collection.List;
+import pl.csanecki.animalshelter.___.species.Species;
 
 interface ShelterRepository {
 
-    List<Species> findAllSpecies();
+    boolean contains(Species species);
 
     void save(Species species);
+
+    void save(Animal animal);
+
+    AnimalsInShelter queryForAnimalsInShelter();
+
+    Shelter queryForShelter();
 }

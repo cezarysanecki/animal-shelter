@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.webservice;
+package pl.csanecki.animalshelter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

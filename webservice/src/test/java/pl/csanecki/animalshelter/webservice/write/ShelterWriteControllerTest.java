@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.csanecki.animalshelter.webservice.WriteController;
 import pl.devcezz.cqrs.command.CommandsBus;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(WriteController.class)
 @ContextConfiguration(classes = MockMvcConfig.class)
-class WriteControllerTest {
+class ShelterWriteControllerTest {
 
     @Test
     void should_admit_animal_to_shelter(@Autowired MockMvc mockMvc) throws Exception {

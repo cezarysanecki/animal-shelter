@@ -4,16 +4,16 @@ import java.util.UUID;
 
 public final class AnimalId {
 
-    private final UUID animalId;
+    private final UUID value;
 
-    public AnimalId(final UUID animalId) {
-        if (animalId == null) {
+    public AnimalId(final UUID value) {
+        if (value == null) {
             throw new IllegalArgumentException("AnimalId cannot be null");
         }
-        this.animalId = animalId;
+        this.value = value;
     }
 
-    public UUID getAnimalId() {
-        return animalId;
+    public UUID getValue() {
+        return value;
     }
 }

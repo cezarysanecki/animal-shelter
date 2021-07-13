@@ -7,11 +7,8 @@ import java.util.UUID;
 public class AcceptAnimalCommand implements Command {
 
     private final UUID animalId;
-
     private final String name;
-
     private final String species;
-
     private final int age;
 
     public AcceptAnimalCommand(final UUID animalId, final String name, final String species, final int age) {

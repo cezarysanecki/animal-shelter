@@ -10,7 +10,7 @@ public class AddSpeciesCommand implements Command {
         this.species = species;
     }
 
-    public String getSpecies() {
+    String getSpecies() {
         return species;
     }
 }

@@ -3,7 +3,12 @@ package pl.csanecki.animalshelter.___;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.csanecki.animalshelter.___.animal.Animal;
+import pl.csanecki.animalshelter.___.animal.AnimalsInShelter;
+import pl.csanecki.animalshelter.___.animal.Shelter;
+import pl.csanecki.animalshelter.___.animal.ShelterRepository;
 import pl.csanecki.animalshelter.___.species.Species;
+import pl.csanecki.animalshelter.___.species.SpeciesRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +16,7 @@ import java.util.UUID;
 import static io.vavr.collection.List.ofAll;
 import static java.util.stream.Collectors.toList;
 
-class ShelterDatabaseRepository implements ShelterRepository {
+class ShelterDatabaseRepository implements ShelterRepository, SpeciesRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

@@ -1,25 +1,26 @@
-package pl.csanecki.animalshelter.___;
+package pl.csanecki.animalshelter.___.species;
 
 import pl.csanecki.animalshelter.___.species.AddSpeciesCommand;
 import pl.csanecki.animalshelter.___.species.Species;
+import pl.csanecki.animalshelter.___.species.SpeciesRepository;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 class AddingSpecies implements CommandHandler<AddSpeciesCommand> {
 
-    private final ShelterRepository shelterRepository;
+    private final SpeciesRepository speciesRepository;
 
-    AddingSpecies(final ShelterRepository shelterRepository) {
-        this.shelterRepository = shelterRepository;
+    AddingSpecies(final SpeciesRepository speciesRepository) {
+        this.speciesRepository = speciesRepository;
     }
 
     @Override
     public void handle(final AddSpeciesCommand command) {
         Species species = new Species(command.getSpecies());
 
-        if (shelterRepository.contains(species)) {
+        if (speciesRepository.contains(species)) {
             throw new IllegalArgumentException("Species " + species.getValue() + " already exists");
         }
 
-        shelterRepository.save(species);
+        speciesRepository.save(species);
     }
 }

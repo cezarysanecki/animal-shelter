@@ -1,4 +1,4 @@
-package pl.csanecki.animalshelter.___;
+package pl.csanecki.animalshelter.___.animal;
 
 import io.vavr.collection.List;
 

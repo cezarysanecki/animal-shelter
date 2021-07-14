@@ -1,21 +1,22 @@
-package pl.csanecki.animalshelter.___;
+package pl.csanecki.animalshelter.___.animal;
 
+import io.vavr.API;
 import io.vavr.control.Try;
-import pl.csanecki.animalshelter.___.animal.AcceptAnimalCommand;
+import pl.csanecki.animalshelter.___.species.SpeciesRepository;
 import pl.devcezz.cqrs.command.CommandHandler;
 import pl.devcezz.cqrs.event.Event;
 
-import static io.vavr.API.$;
-import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
 
 class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
 
     private final ShelterRepository shelterRepository;
+    private final SpeciesRepository speciesRepository;
 
-    AcceptingAnimal(final ShelterRepository shelterRepository) {
+    AcceptingAnimal(final ShelterRepository shelterRepository, final SpeciesRepository speciesRepository) {
         this.shelterRepository = shelterRepository;
+        this.speciesRepository = speciesRepository;
     }
 
     @Override
@@ -27,7 +28,7 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
                 command.getAge()
         );
 
-        if (!shelterRepository.contains(animal.getSpecies())) {
+        if (!speciesRepository.contains(animal.getSpecies())) {
             throw new IllegalArgumentException("Cannot accept animal of species: " + animal.getSpecies().getValue());
         }
     }
@@ -38,9 +39,9 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
             Shelter shelter = prepareShelter();
             Event result = shelter.accept(animal, currentAnimals);
             return Match(result).of(
-                    Case($(instanceOf(AddingAnimalRejected.class)), this::publishEvent),
-                    Case($(instanceOf(AddingAnimalWarned.class)), this::saveAndPublishEvent),
-                    Case($(instanceOf(AddingAnimalSucceeded.class)), this::saveAndPublishEvent)
+                    API.Case(API.$(instanceOf(AddingAnimalRejected.class)), this::publishEvent),
+                    API.Case(API.$(instanceOf(AddingAnimalWarned.class)), this::saveAndPublishEvent),
+                    API.Case(API.$(instanceOf(AddingAnimalSucceeded.class)), this::saveAndPublishEvent)
             );
         });
     }

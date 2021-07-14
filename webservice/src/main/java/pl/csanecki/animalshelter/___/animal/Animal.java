@@ -1,6 +1,5 @@
-package pl.csanecki.animalshelter.___;
+package pl.csanecki.animalshelter.___.animal;
 
-import pl.csanecki.animalshelter.___.animal.AnimalId;
 import pl.csanecki.animalshelter.___.species.Species;
 
 import java.util.UUID;
@@ -23,15 +22,15 @@ public final class Animal {
         return animalId;
     }
 
-    Name getName() {
+    public Name getName() {
         return name;
     }
 
-    Species getSpecies() {
+    public Species getSpecies() {
         return species;
     }
 
-    Age getAge() {
+    public Age getAge() {
         return age;
     }
 }
@@ -47,7 +46,7 @@ final class Name {
         this.value = value.trim();
     }
 
-    String getValue() {
+    public String getValue() {
         return value;
     }
 }
@@ -63,7 +62,7 @@ final class Age {
         this.value = value;
     }
 
-    int getValue() {
+    public int getValue() {
         return value;
     }
 }

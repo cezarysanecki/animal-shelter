@@ -1,8 +1,10 @@
 package pl.csanecki.animalshelter.___.species;
 
+import io.vavr.collection.Set;
+
 public interface SpeciesRepository {
 
-    boolean contains(Species species);
+    Set<Species> findAllSpecies();
 
     void save(Species species);
 }

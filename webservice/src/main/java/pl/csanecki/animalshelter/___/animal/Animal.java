@@ -1,28 +1,30 @@
 package pl.csanecki.animalshelter.___.animal;
 
+import pl.csanecki.animalshelter.___.animal.vo.AnimalAge;
+import pl.csanecki.animalshelter.___.animal.vo.AnimalName;
 import pl.csanecki.animalshelter.___.species.Species;
 
 import java.util.UUID;
 
 public final class Animal {
 
-    private final AnimalId animalId;
-    private final Name name;
+    private final AnimalId id;
+    private final AnimalName name;
     private final Species species;
-    private final Age age;
+    private final AnimalAge age;
 
-    Animal(final UUID id, final String name, final String species, final int age) {
-        this.animalId = new AnimalId(id);
-        this.name = new Name(name);
+    public Animal(final UUID id, final String name, final String species, final int age) {
+        this.id = new AnimalId(id);
+        this.name = new AnimalName(name);
         this.species = new Species(species);
-        this.age = new Age(age);
+        this.age = new AnimalAge(age);
     }
 
-    AnimalId getAnimalId() {
-        return animalId;
+    public AnimalId getId() {
+        return id;
     }
 
-    public Name getName() {
+    public AnimalName getName() {
         return name;
     }
 
@@ -30,39 +32,7 @@ public final class Animal {
         return species;
     }
 
-    public Age getAge() {
+    public AnimalAge getAge() {
         return age;
-    }
-}
-
-final class Name {
-
-    private final String value;
-
-    Name(final String value) {
-        if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        this.value = value.trim();
-    }
-
-    public String getValue() {
-        return value;
-    }
-}
-
-final class Age {
-
-    private final int value;
-
-    Age(final int value) {
-        if (value < 0) {
-            throw new IllegalArgumentException("Age cannot be negative");
-        }
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
     }
 }

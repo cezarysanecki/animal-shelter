@@ -1,20 +1,18 @@
 package pl.csanecki.animalshelter.___;
 
-import org.springframework.dao.EmptyResultDataAccessException;
+import io.vavr.collection.Set;
+import io.vavr.collection.Stream;
+import io.vavr.control.Option;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.csanecki.animalshelter.___.animal.Animal;
-import pl.csanecki.animalshelter.___.animal.AnimalsInShelter;
-import pl.csanecki.animalshelter.___.animal.Shelter;
+import pl.csanecki.animalshelter.___.animal.ShelterAnimal;
 import pl.csanecki.animalshelter.___.animal.ShelterRepository;
+import pl.csanecki.animalshelter.___.animal.vo.ShelterLimits;
 import pl.csanecki.animalshelter.___.species.Species;
 import pl.csanecki.animalshelter.___.species.SpeciesRepository;
 
-import java.util.List;
 import java.util.UUID;
-
-import static io.vavr.collection.List.ofAll;
-import static java.util.stream.Collectors.toList;
 
 class ShelterDatabaseRepository implements ShelterRepository, SpeciesRepository {
 
@@ -25,17 +23,13 @@ class ShelterDatabaseRepository implements ShelterRepository, SpeciesRepository 
     }
 
     @Override
-    public boolean contains(final Species species) {
-        try {
-            jdbcTemplate.queryForObject(
-                    "SELECT s.* FROM shelter_species s where s.value = ?",
-                    new BeanPropertyRowMapper<>(SpeciesRow.class),
-                    species.getValue());
-        } catch (EmptyResultDataAccessException e) {
-            return false;
-        }
-
-        return true;
+    public Set<Species> findAllSpecies() {
+        return Stream.ofAll(
+                jdbcTemplate.query(
+                        "SELECT s.* FROM shelter_species",
+                        new BeanPropertyRowMapper<>(SpeciesRow.class)))
+                .map(SpeciesRow::toSpecies)
+                .toSet();
     }
 
     @Override
@@ -47,6 +41,7 @@ class ShelterDatabaseRepository implements ShelterRepository, SpeciesRepository 
                 species.getValue());
     }
 
+
     @Override
     public void save(Animal animal) {
         jdbcTemplate.update("" +
@@ -57,46 +52,25 @@ class ShelterDatabaseRepository implements ShelterRepository, SpeciesRepository 
     }
 
     @Override
-    public AnimalsInShelter queryForAnimalsInShelter() {
-        return new AnimalsInShelter(ofAll(
-                findAnimalsInShelter()
-                        .stream()
-                        .map(AnimalRow::toAnimal)
-                        .collect(toList())
-        ));
-    }
-
-    private List<AnimalRow> findAnimalsInShelter() {
-        return jdbcTemplate.query(
-                "SELECT a.name, a.species, a.age FROM shelter_animal a WHERE a.adoptedAt = NULL",
-                new BeanPropertyRowMapper<>(AnimalRow.class));
+    public ShelterLimits queryForShelterLimits() {
+        return Option.of(
+                jdbcTemplate.queryForObject(
+                    "SELECT c.capacity, c.safeThreshold FROM shelter_config c",
+                    new BeanPropertyRowMapper<>(ShelterLimitsRow.class)
+                ))
+                .map(ShelterLimitsRow::toShelterLimits)
+                .getOrElseThrow(IllegalArgumentException::new);
     }
 
     @Override
-    public Shelter queryForShelter() {
-        return findShelter()
-                .toShelter();
-    }
-
-    private ShelterRow findShelter() {
-        return jdbcTemplate.queryForObject(
-                "SELECT c.capacity, c.safeThreshold FROM shelter_config c",
-                new BeanPropertyRowMapper<>(ShelterRow.class));
-    }
-}
-
-class ShelterRow {
-
-    private final int capacity;
-    private final int safeThreshold;
-
-    ShelterRow(final int capacity, final int safeThreshold) {
-        this.capacity = capacity;
-        this.safeThreshold = safeThreshold;
-    }
-
-    Shelter toShelter() {
-        return new Shelter(capacity, safeThreshold);
+    public Set<ShelterAnimal> queryForAnimalsInShelter() {
+        return Stream.ofAll(
+                jdbcTemplate.query(
+                    "SELECT a.id, a.name, a.species, a.age FROM shelter_animal a WHERE a.adoptedAt = NULL",
+                    new BeanPropertyRowMapper<>(ShelterAnimalRow.class)
+                ))
+                .map(ShelterAnimalRow::toShelterAnimal)
+                .toSet();
     }
 }
 
@@ -107,21 +81,36 @@ class SpeciesRow {
     SpeciesRow(final String value) {
         this.value = value;
     }
+
+    Species toSpecies() {
+        return new Species(value);
+    }
 }
 
-class AnimalRow {
+class ShelterLimitsRow {
 
-    private final String name;
-    private final String species;
-    private final int age;
+    private final int capacity;
+    private final int safeThreshold;
 
-    AnimalRow(final String name, final String species, final int age) {
-        this.name = name;
-        this.species = species;
-        this.age = age;
+    ShelterLimitsRow(final int capacity, final int safeThreshold) {
+        this.capacity = capacity;
+        this.safeThreshold = safeThreshold;
     }
 
-    Animal toAnimal() {
-        return new Animal(UUID.randomUUID(), name, species, age);
+    ShelterLimits toShelterLimits() {
+        return new ShelterLimits(capacity, safeThreshold);
+    }
+}
+
+class ShelterAnimalRow {
+
+    private final UUID id;
+
+    ShelterAnimalRow(final UUID id) {
+        this.id = id;
+    }
+
+    ShelterAnimal toShelterAnimal() {
+        return new ShelterAnimal(id);
     }
 }

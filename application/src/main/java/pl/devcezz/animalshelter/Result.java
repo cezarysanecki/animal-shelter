@@ -2,9 +2,7 @@ package pl.devcezz.animalshelter;
 
 public abstract class Result {
 
-    public final static class Success extends Result {
-
-    }
+    public final static class Success extends Result {}
 
     public final static class Rejection extends Result {
 

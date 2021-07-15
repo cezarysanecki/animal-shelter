@@ -2,23 +2,17 @@ package pl.devcezz.animalshelter.animal;
 
 import pl.devcezz.cqrs.event.Event;
 
-import java.time.Instant;
-import java.util.UUID;
-
 public interface AnimalEvent extends Event {
 
     class AcceptingAnimalFailed implements AnimalEvent {
-        private final UUID eventId = UUID.randomUUID();
-        private final Instant when;
         private final String reason;
 
-        private AcceptingAnimalFailed(final Instant when, final String reason) {
-            this.when = when;
+        private AcceptingAnimalFailed(final String reason) {
             this.reason = reason;
         }
 
-        public static AcceptingAnimalFailed acceptingAnimalRejectedNow(String reason) {
-            return new AcceptingAnimalFailed(Instant.now(), reason);
+        public static AcceptingAnimalFailed acceptingAnimalRejected(String reason) {
+            return new AcceptingAnimalFailed(reason);
         }
 
         public String getReason() {
@@ -27,30 +21,20 @@ public interface AnimalEvent extends Event {
     }
 
     class AcceptingAnimalWarned implements AnimalEvent {
-        private final UUID eventId = UUID.randomUUID();
-        private final Instant when;
-        private final String message;
 
-        private AcceptingAnimalWarned(final Instant when, final String message) {
-            this.when = when;
-            this.message = message;
-        }
+        private AcceptingAnimalWarned() {}
 
-        public static AcceptingAnimalWarned acceptingAnimalWarnedNow(String message) {
-            return new AcceptingAnimalWarned(Instant.now(), message);
+        public static AcceptingAnimalWarned acceptingAnimalWarned() {
+            return new AcceptingAnimalWarned();
         }
     }
 
     class AcceptingAnimalSucceeded implements AnimalEvent {
-        private final UUID eventId = UUID.randomUUID();
-        private final Instant when;
 
-        private AcceptingAnimalSucceeded(final Instant when) {
-            this.when = when;
-        }
+        private AcceptingAnimalSucceeded() {}
 
-        public static AcceptingAnimalSucceeded acceptingAnimalSucceededNow() {
-            return new AcceptingAnimalSucceeded(Instant.now());
+        public static AcceptingAnimalSucceeded acceptingAnimalSucceeded() {
+            return new AcceptingAnimalSucceeded();
         }
     }
 }

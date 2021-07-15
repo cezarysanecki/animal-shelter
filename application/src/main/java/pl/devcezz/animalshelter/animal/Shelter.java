@@ -1,9 +1,11 @@
 package pl.devcezz.animalshelter.animal;
 
 import io.vavr.collection.Set;
-import pl.devcezz.animalshelter.animal.vo.ShelterAnimal;
-import pl.devcezz.animalshelter.animal.vo.ShelterLimits;
 import pl.devcezz.cqrs.event.Event;
+
+import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed.acceptingAnimalRejected;
+import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded.acceptingAnimalSucceeded;
+import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned.acceptingAnimalWarned;
 
 class Shelter {
 
@@ -21,11 +23,11 @@ class Shelter {
     Event accept(Animal animal) {
         if (safeThresholdExceededAfterAccepting(animal)) {
             if (capacityReachedAfterAccepting(animal)) {
-                return AnimalEvent.AcceptingAnimalFailed.acceptingAnimalRejectedNow("Capacity of shelter is exceeded");
+                return acceptingAnimalRejected("Capacity of shelter is exceeded");
             }
-            return AnimalEvent.AcceptingAnimalWarned.acceptingAnimalWarnedNow("Safe threshold of shelter is reached or exceeded");
+            return acceptingAnimalWarned();
         }
-        return AnimalEvent.AcceptingAnimalSucceeded.acceptingAnimalSucceededNow();
+        return acceptingAnimalSucceeded();
     }
 
     private boolean capacityReachedAfterAccepting(Animal animal) {

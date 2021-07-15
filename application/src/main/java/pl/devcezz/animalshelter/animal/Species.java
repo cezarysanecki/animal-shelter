@@ -1,11 +1,11 @@
-package pl.devcezz.animalshelter.animal.vo;
+package pl.devcezz.animalshelter.animal;
 
 import io.vavr.collection.List;
 
-public enum AnimalSpecies {
+public enum Species {
     Dog, Cat;
 
-    public static AnimalSpecies of(String value) {
+    public static Species of(String value) {
         if (value == null) {
             throw new IllegalArgumentException("Animal species cannot be null");
         }
@@ -15,7 +15,7 @@ public enum AnimalSpecies {
             throw new IllegalArgumentException("Animal species cannot be empty");
         }
 
-        return List.of(AnimalSpecies.values())
+        return List.of(Species.values())
                 .find(animalSpecies -> animalSpecies.name().equals(trimmedValue))
                 .getOrElseThrow(() -> new IllegalArgumentException("Cannot accept animal of species: " + trimmedValue));
     }

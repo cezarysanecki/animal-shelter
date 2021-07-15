@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.animal.vo;
+package pl.devcezz.animalshelter.animal;
 
 import java.util.UUID;
 

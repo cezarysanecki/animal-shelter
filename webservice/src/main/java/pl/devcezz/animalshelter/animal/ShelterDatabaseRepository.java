@@ -1,17 +1,10 @@
-package pl.devcezz.animalshelter.infrastructure;
+package pl.devcezz.animalshelter.animal;
 
 import io.vavr.collection.Set;
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.devcezz.animalshelter.animal.Animal;
-import pl.devcezz.animalshelter.animal.AnimalEvent;
-import pl.devcezz.animalshelter.animal.Animals;
-import pl.devcezz.animalshelter.animal.ShelterRepository;
-import pl.devcezz.animalshelter.animal.vo.AnimalId;
-import pl.devcezz.animalshelter.animal.vo.ShelterAnimal;
-import pl.devcezz.animalshelter.animal.vo.ShelterLimits;
 import pl.devcezz.cqrs.event.EventsBus;
 
 import java.util.UUID;

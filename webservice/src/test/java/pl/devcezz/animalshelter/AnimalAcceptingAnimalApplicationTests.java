@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.webservice;
+package pl.devcezz.animalshelter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

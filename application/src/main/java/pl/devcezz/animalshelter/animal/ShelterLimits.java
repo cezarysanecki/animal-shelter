@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.animal.vo;
+package pl.devcezz.animalshelter.animal;
 
 public record ShelterLimits(int capacity, int safeThreshold) {
 

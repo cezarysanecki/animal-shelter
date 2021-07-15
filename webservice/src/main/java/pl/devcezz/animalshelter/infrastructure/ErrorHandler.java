@@ -16,7 +16,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.*;
 
 @ControllerAdvice
-class ErrorHandler extends ResponseEntityExceptionHandler {
+public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -28,7 +28,10 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
         Map<String, List<String>> errors = exception.getBindingResult()
                 .getAllErrors()
                 .stream()
-                .collect(groupingBy(error -> ((FieldError) error).getField(), mapping(DefaultMessageSourceResolvable::getDefaultMessage, toList())));
+                .collect(groupingBy(
+                        error -> ((FieldError) error).getField(),
+                        mapping(DefaultMessageSourceResolvable::getDefaultMessage, toList()))
+                );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }

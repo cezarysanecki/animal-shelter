@@ -12,7 +12,7 @@ import pl.devcezz.cqrs.event.EventsBus;
 import java.util.Set;
 
 @Configuration(proxyBeanMethods = false)
-class CqrsConfig {
+public class CqrsConfig {
 
     @Bean
     CommandsBus commandsBus(Set<CommandHandler> commandHandlers) {

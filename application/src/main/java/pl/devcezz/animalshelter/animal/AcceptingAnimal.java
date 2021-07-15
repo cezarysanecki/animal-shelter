@@ -2,6 +2,9 @@ package pl.devcezz.animalshelter.animal;
 
 import io.vavr.API;
 import pl.devcezz.animalshelter.Result;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 import static io.vavr.API.Match;
@@ -31,27 +34,27 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
 
         Shelter shelter = shelterFactory.create();
         Result result = Match(shelter.accept(animal)).of(
-                API.Case(API.$(instanceOf(AnimalEvent.AcceptingAnimalFailed.class)), this::publishEvent),
-                API.Case(API.$(instanceOf(AnimalEvent.AcceptingAnimalWarned.class)), event -> saveAndPublishEvent(event, animal)),
-                API.Case(API.$(instanceOf(AnimalEvent.AcceptingAnimalSucceeded.class)), event -> saveAndPublishEvent(event, animal)));
+                API.Case(API.$(instanceOf(AcceptingAnimalFailed.class)), this::publishEvent),
+                API.Case(API.$(instanceOf(AcceptingAnimalWarned.class)), event -> saveAndPublishEvent(event, animal)),
+                API.Case(API.$(instanceOf(AcceptingAnimalSucceeded.class)), event -> saveAndPublishEvent(event, animal)));
 
         if (result instanceof Result.Rejection rejection) {
             throw new IllegalArgumentException(rejection.getReason());
         }
     }
 
-    Result publishEvent(AnimalEvent.AcceptingAnimalFailed event) {
+    Result publishEvent(AcceptingAnimalFailed event) {
         animals.publish(event);
         return new Result.Rejection(event.getReason());
     }
 
-    Result saveAndPublishEvent(AnimalEvent.AcceptingAnimalWarned event, Animal animal) {
+    Result saveAndPublishEvent(AcceptingAnimalWarned event, Animal animal) {
         animals.save(animal);
         animals.publish(event);
         return new Result.Success();
     }
 
-    Result saveAndPublishEvent(AnimalEvent.AcceptingAnimalSucceeded event, Animal animal) {
+    Result saveAndPublishEvent(AcceptingAnimalSucceeded event, Animal animal) {
         animals.save(animal);
         animals.publish(event);
         return new Result.Success();

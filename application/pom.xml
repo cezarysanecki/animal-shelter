@@ -7,10 +7,10 @@
         <groupId>pl.csanecki</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>domain</artifactId>
+    <artifactId>application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>domain</name>
-    <description>New way of creating AnimalShelter - domain</description>
+    <name>application</name>
+    <description>New way of creating AnimalShelter - application</description>
 
     <build>
         <plugins>

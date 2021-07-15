@@ -47,7 +47,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: name
+                  name: animalName
                   type: VARCHAR(250)
               - column:
                   constraints:
@@ -57,7 +57,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: age
+                  name: animalAge
                   type: BIGINT
               - column:
                   constraints:

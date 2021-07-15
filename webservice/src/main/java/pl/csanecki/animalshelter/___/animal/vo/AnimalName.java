@@ -1,17 +1,16 @@
 package pl.csanecki.animalshelter.___.animal.vo;
 
-public final class AnimalName {
-
-    private final String value;
+public record AnimalName(String value) {
 
     public AnimalName(final String value) {
-        if (value == null || value.isEmpty()) {
+        if (value == null) {
+            throw new IllegalArgumentException("Animal name cannot be null");
+        }
+
+        String trimmedValue = value.trim();
+        if (trimmedValue.isEmpty()) {
             throw new IllegalArgumentException("Animal name cannot be empty");
         }
-        this.value = value.trim();
-    }
-
-    public String getValue() {
-        return value;
+        this.value = trimmedValue;
     }
 }

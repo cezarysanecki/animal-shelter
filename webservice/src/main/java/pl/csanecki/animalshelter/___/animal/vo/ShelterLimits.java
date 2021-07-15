@@ -1,11 +1,8 @@
 package pl.csanecki.animalshelter.___.animal.vo;
 
-public class ShelterLimits {
+public record ShelterLimits(int capacity, int safeThreshold) {
 
-    private final int capacity;
-    private final int safeThreshold;
-
-    public ShelterLimits(final int capacity, final int safeThreshold) {
+    public ShelterLimits {
         if (capacity < 0) {
             throw new IllegalArgumentException("Shelter capacity cannot be negative");
         }
@@ -15,15 +12,5 @@ public class ShelterLimits {
         if (safeThreshold > capacity) {
             throw new IllegalArgumentException("Safe threshold cannot be larger than capacity");
         }
-        this.capacity = capacity;
-        this.safeThreshold = safeThreshold;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public int getSafeThreshold() {
-        return safeThreshold;
     }
 }

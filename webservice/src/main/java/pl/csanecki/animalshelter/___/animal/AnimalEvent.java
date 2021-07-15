@@ -17,8 +17,12 @@ public interface AnimalEvent extends Event {
             this.reason = reason;
         }
 
-        public static AcceptingAnimalFailed addingAnimalRejectedNow(String reason) {
+        public static AcceptingAnimalFailed acceptingAnimalRejectedNow(String reason) {
             return new AcceptingAnimalFailed(Instant.now(), reason);
+        }
+
+        public String getReason() {
+            return reason;
         }
     }
 
@@ -32,7 +36,7 @@ public interface AnimalEvent extends Event {
             this.message = message;
         }
 
-        public static AcceptingAnimalWarned addingAnimalWarnedNow(String message) {
+        public static AcceptingAnimalWarned acceptingAnimalWarnedNow(String message) {
             return new AcceptingAnimalWarned(Instant.now(), message);
         }
     }
@@ -45,7 +49,7 @@ public interface AnimalEvent extends Event {
             this.when = when;
         }
 
-        public static AcceptingAnimalSucceeded addingAnimalSucceededNow() {
+        public static AcceptingAnimalSucceeded acceptingAnimalSucceededNow() {
             return new AcceptingAnimalSucceeded(Instant.now());
         }
     }

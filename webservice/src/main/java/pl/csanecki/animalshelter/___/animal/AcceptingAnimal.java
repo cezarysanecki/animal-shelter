@@ -1,16 +1,18 @@
 package pl.csanecki.animalshelter.___.animal;
 
+import pl.csanecki.animalshelter.___.Result;
 import pl.csanecki.animalshelter.___.animal.AnimalEvent.AcceptingAnimalFailed;
 import pl.csanecki.animalshelter.___.animal.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.csanecki.animalshelter.___.animal.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.cqrs.command.CommandHandler;
-import pl.devcezz.cqrs.event.Event;
 import pl.devcezz.cqrs.event.EventsBus;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
+import static pl.csanecki.animalshelter.___.Result.Rejection;
+import static pl.csanecki.animalshelter.___.Result.Success;
 
 class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
 
@@ -31,32 +33,37 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
     @Override
     public void handle(final AcceptAnimalCommand command) {
         Animal animal = new Animal(
-                command.getAnimalId(),
-                command.getName(),
-                command.getSpecies(),
-                command.getAge()
+                command.animalId(),
+                command.animalName(),
+                command.animalAge(),
+                command.animalSpecies()
         );
+
         Shelter shelter = shelterFactory.create();
-
-        if (shelter.isSpeciesAcceptable(animal.getSpecies())) {
-            throw new IllegalArgumentException("Cannot accept animal of species: " + animal.getSpecies().getValue());
-        }
-
-        Event result = shelter.accept(animal);
-        Match(result).of(
+        Result result = Match(shelter.accept(animal)).of(
                 Case($(instanceOf(AcceptingAnimalFailed.class)), this::publishEvent),
                 Case($(instanceOf(AcceptingAnimalWarned.class)), event -> saveAndPublishEvent(event, animal)),
-                Case($(instanceOf(AcceptingAnimalSucceeded.class)), event -> saveAndPublishEvent(event, animal))
-        );
+                Case($(instanceOf(AcceptingAnimalSucceeded.class)), event -> saveAndPublishEvent(event, animal)));
+
+        if (result instanceof Rejection rejection) {
+            throw new IllegalArgumentException(rejection.getReason());
+        }
     }
 
-    Event publishEvent(Event event) {
+    Result publishEvent(AcceptingAnimalFailed event) {
         eventsBus.publish(event);
-        return event;
+        return new Rejection(event.getReason());
     }
 
-    Event saveAndPublishEvent(Event event, Animal animal) {
+    Result saveAndPublishEvent(AcceptingAnimalWarned event, Animal animal) {
         shelterRepository.save(animal);
-        return publishEvent(event);
+        eventsBus.publish(event);
+        return new Success();
+    }
+
+    Result saveAndPublishEvent(AcceptingAnimalSucceeded event, Animal animal) {
+        shelterRepository.save(animal);
+        eventsBus.publish(event);
+        return new Success();
     }
 }

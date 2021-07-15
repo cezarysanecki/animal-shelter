@@ -71,8 +71,4 @@ final class Rejection {
     static Rejection withReason(Reason reason) {
         return new Rejection(reason);
     }
-
-    Reason getReason() {
-        return reason;
-    }
 }

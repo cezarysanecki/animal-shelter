@@ -1,6 +1,6 @@
 package pl.csanecki.animalshelter.___.species;
 
-import io.vavr.collection.List;
+import io.vavr.collection.Set;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 class AddingSpecies implements CommandHandler<AddSpeciesCommand> {
@@ -15,11 +15,15 @@ class AddingSpecies implements CommandHandler<AddSpeciesCommand> {
     public void handle(final AddSpeciesCommand command) {
         Species species = new Species(command.getSpecies());
 
-        List<Species> shelterSpecies = speciesRepository.findAllSpecies();
-        if (shelterSpecies.contains(species)) {
+        if (isDuplicated(species)) {
             throw new IllegalArgumentException("Species is already acceptable: " + species.getValue());
         }
 
         speciesRepository.save(species);
+    }
+
+    private boolean isDuplicated(Species species) {
+        Set<Species> shelterSpecies = speciesRepository.findAllSpecies();
+        return shelterSpecies.contains(species);
     }
 }

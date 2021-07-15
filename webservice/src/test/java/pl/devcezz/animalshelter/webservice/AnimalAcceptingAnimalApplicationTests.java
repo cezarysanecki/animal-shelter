@@ -10,7 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import pl.devcezz.animalshelter.webservice.config.ShelterAppConfig;
 
 import javax.sql.DataSource;
 
@@ -34,7 +33,7 @@ class AnimalAcceptingAnimalApplicationTests {
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableAutoConfiguration
-	static class Config extends ShelterAppConfig {
+	static class Config {
 
 		@Bean
 		DataSource dataSource() {

@@ -10,6 +10,7 @@ import pl.devcezz.animalshelter.animal.validation.ShelterSpecies;
 import pl.devcezz.cqrs.command.CommandsBus;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -43,6 +44,6 @@ class ShelterWriteController {
 }
 
 record AcceptAnimalRequest(
-        @NotBlank @Size(min=2, max=25) String name,
-        @NotNull @PositiveOrZero Integer age,
+        @NotBlank @Size(min=2, max=11) String name,
+        @NotNull @PositiveOrZero @Max(30) Integer age,
         @NotBlank @ShelterSpecies String species) {}

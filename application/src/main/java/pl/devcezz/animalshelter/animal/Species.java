@@ -17,6 +17,6 @@ public enum Species {
 
         return List.of(Species.values())
                 .find(animalSpecies -> animalSpecies.name().equals(trimmedValue))
-                .getOrElseThrow(() -> new IllegalArgumentException("Cannot accept animal of species: " + trimmedValue));
+                .getOrElseThrow(() -> new IllegalArgumentException("Animal species cannot be of value " + trimmedValue));
     }
 }

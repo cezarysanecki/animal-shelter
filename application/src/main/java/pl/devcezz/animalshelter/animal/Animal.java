@@ -9,7 +9,7 @@ public final class Animal {
     private final Age age;
     private final Species species;
 
-    public Animal(final UUID id, final String name, final int age, final String species) {
+    public Animal(final UUID id, final String name, final Integer age, final String species) {
         this.id = new AnimalId(id);
         this.name = new Name(name);
         this.age = new Age(age);
@@ -24,8 +24,8 @@ public final class Animal {
             }
 
             String trimmedValue = value.trim();
-            if (trimmedValue.length() < 2 || trimmedValue.length() > 25) {
-                throw new IllegalArgumentException("Animal name must have size between 2 and 25");
+            if (trimmedValue.length() < 2 || trimmedValue.length() > 11) {
+                throw new IllegalArgumentException("Animal name must have size between 2 and 11");
             }
             this.value = trimmedValue;
         }
@@ -39,6 +39,9 @@ public final class Animal {
             }
             if (value < 0) {
                 throw new IllegalArgumentException("Animal age cannot be negative");
+            }
+            if (value > 30) {
+                throw new IllegalArgumentException("Animal age cannot be grater than 30");
             }
         }
     }

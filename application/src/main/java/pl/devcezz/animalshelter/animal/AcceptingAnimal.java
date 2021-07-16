@@ -43,18 +43,18 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
         }
     }
 
-    Result publishEvent(AcceptingAnimalFailed event) {
+    private Result publishEvent(AcceptingAnimalFailed event) {
         animals.publish(event);
         return new Result.Rejection(event.getReason());
     }
 
-    Result saveAndPublishEvent(AcceptingAnimalWarned event, Animal animal) {
+    private Result saveAndPublishEvent(AcceptingAnimalWarned event, Animal animal) {
         animals.save(animal);
         animals.publish(event);
         return new Result.Success();
     }
 
-    Result saveAndPublishEvent(AcceptingAnimalSucceeded event, Animal animal) {
+    private Result saveAndPublishEvent(AcceptingAnimalSucceeded event, Animal animal) {
         animals.save(animal);
         animals.publish(event);
         return new Result.Success();

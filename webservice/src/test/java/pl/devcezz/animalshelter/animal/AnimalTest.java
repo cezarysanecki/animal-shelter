@@ -22,7 +22,7 @@ class AnimalTest {
     ) {
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> buildAnimalWithName(name))
-                .withMessage("Animal name " + reason);
+                .withMessage("name " + reason);
     }
 
     private static Stream<Arguments> incorrectAnimalName() {
@@ -44,7 +44,7 @@ class AnimalTest {
     ) {
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> buildAnimalWithAge(age))
-                .withMessage("Animal age " + reason);
+                .withMessage("age " + reason);
     }
 
     private static Stream<Arguments> incorrectAnimalAge() {
@@ -63,7 +63,7 @@ class AnimalTest {
     ) {
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> buildAnimalWithSpecies(species))
-                .withMessage("Animal species " + reason);
+                .withMessage("species " + reason);
     }
 
     private static Stream<Arguments> incorrectAnimalSpecies() {

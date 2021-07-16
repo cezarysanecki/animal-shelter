@@ -20,12 +20,12 @@ public final class Animal {
 
         public Name(final String value) {
             if (value == null) {
-                throw new IllegalArgumentException("Animal name cannot be null");
+                throw new IllegalArgumentException("name cannot be null");
             }
 
             String trimmedValue = value.trim();
             if (trimmedValue.length() < 2 || trimmedValue.length() > 11) {
-                throw new IllegalArgumentException("Animal name must have size between 2 and 11");
+                throw new IllegalArgumentException("name must have size between 2 and 11");
             }
             this.value = trimmedValue;
         }
@@ -35,13 +35,13 @@ public final class Animal {
 
         public Age {
             if (value == null) {
-                throw new IllegalArgumentException("Animal age cannot be null");
+                throw new IllegalArgumentException("age cannot be null");
             }
             if (value < 0) {
-                throw new IllegalArgumentException("Animal age cannot be negative");
+                throw new IllegalArgumentException("age cannot be negative");
             }
             if (value > 30) {
-                throw new IllegalArgumentException("Animal age cannot be grater than 30");
+                throw new IllegalArgumentException("age cannot be grater than 30");
             }
         }
     }

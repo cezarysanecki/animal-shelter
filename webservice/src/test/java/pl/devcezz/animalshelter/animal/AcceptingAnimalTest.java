@@ -1,5 +1,7 @@
 package pl.devcezz.animalshelter.animal;
 
+import io.vavr.collection.Set;
+import io.vavr.collection.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +25,7 @@ class AcceptingAnimalTest {
     }
 
     @Test
-    void should_() {
+    void should_successfully_handle_accept_animal_command() {
         AcceptAnimalCommand command = new AcceptAnimalCommand(
                 UUID.randomUUID(),
                 "Azor",
@@ -32,5 +34,16 @@ class AcceptingAnimalTest {
         );
 
         acceptingAnimal.handle(command);
+    }
+
+    private Shelter shelter() {
+        Set<ShelterAnimal> shelterAnimals = Stream.of(
+                new ShelterAnimal(new AnimalId(UUID.randomUUID()))
+        ).toSet();
+
+        return new Shelter(
+                new ShelterLimits(3, 2),
+                shelterAnimals
+        );
     }
 }

@@ -1,6 +1,7 @@
 package pl.devcezz.animalshelter.animal;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -64,6 +65,14 @@ class AnimalTest {
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> buildAnimalWithSpecies(species))
                 .withMessage("species " + reason);
+    }
+
+    @DisplayName("Should fail because of null id when creating animal")
+    @Test
+    void should_fail_because_of_null_id_when_creating_animal() {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Animal(null, "Azor", 12, "Dog"))
+                .withMessage("id cannot be null");
     }
 
     private static Stream<Arguments> incorrectAnimalSpecies() {

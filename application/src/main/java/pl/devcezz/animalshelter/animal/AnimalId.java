@@ -6,7 +6,7 @@ public record AnimalId(UUID value) {
 
     public AnimalId {
         if (value == null) {
-            throw new IllegalArgumentException("Animal id cannot be null");
+            throw new IllegalArgumentException("id cannot be null");
         }
     }
 }

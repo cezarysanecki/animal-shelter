@@ -4,6 +4,10 @@ import java.util.UUID;
 
 class AnimalFixture {
 
+    static Animal buildAnimal() {
+        return new Animal(UUID.randomUUID(), "Azor", 5, "Dog");
+    }
+
     static Animal buildAnimal(String name, Integer age, String species) {
         return new Animal(UUID.randomUUID(), name, age, species);
     }

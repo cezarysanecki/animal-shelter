@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
-import static pl.devcezz.animalshelter.animal.AnimalFixture.buildAnimalWithSpecies;
 
 class ShelterLimitsTest {
 

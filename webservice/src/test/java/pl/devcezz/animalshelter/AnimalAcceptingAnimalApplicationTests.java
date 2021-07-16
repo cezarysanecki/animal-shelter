@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import javax.sql.DataSource;
 
@@ -19,7 +20,7 @@ import javax.sql.DataSource;
 class AnimalAcceptingAnimalApplicationTests {
 
 	@Container
-	private static final MySQLContainer DB_CONTAINER = new MySQLContainer()
+	private static final MySQLContainer<?> DB_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.24"))
 			.withUsername("test")
 			.withPassword("test");
 

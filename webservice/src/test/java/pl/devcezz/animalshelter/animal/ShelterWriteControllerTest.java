@@ -6,22 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.devcezz.animalshelter.infrastructure.ErrorHandler;
 import pl.devcezz.cqrs.command.CommandsBus;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 
-import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -30,16 +30,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ShelterWriteControllerTest {
 
     @Test
-    void should_accept_animal_to_shelter(@Autowired MockMvc mockMvc) throws Exception {
+    void should_accept_animal_into_shelter(@Autowired MockMvc mockMvc) throws Exception {
         mockMvc.perform(post("/shelter/animals/accept")
-                .content(animalToAdmit())
+                .content(animalToAccept())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andExpect(header().string(HttpHeaders.LOCATION, matchesPattern(".*/shelter/animals/.*")));
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
-    private String animalToAdmit() throws IOException {
+    @Test
+    void should_reject_acceptance_of_animal_into_shelter(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(post("/shelter/animals/accept")
+                .content("{}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("name.[*]").value("must not be blank"))
+                .andExpect(jsonPath("age.[*]").value("must not be null"))
+                .andExpect(jsonPath("species.[*]").value(containsInAnyOrder("must be one of the species: Cat, Dog", "must not be blank")));
+    }
+
+    private String animalToAccept() throws IOException {
         return Files.readString(Path.of("src/test/resources/animal.json"));
     }
 }
@@ -55,5 +66,10 @@ class MockMvcConfig {
     @Bean
     ShelterWriteController writeController(CommandsBus commandsBus) {
         return new ShelterWriteController(commandsBus);
+    }
+
+    @Bean
+    ErrorHandler errorHandler() {
+        return new ErrorHandler();
     }
 }

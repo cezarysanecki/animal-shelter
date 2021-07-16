@@ -24,16 +24,19 @@ public final class Animal {
             }
 
             String trimmedValue = value.trim();
-            if (trimmedValue.isEmpty()) {
-                throw new IllegalArgumentException("Animal name cannot be empty");
+            if (trimmedValue.length() < 2 || trimmedValue.length() > 25) {
+                throw new IllegalArgumentException("Animal name must have size between 2 and 25");
             }
             this.value = trimmedValue;
         }
     }
 
-    public record Age(int value) {
+    public record Age(Integer value) {
 
         public Age {
+            if (value == null) {
+                throw new IllegalArgumentException("Animal age cannot be null");
+            }
             if (value < 0) {
                 throw new IllegalArgumentException("Animal age cannot be negative");
             }

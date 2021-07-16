@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.devcezz.animalshelter.animal.validation.ShelterSpecies;
 import pl.devcezz.cqrs.command.CommandsBus;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @RestController
@@ -25,12 +28,10 @@ class ShelterWriteController {
     }
 
     @PostMapping("/animals/accept")
-    ResponseEntity<Void> acceptAnimal(@RequestBody AcceptAnimalRequest request) {
-        UUID animalId = UUID.randomUUID();
-
+    ResponseEntity<Void> acceptAnimal(@RequestBody @Valid AcceptAnimalRequest request) {
         commandsBus.send(
                 new AcceptAnimalCommand(
-                        animalId,
+                        UUID.randomUUID(),
                         request.name(),
                         request.species(),
                         request.age()
@@ -41,6 +42,7 @@ class ShelterWriteController {
     }
 }
 
-record AcceptAnimalRequest(@NotBlank String name,
-                           @ShelterSpecies String species,
-                           @PositiveOrZero int age) {}
+record AcceptAnimalRequest(
+        @NotBlank @Size(min=2, max=25) String name,
+        @NotNull @PositiveOrZero Integer age,
+        @NotBlank @ShelterSpecies String species) {}

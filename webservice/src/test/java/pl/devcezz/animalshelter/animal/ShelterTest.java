@@ -39,8 +39,8 @@ class ShelterTest {
     void should_create_failed_event_when_capacity_is_exceeded() {
         Shelter shelter = shelter(shelterLimits(10, 7), 10);
 
-        Event result = shelter.accept(buildAnimal());
+        AcceptingAnimalFailed result = (AcceptingAnimalFailed) shelter.accept(buildAnimal());
 
-        assertThat(result).isInstanceOf(AcceptingAnimalFailed.class);
+        assertThat(result.getReason()).isEqualTo("Capacity of shelter is exceeded");
     }
 }

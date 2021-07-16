@@ -1,7 +1,6 @@
 package pl.devcezz.animalshelter.animal;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -53,14 +52,6 @@ class AnimalTest {
                 Arguments.of(-1, "cannot be negative"),
                 Arguments.of(31, "cannot be grater than 30")
         );
-    }
-
-    @DisplayName("Should fail because of null id when creating animal")
-    @Test
-    void should_fail_because_of_null_id_when_creating_animal() {
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> new Animal(null, "Azor", 12, "Dog"))
-                .withMessage("id cannot be null");
     }
 
     @DisplayName("Should success when creating animal of specified name")

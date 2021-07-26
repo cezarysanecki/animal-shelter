@@ -48,7 +48,7 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public Set<ShelterAnimal> queryForAnimalsInShelter() {
         return Stream.ofAll(
                 jdbcTemplate.query(
-                    "SELECT a.animal_id FROM shelter_animal a WHERE a.adopted_at = NULL",
+                    "SELECT a.animal_id FROM shelter_animal a WHERE a.adopted_at IS NULL",
                     new BeanPropertyRowMapper<>(ShelterAnimalRow.class)
                 ))
                 .map(ShelterAnimalRow::toShelterAnimal)
@@ -76,13 +76,13 @@ class ShelterLimitsRow {
 
 class ShelterAnimalRow {
 
-    UUID id;
+    UUID animal_id;
 
     ShelterAnimal toShelterAnimal() {
-        return new ShelterAnimal(new AnimalId(id));
+        return new ShelterAnimal(new AnimalId(animal_id));
     }
 
-    public void setId(final UUID id) {
-        this.id = id;
+    public void setAnimal_id(final UUID animal_id) {
+        this.animal_id = animal_id;
     }
 }

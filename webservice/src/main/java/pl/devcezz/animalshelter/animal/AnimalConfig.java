@@ -3,6 +3,7 @@ package pl.devcezz.animalshelter.animal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.devcezz.cqrs.event.EventHandler;
 import pl.devcezz.cqrs.event.EventsBus;
 
 @Configuration(proxyBeanMethods = false)
@@ -21,5 +22,20 @@ public class AnimalConfig {
     @Bean
     AcceptingAnimal acceptingAnimal(Animals animals, ShelterFactory shelterFactory) {
         return new AcceptingAnimal(animals, shelterFactory);
+    }
+
+    @Bean
+    EventHandler handleFailedAcceptance() {
+        return new HandleFailedAcceptance();
+    }
+
+    @Bean
+    EventHandler handleWarnedAcceptance() {
+        return new HandleWarnedAcceptance();
+    }
+
+    @Bean
+    EventHandler handleSucceededAcceptance() {
+        return new HandleSucceededAcceptance();
     }
 }

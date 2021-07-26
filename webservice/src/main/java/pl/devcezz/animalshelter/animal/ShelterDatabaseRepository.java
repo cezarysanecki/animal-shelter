@@ -23,9 +23,9 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public void save(Animal animal) {
         jdbcTemplate.update("" +
                         "INSERT INTO shelter_animal " +
-                        "(name, species, age) VALUES " +
-                        "(?, ?, ?)",
-                animal.getName().value(), animal.getSpecies(), animal.getAge().value());
+                        "(name, species, age, animal_id) VALUES " +
+                        "(?, ?, ?, ?)",
+                animal.getName().value(), animal.getSpecies().name(), animal.getAge().value(), animal.getId().value().toString());
     }
 
     @Override
@@ -48,7 +48,7 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public Set<ShelterAnimal> queryForAnimalsInShelter() {
         return Stream.ofAll(
                 jdbcTemplate.query(
-                    "SELECT a.id, a.name, a.species, a.age FROM shelter_animal a WHERE a.adopted_at = NULL",
+                    "SELECT a.animal_id FROM shelter_animal a WHERE a.adopted_at = NULL",
                     new BeanPropertyRowMapper<>(ShelterAnimalRow.class)
                 ))
                 .map(ShelterAnimalRow::toShelterAnimal)
@@ -56,16 +56,33 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 }
 
-record ShelterLimitsRow(int capacity, int safeThreshold) {
+class ShelterLimitsRow {
+
+    int capacity;
+    int safe_threshold;
 
     ShelterLimits toShelterLimits() {
-        return new ShelterLimits(capacity, safeThreshold);
+        return new ShelterLimits(capacity, safe_threshold);
+    }
+
+    public void setCapacity(final int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setSafe_threshold(final int safe_threshold) {
+        this.safe_threshold = safe_threshold;
     }
 }
 
-record ShelterAnimalRow(UUID id) {
+class ShelterAnimalRow {
+
+    UUID id;
 
     ShelterAnimal toShelterAnimal() {
         return new ShelterAnimal(new AnimalId(id));
+    }
+
+    public void setId(final UUID id) {
+        this.id = id;
     }
 }

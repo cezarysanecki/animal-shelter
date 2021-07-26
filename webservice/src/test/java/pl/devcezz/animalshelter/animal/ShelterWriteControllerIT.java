@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ShelterWriteController.class)
 @ContextConfiguration(classes = MockMvcConfig.class)
-class ShelterWriteControllerTest {
+class ShelterWriteControllerIT {
 
     @Test
     void should_accept_animal_into_shelter(@Autowired MockMvc mockMvc) throws Exception {

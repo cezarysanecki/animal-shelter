@@ -11,14 +11,14 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<java.version>15</java.version>
+		<java.version>16</java.version>
 
 		<vavr.version>0.10.3</vavr.version>
 	</properties>
 
 	<modules>
 		<module>webservice</module>
-		<module>domain</module>
+		<module>application</module>
         <module>shared</module>
     </modules>
 

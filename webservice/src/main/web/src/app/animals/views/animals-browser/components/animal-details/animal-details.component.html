@@ -11,7 +11,7 @@
           {{ t('animal-details.kind') + t(animal.translocoKind) }}
         </p>
         <p>
-          {{ t('animal-details.age-desc') + animal.age + ' ' + t('animal-details.age', { age: animal.age }) }}
+          {{ t('animal-details.animalAge-desc') + animal.age + ' ' + t('animal-details.animalAge', { age: animal.age }) }}
         </p>
         <p>
           {{ t('animal-details.admitted') + (animal.admittedAt | date: 'yyyy-MM-dd') }}

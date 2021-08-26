@@ -23,9 +23,9 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public void save(Animal animal) {
         jdbcTemplate.update("" +
                         "INSERT INTO shelter_animal " +
-                        "(name, species, age, animal_id) VALUES " +
+                        "(animal_id, name, species, age) VALUES " +
                         "(?, ?, ?, ?)",
-                animal.getName().value(), animal.getSpecies().name(), animal.getAge().value(), animal.getId().value().toString());
+                animal.getId().value().toString(), animal.getName().value(), animal.getSpecies().name(), animal.getAge().value());
     }
 
     @Override

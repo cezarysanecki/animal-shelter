@@ -23,9 +23,9 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public void save(Animal animal) {
         jdbcTemplate.update("" +
                         "INSERT INTO shelter_animal " +
-                        "(name, species, age, animal_id) VALUES " +
+                        "(animal_id, name, species, age) VALUES " +
                         "(?, ?, ?, ?)",
-                animal.getName().value(), animal.getSpecies().name(), animal.getAge().value(), animal.getId().value().toString());
+                animal.getId().value().toString(), animal.getName().value(), animal.getSpecies().name(), animal.getAge().value());
     }
 
     @Override
@@ -59,30 +59,30 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
 class ShelterLimitsRow {
 
     int capacity;
-    int safe_threshold;
+    int safeThreshold;
 
     ShelterLimits toShelterLimits() {
-        return new ShelterLimits(capacity, safe_threshold);
+        return new ShelterLimits(capacity, safeThreshold);
     }
 
     public void setCapacity(final int capacity) {
         this.capacity = capacity;
     }
 
-    public void setSafe_threshold(final int safe_threshold) {
-        this.safe_threshold = safe_threshold;
+    public void setSafeThreshold(final int safeThreshold) {
+        this.safeThreshold = safeThreshold;
     }
 }
 
 class ShelterAnimalRow {
 
-    UUID animal_id;
+    UUID animalId;
 
     ShelterAnimal toShelterAnimal() {
-        return new ShelterAnimal(new AnimalId(animal_id));
+        return new ShelterAnimal(new AnimalId(animalId));
     }
 
-    public void setAnimal_id(final UUID animal_id) {
-        this.animal_id = animal_id;
+    public void setAnimalId(final UUID animalId) {
+        this.animalId = animalId;
     }
 }

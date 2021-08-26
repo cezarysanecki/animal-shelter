@@ -28,8 +28,8 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
         Animal animal = new Animal(
                 command.animalId(),
                 command.animalName(),
-                command.animalAge(),
-                command.animalSpecies()
+                command.animalSpecies(),
+                command.animalAge()
         );
 
         Shelter shelter = shelterFactory.create();

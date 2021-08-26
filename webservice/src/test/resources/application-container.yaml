@@ -1,8 +1,8 @@
 spring:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-test.yaml
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/animalshelter
-    username: root
-    password: xxx
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:5432}/animalshelter
+    username: test
+    password: test

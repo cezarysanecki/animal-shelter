@@ -4,23 +4,23 @@ import java.util.UUID;
 
 class AnimalFixture {
 
-    static Animal buildAnimal() {
-        return new Animal(UUID.randomUUID(), "Azor", 5, "Dog");
+    static Animal buildAnimal(String name, String species, Integer age) {
+        return new Animal(UUID.randomUUID(), name, species, age);
     }
 
-    static Animal buildAnimal(String name, Integer age, String species) {
-        return new Animal(UUID.randomUUID(), name, age, species);
+    static Animal buildAnimal() {
+        return buildAnimal("Azor", "Dog", 5);
     }
 
     static Animal buildAnimalWithName(String name) {
-        return buildAnimal(name, 5, "Dog");
+        return buildAnimal(name, "Dog", 5);
     }
 
     static Animal buildAnimalWithAge(Integer age) {
-        return buildAnimal("Azor", age, "Dog");
+        return buildAnimal("Azor", "Dog", age);
     }
 
     static Animal buildAnimalWithSpecies(String species) {
-        return buildAnimal("Azor", 5, species);
+        return buildAnimal("Azor", species, 5);
     }
 }

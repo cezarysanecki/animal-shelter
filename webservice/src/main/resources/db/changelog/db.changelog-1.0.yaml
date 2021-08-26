@@ -1,0 +1,99 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_shelter_config
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: shelter_config
+      changes:
+        - createTable:
+            tableName: shelter_config
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: shelter_config_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: capacity
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: safe_threshold
+                  type: INTEGER
+
+  - changeSet:
+      id: insert_shelter_config_values
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_config
+      changes:
+        - insert:
+            tableName: shelter_config
+            columns:
+              - column:
+                  name: capacity
+                  value: 10
+              - column:
+                  name: safe_threshold
+                  value: 7
+
+  - changeSet:
+      id: create_table_shelter_animal
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: shelter_animal
+      changes:
+        - createTable:
+            tableName: shelter_animal
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: shelter_animal_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(11)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: species
+                  type: VARCHAR(25)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: age
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: animal_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: admitted_at
+                  type: DATETIME
+                  defaultValueDate: CURRENT_TIMESTAMP
+              - column:
+                  name: adopted_at
+                  type: DATETIME

@@ -1,5 +1,6 @@
 package pl.devcezz.animalshelter.animal;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public final class Animal {
@@ -60,5 +61,18 @@ public final class Animal {
 
     public Species getSpecies() {
         return species;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Animal animal = (Animal) o;
+        return Objects.equals(id, animal.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -10,11 +10,6 @@ import pl.devcezz.cqrs.event.EventsBus;
 public class AnimalConfig {
 
     @Bean
-    ShelterDatabaseRepository shelterRepository(JdbcTemplate jdbcTemplate, EventsBus eventsBus) {
-        return new ShelterDatabaseRepository(jdbcTemplate, eventsBus);
-    }
-
-    @Bean
     ShelterFactory shelterFactory(ShelterRepository shelterRepository) {
         return new ShelterFactory(shelterRepository);
     }

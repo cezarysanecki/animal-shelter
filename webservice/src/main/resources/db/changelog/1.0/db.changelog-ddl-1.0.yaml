@@ -31,24 +31,6 @@ databaseChangeLog:
                   type: INTEGER
 
   - changeSet:
-      id: insert_shelter_config_values
-      author: devcezz
-      preConditions:
-        - onFail: MARK_RAN
-          tableExists:
-            tableName: shelter_config
-      changes:
-        - insert:
-            tableName: shelter_config
-            columns:
-              - column:
-                  name: capacity
-                  value: 10
-              - column:
-                  name: safe_threshold
-                  value: 7
-
-  - changeSet:
       id: create_table_shelter_animal
       author: devcezz
       preConditions:

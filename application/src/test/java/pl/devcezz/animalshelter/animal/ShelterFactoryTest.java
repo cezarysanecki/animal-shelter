@@ -3,6 +3,7 @@ package pl.devcezz.animalshelter.animal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pl.devcezz.animalshelter.commons.exception.ShelterLimitExceededException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
@@ -38,7 +39,7 @@ class ShelterFactoryTest {
         when(shelterRepository.queryForShelterLimits()).thenReturn(shelterLimits(10, 7));
         when(shelterRepository.queryForAnimalsInShelter()).thenReturn(animals(11));
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(ShelterLimitExceededException.class)
                 .isThrownBy(() -> shelterFactory.create())
                 .withMessage("more animals in shelter than capacity");
     }

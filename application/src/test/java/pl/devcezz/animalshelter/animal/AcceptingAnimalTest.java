@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.commons.exception.AcceptingAnimalRejectedException;
 
 import java.util.UUID;
 
@@ -60,7 +61,7 @@ class AcceptingAnimalTest {
     void should_fail_when_accepting_animal_because_of_running_out_of_space() {
         when(shelterFactory.create()).thenReturn(shelter(shelterLimits(10, 7), 10));
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(AcceptingAnimalRejectedException.class)
                 .isThrownBy(() -> acceptingAnimal.handle(command()));
 
         verify(animals, never()).save(any(Animal.class));

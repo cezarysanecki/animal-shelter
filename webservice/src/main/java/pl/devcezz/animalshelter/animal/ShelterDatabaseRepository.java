@@ -29,6 +29,26 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 
     @Override
+    public Option<ShelterAnimal> findNotAdoptedBy(final AnimalId animalId) {
+        return Option.of(
+                jdbcTemplate.queryForObject(
+                        "SELECT a.animal_id FROM shelter_animal a WHERE a.animal_id = ? AND a.adopted_at IS NULL",
+                        new BeanPropertyRowMapper<>(ShelterAnimalRow.class),
+                        animalId.value().toString()
+                ))
+                .map(ShelterAnimalRow::toShelterAnimal);
+    }
+
+    @Override
+    public void adopt(final ShelterAnimal animal) {
+        jdbcTemplate.update("" +
+                        "UPDATE shelter_animal a" +
+                        "SET a.adopted_at = NOW()" +
+                        "WHERE a.animal_id = ?",
+                animal.animalId().value().toString());
+    }
+
+    @Override
     public void publish(final AnimalEvent event) {
         eventsBus.publish(event);
     }

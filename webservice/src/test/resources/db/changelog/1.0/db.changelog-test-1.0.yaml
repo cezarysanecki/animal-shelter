@@ -12,7 +12,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: capacity
-                  value: 3
+                  value: 2
               - column:
                   name: safe_threshold
                   value: 2

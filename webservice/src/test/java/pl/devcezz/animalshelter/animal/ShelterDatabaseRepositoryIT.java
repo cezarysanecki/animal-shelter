@@ -1,6 +1,5 @@
 package pl.devcezz.animalshelter.animal;
 
-import io.vavr.collection.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,21 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import pl.devcezz.cqrs.event.EventsBus;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
 
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.acceptAnimalCommand;
 import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.animal;
 
-@SpringBootTest(classes = ShelterDatabaseRepositoryIT.Config.class)
+@SpringBootTest(classes = { AnimalConfig.class, ShelterDatabaseRepositoryIT.Config.class })
 @ActiveProfiles("container")
 @Testcontainers
 class ShelterDatabaseRepositoryIT {
@@ -40,24 +46,61 @@ class ShelterDatabaseRepositoryIT {
 
     @Test
     @Transactional
-    @DisplayName("Should fetch animals which are in shelter")
-    void should_fetch_animals_which_are_in_shelter(@Autowired ShelterDatabaseRepository repository) {
-        Animal animal = animal();
-        repository.save(animal);
+    @DisplayName("Should accept animal into shelter without reaching safe threshold")
+    void should_accept_animal_into_shelter_without_reaching_safe_threshold(
+            @Autowired AcceptingAnimal acceptingAnimal,
+            @Autowired EventsBus eventsBus,
+            @Autowired ShelterDatabaseRepository repository
+    ) {
+        AcceptAnimalCommand command = acceptAnimalCommand();
 
-        Set<ShelterAnimal> shelterAnimals = repository.queryForAnimalsInShelter();
+        acceptingAnimal.handle(command);
 
-        assertThat(shelterAnimals).containsOnly(new ShelterAnimal(animal.getId()));
+        verify(eventsBus).publish(isA(AcceptingAnimalSucceeded.class));
+        assertThat(repository.queryForAnimalsInShelter())
+                .containsOnly(new ShelterAnimal(new AnimalId(command.animalId())));
     }
 
     @Test
     @Transactional
-    @DisplayName("Should fetch shelter limits")
-    void should_fetch_shelter_limits(@Autowired ShelterDatabaseRepository repository) {
-        ShelterLimits shelterLimits = repository.queryForShelterLimits();
+    @DisplayName("Should accept animal into shelter reaching safe threshold")
+    void should_accept_animal_into_shelter_reaching_safe_threshold(
+            @Autowired AcceptingAnimal acceptingAnimal,
+            @Autowired EventsBus eventsBus,
+            @Autowired ShelterDatabaseRepository repository
+    ) {
+        addAnimalToShelter(repository);
+        AcceptAnimalCommand command = acceptAnimalCommand();
 
-        assertThat(shelterLimits.safeThreshold()).isEqualTo(7);
-        assertThat(shelterLimits.capacity()).isEqualTo(10);
+        acceptingAnimal.handle(command);
+
+        verify(eventsBus).publish(isA(AcceptingAnimalWarned.class));
+        assertThat(repository.queryForAnimalsInShelter())
+                .contains(new ShelterAnimal(new AnimalId(command.animalId())));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("Should not accept animal into shelter because of reaching limit")
+    void should_not_accept_animal_into_shelter_because_of_reaching_limit(
+            @Autowired AcceptingAnimal acceptingAnimal,
+            @Autowired EventsBus eventsBus,
+            @Autowired ShelterDatabaseRepository repository
+    ) {
+        addAnimalToShelter(repository);
+        addAnimalToShelter(repository);
+        AcceptAnimalCommand command = acceptAnimalCommand();
+
+        assertThatThrownBy(() -> acceptingAnimal.handle(command))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verify(eventsBus).publish(isA(AcceptingAnimalFailed.class));
+        assertThat(repository.queryForAnimalsInShelter())
+                .doesNotContain(new ShelterAnimal(new AnimalId(command.animalId())));
+    }
+
+    private void addAnimalToShelter(ShelterDatabaseRepository repository) {
+        repository.save(animal());
     }
 
     @Configuration(proxyBeanMethods = false)

@@ -41,6 +41,6 @@ class ShelterTest {
 
         AcceptingAnimalFailed result = (AcceptingAnimalFailed) shelter.accept(buildAnimal());
 
-        assertThat(result.getReason()).isEqualTo("Capacity of shelter is exceeded");
+        assertThat(result.getReason()).isEqualTo("not enough space in shelter");
     }
 }

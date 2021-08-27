@@ -23,7 +23,7 @@ class Shelter {
     Event accept(Animal animal) {
         if (safeThresholdExceededAfterAccepting(animal)) {
             if (capacityReachedAfterAccepting(animal)) {
-                return acceptingAnimalRejected("Capacity of shelter is exceeded");
+                return acceptingAnimalRejected("not enough space in shelter");
             }
             return acceptingAnimalWarned();
         }

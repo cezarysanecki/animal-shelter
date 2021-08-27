@@ -1,7 +1,8 @@
 package pl.devcezz.animalshelter.animal;
 
 import io.vavr.API;
-import pl.devcezz.animalshelter.Result;
+import pl.devcezz.animalshelter.commons.exception.AcceptingAnimalRejectedException;
+import pl.devcezz.animalshelter.commons.Result;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
@@ -39,7 +40,7 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
                 API.Case(API.$(instanceOf(AcceptingAnimalSucceeded.class)), event -> saveAndPublishEvent(event, animal)));
 
         if (result instanceof Result.Rejection rejection) {
-            throw new IllegalArgumentException(rejection.getReason());
+            throw new AcceptingAnimalRejectedException(rejection.getReason());
         }
     }
 

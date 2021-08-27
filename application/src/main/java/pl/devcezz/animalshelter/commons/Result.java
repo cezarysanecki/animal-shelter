@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter;
+package pl.devcezz.animalshelter.commons;
 
 public abstract class Result {
 

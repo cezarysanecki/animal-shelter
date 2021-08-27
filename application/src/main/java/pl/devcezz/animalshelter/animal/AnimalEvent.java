@@ -48,5 +48,9 @@ public interface AnimalEvent extends Event {
         public static AdoptedAnimalSucceeded adoptingAnimalSucceeded(final AnimalId animalId) {
             return new AdoptedAnimalSucceeded(animalId);
         }
+
+        public AnimalId getAnimalId() {
+            return animalId;
+        }
     }
 }

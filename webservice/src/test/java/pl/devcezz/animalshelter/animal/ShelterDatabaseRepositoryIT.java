@@ -14,6 +14,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import pl.devcezz.animalshelter.commons.exception.AcceptingAnimalRejectedException;
 import pl.devcezz.cqrs.event.EventsBus;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
@@ -92,7 +93,7 @@ class ShelterDatabaseRepositoryIT {
         AcceptAnimalCommand command = acceptAnimalCommand();
 
         assertThatThrownBy(() -> acceptingAnimal.handle(command))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(AcceptingAnimalRejectedException.class);
 
         verify(eventsBus).publish(isA(AcceptingAnimalFailed.class));
         assertThat(repository.queryForAnimalsInShelter())

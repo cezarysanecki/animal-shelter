@@ -4,7 +4,7 @@ import io.vavr.control.Option;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AdoptedAnimalSucceeded;
+import pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,7 +40,7 @@ class AdoptingAnimalTest {
         adoptingAnimal.handle(command(animalId));
 
         verify(animals).adopt(animalInShelter);
-        verify(animals).publish(isA(AdoptedAnimalSucceeded.class));
+        verify(animals).publish(isA(AnimalAdoptionSucceeded.class));
     }
 
     @DisplayName("Should fail adoption when not found animal in shelter")

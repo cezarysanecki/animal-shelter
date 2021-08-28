@@ -38,15 +38,15 @@ public interface AnimalEvent extends Event {
         }
     }
 
-    class AdoptedAnimalSucceeded implements AnimalEvent {
+    class AnimalAdoptionSucceeded implements AnimalEvent {
         private final AnimalId animalId;
 
-        private AdoptedAnimalSucceeded(final AnimalId animalId) {
+        private AnimalAdoptionSucceeded(final AnimalId animalId) {
             this.animalId = animalId;
         }
 
-        public static AdoptedAnimalSucceeded adoptingAnimalSucceeded(final AnimalId animalId) {
-            return new AdoptedAnimalSucceeded(animalId);
+        public static AnimalAdoptionSucceeded adoptingAnimalSucceeded(final AnimalId animalId) {
+            return new AnimalAdoptionSucceeded(animalId);
         }
 
         public AnimalId getAnimalId() {

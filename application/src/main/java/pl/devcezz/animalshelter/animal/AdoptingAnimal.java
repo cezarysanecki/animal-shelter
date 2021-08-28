@@ -3,7 +3,7 @@ package pl.devcezz.animalshelter.animal;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.cqrs.command.CommandHandler;
 
-import static pl.devcezz.animalshelter.animal.AnimalEvent.AdoptedAnimalSucceeded.adoptingAnimalSucceeded;
+import static pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded.adoptingAnimalSucceeded;
 
 class AdoptingAnimal implements CommandHandler<AdoptAnimalCommand> {
 

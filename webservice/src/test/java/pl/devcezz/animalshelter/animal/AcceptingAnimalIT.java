@@ -30,10 +30,10 @@ import static org.mockito.Mockito.verify;
 import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.acceptAnimalCommand;
 import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.animal;
 
-@SpringBootTest(classes = { AnimalConfig.class, ShelterDatabaseRepositoryIT.Config.class })
+@SpringBootTest(classes = { AnimalConfig.class, AcceptingAnimalIT.Config.class })
 @ActiveProfiles("container")
 @Testcontainers
-class ShelterDatabaseRepositoryIT {
+class AcceptingAnimalIT {
 
     @Container
     private static final MySQLContainer<?> DB_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.24"))

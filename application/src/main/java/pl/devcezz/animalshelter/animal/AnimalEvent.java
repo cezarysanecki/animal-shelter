@@ -11,7 +11,7 @@ public interface AnimalEvent extends Event {
             this.reason = reason;
         }
 
-        public static AcceptingAnimalFailed acceptingAnimalRejected(String reason) {
+        public static AcceptingAnimalFailed acceptingAnimalRejected(final String reason) {
             return new AcceptingAnimalFailed(reason);
         }
 
@@ -35,6 +35,22 @@ public interface AnimalEvent extends Event {
 
         public static AcceptingAnimalSucceeded acceptingAnimalSucceeded() {
             return new AcceptingAnimalSucceeded();
+        }
+    }
+
+    class AnimalAdoptionSucceeded implements AnimalEvent {
+        private final AnimalId animalId;
+
+        private AnimalAdoptionSucceeded(final AnimalId animalId) {
+            this.animalId = animalId;
+        }
+
+        public static AnimalAdoptionSucceeded adoptingAnimalSucceeded(final AnimalId animalId) {
+            return new AnimalAdoptionSucceeded(animalId);
+        }
+
+        public AnimalId getAnimalId() {
+            return animalId;
         }
     }
 }

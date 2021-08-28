@@ -41,6 +41,12 @@ class ShelterWriteController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/animals/adopt")
+    ResponseEntity<Void> adoptAnimal(@RequestBody @NotBlank String animalId) {
+        commandsBus.send(new AdoptAnimalCommand(UUID.fromString(animalId)));
+        return ResponseEntity.ok().build();
+    }
 }
 
 record AcceptAnimalRequest(

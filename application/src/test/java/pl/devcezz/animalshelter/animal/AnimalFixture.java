@@ -23,4 +23,8 @@ class AnimalFixture {
     static Animal buildAnimalWithSpecies(String species) {
         return buildAnimal("Azor", species, 5);
     }
+
+    static AnimalId anyAnimalId() {
+        return new AnimalId(UUID.randomUUID());
+    }
 }

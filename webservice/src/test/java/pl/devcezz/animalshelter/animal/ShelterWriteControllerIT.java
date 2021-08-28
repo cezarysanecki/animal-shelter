@@ -50,6 +50,15 @@ class ShelterWriteControllerIT {
                 .andExpect(jsonPath("species.[*]").value(containsInAnyOrder("must be one of the species: Cat, Dog", "must not be blank")));
     }
 
+    @Test
+    void should_adopt_animal(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(post("/shelter/animals/adopt")
+                .content("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
     private String animalToAccept() throws IOException {
         return Files.readString(Path.of("src/test/resources/animal.json"));
     }

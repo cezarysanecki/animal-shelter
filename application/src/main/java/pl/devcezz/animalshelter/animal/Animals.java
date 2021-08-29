@@ -11,6 +11,8 @@ public interface Animals {
 
     void save(Animal animal);
 
+    void update(Animal animal);
+
     Option<ShelterAnimal> findBy(AnimalId animalId);
 
     void adopt(AvailableAnimal animal);

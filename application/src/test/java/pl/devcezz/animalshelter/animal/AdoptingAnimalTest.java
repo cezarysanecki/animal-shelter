@@ -34,19 +34,19 @@ class AdoptingAnimalTest {
     @DisplayName("Should successfully adopt animal which is in shelter")
     @Test
     void should_successfully_adopt_animal_which_is_in_shelter() {
-        ShelterAnimal animalInShelter = new ShelterAnimal(animalId);
-        when(animals.findNotAdoptedBy(animalId)).thenReturn(Option.of(animalInShelter));
+        AvailableAnimal availableAnimal = new AvailableAnimal(animalId);
+        when(animals.findBy(animalId)).thenReturn(Option.of(availableAnimal));
 
         adoptingAnimal.handle(command(animalId));
 
-        verify(animals).adopt(animalInShelter);
+        verify(animals).adopt(availableAnimal);
         verify(animals).publish(isA(AnimalAdoptionSucceeded.class));
     }
 
     @DisplayName("Should fail adoption when not found animal in shelter")
     @Test
     void should_fail_adoption_when_not_found_animal_in_shelter() {
-        when(animals.findNotAdoptedBy(animalId)).thenReturn(Option.none());
+        when(animals.findBy(animalId)).thenReturn(Option.none());
 
         assertThatThrownBy(() -> adoptingAnimal.handle(command(animalId)))
             .isInstanceOf(NotFoundAnimalInShelterException.class);

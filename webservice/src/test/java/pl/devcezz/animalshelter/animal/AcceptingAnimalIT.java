@@ -59,7 +59,7 @@ class AcceptingAnimalIT {
 
         verify(eventsBus).publish(isA(AcceptingAnimalSucceeded.class));
         assertThat(repository.queryForAnimalsInShelter())
-                .containsOnly(new ShelterAnimal(new AnimalId(command.animalId())));
+                .containsOnly(new AvailableAnimal(new AnimalId(command.animalId())));
     }
 
     @Test
@@ -77,7 +77,7 @@ class AcceptingAnimalIT {
 
         verify(eventsBus).publish(isA(AcceptingAnimalWarned.class));
         assertThat(repository.queryForAnimalsInShelter())
-                .contains(new ShelterAnimal(new AnimalId(command.animalId())));
+                .contains(new AvailableAnimal(new AnimalId(command.animalId())));
     }
 
     @Test
@@ -97,7 +97,7 @@ class AcceptingAnimalIT {
 
         verify(eventsBus).publish(isA(AcceptingAnimalFailed.class));
         assertThat(repository.queryForAnimalsInShelter())
-                .doesNotContain(new ShelterAnimal(new AnimalId(command.animalId())));
+                .doesNotContain(new AvailableAnimal(new AnimalId(command.animalId())));
     }
 
     private void addAnimalToShelter(ShelterDatabaseRepository repository) {

@@ -14,11 +14,14 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import pl.devcezz.animalshelter.animal.command.AcceptAnimalCommand;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
 import pl.devcezz.animalshelter.commons.exception.AcceptingAnimalRejectedException;
 import pl.devcezz.cqrs.event.EventsBus;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalSucceeded;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalFailed;
 
 import javax.sql.DataSource;
 

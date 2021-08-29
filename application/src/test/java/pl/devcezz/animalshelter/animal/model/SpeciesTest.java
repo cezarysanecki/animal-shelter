@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.animal;
+package pl.devcezz.animalshelter.animal.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
-import static pl.devcezz.animalshelter.animal.AnimalFixture.buildAnimalWithSpecies;
+import static pl.devcezz.animalshelter.animal.model.AnimalFixture.buildAnimalWithSpecies;
 
 class SpeciesTest {
 

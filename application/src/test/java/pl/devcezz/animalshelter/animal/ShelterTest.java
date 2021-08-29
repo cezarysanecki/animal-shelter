@@ -2,13 +2,13 @@ package pl.devcezz.animalshelter.animal;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalFailed;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalSucceeded;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.cqrs.event.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pl.devcezz.animalshelter.animal.AnimalFixture.buildAnimal;
+import static pl.devcezz.animalshelter.animal.model.AnimalFixture.buildAnimal;
 import static pl.devcezz.animalshelter.animal.ShelterFixture.shelter;
 import static pl.devcezz.animalshelter.animal.ShelterFixture.shelterLimits;
 

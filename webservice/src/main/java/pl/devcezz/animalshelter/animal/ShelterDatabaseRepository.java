@@ -6,6 +6,13 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent;
+import pl.devcezz.animalshelter.animal.model.AdoptedAnimal;
+import pl.devcezz.animalshelter.animal.model.Animal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterLimits;
 import pl.devcezz.cqrs.event.EventsBus;
 
 import java.util.UUID;
@@ -29,7 +36,21 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
                         "INSERT INTO shelter_animal " +
                         "(animal_id, name, species, age) VALUES " +
                         "(?, ?, ?, ?)",
-                animal.getId().value().toString(), animal.getName().value(), animal.getSpecies().name(), animal.getAge().value());
+                animal.getId().value().toString(),
+                animal.getName().value(),
+                animal.getSpecies().name(),
+                animal.getAge().value());
+    }
+
+    @Override
+    public void update(final Animal animal) {
+        jdbcTemplate.update("UPDATE shelter_animal a " +
+                        "SET a.name = ?, a.species = ?, a.age = ? " +
+                        "WHERE a.animal_id = ?",
+                animal.getName().value(),
+                animal.getSpecies().name(),
+                animal.getAge().value(),
+                animal.getId().value().toString());
     }
 
     @Override

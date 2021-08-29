@@ -1,5 +1,10 @@
 package pl.devcezz.animalshelter.animal;
 
+import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.animal.model.AdoptedAnimal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterAnimal;
 import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.cqrs.command.CommandHandler;
@@ -8,7 +13,7 @@ import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded.adoptingAnimalSucceeded;
+import static pl.devcezz.animalshelter.animal.event.AnimalEvent.AnimalAdoptionSucceeded.adoptingAnimalSucceeded;
 
 class AdoptingAnimal implements CommandHandler<AdoptAnimalCommand> {
 

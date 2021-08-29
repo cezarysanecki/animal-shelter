@@ -10,11 +10,11 @@ import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned.
 class Shelter {
 
     private final ShelterLimits shelterLimits;
-    private final Set<ShelterAnimal> shelterAnimals;
+    private final Set<AvailableAnimal> shelterAnimals;
 
     Shelter(
             final ShelterLimits shelterLimits,
-            final Set<ShelterAnimal> shelterAnimals
+            final Set<AvailableAnimal> shelterAnimals
     ) {
         this.shelterLimits = shelterLimits;
         this.shelterAnimals = shelterAnimals;

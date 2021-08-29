@@ -13,7 +13,7 @@ class ShelterFactory {
 
     public Shelter create() {
         ShelterLimits shelterLimits = shelterRepository.queryForShelterLimits();
-        Set<ShelterAnimal> shelterAnimals = shelterRepository.queryForAnimalsInShelter();
+        Set<AvailableAnimal> shelterAnimals = shelterRepository.queryForAnimalsInShelter();
 
         if (shelterLimits.capacity() < shelterAnimals.length()) {
             throw new ShelterLimitExceededException("more animals in shelter than capacity");

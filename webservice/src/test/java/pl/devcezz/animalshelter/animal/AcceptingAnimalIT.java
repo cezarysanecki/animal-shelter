@@ -58,7 +58,7 @@ class AcceptingAnimalIT {
         acceptingAnimal.handle(command);
 
         verify(eventsBus).publish(isA(AcceptingAnimalSucceeded.class));
-        assertThat(repository.queryForAnimalsInShelter())
+        assertThat(repository.queryForAvailableAnimals())
                 .containsOnly(new AvailableAnimal(new AnimalId(command.animalId())));
     }
 
@@ -76,7 +76,7 @@ class AcceptingAnimalIT {
         acceptingAnimal.handle(command);
 
         verify(eventsBus).publish(isA(AcceptingAnimalWarned.class));
-        assertThat(repository.queryForAnimalsInShelter())
+        assertThat(repository.queryForAvailableAnimals())
                 .contains(new AvailableAnimal(new AnimalId(command.animalId())));
     }
 
@@ -96,7 +96,7 @@ class AcceptingAnimalIT {
                 .isInstanceOf(AcceptingAnimalRejectedException.class);
 
         verify(eventsBus).publish(isA(AcceptingAnimalFailed.class));
-        assertThat(repository.queryForAnimalsInShelter())
+        assertThat(repository.queryForAvailableAnimals())
                 .doesNotContain(new AvailableAnimal(new AnimalId(command.animalId())));
     }
 

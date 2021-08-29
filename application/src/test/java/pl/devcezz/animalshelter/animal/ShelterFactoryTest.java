@@ -28,7 +28,7 @@ class ShelterFactoryTest {
     @Test
     void should_create_proper_shelter() {
         when(shelterRepository.queryForShelterLimits()).thenReturn(shelterLimits(10, 7));
-        when(shelterRepository.queryForAnimalsInShelter()).thenReturn(availableAnimals(6));
+        when(shelterRepository.queryForAvailableAnimals()).thenReturn(availableAnimals(6));
 
         shelterFactory.create();
     }
@@ -37,7 +37,7 @@ class ShelterFactoryTest {
     @Test
     void should_fail_when_there_are_more_animals_than_space_in_shelter() {
         when(shelterRepository.queryForShelterLimits()).thenReturn(shelterLimits(10, 7));
-        when(shelterRepository.queryForAnimalsInShelter()).thenReturn(availableAnimals(11));
+        when(shelterRepository.queryForAvailableAnimals()).thenReturn(availableAnimals(11));
 
         assertThatExceptionOfType(ShelterLimitExceededException.class)
                 .isThrownBy(() -> shelterFactory.create())

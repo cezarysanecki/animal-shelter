@@ -69,7 +69,7 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 
     @Override
-    public Set<AvailableAnimal> queryForAnimalsInShelter() {
+    public Set<AvailableAnimal> queryForAvailableAnimals() {
         return Stream.ofAll(
                 jdbcTemplate.query(
                     "SELECT a.animal_id FROM shelter_animal a WHERE a.adopted_at IS NULL",

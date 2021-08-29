@@ -6,9 +6,9 @@ public interface Animals {
 
     void save(Animal animal);
 
-    Option<ShelterAnimal> findNotAdoptedBy(AnimalId animalId);
+    Option<ShelterAnimal> findBy(AnimalId animalId);
 
-    void adopt(ShelterAnimal animal);
+    void adopt(AvailableAnimal animal);
 
     void publish(AnimalEvent event);
 }

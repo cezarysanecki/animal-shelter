@@ -33,10 +33,10 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 
     @Override
-    public Option<ShelterAnimal> findNotAdoptedBy(final AnimalId animalId) {
+    public Option<ShelterAnimal> findBy(final AnimalId animalId) {
         return Try.ofSupplier(() -> of(
                         jdbcTemplate.queryForObject(
-                                "SELECT a.animal_id FROM shelter_animal a WHERE a.animal_id = ? AND a.adopted_at IS NULL",
+                                "SELECT a.animal_id, a.adopted_at IS NULL as in_shelter FROM shelter_animal a WHERE a.animal_id = ?",
                                 new BeanPropertyRowMapper<>(ShelterAnimalRow.class),
                                 animalId.value().toString()))
                         .map(ShelterAnimalRow::toShelterAnimal))
@@ -44,7 +44,7 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 
     @Override
-    public void adopt(final ShelterAnimal animal) {
+    public void adopt(final AvailableAnimal animal) {
         jdbcTemplate.update("" +
                         "UPDATE shelter_animal a " +
                         "SET a.adopted_at = NOW() " +
@@ -69,13 +69,13 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 
     @Override
-    public Set<ShelterAnimal> queryForAnimalsInShelter() {
+    public Set<AvailableAnimal> queryForAnimalsInShelter() {
         return Stream.ofAll(
                 jdbcTemplate.query(
                     "SELECT a.animal_id FROM shelter_animal a WHERE a.adopted_at IS NULL",
-                    new BeanPropertyRowMapper<>(ShelterAnimalRow.class)
+                    new BeanPropertyRowMapper<>(AvailableAnimalRow.class)
                 ))
-                .map(ShelterAnimalRow::toShelterAnimal)
+                .map(AvailableAnimalRow::toAvailableAnimal)
                 .toSet();
     }
 }
@@ -98,15 +98,33 @@ class ShelterLimitsRow {
     }
 }
 
-class ShelterAnimalRow {
+class AvailableAnimalRow {
 
     UUID animalId;
 
-    ShelterAnimal toShelterAnimal() {
-        return new ShelterAnimal(new AnimalId(animalId));
+    AvailableAnimal toAvailableAnimal() {
+        return new AvailableAnimal(new AnimalId(animalId));
     }
 
     public void setAnimalId(final UUID animalId) {
         this.animalId = animalId;
+    }
+}
+
+class ShelterAnimalRow {
+
+    UUID animalId;
+    Boolean inShelter;
+
+    ShelterAnimal toShelterAnimal() {
+        return inShelter ? new AvailableAnimal(new AnimalId(animalId)) : new AdoptedAnimal(new AnimalId(animalId));
+    }
+
+    public void setAnimalId(final UUID animalId) {
+        this.animalId = animalId;
+    }
+
+    public void setInShelter(final Boolean inShelter) {
+        this.inShelter = inShelter;
     }
 }

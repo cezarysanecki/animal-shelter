@@ -1,33 +1,33 @@
-package pl.devcezz.animalshelter.animal;
+package pl.devcezz.animalshelter.animal.model;
 
 import pl.devcezz.animalshelter.animal.model.Animal;
 import pl.devcezz.animalshelter.animal.model.AnimalId;
 
 import java.util.UUID;
 
-class AnimalFixture {
+public class AnimalFixture {
 
-    static Animal buildAnimal(String name, String species, Integer age) {
+    public static Animal buildAnimal(String name, String species, Integer age) {
         return new Animal(UUID.randomUUID(), name, species, age);
     }
 
-    static Animal buildAnimal() {
+    public static Animal buildAnimal() {
         return buildAnimal("Azor", "Dog", 5);
     }
 
-    static Animal buildAnimalWithName(String name) {
+    public static Animal buildAnimalWithName(String name) {
         return buildAnimal(name, "Dog", 5);
     }
 
-    static Animal buildAnimalWithAge(Integer age) {
+    public static Animal buildAnimalWithAge(Integer age) {
         return buildAnimal("Azor", "Dog", age);
     }
 
-    static Animal buildAnimalWithSpecies(String species) {
+    public static Animal buildAnimalWithSpecies(String species) {
         return buildAnimal("Azor", species, 5);
     }
 
-    static AnimalId anyAnimalId() {
+    public static AnimalId anyAnimalId() {
         return new AnimalId(UUID.randomUUID());
     }
 }

@@ -1,8 +1,7 @@
-package pl.devcezz.animalshelter.animal;
+package pl.devcezz.animalshelter.animal.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.devcezz.animalshelter.animal.model.AnimalId;
 
 import java.util.UUID;
 

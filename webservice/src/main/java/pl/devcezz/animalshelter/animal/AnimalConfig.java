@@ -18,11 +18,6 @@ public class AnimalConfig {
     }
 
     @Bean
-    AdoptingAnimal adoptingAnimal(Animals animals) {
-        return new AdoptingAnimal(animals);
-    }
-
-    @Bean
     EventHandler handleFailedAcceptance() {
         return new HandleFailedAcceptance();
     }
@@ -35,6 +30,11 @@ public class AnimalConfig {
     @Bean
     EventHandler handleSucceededAcceptance() {
         return new HandleSucceededAcceptance();
+    }
+
+    @Bean
+    AdoptingAnimal adoptingAnimal(Animals animals) {
+        return new AdoptingAnimal(animals);
     }
 
     @Bean

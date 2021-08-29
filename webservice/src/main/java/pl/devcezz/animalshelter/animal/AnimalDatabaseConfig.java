@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.cqrs.event.EventsBus;
 
 @Configuration(proxyBeanMethods = false)
-public class AnimalDatabaseConfig {
+class AnimalDatabaseConfig {
 
     @Bean
     ShelterDatabaseRepository shelterRepository(JdbcTemplate jdbcTemplate, EventsBus eventsBus) {

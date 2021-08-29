@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -34,22 +35,35 @@ class AdoptingAnimalTest {
     @DisplayName("Should successfully adopt animal which is in shelter")
     @Test
     void should_successfully_adopt_animal_which_is_in_shelter() {
-        ShelterAnimal animalInShelter = new ShelterAnimal(animalId);
-        when(animals.findNotAdoptedBy(animalId)).thenReturn(Option.of(animalInShelter));
+        AvailableAnimal availableAnimal = new AvailableAnimal(animalId);
+        when(animals.findBy(animalId)).thenReturn(Option.of(availableAnimal));
 
         adoptingAnimal.handle(command(animalId));
 
-        verify(animals).adopt(animalInShelter);
+        verify(animals).adopt(availableAnimal);
         verify(animals).publish(isA(AnimalAdoptionSucceeded.class));
     }
 
     @DisplayName("Should fail adoption when not found animal in shelter")
     @Test
     void should_fail_adoption_when_not_found_animal_in_shelter() {
-        when(animals.findNotAdoptedBy(animalId)).thenReturn(Option.none());
+        when(animals.findBy(animalId)).thenReturn(Option.none());
 
         assertThatThrownBy(() -> adoptingAnimal.handle(command(animalId)))
             .isInstanceOf(NotFoundAnimalInShelterException.class);
+
+        verify(animals, never()).adopt(any());
+        verify(animals, never()).publish(any());
+    }
+
+    @DisplayName("Should fail adoption when animal has been already adopted")
+    @Test
+    void should_fail_adoption_when_animal_has_been_already_adopted() {
+        AdoptedAnimal adoptedAnimal = new AdoptedAnimal(animalId);
+        when(animals.findBy(animalId)).thenReturn(Option.of(adoptedAnimal));
+
+        assertThatThrownBy(() -> adoptingAnimal.handle(command(animalId)))
+                .isInstanceOf(AnimalAlreadyAdoptedException.class);
 
         verify(animals, never()).adopt(any());
         verify(animals, never()).publish(any());

@@ -1,7 +1,9 @@
 package pl.devcezz.animalshelter.animal;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -15,6 +17,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.cqrs.event.EventsBus;
 
@@ -36,6 +39,8 @@ import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.anyAnimalId;
 @Testcontainers
 class AdoptingAnimalIT {
 
+    private final static EventsBus EVENTS_BUS = mock(EventsBus.class);
+
     private final AnimalId animalId = anyAnimalId();
 
     @Container
@@ -48,10 +53,15 @@ class AdoptingAnimalIT {
         System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
     }
 
+    @BeforeEach
+    void resetMock() {
+        Mockito.reset(EVENTS_BUS);
+    }
+
     @Test
     @Transactional
-    @DisplayName("Should adopt animal which is in shelter")
-    void should_adopt_animal_which_is_in_shelter(
+    @DisplayName("Should adopt animal which is available")
+    void should_adopt_animal_which_is_available(
             @Autowired AdoptingAnimal adoptingAnimal,
             @Autowired EventsBus eventsBus,
             @Autowired ShelterDatabaseRepository repository
@@ -62,7 +72,7 @@ class AdoptingAnimalIT {
         adoptingAnimal.handle(command);
 
         verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
-        assertThat(repository.queryForAnimalsInShelter()).isEmpty();
+        assertThat(repository.queryForAvailableAnimals()).isEmpty();
     }
 
     @Test
@@ -70,8 +80,7 @@ class AdoptingAnimalIT {
     @DisplayName("Should fail when adopting animal which is not in shelter")
     void should_fail_when_adopting_animal_which_is_not_in_shelter(
             @Autowired AdoptingAnimal adoptingAnimal,
-            @Autowired EventsBus eventsBus,
-            @Autowired ShelterDatabaseRepository repository
+            @Autowired EventsBus eventsBus
     ) {
         AdoptAnimalCommand command = adoptAnimalCommand(animalId);
 
@@ -79,6 +88,24 @@ class AdoptingAnimalIT {
             .isInstanceOf(NotFoundAnimalInShelterException.class);
 
         verify(eventsBus, never()).publish(any());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("Should fail when adopting animal which is already adopted")
+    void should_fail_when_adopting_animal_which_is_already_adopted(
+            @Autowired AdoptingAnimal adoptingAnimal,
+            @Autowired EventsBus eventsBus,
+            @Autowired ShelterDatabaseRepository repository
+    ) {
+        addAnimalToShelter(repository);
+        AdoptAnimalCommand command = adoptAnimalCommand(animalId);
+        adoptingAnimal.handle(command);
+
+        assertThatThrownBy(() -> adoptingAnimal.handle(command))
+                .isInstanceOf(AnimalAlreadyAdoptedException.class);
+
+        verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
     }
 
     private void addAnimalToShelter(ShelterDatabaseRepository repository) {
@@ -91,7 +118,7 @@ class AdoptingAnimalIT {
 
         @Bean
         EventsBus eventsBus() {
-            return mock(EventsBus.class);
+            return EVENTS_BUS;
         }
 
         @Bean

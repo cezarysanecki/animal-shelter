@@ -6,5 +6,5 @@ public interface ShelterRepository {
 
     ShelterLimits queryForShelterLimits();
 
-    Set<ShelterAnimal> queryForAnimalsInShelter();
+    Set<AvailableAnimal> queryForAvailableAnimals();
 }

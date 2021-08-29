@@ -8,7 +8,7 @@ import pl.devcezz.animalshelter.commons.exception.ShelterLimitExceededException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static pl.devcezz.animalshelter.animal.ShelterFixture.animals;
+import static pl.devcezz.animalshelter.animal.ShelterFixture.availableAnimals;
 import static pl.devcezz.animalshelter.animal.ShelterFixture.shelterLimits;
 
 class ShelterFactoryTest {
@@ -28,7 +28,7 @@ class ShelterFactoryTest {
     @Test
     void should_create_proper_shelter() {
         when(shelterRepository.queryForShelterLimits()).thenReturn(shelterLimits(10, 7));
-        when(shelterRepository.queryForAnimalsInShelter()).thenReturn(animals(6));
+        when(shelterRepository.queryForAvailableAnimals()).thenReturn(availableAnimals(6));
 
         shelterFactory.create();
     }
@@ -37,7 +37,7 @@ class ShelterFactoryTest {
     @Test
     void should_fail_when_there_are_more_animals_than_space_in_shelter() {
         when(shelterRepository.queryForShelterLimits()).thenReturn(shelterLimits(10, 7));
-        when(shelterRepository.queryForAnimalsInShelter()).thenReturn(animals(11));
+        when(shelterRepository.queryForAvailableAnimals()).thenReturn(availableAnimals(11));
 
         assertThatExceptionOfType(ShelterLimitExceededException.class)
                 .isThrownBy(() -> shelterFactory.create())

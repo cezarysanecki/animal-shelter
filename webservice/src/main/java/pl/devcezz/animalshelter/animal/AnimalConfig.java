@@ -18,6 +18,11 @@ public class AnimalConfig {
     }
 
     @Bean
+    EditingAnimal editingAnimal(Animals animals) {
+        return new EditingAnimal(animals);
+    }
+
+    @Bean
     EventHandler handleFailedAcceptance() {
         return new HandleFailedAcceptance();
     }

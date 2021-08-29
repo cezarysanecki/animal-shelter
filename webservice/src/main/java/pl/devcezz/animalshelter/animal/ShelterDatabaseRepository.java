@@ -6,6 +6,13 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent;
+import pl.devcezz.animalshelter.animal.model.AdoptedAnimal;
+import pl.devcezz.animalshelter.animal.model.Animal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterLimits;
 import pl.devcezz.cqrs.event.EventsBus;
 
 import java.util.UUID;

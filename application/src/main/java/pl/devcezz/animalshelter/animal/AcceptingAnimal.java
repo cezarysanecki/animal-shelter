@@ -1,11 +1,13 @@
 package pl.devcezz.animalshelter.animal;
 
 import io.vavr.API;
+import pl.devcezz.animalshelter.animal.command.AcceptAnimalCommand;
+import pl.devcezz.animalshelter.animal.model.Animal;
 import pl.devcezz.animalshelter.commons.exception.AcceptingAnimalRejectedException;
 import pl.devcezz.animalshelter.commons.Result;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalFailed;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 import static io.vavr.API.Match;

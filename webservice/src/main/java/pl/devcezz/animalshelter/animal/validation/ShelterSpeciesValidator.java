@@ -3,7 +3,7 @@ package pl.devcezz.animalshelter.animal.validation;
 import io.vavr.collection.Set;
 import io.vavr.collection.Stream;
 import io.vavr.control.Try;
-import pl.devcezz.animalshelter.animal.Species;
+import pl.devcezz.animalshelter.animal.model.Species;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

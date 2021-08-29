@@ -1,10 +1,10 @@
-package pl.devcezz.animalshelter.animal;
+package pl.devcezz.animalshelter.animal.model;
 
-public class AvailableAnimal implements ShelterAnimal {
+public class AdoptedAnimal implements ShelterAnimal {
 
     private final AnimalId animalId;
 
-    public AvailableAnimal(final AnimalId animalId) {
+    public AdoptedAnimal(final AnimalId animalId) {
         this.animalId = animalId;
     }
 

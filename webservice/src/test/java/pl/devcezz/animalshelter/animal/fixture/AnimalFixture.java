@@ -1,9 +1,9 @@
 package pl.devcezz.animalshelter.animal.fixture;
 
-import pl.devcezz.animalshelter.animal.AcceptAnimalCommand;
-import pl.devcezz.animalshelter.animal.AdoptAnimalCommand;
-import pl.devcezz.animalshelter.animal.Animal;
-import pl.devcezz.animalshelter.animal.AnimalId;
+import pl.devcezz.animalshelter.animal.command.AcceptAnimalCommand;
+import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.animal.model.Animal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
 
 import java.util.UUID;
 

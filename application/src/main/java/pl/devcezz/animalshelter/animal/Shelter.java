@@ -1,11 +1,14 @@
 package pl.devcezz.animalshelter.animal;
 
 import io.vavr.collection.Set;
+import pl.devcezz.animalshelter.animal.model.Animal;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterLimits;
 import pl.devcezz.cqrs.event.Event;
 
-import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed.acceptingAnimalRejected;
-import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded.acceptingAnimalSucceeded;
-import static pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned.acceptingAnimalWarned;
+import static pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalFailed.acceptingAnimalRejected;
+import static pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalSucceeded.acceptingAnimalSucceeded;
+import static pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalWarned.acceptingAnimalWarned;
 
 class Shelter {
 

@@ -4,7 +4,11 @@ import io.vavr.control.Option;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.animal.model.AdoptedAnimal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
 import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 

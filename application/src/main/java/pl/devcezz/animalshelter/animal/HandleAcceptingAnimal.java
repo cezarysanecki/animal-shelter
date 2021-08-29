@@ -1,9 +1,9 @@
 package pl.devcezz.animalshelter.animal;
 
 import pl.devcezz.cqrs.event.EventHandler;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalWarned;
-import pl.devcezz.animalshelter.animal.AnimalEvent.AcceptingAnimalSucceeded;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalFailed;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AcceptingAnimalSucceeded;
 
 class HandleFailedAcceptance implements EventHandler<AcceptingAnimalFailed> {
 

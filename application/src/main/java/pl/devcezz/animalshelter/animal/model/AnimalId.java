@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.animal;
+package pl.devcezz.animalshelter.animal.model;
 
 import java.util.Objects;
 import java.util.UUID;

@@ -1,5 +1,8 @@
 package pl.devcezz.animalshelter.animal;
 
+import pl.devcezz.animalshelter.animal.model.Animal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+
 import java.util.UUID;
 
 class AnimalFixture {

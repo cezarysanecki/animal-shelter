@@ -1,6 +1,11 @@
 package pl.devcezz.animalshelter.animal;
 
 import io.vavr.control.Option;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent;
+import pl.devcezz.animalshelter.animal.model.Animal;
+import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
+import pl.devcezz.animalshelter.animal.model.ShelterAnimal;
 
 public interface Animals {
 

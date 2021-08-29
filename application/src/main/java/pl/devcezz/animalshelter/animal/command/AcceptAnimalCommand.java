@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.animal;
+package pl.devcezz.animalshelter.animal.command;
 
 import pl.devcezz.cqrs.command.Command;
 

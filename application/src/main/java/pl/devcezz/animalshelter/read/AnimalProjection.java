@@ -1,6 +1,7 @@
 package pl.devcezz.animalshelter.read;
 
 import io.vavr.collection.List;
+import io.vavr.control.Option;
 import pl.devcezz.animalshelter.read.query.GetAnimalInfoQuery;
 import pl.devcezz.animalshelter.read.query.GetAnimalsQuery;
 import pl.devcezz.animalshelter.read.result.AnimalDto;
@@ -10,5 +11,5 @@ public interface AnimalProjection {
 
     List<AnimalDto> handle(GetAnimalsQuery query);
 
-    AnimalInfoDto handle(GetAnimalInfoQuery query);
+    Option<AnimalInfoDto> handle(GetAnimalInfoQuery query);
 }

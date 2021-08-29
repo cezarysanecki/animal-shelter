@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.devcezz.animalshelter.animal.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -50,6 +51,19 @@ class AdoptingAnimalTest {
 
         assertThatThrownBy(() -> adoptingAnimal.handle(command(animalId)))
             .isInstanceOf(NotFoundAnimalInShelterException.class);
+
+        verify(animals, never()).adopt(any());
+        verify(animals, never()).publish(any());
+    }
+
+    @DisplayName("Should fail adoption when animal has been already adopted")
+    @Test
+    void should_fail_adoption_when_animal_has_been_already_adopted() {
+        AdoptedAnimal adoptedAnimal = new AdoptedAnimal(animalId);
+        when(animals.findBy(animalId)).thenReturn(Option.of(adoptedAnimal));
+
+        assertThatThrownBy(() -> adoptingAnimal.handle(command(animalId)))
+                .isInstanceOf(AnimalAlreadyAdoptedException.class);
 
         verify(animals, never()).adopt(any());
         verify(animals, never()).publish(any());

@@ -1,3 +1,6 @@
 package pl.devcezz.animalshelter.animal;
 
-public record ShelterAnimal(AnimalId animalId) {}
+public interface ShelterAnimal {
+
+    AnimalId animalId();
+}

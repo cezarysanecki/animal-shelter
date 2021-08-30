@@ -63,7 +63,7 @@ class ShelterWriteControllerIT {
 
     @Test
     void should_edit_animal(@Autowired MockMvc mockMvc) throws Exception {
-        mockMvc.perform(put("/shelter/animals/edit")
+        mockMvc.perform(put("/shelter/animals")
                 .content(animalToEdit())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

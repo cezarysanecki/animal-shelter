@@ -1,6 +1,7 @@
 package pl.devcezz.animalshelter.animal;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.devcezz.animalshelter.animal.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.animal.command.DeleteAnimalCommand;
 import pl.devcezz.animalshelter.animal.command.EditAnimalCommand;
 import pl.devcezz.animalshelter.animal.validation.ShelterSpecies;
 import pl.devcezz.cqrs.command.CommandsBus;
@@ -54,6 +56,13 @@ class ShelterWriteController {
                         request.age()
                 )
         );
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/animals")
+    ResponseEntity<Void> deleteAnimal(@RequestBody @NotBlank String animalId) {
+        commandsBus.send(new DeleteAnimalCommand(UUID.fromString(animalId)));
 
         return ResponseEntity.ok().build();
     }

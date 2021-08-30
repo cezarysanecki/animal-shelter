@@ -40,7 +40,7 @@ class AdoptingAnimal implements CommandHandler<AdoptAnimalCommand> {
     }
 
     private ShelterAnimal raiseAnimalAlreadyAdopted(AdoptedAnimal animal) {
-        throw new AnimalAlreadyAdoptedException();
+        throw new AnimalAlreadyAdoptedException("cannot adopt animal which is already adopted");
     }
 
     private ShelterAnimal adopt(AvailableAnimal animal) {

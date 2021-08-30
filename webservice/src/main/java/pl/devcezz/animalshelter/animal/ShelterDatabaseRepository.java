@@ -54,6 +54,13 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     }
 
     @Override
+    public void delete(final AnimalId animalId) {
+        jdbcTemplate.update("DELETE FROM shelter_animal a " +
+                        "WHERE a.animal_id = ?",
+                animalId.value().toString());
+    }
+
+    @Override
     public Option<ShelterAnimal> findBy(final AnimalId animalId) {
         return Try.ofSupplier(() -> of(
                         jdbcTemplate.queryForObject(

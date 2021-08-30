@@ -23,6 +23,11 @@ public class AnimalConfig {
     }
 
     @Bean
+    DeletingAnimal deletingAnimal(Animals animals) {
+        return new DeletingAnimal(animals);
+    }
+
+    @Bean
     EventHandler handleFailedAcceptance() {
         return new HandleFailedAcceptance();
     }

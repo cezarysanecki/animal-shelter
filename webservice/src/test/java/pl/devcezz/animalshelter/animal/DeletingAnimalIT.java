@@ -16,9 +16,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
-import pl.devcezz.animalshelter.animal.event.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.animal.command.DeleteAnimalCommand;
 import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.animal.model.AvailableAnimal;
 import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.cqrs.event.EventsBus;
@@ -27,19 +27,15 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.adoptAnimalCommand;
 import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.animal;
 import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.anyAnimalId;
+import static pl.devcezz.animalshelter.animal.fixture.AnimalFixture.deleteAnimalCommand;
 
-@SpringBootTest(classes = { AnimalConfig.class, AdoptingAnimalIT.Config.class })
+@SpringBootTest(classes = { AnimalConfig.class, DeletingAnimalIT.Config.class })
 @ActiveProfiles("container")
 @Testcontainers
-class AdoptingAnimalIT {
+class DeletingAnimalIT {
 
     private final static EventsBus EVENTS_BUS = mock(EventsBus.class);
 
@@ -62,52 +58,44 @@ class AdoptingAnimalIT {
 
     @Test
     @Transactional
-    @DisplayName("Should adopt animal which is available")
-    void should_adopt_animal_which_is_available(
-            @Autowired AdoptingAnimal adoptingAnimal,
-            @Autowired EventsBus eventsBus,
+    @DisplayName("Should delete animal which is available")
+    void should_delete_animal_which_is_available(
+            @Autowired DeletingAnimal deletingAnimal,
             @Autowired ShelterDatabaseRepository repository
     ) {
         repository.save(animal(animalId));
-        AdoptAnimalCommand command = adoptAnimalCommand(animalId);
+        DeleteAnimalCommand command = deleteAnimalCommand(animalId);
 
-        adoptingAnimal.handle(command);
+        deletingAnimal.handle(command);
 
-        verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
         assertThat(repository.queryForAvailableAnimals()).isEmpty();
     }
 
     @Test
     @Transactional
-    @DisplayName("Should fail when adopting animal which is not in shelter")
-    void should_fail_when_adopting_animal_which_is_not_in_shelter(
-            @Autowired AdoptingAnimal adoptingAnimal,
-            @Autowired EventsBus eventsBus
+    @DisplayName("Should fail when deleting animal which is not in shelter")
+    void should_fail_when_deleting_animal_which_is_not_in_shelter(
+            @Autowired DeletingAnimal deletingAnimal
     ) {
-        AdoptAnimalCommand command = adoptAnimalCommand(animalId);
+        DeleteAnimalCommand command = deleteAnimalCommand(animalId);
 
-        assertThatThrownBy(() -> adoptingAnimal.handle(command))
+        assertThatThrownBy(() -> deletingAnimal.handle(command))
             .isInstanceOf(NotFoundAnimalInShelterException.class);
-
-        verify(eventsBus, never()).publish(any());
     }
 
     @Test
     @Transactional
-    @DisplayName("Should fail when adopting animal which is already adopted")
-    void should_fail_when_adopting_animal_which_is_already_adopted(
-            @Autowired AdoptingAnimal adoptingAnimal,
-            @Autowired EventsBus eventsBus,
+    @DisplayName("Should fail when deleting animal which is already adopted")
+    void should_fail_when_deleting_animal_which_is_already_adopted(
+            @Autowired DeletingAnimal deletingAnimal,
             @Autowired ShelterDatabaseRepository repository
     ) {
         repository.save(animal(animalId));
-        AdoptAnimalCommand command = adoptAnimalCommand(animalId);
-        adoptingAnimal.handle(command);
+        repository.adopt(new AvailableAnimal(animalId));
+        DeleteAnimalCommand command = deleteAnimalCommand(animalId);
 
-        assertThatThrownBy(() -> adoptingAnimal.handle(command))
+        assertThatThrownBy(() -> deletingAnimal.handle(command))
                 .isInstanceOf(AnimalAlreadyAdoptedException.class);
-
-        verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
     }
 
     @Configuration(proxyBeanMethods = false)

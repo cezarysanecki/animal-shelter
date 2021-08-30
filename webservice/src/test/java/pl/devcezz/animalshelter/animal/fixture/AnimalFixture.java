@@ -2,6 +2,7 @@ package pl.devcezz.animalshelter.animal.fixture;
 
 import pl.devcezz.animalshelter.animal.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.animal.command.DeleteAnimalCommand;
 import pl.devcezz.animalshelter.animal.model.Animal;
 import pl.devcezz.animalshelter.animal.model.AnimalId;
 
@@ -23,6 +24,10 @@ public class AnimalFixture {
 
     public static AdoptAnimalCommand adoptAnimalCommand(AnimalId animalId) {
         return new AdoptAnimalCommand(animalId.value());
+    }
+
+    public static DeleteAnimalCommand deleteAnimalCommand(AnimalId animalId) {
+        return new DeleteAnimalCommand(animalId.value());
     }
 
     public static AnimalId anyAnimalId() {

@@ -44,7 +44,7 @@ class EditingAnimal implements CommandHandler<EditAnimalCommand> {
     }
 
     private Animal raiseAnimalAlreadyAdopted(AdoptedAnimal animal) {
-        throw new AnimalAlreadyAdoptedException();
+        throw new AnimalAlreadyAdoptedException("cannot edit animal which is already adopted");
     }
 
     private Animal edit(Animal animal) {

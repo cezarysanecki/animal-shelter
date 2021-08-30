@@ -16,8 +16,8 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import pl.devcezz.animalshelter.animal.event.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.animalshelter.animal.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.animal.event.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.animalshelter.animal.model.AnimalId;
 import pl.devcezz.animalshelter.commons.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.commons.exception.NotFoundAnimalInShelterException;
@@ -68,7 +68,7 @@ class AdoptingAnimalIT {
             @Autowired EventsBus eventsBus,
             @Autowired ShelterDatabaseRepository repository
     ) {
-        addAnimalToShelter(repository);
+        repository.save(animal(animalId));
         AdoptAnimalCommand command = adoptAnimalCommand(animalId);
 
         adoptingAnimal.handle(command);
@@ -100,7 +100,7 @@ class AdoptingAnimalIT {
             @Autowired EventsBus eventsBus,
             @Autowired ShelterDatabaseRepository repository
     ) {
-        addAnimalToShelter(repository);
+        repository.save(animal(animalId));
         AdoptAnimalCommand command = adoptAnimalCommand(animalId);
         adoptingAnimal.handle(command);
 
@@ -108,10 +108,6 @@ class AdoptingAnimalIT {
                 .isInstanceOf(AnimalAlreadyAdoptedException.class);
 
         verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
-    }
-
-    private void addAnimalToShelter(ShelterDatabaseRepository repository) {
-        repository.save(animal(animalId));
     }
 
     @Configuration(proxyBeanMethods = false)

@@ -46,7 +46,7 @@ class ShelterWriteController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/animals/edit")
+    @PutMapping("/animals")
     ResponseEntity<Void> editAnimal(@RequestBody @Valid EditAnimalRequest request) {
         commandsBus.send(
                 new EditAnimalCommand(

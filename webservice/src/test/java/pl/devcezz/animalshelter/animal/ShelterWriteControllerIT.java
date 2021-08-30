@@ -19,6 +19,7 @@ import java.nio.file.Path;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -64,6 +65,15 @@ class ShelterWriteControllerIT {
     void should_edit_animal(@Autowired MockMvc mockMvc) throws Exception {
         mockMvc.perform(put("/shelter/animals/edit")
                 .content(animalToEdit())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_delete_animal(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(delete("/shelter/animals")
+                .content("38400000-8cf0-11bd-b23e-10b96e4ef00d")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

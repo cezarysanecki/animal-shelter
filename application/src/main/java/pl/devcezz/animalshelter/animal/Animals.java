@@ -13,6 +13,8 @@ public interface Animals {
 
     void update(Animal animal);
 
+    void delete(AnimalId animalId);
+
     Option<ShelterAnimal> findBy(AnimalId animalId);
 
     void adopt(AvailableAnimal animal);

@@ -1,0 +1,13 @@
+mail:
+  server:
+    host: @smtp@
+    port: @port@
+  credentials:
+    from: @email@
+    password: @password@
+  settings:
+    transport-protocol: smtp
+    start-tls-enabled: true
+    ssl-enabled: true
+    auth-enabled: true
+    debug-enabled: true

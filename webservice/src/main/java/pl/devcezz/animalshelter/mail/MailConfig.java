@@ -3,8 +3,9 @@ package pl.devcezz.animalshelter.mail;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.thymeleaf.TemplateEngine;
 import pl.devcezz.animalshelter.commons.mail.EmailSender;
 
 import java.util.Properties;
@@ -14,13 +15,10 @@ import java.util.Properties;
 class MailConfig {
 
     @Bean
-    EmailFactory emailFactory() {
-        return new EmailFactory();
-    }
-
-    @Bean
-    MailSender mailSender(EmailProperties emailProperties) {
+    JavaMailSender mailSender(EmailProperties emailProperties) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setDefaultEncoding("UTF-8");
+
         mailSender.setHost(emailProperties.server().host());
         mailSender.setPort(emailProperties.server().port());
 
@@ -38,7 +36,12 @@ class MailConfig {
     }
 
     @Bean
-    EmailSender emailSender(EmailFactory emailFactory, MailSender mailSender) {
-        return new EmailSenderImpl(emailFactory, mailSender);
+    EmailContentFactory emailFactory(TemplateEngine templateEngine) {
+        return new EmailContentFactory(templateEngine);
+    }
+
+    @Bean
+    EmailSender emailSender(EmailContentFactory factory, EmailContentProperties properties, JavaMailSender mailSender) {
+        return new EmailSenderImpl(factory, properties, mailSender);
     }
 }

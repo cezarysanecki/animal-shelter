@@ -1,23 +1,29 @@
 package pl.devcezz.animalshelter.mail;
 
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import pl.devcezz.animalshelter.commons.mail.EmailSender;
 import pl.devcezz.animalshelter.commons.mail.model.AdoptionMail;
 
 public class EmailSenderImpl implements EmailSender {
 
-    private final EmailFactory emailFactory;
-    private final MailSender mailSender;
+    private final EmailContentFactory emailContentFactory;
+    private final EmailContentProperties properties;
+    private final JavaMailSender mailSender;
 
-    public EmailSenderImpl(final EmailFactory emailFactory, final MailSender mailSender) {
-        this.emailFactory = emailFactory;
+    public EmailSenderImpl(final EmailContentFactory emailContentFactory, final EmailContentProperties properties, final JavaMailSender mailSender) {
+        this.emailContentFactory = emailContentFactory;
+        this.properties = properties;
         this.mailSender = mailSender;
     }
 
     @Override
     public void sendEmail(final AdoptionMail mail) {
-        SimpleMailMessage message = emailFactory.adoptionMail(mail);
+        EmailContent emailContent = emailContentFactory.adoptionMail(mail);
+        MimeMessagePreparator message = EmailBuilder.builder()
+                .content(emailContent)
+                .props(properties)
+                .build("csanecki@gmail.com");
         mailSender.send(message);
     }
 }

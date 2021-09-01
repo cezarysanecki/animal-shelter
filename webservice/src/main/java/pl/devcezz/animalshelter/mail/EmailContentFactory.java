@@ -3,6 +3,8 @@ package pl.devcezz.animalshelter.mail;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pl.devcezz.animalshelter.commons.notification.Notification;
+import pl.devcezz.animalshelter.commons.notification.Notification.AdoptionNotification;
+import pl.devcezz.animalshelter.mail.EmailContextMap.AdoptionEmailContextMap;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -21,7 +23,7 @@ class EmailContentFactory {
 
     EmailContent createUsing(Notification notification) {
         EmailContextMap contextMap = Match(notification).of(
-                Case($(instanceOf(Notification.AdoptionNotification.class)), EmailContextMap.AdoptionEmailContextMap::new)
+                Case($(instanceOf(AdoptionNotification.class)), AdoptionEmailContextMap::new)
         );
 
         return emailRepository.findTemplateBy(notification.notificationType())

@@ -2,6 +2,7 @@ mail:
   server:
     host: @smtp@
     port: @port@
+    encoding: UTF-8
   credentials:
     from: @email@
     password: @password@
@@ -10,7 +11,6 @@ mail:
     start-tls-enabled: true
     ssl-enabled: true
     auth-enabled: true
-    encoding: UTF-8
     debug-enabled: true
 
 message-config:

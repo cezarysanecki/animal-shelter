@@ -18,10 +18,10 @@ public class EmailConfig {
     @Bean
     JavaMailSender mailSender(EmailProperties emailProperties) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setDefaultEncoding(emailProperties.settings().encoding());
 
         mailSender.setHost(emailProperties.server().host());
         mailSender.setPort(emailProperties.server().port());
+        mailSender.setDefaultEncoding(emailProperties.server().encoding());
 
         mailSender.setUsername(emailProperties.credentials().from());
         mailSender.setPassword(emailProperties.credentials().password());

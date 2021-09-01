@@ -3,21 +3,22 @@ package pl.devcezz.animalshelter.mail;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.TemplateEngine;
-import pl.devcezz.animalshelter.commons.mail.EmailSender;
+import pl.devcezz.animalshelter.commons.notification.Notifier;
 
 import java.util.Properties;
 
 @ConfigurationPropertiesScan("pl.devcezz.animalshelter.mail")
 @Configuration
-class MailConfig {
+public class EmailConfig {
 
     @Bean
     JavaMailSender mailSender(EmailProperties emailProperties) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setDefaultEncoding("UTF-8");
+        mailSender.setDefaultEncoding(emailProperties.settings().encoding());
 
         mailSender.setHost(emailProperties.server().host());
         mailSender.setPort(emailProperties.server().port());
@@ -36,12 +37,22 @@ class MailConfig {
     }
 
     @Bean
-    EmailContentFactory emailFactory(TemplateEngine templateEngine) {
-        return new EmailContentFactory(templateEngine);
+    EmailRepository mailRepository(JdbcTemplate jdbcTemplate) {
+        return new EmailRepository(jdbcTemplate);
     }
 
     @Bean
-    EmailSender emailSender(EmailContentFactory factory, EmailContentProperties properties, JavaMailSender mailSender) {
-        return new EmailSenderImpl(factory, properties, mailSender);
+    EmailContentFactory emailContentFactory(EmailRepository emailRepository, TemplateEngine templateEngine) {
+        return new EmailContentFactory(emailRepository, templateEngine);
+    }
+
+    @Bean
+    EmailFactory emailFactory(EmailContentFactory factory, EmailContentProperties properties) {
+        return new EmailFactory(factory, properties);
+    }
+
+    @Bean
+    Notifier emailSender(EmailFactory factory, JavaMailSender mailSender) {
+        return new EmailNotifier(factory, mailSender);
     }
 }

@@ -10,10 +10,10 @@ mail:
     start-tls-enabled: true
     ssl-enabled: true
     auth-enabled: true
+    encoding: UTF-8
     debug-enabled: true
 
 message-config:
   from: ${mail.credentials.from}
   multipart: true
-  encoding: UTF-8
   mail-html: true

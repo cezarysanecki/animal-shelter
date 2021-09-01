@@ -2,32 +2,36 @@ package pl.devcezz.animalshelter.mail;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import pl.devcezz.animalshelter.commons.mail.model.AdoptionMail;
+import pl.devcezz.animalshelter.commons.notification.Notification;
 
-public class EmailContentFactory {
+import static io.vavr.API.$;
+import static io.vavr.API.Case;
+import static io.vavr.API.Match;
+import static io.vavr.Predicates.instanceOf;
 
+class EmailContentFactory {
+
+    private final EmailRepository emailRepository;
     private final TemplateEngine templateEngine;
 
-    public EmailContentFactory(final TemplateEngine templateEngine) {
+    EmailContentFactory(final EmailRepository emailRepository, final TemplateEngine templateEngine) {
+        this.emailRepository = emailRepository;
         this.templateEngine = templateEngine;
     }
 
-    public EmailContent adoptionMail(AdoptionMail mail) {
-        String subject = prepareSubject(mail);
-        String text = prepareText(mail);
-        return new EmailContent(subject, text);
+    EmailContent createUsing(Notification notification) {
+        EmailContextMap contextMap = Match(notification).of(
+                Case($(instanceOf(Notification.AdoptionNotification.class)), EmailContextMap.AdoptionEmailContextMap::new)
+        );
+
+        return emailRepository.findTemplateBy(notification.notificationType())
+                .map(template -> createContent(template, contextMap))
+                .getOrElseThrow(IllegalArgumentException::new);
     }
 
-    private String prepareSubject(final AdoptionMail mail) {
-        return "HAHA - " + mail.getName();
-    }
-
-    private String prepareText(final AdoptionMail mail) {
-        Context context = new Context();
-        context.setVariable("header", mail.getName() + " finally found home!");
-        context.setVariable("title", "We are glad to inform you that our pupil finally found home!");
-        context.setVariable("description", "We are waiting for such days :)");
-
-        return templateEngine.process("adoption-mail", context);
+    private EmailContent createContent(final EmailContentTemplate template, final EmailContextMap contextMap) {
+        Context context = new Context(null, contextMap.contextMap());
+        String text = templateEngine.process(template.template(), context);
+        return new EmailContent(template.subject(), text);
     }
 }

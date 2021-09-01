@@ -5,4 +5,4 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "message-config")
-record EmailContentProperties(Boolean multipart, String encoding, String from, Boolean mailHtml) {}
+record EmailContentProperties(Boolean multipart, String from, Boolean mailHtml) {}

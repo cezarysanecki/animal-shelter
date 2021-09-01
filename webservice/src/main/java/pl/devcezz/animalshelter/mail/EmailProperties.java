@@ -12,4 +12,4 @@ record EmailServer(String host, Integer port) {}
 record EmailCredentials(String from, String password) {}
 
 record EmailSettings(String transportProtocol, String startTlsEnabled, String sslEnabled,
-                     String authEnabled, String debugEnabled) {}
+                     String authEnabled, String encoding, String debugEnabled) {}

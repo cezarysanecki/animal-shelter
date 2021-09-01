@@ -2,7 +2,7 @@ package pl.devcezz.animalshelter.animal;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.devcezz.animalshelter.commons.mail.EmailSender;
+import pl.devcezz.animalshelter.commons.notification.Notifier;
 import pl.devcezz.animalshelter.read.AnimalProjection;
 import pl.devcezz.cqrs.event.EventHandler;
 
@@ -50,7 +50,7 @@ public class AnimalConfig {
     }
 
     @Bean
-    EventHandler handleAdoptingAnimal(EmailSender emailSender, AnimalProjection animalProjection) {
-        return new HandleAdoptingAnimal(emailSender, animalProjection);
+    EventHandler handleAdoptingAnimal(Notifier notifier, AnimalProjection animalProjection) {
+        return new HandleAdoptingAnimal(notifier, animalProjection);
     }
 }

@@ -16,3 +16,24 @@ databaseChangeLog:
               - column:
                   name: safe_threshold
                   value: 7
+
+  - changeSet:
+      id: insert_adoption_mail_template
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_mail
+      changes:
+        - insert:
+            tableName: shelter_mail
+            columns:
+              - column:
+                  name: subject
+                  value: '[SYSTEM] Our favourite finally find home!!!'
+              - column:
+                  name: template
+                  value: 'adoption-mail'
+              - column:
+                  name: mail_type
+                  value: 'Adoption'

@@ -79,3 +79,39 @@ databaseChangeLog:
               - column:
                   name: adopted_at
                   type: DATETIME
+
+  - changeSet:
+      id: create_table_shelter_mail
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: shelter_mail
+      changes:
+        - createTable:
+            tableName: shelter_mail
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: shelter_mail_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: subject
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: template
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: mail_type
+                  type: VARCHAR(50)

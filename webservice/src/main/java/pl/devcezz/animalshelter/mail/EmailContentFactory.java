@@ -28,7 +28,7 @@ class EmailContentFactory {
 
         return emailRepository.findTemplateBy(notification.notificationType())
                 .map(template -> createContent(template, contextMap))
-                .getOrElseThrow(IllegalArgumentException::new);
+                .getOrElseThrow(TemplateNotFoundException::new);
     }
 
     private EmailContent createContent(final EmailContentTemplate template, final EmailContextMap contextMap) {

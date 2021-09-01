@@ -10,13 +10,39 @@ class EmailTemplate {
     private final EmailContent emailContent;
     private final EmailContentProperties properties;
 
-    EmailTemplate(final EmailContent emailContent, final EmailContentProperties properties) {
+    private EmailTemplate(final EmailContent emailContent, final EmailContentProperties properties) {
         this.emailContent = emailContent;
         this.properties = properties;
     }
 
+    static EmailTemplateBuilder builder() {
+        return new EmailTemplateBuilder();
+    }
+
     MimeMessagePreparator fillWith(String userEmail) {
         return new EmailPreparator(userEmail, emailContent, properties);
+    }
+
+    static class EmailTemplateBuilder {
+
+        private EmailContent emailContent;
+        private EmailContentProperties properties;
+
+        private EmailTemplateBuilder() {}
+
+        EmailContentNeeded content(EmailContent emailContent) {
+            this.emailContent = emailContent;
+            return new EmailContentNeeded();
+        }
+
+        class EmailContentNeeded {
+            private EmailContentNeeded() {}
+
+            public EmailTemplate properties(EmailContentProperties props) {
+                EmailTemplateBuilder.this.properties = props;
+                return new EmailTemplate(emailContent, properties);
+            }
+        }
     }
 
     class EmailPreparator implements MimeMessagePreparator {

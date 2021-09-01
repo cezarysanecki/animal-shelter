@@ -14,7 +14,7 @@ class EmailFactory {
 
     EmailTemplate createTemplateFor(final Notification notification) {
         EmailContent content = emailContentFactory.createUsing(notification);
-        return EmailTemplateBuilder.builder()
+        return EmailTemplate.builder()
                 .content(content)
                 .properties(properties);
     }

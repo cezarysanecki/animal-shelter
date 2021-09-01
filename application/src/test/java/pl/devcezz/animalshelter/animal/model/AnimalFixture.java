@@ -1,8 +1,8 @@
 package pl.devcezz.animalshelter.animal.model;
 
-import pl.devcezz.animalshelter.animal.model.Animal;
-import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.read.result.AnimalInfoDto;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class AnimalFixture {
@@ -29,5 +29,9 @@ public class AnimalFixture {
 
     public static AnimalId anyAnimalId() {
         return new AnimalId(UUID.randomUUID());
+    }
+
+    public static AnimalInfoDto animalInfo(UUID animalId) {
+        return new AnimalInfoDto(animalId, "Azor", "Dog", 10, Instant.now(), null);
     }
 }

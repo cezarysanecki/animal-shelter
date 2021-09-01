@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.TemplateEngine;
 import pl.devcezz.animalshelter.commons.notification.Notifier;
+import pl.devcezz.animalshelter.read.AnimalProjection;
 
 import java.util.Properties;
 
@@ -37,13 +38,19 @@ public class EmailConfig {
     }
 
     @Bean
-    EmailRepository mailRepository(JdbcTemplate jdbcTemplate) {
-        return new EmailRepository(jdbcTemplate);
+    EmailRepository emailRepository(JdbcTemplate jdbcTemplate) {
+        return new EmailDatabaseRepository(jdbcTemplate);
     }
 
     @Bean
-    EmailContentFactory emailContentFactory(EmailRepository emailRepository, TemplateEngine templateEngine) {
-        return new EmailContentFactory(emailRepository, templateEngine);
+    ContentFactory contentFactory(AnimalProjection projection, EmailRepository emailRepository) {
+        return new ContentFactory(projection, emailRepository);
+    }
+
+    @Bean
+    EmailContentFactory emailContentFactory(ContentFactory contentFactory,
+                                            TemplateEngine templateEngine) {
+        return new EmailThymeleafContentFactory(contentFactory, templateEngine);
     }
 
     @Bean

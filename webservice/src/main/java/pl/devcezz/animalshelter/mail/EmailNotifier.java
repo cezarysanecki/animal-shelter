@@ -1,7 +1,6 @@
 package pl.devcezz.animalshelter.mail;
 
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import pl.devcezz.animalshelter.commons.notification.Notification;
 import pl.devcezz.animalshelter.commons.notification.Notifier;
 
@@ -17,9 +16,7 @@ class EmailNotifier implements Notifier {
 
     @Override
     public void notify(final Notification notification) {
-        EmailTemplate emailTemplate = emailFactory.createTemplateFor(notification);
-
-        MimeMessagePreparator message = emailTemplate.fillWith("csanecki@gmail.com");
-        mailSender.send(message);
+        Email email = emailFactory.createEmailFor(notification);
+        mailSender.send(email.fillWith("csanecki@gmail.com"));
     }
 }

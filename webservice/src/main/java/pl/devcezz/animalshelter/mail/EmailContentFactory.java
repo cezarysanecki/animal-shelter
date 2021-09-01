@@ -1,39 +1,24 @@
 package pl.devcezz.animalshelter.mail;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 import pl.devcezz.animalshelter.commons.notification.Notification;
-import pl.devcezz.animalshelter.commons.notification.Notification.AdoptionNotification;
-import pl.devcezz.animalshelter.mail.EmailContextMap.AdoptionEmailContextMap;
+import pl.devcezz.animalshelter.mail.model.EmailContent;
+import pl.devcezz.animalshelter.mail.model.EmailTemplate;
 
-import static io.vavr.API.$;
-import static io.vavr.API.Case;
-import static io.vavr.API.Match;
-import static io.vavr.Predicates.instanceOf;
+public abstract class EmailContentFactory {
 
-class EmailContentFactory {
+    private final ContentFactory contentFactory;
 
-    private final EmailRepository emailRepository;
-    private final TemplateEngine templateEngine;
-
-    EmailContentFactory(final EmailRepository emailRepository, final TemplateEngine templateEngine) {
-        this.emailRepository = emailRepository;
-        this.templateEngine = templateEngine;
+    public EmailContentFactory(final ContentFactory contentFactory) {
+        this.contentFactory = contentFactory;
     }
 
-    EmailContent createUsing(Notification notification) {
-        EmailContextMap contextMap = Match(notification).of(
-                Case($(instanceOf(AdoptionNotification.class)), AdoptionEmailContextMap::new)
-        );
+    public final EmailTemplate createUsing(Notification notification) {
+        EmailContent emailContent = contentFactory.create(notification);
 
-        return emailRepository.findTemplateBy(notification.notificationType())
-                .map(template -> createContent(template, contextMap))
-                .getOrElseThrow(TemplateNotFoundException::new);
+        String text = generateText(emailContent);
+
+        return new EmailTemplate(emailContent.template().subject(), text);
     }
 
-    private EmailContent createContent(final EmailContentTemplate template, final EmailContextMap contextMap) {
-        Context context = new Context(null, contextMap.contextMap());
-        String text = templateEngine.process(template.template(), context);
-        return new EmailContent(template.subject(), text);
-    }
+    abstract String generateText(final EmailContent emailContent);
 }

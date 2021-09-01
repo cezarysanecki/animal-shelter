@@ -2,17 +2,18 @@ package pl.devcezz.animalshelter.mail;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import pl.devcezz.animalshelter.mail.model.EmailTemplate;
 
 import javax.mail.internet.MimeMessage;
 
-class EmailTemplate {
+class Email {
 
-    private final EmailContent emailContent;
     private final EmailContentProperties properties;
+    private final EmailTemplate emailTemplate;
 
-    private EmailTemplate(final EmailContent emailContent, final EmailContentProperties properties) {
-        this.emailContent = emailContent;
+    private Email(final EmailContentProperties properties, final EmailTemplate emailTemplate) {
         this.properties = properties;
+        this.emailTemplate = emailTemplate;
     }
 
     static EmailTemplateBuilder builder() {
@@ -20,41 +21,43 @@ class EmailTemplate {
     }
 
     MimeMessagePreparator fillWith(String userEmail) {
-        return new EmailPreparator(userEmail, emailContent, properties);
+        return new EmailPreparator(properties, emailTemplate, userEmail);
     }
 
     static class EmailTemplateBuilder {
 
-        private EmailContent emailContent;
         private EmailContentProperties properties;
+        private EmailTemplate emailTemplate;
 
         private EmailTemplateBuilder() {}
 
-        EmailContentNeeded content(EmailContent emailContent) {
-            this.emailContent = emailContent;
+        EmailContentNeeded template(EmailTemplate emailTemplate) {
+            this.emailTemplate = emailTemplate;
             return new EmailContentNeeded();
         }
 
         class EmailContentNeeded {
             private EmailContentNeeded() {}
 
-            public EmailTemplate properties(EmailContentProperties props) {
+            public Email properties(EmailContentProperties props) {
                 EmailTemplateBuilder.this.properties = props;
-                return new EmailTemplate(emailContent, properties);
+                return new Email(properties, emailTemplate);
             }
         }
     }
 
     class EmailPreparator implements MimeMessagePreparator {
 
-        private final String userEmail;
-        private final EmailContent setup;
         private final EmailContentProperties properties;
+        private final EmailTemplate emailTemplate;
+        private final String userEmail;
 
-        private EmailPreparator(final String userEmail, final EmailContent setup, final EmailContentProperties properties) {
-            this.userEmail = userEmail;
-            this.setup = setup;
+        private EmailPreparator(final EmailContentProperties properties,
+                                final EmailTemplate emailTemplate,
+                                final String userEmail) {
             this.properties = properties;
+            this.emailTemplate = emailTemplate;
+            this.userEmail = userEmail;
         }
 
         @Override
@@ -62,8 +65,8 @@ class EmailTemplate {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, properties.multipart());
             message.setFrom(properties.from());
             message.setTo(userEmail);
-            message.setSubject(setup.subject());
-            message.setText(setup.text(), properties.mailHtml());
+            message.setSubject(emailTemplate.subject());
+            message.setText(emailTemplate.content(), properties.mailHtml());
         }
     }
 }

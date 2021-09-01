@@ -14,6 +14,7 @@ mail:
     debug-enabled: true
 
 message-config:
+  # zweryfikować czy ma to wpływ
   from: ${mail.credentials.from}
   multipart: true
   mail-html: true

@@ -1,6 +1,7 @@
 package pl.devcezz.animalshelter.mail;
 
 import pl.devcezz.animalshelter.commons.notification.Notification;
+import pl.devcezz.animalshelter.mail.model.EmailTemplate;
 
 class EmailFactory {
 
@@ -12,10 +13,10 @@ class EmailFactory {
         this.properties = properties;
     }
 
-    EmailTemplate createTemplateFor(final Notification notification) {
-        EmailContent content = emailContentFactory.createUsing(notification);
-        return EmailTemplate.builder()
-                .content(content)
+    Email createEmailFor(final Notification notification) {
+        EmailTemplate template = emailContentFactory.createUsing(notification);
+        return Email.builder()
+                .template(template)
                 .properties(properties);
     }
 }

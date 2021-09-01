@@ -3,7 +3,6 @@ package pl.devcezz.animalshelter.animal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.devcezz.animalshelter.commons.notification.Notifier;
-import pl.devcezz.animalshelter.read.AnimalProjection;
 import pl.devcezz.cqrs.event.EventHandler;
 
 @Configuration(proxyBeanMethods = false)
@@ -50,7 +49,7 @@ public class AnimalConfig {
     }
 
     @Bean
-    EventHandler handleAdoptingAnimal(Notifier notifier, AnimalProjection animalProjection) {
-        return new HandleAdoptingAnimal(notifier, animalProjection);
+    EventHandler handleSuccessfulAdoption(Notifier notifier) {
+        return new HandleSuccessfulAdoption(notifier);
     }
 }

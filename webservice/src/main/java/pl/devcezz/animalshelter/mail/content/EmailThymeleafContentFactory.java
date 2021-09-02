@@ -1,14 +1,13 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.mail.content;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import pl.devcezz.animalshelter.mail.model.EmailSchema;
 
-public class EmailThymeleafContentFactory extends EmailContentFactory {
+class EmailThymeleafContentFactory extends EmailContentFactory {
 
     private final TemplateEngine templateEngine;
 
-    public EmailThymeleafContentFactory(final EmailSchemaFactory emailSchemaFactory, final TemplateEngine templateEngine) {
+    EmailThymeleafContentFactory(final EmailSchemaFactory emailSchemaFactory, final TemplateEngine templateEngine) {
         super(emailSchemaFactory);
         this.templateEngine = templateEngine;
     }

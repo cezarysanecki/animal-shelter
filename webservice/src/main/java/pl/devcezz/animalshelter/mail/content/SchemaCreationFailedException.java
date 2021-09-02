@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.mail.model;
+package pl.devcezz.animalshelter.mail.content;
 
 public class SchemaCreationFailedException extends RuntimeException {
 

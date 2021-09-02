@@ -1,8 +1,7 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.mail.content;
 
 import io.vavr.control.Option;
 import pl.devcezz.animalshelter.commons.notification.Notification.NotificationType;
-import pl.devcezz.animalshelter.mail.model.EmailData;
 
 public interface EmailRepository {
 

@@ -1,7 +1,8 @@
 package pl.devcezz.animalshelter.mail;
 
 import pl.devcezz.animalshelter.commons.notification.Notification;
-import pl.devcezz.animalshelter.mail.model.EmailContent;
+import pl.devcezz.animalshelter.mail.content.EmailContent;
+import pl.devcezz.animalshelter.mail.content.EmailContentFactory;
 
 class EmailFactory {
 

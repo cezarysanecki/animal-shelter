@@ -1,11 +1,7 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.mail.content;
 
 import pl.devcezz.animalshelter.commons.notification.Notification;
 import pl.devcezz.animalshelter.commons.notification.Notification.SuccessfulAdoptionNotification;
-import pl.devcezz.animalshelter.mail.model.SchemaCreationFailedException;
-import pl.devcezz.animalshelter.mail.model.EmailSchema;
-import pl.devcezz.animalshelter.mail.model.EmailData;
-import pl.devcezz.animalshelter.mail.model.EmailContext;
 import pl.devcezz.animalshelter.read.AnimalProjection;
 import pl.devcezz.animalshelter.read.query.GetAnimalInfoQuery;
 

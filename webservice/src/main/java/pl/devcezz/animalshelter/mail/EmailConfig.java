@@ -3,12 +3,10 @@ package pl.devcezz.animalshelter.mail;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.thymeleaf.TemplateEngine;
 import pl.devcezz.animalshelter.commons.notification.Notifier;
-import pl.devcezz.animalshelter.read.AnimalProjection;
+import pl.devcezz.animalshelter.mail.content.EmailContentFactory;
 
 import java.util.Properties;
 
@@ -35,22 +33,6 @@ public class EmailConfig {
         props.put("mail.debug", emailProperties.settings().debugEnabled());
 
         return mailSender;
-    }
-
-    @Bean
-    EmailRepository emailRepository(JdbcTemplate jdbcTemplate) {
-        return new EmailDatabaseRepository(jdbcTemplate);
-    }
-
-    @Bean
-    EmailSchemaFactory contentFactory(AnimalProjection projection, EmailRepository emailRepository) {
-        return new EmailSchemaFactory(projection, emailRepository);
-    }
-
-    @Bean
-    EmailContentFactory emailContentFactory(EmailSchemaFactory emailSchemaFactory,
-                                            TemplateEngine templateEngine) {
-        return new EmailThymeleafContentFactory(emailSchemaFactory, templateEngine);
     }
 
     @Bean

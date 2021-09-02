@@ -1,11 +1,10 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.mail.content;
 
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.animalshelter.commons.notification.Notification;
-import pl.devcezz.animalshelter.mail.model.EmailData;
 
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;
@@ -22,7 +21,7 @@ class EmailDatabaseRepository implements EmailRepository {
     public Option<EmailData> findEmailDataBy(Notification.NotificationType type) {
         return Try.ofSupplier(() -> of(
                         jdbcTemplate.queryForObject(
-                                "SELECT m.subject, m.template_file FROM shelter_mail m WHERE m.mail_type = ?",
+                                "SELECT e.subject, e.template_file FROM shelter_email_data e WHERE e.mail_type = ?",
                                 new BeanPropertyRowMapper<>(EmailDataRow.class),
                                 type.name()))
                         .map(EmailDataRow::toEmailData))

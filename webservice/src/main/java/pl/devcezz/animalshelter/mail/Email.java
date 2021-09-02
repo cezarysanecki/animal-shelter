@@ -2,7 +2,7 @@ package pl.devcezz.animalshelter.mail;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import pl.devcezz.animalshelter.mail.model.EmailContent;
+import pl.devcezz.animalshelter.mail.content.EmailContent;
 
 import javax.mail.internet.MimeMessage;
 

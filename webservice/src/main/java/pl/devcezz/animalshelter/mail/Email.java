@@ -2,71 +2,69 @@ package pl.devcezz.animalshelter.mail;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import pl.devcezz.animalshelter.mail.model.EmailTemplate;
+import pl.devcezz.animalshelter.mail.model.EmailContent;
 
 import javax.mail.internet.MimeMessage;
 
 class Email {
 
-    private final EmailContentProperties properties;
-    private final EmailTemplate emailTemplate;
+    private final EmailContentProperties contentProperties;
+    private final EmailContent content;
 
-    private Email(final EmailContentProperties properties, final EmailTemplate emailTemplate) {
-        this.properties = properties;
-        this.emailTemplate = emailTemplate;
+    private Email(final EmailContentProperties contentProperties, final EmailContent content) {
+        this.contentProperties = contentProperties;
+        this.content = content;
     }
 
-    static EmailTemplateBuilder builder() {
-        return new EmailTemplateBuilder();
+    static EmailBuilder builder() {
+        return new EmailBuilder();
     }
 
     MimeMessagePreparator fillWith(String userEmail) {
-        return new EmailPreparator(properties, emailTemplate, userEmail);
+        return new EmailPreparator(contentProperties, content, userEmail);
     }
 
-    static class EmailTemplateBuilder {
+    static class EmailBuilder {
 
-        private EmailContentProperties properties;
-        private EmailTemplate emailTemplate;
+        private EmailContentProperties contentProperties;
 
-        private EmailTemplateBuilder() {}
+        private EmailBuilder() {}
 
-        EmailContentNeeded template(EmailTemplate emailTemplate) {
-            this.emailTemplate = emailTemplate;
-            return new EmailContentNeeded();
+        EmailContentPropertiesNeeded contentProperties(EmailContentProperties contentProperties) {
+            this.contentProperties = contentProperties;
+            return new EmailContentPropertiesNeeded();
         }
 
-        class EmailContentNeeded {
-            private EmailContentNeeded() {}
+        class EmailContentPropertiesNeeded {
+            private EmailContentPropertiesNeeded() {}
 
-            public Email properties(EmailContentProperties props) {
-                EmailTemplateBuilder.this.properties = props;
-                return new Email(properties, emailTemplate);
+            public Email content(EmailContent content) {
+                return new Email(contentProperties, content);
             }
         }
     }
 
     class EmailPreparator implements MimeMessagePreparator {
 
-        private final EmailContentProperties properties;
-        private final EmailTemplate emailTemplate;
+        private final EmailContentProperties contentProperties;
+        private final EmailContent content;
         private final String userEmail;
 
-        private EmailPreparator(final EmailContentProperties properties,
-                                final EmailTemplate emailTemplate,
+        private EmailPreparator(final EmailContentProperties contentProperties,
+                                final EmailContent content,
                                 final String userEmail) {
-            this.properties = properties;
-            this.emailTemplate = emailTemplate;
+            this.contentProperties = contentProperties;
+            this.content = content;
             this.userEmail = userEmail;
         }
 
         @Override
         public void prepare(final MimeMessage mimeMessage) throws Exception {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, properties.multipart());
-            message.setFrom(properties.from());
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, contentProperties.multipart());
+            message.setFrom(contentProperties.from());
             message.setTo(userEmail);
-            message.setSubject(emailTemplate.subject());
-            message.setText(emailTemplate.content(), properties.mailHtml());
+            message.setSubject(content.subject());
+            message.setText(content.content(), contentProperties.mailHtml());
         }
     }
 }

@@ -17,6 +17,7 @@ class EmailNotifier implements Notifier {
     @Override
     public void notify(final Notification notification) {
         Email email = emailFactory.createEmailFor(notification);
-        mailSender.send(email.fillWith("csanecki@gmail.com"));
+        mailSender.send(
+                email.fillWith("csanecki@gmail.com"));
     }
 }

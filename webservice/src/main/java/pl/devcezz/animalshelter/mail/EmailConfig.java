@@ -43,14 +43,14 @@ public class EmailConfig {
     }
 
     @Bean
-    ContentFactory contentFactory(AnimalProjection projection, EmailRepository emailRepository) {
-        return new ContentFactory(projection, emailRepository);
+    EmailSchemaFactory contentFactory(AnimalProjection projection, EmailRepository emailRepository) {
+        return new EmailSchemaFactory(projection, emailRepository);
     }
 
     @Bean
-    EmailContentFactory emailContentFactory(ContentFactory contentFactory,
+    EmailContentFactory emailContentFactory(EmailSchemaFactory emailSchemaFactory,
                                             TemplateEngine templateEngine) {
-        return new EmailThymeleafContentFactory(contentFactory, templateEngine);
+        return new EmailThymeleafContentFactory(emailSchemaFactory, templateEngine);
     }
 
     @Bean

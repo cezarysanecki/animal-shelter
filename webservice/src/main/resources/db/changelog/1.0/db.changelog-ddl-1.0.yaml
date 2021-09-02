@@ -87,17 +87,17 @@ databaseChangeLog:
         - onFail: MARK_RAN
           not:
             tableExists:
-              tableName: shelter_mail
+              tableName: shelter_email_data
       changes:
         - createTable:
-            tableName: shelter_mail
+            tableName: shelter_email_data
             columns:
               - column:
                   autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: shelter_mail_pkey
+                    primaryKeyName: shelter_email_data_pkey
                   name: id
                   type: INTEGER
               - column:
@@ -108,7 +108,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: template
+                  name: template_file
                   type: VARCHAR(50)
               - column:
                   constraints:

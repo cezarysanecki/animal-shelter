@@ -2,23 +2,23 @@ package pl.devcezz.animalshelter.mail;
 
 import pl.devcezz.animalshelter.commons.notification.Notification;
 import pl.devcezz.animalshelter.mail.model.EmailContent;
-import pl.devcezz.animalshelter.mail.model.EmailTemplate;
+import pl.devcezz.animalshelter.mail.model.EmailSchema;
 
 public abstract class EmailContentFactory {
 
-    private final ContentFactory contentFactory;
+    private final EmailSchemaFactory emailSchemaFactory;
 
-    public EmailContentFactory(final ContentFactory contentFactory) {
-        this.contentFactory = contentFactory;
+    public EmailContentFactory(final EmailSchemaFactory emailSchemaFactory) {
+        this.emailSchemaFactory = emailSchemaFactory;
     }
 
-    public final EmailTemplate createUsing(Notification notification) {
-        EmailContent emailContent = contentFactory.create(notification);
+    public final EmailContent createUsing(Notification notification) {
+        EmailSchema schema = emailSchemaFactory.createUsing(notification);
 
-        String text = generateText(emailContent);
+        String content = generateContentFrom(schema);
 
-        return new EmailTemplate(emailContent.template().subject(), text);
+        return new EmailContent(schema.template().subject(), content);
     }
 
-    abstract String generateText(final EmailContent emailContent);
+    abstract String generateContentFrom(final EmailSchema emailSchema);
 }

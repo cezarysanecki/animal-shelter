@@ -1,6 +1,6 @@
 package pl.devcezz.animalshelter.commons.notification;
 
-import pl.devcezz.animalshelter.animal.model.AnimalId;
+import pl.devcezz.animalshelter.shelter.vo.AnimalId;
 
 public interface Notification {
 

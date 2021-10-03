@@ -24,12 +24,4 @@ class ShelterFixture {
     static AnimalId anyAnimalId() {
         return new AnimalId(UUID.randomUUID());
     }
-
-    static Animal animal(String name, String species, Integer age) {
-        return new Animal(UUID.randomUUID(), name, species, age);
-    }
-
-    static Animal animal() {
-        return animal("Azor", "Dog", 5);
-    }
 }

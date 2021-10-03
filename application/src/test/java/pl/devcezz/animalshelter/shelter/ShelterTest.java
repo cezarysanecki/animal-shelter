@@ -8,7 +8,7 @@ import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.cqrs.event.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pl.devcezz.animalshelter.shelter.AnimalFixture.buildAnimal;
+import static pl.devcezz.animalshelter.shelter.AnimalFixture.animal;
 import static pl.devcezz.animalshelter.shelter.ShelterFixture.shelter;
 import static pl.devcezz.animalshelter.shelter.ShelterFixture.shelterLimits;
 
@@ -19,7 +19,7 @@ class ShelterTest {
     void should_create_succeed_event_when_free_space_in_shelter() {
         Shelter shelter = shelter(shelterLimits(10, 7), 5);
 
-        Event result = shelter.accept(buildAnimal());
+        Event result = shelter.accept(animal());
 
         assertThat(result).isInstanceOf(AcceptingAnimalSucceeded.class);
     }
@@ -29,7 +29,7 @@ class ShelterTest {
     void should_create_warned_event_when_safe_threshold_reached() {
         Shelter shelter = shelter(shelterLimits(10, 7), 6);
 
-        Event result = shelter.accept(buildAnimal());
+        Event result = shelter.accept(animal());
 
         assertThat(result).isInstanceOf(AcceptingAnimalWarned.class);
     }
@@ -39,7 +39,7 @@ class ShelterTest {
     void should_create_failed_event_when_capacity_is_exceeded() {
         Shelter shelter = shelter(shelterLimits(10, 7), 10);
 
-        AcceptingAnimalFailed result = (AcceptingAnimalFailed) shelter.accept(buildAnimal());
+        AcceptingAnimalFailed result = (AcceptingAnimalFailed) shelter.accept(animal());
 
         assertThat(result.getReason()).isEqualTo("not enough space in shelter");
     }

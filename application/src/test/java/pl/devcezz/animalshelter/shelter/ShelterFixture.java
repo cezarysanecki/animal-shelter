@@ -17,7 +17,7 @@ class ShelterFixture {
         return new Shelter(shelterLimits, availableAnimals(amountOfAnimals));
     }
 
-    static Set<AvailableAnimal> availableAnimals(int amount) {
+    private static Set<AvailableAnimal> availableAnimals(int amount) {
         return Stream.fill(amount, () -> new AvailableAnimal(new AnimalId(UUID.randomUUID()))).toSet();
     }
 }

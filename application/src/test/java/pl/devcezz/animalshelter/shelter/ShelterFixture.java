@@ -20,4 +20,16 @@ class ShelterFixture {
     private static Set<AvailableAnimal> availableAnimals(int amount) {
         return Stream.fill(amount, () -> new AvailableAnimal(new AnimalId(UUID.randomUUID()))).toSet();
     }
+
+    static AnimalId anyAnimalId() {
+        return new AnimalId(UUID.randomUUID());
+    }
+
+    static Animal animal(String name, String species, Integer age) {
+        return new Animal(UUID.randomUUID(), name, species, age);
+    }
+
+    static Animal animal() {
+        return animal("Azor", "Dog", 5);
+    }
 }

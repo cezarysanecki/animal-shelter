@@ -8,14 +8,15 @@ import pl.devcezz.animalshelter.commons.notification.Notifier;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static pl.devcezz.animalshelter.shelter.model.AnimalIdFixture.anyAnimalId;
 
 class HandleSuccessfulAdoptionTest {
 
-    private final AnimalId animalId = anyAnimalId();
+    private final AnimalId animalId = new AnimalId(UUID.randomUUID());
 
     private Notifier notifier;
 

@@ -8,7 +8,7 @@ import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.cqrs.event.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pl.devcezz.animalshelter.shelter.AnimalFixture.animal;
+import static pl.devcezz.animalshelter.shelter.ShelterFixture.animal;
 import static pl.devcezz.animalshelter.shelter.ShelterFixture.shelter;
 import static pl.devcezz.animalshelter.shelter.ShelterFixture.shelterLimits;
 

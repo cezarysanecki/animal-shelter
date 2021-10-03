@@ -4,11 +4,11 @@ import io.vavr.control.Option;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
+import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.command.DeleteAnimalCommand;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
-import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
-import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
 import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static pl.devcezz.animalshelter.shelter.model.AnimalIdFixture.anyAnimalId;
+import static pl.devcezz.animalshelter.shelter.ShelterFixture.anyAnimalId;
 
 class DeletingAnimalTest {
 

@@ -1,6 +1,6 @@
 package pl.devcezz.animalshelter.shelter;
 
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 interface ShelterAnimal {
 

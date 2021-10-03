@@ -3,7 +3,7 @@ package pl.devcezz.animalshelter.shelter;
 import io.vavr.control.Option;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent;
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 interface Animals {
 

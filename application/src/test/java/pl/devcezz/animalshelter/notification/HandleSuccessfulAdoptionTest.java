@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import pl.devcezz.animalshelter.commons.notification.Notification.SuccessfulAdoptionNotification;
 import pl.devcezz.animalshelter.commons.notification.Notifier;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static pl.devcezz.animalshelter.shelter.vo.AnimalIdFixture.anyAnimalId;
+import static pl.devcezz.animalshelter.shelter.model.AnimalIdFixture.anyAnimalId;
 
 class HandleSuccessfulAdoptionTest {
 

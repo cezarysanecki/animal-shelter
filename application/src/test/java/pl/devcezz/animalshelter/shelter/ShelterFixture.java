@@ -2,7 +2,7 @@ package pl.devcezz.animalshelter.shelter;
 
 import io.vavr.collection.Set;
 import io.vavr.collection.Stream;
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 
 import java.util.UUID;

@@ -9,7 +9,7 @@ import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static pl.devcezz.animalshelter.shelter.vo.AnimalIdFixture.anyAnimalId;
+import static pl.devcezz.animalshelter.shelter.model.AnimalIdFixture.anyAnimalId;
 
 class DeletingAnimalTest {
 

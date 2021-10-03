@@ -7,7 +7,7 @@ import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent;
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.event.EventsBus;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;

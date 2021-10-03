@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.shelter.vo;
+package pl.devcezz.animalshelter.shelter.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

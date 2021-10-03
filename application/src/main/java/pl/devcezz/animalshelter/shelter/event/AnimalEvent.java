@@ -1,6 +1,6 @@
 package pl.devcezz.animalshelter.shelter.event;
 
-import pl.devcezz.animalshelter.shelter.vo.AnimalId;
+import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.event.Event;
 
 public interface AnimalEvent extends Event {

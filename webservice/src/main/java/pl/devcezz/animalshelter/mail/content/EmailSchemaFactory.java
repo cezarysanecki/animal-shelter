@@ -2,8 +2,8 @@ package pl.devcezz.animalshelter.mail.content;
 
 import pl.devcezz.animalshelter.commons.notification.Notification;
 import pl.devcezz.animalshelter.commons.notification.Notification.SuccessfulAdoptionNotification;
-import pl.devcezz.animalshelter.read.AnimalProjection;
-import pl.devcezz.animalshelter.read.query.GetAnimalInfoQuery;
+import pl.devcezz.animalshelter.ui.AnimalProjection;
+import pl.devcezz.animalshelter.ui.query.GetAnimalInfoQuery;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;

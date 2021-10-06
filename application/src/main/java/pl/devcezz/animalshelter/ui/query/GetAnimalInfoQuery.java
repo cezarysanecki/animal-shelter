@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.read.query;
+package pl.devcezz.animalshelter.ui.query;
 
 import java.util.UUID;
 

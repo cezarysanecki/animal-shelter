@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.read;
+package pl.devcezz.animalshelter.ui;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
-import pl.devcezz.animalshelter.read.query.GetAnimalInfoQuery;
-import pl.devcezz.animalshelter.read.query.GetAnimalsQuery;
-import pl.devcezz.animalshelter.read.result.AnimalDto;
-import pl.devcezz.animalshelter.read.result.AnimalInfoDto;
+import pl.devcezz.animalshelter.ui.query.GetAnimalInfoQuery;
+import pl.devcezz.animalshelter.ui.query.GetAnimalsQuery;
+import pl.devcezz.animalshelter.ui.dto.AnimalDto;
+import pl.devcezz.animalshelter.ui.dto.AnimalInfoDto;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;

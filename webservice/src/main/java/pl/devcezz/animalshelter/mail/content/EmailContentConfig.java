@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.thymeleaf.TemplateEngine;
-import pl.devcezz.animalshelter.read.AnimalProjection;
+import pl.devcezz.animalshelter.ui.AnimalProjection;
 
 @Configuration
 public class EmailContentConfig {

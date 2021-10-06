@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.read;
+package pl.devcezz.animalshelter.ui;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Stream;
@@ -6,10 +6,10 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.devcezz.animalshelter.read.query.GetAnimalInfoQuery;
-import pl.devcezz.animalshelter.read.query.GetAnimalsQuery;
-import pl.devcezz.animalshelter.read.result.AnimalDto;
-import pl.devcezz.animalshelter.read.result.AnimalInfoDto;
+import pl.devcezz.animalshelter.ui.query.GetAnimalInfoQuery;
+import pl.devcezz.animalshelter.ui.query.GetAnimalsQuery;
+import pl.devcezz.animalshelter.ui.dto.AnimalDto;
+import pl.devcezz.animalshelter.ui.dto.AnimalInfoDto;
 
 import java.time.Instant;
 import java.util.UUID;

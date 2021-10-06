@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.read;
+package pl.devcezz.animalshelter.ui;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

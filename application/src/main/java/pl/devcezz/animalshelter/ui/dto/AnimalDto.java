@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.read.result;
+package pl.devcezz.animalshelter.ui.dto;
 
 import java.util.UUID;
 

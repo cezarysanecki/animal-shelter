@@ -19,7 +19,7 @@
 	<modules>
 		<module>webservice</module>
 		<module>application</module>
-        <module>shared</module>
+        <module>cqrs</module>
     </modules>
 
 	<dependencies>

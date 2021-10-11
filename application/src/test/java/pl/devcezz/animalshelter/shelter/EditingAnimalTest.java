@@ -9,7 +9,6 @@ import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.command.EditAnimalCommand;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,11 +16,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static pl.devcezz.animalshelter.shelter.ShelterFixture.animalInformation;
 import static pl.devcezz.animalshelter.shelter.ShelterFixture.anyAnimalId;
 
 class EditingAnimalTest {
 
     private final AnimalId animalId = anyAnimalId();
+    private final AnimalInformation animalInformation = animalInformation();
 
     private Animals animals;
 
@@ -37,7 +38,7 @@ class EditingAnimalTest {
     @DisplayName("Should successfully edit animal when is in shelter")
     @Test
     void should_successfully_edit_animal_when_is_in_shelter() {
-        when(animals.findBy(animalId)).thenReturn(Option.of(new AvailableAnimal(animalId)));
+        when(animals.findBy(animalId)).thenReturn(Option.of(new AvailableAnimal(animalId, animalInformation)));
 
         editingAnimal.handle(command(animalId));
 
@@ -47,7 +48,7 @@ class EditingAnimalTest {
     @DisplayName("Should fail when editing animal which is adopted")
     @Test
     void should_fail_when_editing_animal_which_is_adopted() {
-        when(animals.findBy(animalId)).thenReturn(Option.of(new AdoptedAnimal(animalId)));
+        when(animals.findBy(animalId)).thenReturn(Option.of(new AdoptedAnimal(animalId, animalInformation)));
 
         assertThatThrownBy(() -> editingAnimal.handle(command(animalId)))
             .isInstanceOf(AnimalAlreadyAdoptedException.class);

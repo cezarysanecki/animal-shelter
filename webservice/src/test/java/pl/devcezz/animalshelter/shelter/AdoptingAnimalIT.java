@@ -20,7 +20,6 @@ import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.event.EventsBus;
 
 import javax.sql.DataSource;

@@ -1,18 +1,18 @@
 package pl.devcezz.animalshelter.shelter;
 
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded.adoptingAnimalSucceeded;
 
 class AdoptingAnimal implements CommandHandler<AdoptAnimalCommand> {
 
@@ -44,7 +44,16 @@ class AdoptingAnimal implements CommandHandler<AdoptAnimalCommand> {
 
     private ShelterAnimal adopt(AvailableAnimal animal) {
         animals.adopt(animal);
-        animals.publish(adoptingAnimalSucceeded(animal.animalId()));
+        animals.publish(adoptionSuccessful(animal));
         return animal;
+    }
+
+    private AnimalEvent adoptionSuccessful(final AvailableAnimal animal) {
+        return new AnimalAdoptionSucceeded(
+                animal.animalId().value(),
+                animal.getAnimalInformation().name(),
+                animal.getAnimalInformation().age(),
+                animal.getAnimalInformation().species()
+        );
     }
 }

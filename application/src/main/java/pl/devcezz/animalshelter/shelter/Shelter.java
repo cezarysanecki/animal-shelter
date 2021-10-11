@@ -4,9 +4,9 @@ import io.vavr.collection.Set;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.cqrs.event.Event;
 
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed.acceptingAnimalRejected;
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded.acceptingAnimalSucceeded;
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned.acceptingAnimalWarned;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded.AcceptingAnimalSucceeded;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
 
 class Shelter {
 
@@ -24,11 +24,11 @@ class Shelter {
     Event accept(Animal animal) {
         if (safeThresholdExceededAfterAccepting(animal)) {
             if (capacityReachedAfterAccepting(animal)) {
-                return acceptingAnimalRejected("not enough space in shelter");
+                return acceptingAnimalFailed();
             }
-            return acceptingAnimalWarned();
+            return acceptingAnimalWarned(animal);
         }
-        return acceptingAnimalSucceeded();
+        return acceptingAnimalSucceeded(animal);
     }
 
     private boolean capacityReachedAfterAccepting(Animal animal) {
@@ -37,5 +37,27 @@ class Shelter {
 
     private boolean safeThresholdExceededAfterAccepting(Animal animal) {
         return shelterLimits.safeThreshold() <= shelterAnimals.length() + 1;
+    }
+
+    private AcceptingAnimalFailed acceptingAnimalFailed() {
+        return new AcceptingAnimalFailed("not enough space in shelter");
+    }
+
+    private AcceptingAnimalWarned acceptingAnimalWarned(final Animal animal) {
+        return new AcceptingAnimalWarned(
+                animal.getId().value(),
+                animal.getName().value(),
+                animal.getAge().value(),
+                animal.getSpecies().name()
+        );
+    }
+
+    private AcceptingAnimalSucceeded acceptingAnimalSucceeded(final Animal animal) {
+        return new AcceptingAnimalSucceeded(
+                animal.getId().value(),
+                animal.getName().value(),
+                animal.getAge().value(),
+                animal.getSpecies().name()
+        );
     }
 }

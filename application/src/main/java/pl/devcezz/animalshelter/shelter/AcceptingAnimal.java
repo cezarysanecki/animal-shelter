@@ -1,16 +1,18 @@
 package pl.devcezz.animalshelter.shelter;
 
 import io.vavr.API;
-import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
-import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
 import pl.devcezz.animalshelter.commons.Result;
+import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
+import static pl.devcezz.animalshelter.commons.Result.rejection;
+import static pl.devcezz.animalshelter.commons.Result.success;
 
 class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
 
@@ -47,18 +49,18 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
 
     private Result publishEvent(AcceptingAnimalFailed event) {
         animals.publish(event);
-        return new Result.Rejection(event.getReason());
+        return rejection(event.reason());
     }
 
     private Result saveAndPublishEvent(AcceptingAnimalWarned event, Animal animal) {
         animals.save(animal);
         animals.publish(event);
-        return new Result.Success();
+        return success();
     }
 
     private Result saveAndPublishEvent(AcceptingAnimalSucceeded event, Animal animal) {
         animals.save(animal);
         animals.publish(event);
-        return new Result.Success();
+        return success();
     }
 }

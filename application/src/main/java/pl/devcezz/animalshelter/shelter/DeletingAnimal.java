@@ -5,7 +5,6 @@ import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.command.CommandHandler;
 
 import static io.vavr.API.$;

@@ -3,7 +3,6 @@ package pl.devcezz.animalshelter.shelter;
 import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.DeleteAnimalCommand;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 
 import java.util.UUID;
 

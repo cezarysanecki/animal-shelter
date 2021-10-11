@@ -1,11 +1,11 @@
-package pl.devcezz.animalshelter.shelter.model;
+package pl.devcezz.animalshelter.shelter;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public record AnimalId(UUID value) {
+record AnimalId(UUID value) {
 
-    public AnimalId {
+    AnimalId {
         if (value == null) {
             throw new IllegalArgumentException("id cannot be null");
         }

@@ -1,36 +1,32 @@
 package pl.devcezz.animalshelter.shelter;
 
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
+abstract class ShelterAnimal {
 
-interface ShelterAnimal {
+    private final AnimalId animalId;
+    private final AnimalInformation animalInformation;
 
-    AnimalId animalId();
+    ShelterAnimal(final AnimalId animalId, final AnimalInformation animalInformation) {
+        this.animalId = animalId;
+        this.animalInformation = animalInformation;
+    }
 
-    class AdoptedAnimal implements ShelterAnimal {
+    AnimalId animalId() {
+        return animalId;
+    };
 
-        private final AnimalId animalId;
+    AnimalInformation getAnimalInformation() {
+        return animalInformation;
+    };
 
-        AdoptedAnimal(final AnimalId animalId) {
-            this.animalId = animalId;
-        }
-
-        @Override
-        public AnimalId animalId() {
-            return animalId;
+    static class AdoptedAnimal extends ShelterAnimal {
+        AdoptedAnimal(final AnimalId animalId, final AnimalInformation animalInformation) {
+            super(animalId, animalInformation);
         }
     }
 
-    class AvailableAnimal implements ShelterAnimal {
-
-        private final AnimalId animalId;
-
-        AvailableAnimal(final AnimalId animalId) {
-            this.animalId = animalId;
-        }
-
-        @Override
-        public AnimalId animalId() {
-            return animalId;
+    static class AvailableAnimal extends ShelterAnimal {
+        AvailableAnimal(final AnimalId animalId, final AnimalInformation animalInformation) {
+            super(animalId, animalInformation);
         }
     }
 }

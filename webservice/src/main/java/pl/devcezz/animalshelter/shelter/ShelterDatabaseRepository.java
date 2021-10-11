@@ -7,7 +7,6 @@ import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.event.EventsBus;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
@@ -60,11 +59,13 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     @Override
     public Option<ShelterAnimal> findBy(final AnimalId animalId) {
         return Try.ofSupplier(() -> of(
-                        jdbcTemplate.queryForObject(
-                                "SELECT a.animal_id, a.adopted_at IS NULL as in_shelter FROM shelter_animal a WHERE a.animal_id = ?",
-                                new BeanPropertyRowMapper<>(ShelterAnimalRow.class),
-                                animalId.value().toString()))
-                        .map(ShelterAnimalRow::toShelterAnimal))
+                jdbcTemplate.queryForObject(
+                        "SELECT a.animal_id, a.name, a.species, a.age, a.adopted_at IS NULL as in_shelter " +
+                                "FROM shelter_animal a " +
+                                "WHERE a.animal_id = ?",
+                        new BeanPropertyRowMapper<>(ShelterAnimalRow.class),
+                        animalId.value().toString()))
+                .map(ShelterAnimalRow::toShelterAnimal))
                 .getOrElse(none());
     }
 
@@ -86,8 +87,8 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public ShelterLimits queryForShelterLimits() {
         return Option.of(
                 jdbcTemplate.queryForObject(
-                    "SELECT c.capacity, c.safe_threshold FROM shelter_config c",
-                    new BeanPropertyRowMapper<>(ShelterLimitsRow.class)
+                        "SELECT c.capacity, c.safe_threshold FROM shelter_config c",
+                        new BeanPropertyRowMapper<>(ShelterLimitsRow.class)
                 ))
                 .map(ShelterLimitsRow::toShelterLimits)
                 .getOrElseThrow(IllegalArgumentException::new);
@@ -97,8 +98,8 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
     public Set<AvailableAnimal> queryForAvailableAnimals() {
         return Stream.ofAll(
                 jdbcTemplate.query(
-                    "SELECT a.animal_id FROM shelter_animal a WHERE a.adopted_at IS NULL",
-                    new BeanPropertyRowMapper<>(AvailableAnimalRow.class)
+                        "SELECT a.animal_id, a.name, a.species, a.age FROM shelter_animal a WHERE a.adopted_at IS NULL",
+                        new BeanPropertyRowMapper<>(AvailableAnimalRow.class)
                 ))
                 .map(AvailableAnimalRow::toAvailableAnimal)
                 .toSet();
@@ -126,27 +127,60 @@ class ShelterLimitsRow {
 class AvailableAnimalRow {
 
     UUID animalId;
+    String name;
+    Integer age;
+    String species;
 
     AvailableAnimal toAvailableAnimal() {
-        return new AvailableAnimal(new AnimalId(animalId));
+        return new AvailableAnimal(new AnimalId(animalId), new AnimalInformation(name, age, species));
     }
 
     public void setAnimalId(final UUID animalId) {
         this.animalId = animalId;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
+    }
+
+    public void setSpecies(final String species) {
+        this.species = species;
     }
 }
 
 class ShelterAnimalRow {
 
     UUID animalId;
+    String name;
+    Integer age;
+    String species;
     Boolean inShelter;
 
     ShelterAnimal toShelterAnimal() {
-        return inShelter ? new AvailableAnimal(new AnimalId(animalId)) : new AdoptedAnimal(new AnimalId(animalId));
+        AnimalInformation animalInformation = new AnimalInformation(name, age, species);
+        return inShelter ?
+                new AvailableAnimal(new AnimalId(animalId), animalInformation) :
+                new AdoptedAnimal(new AnimalId(animalId), animalInformation);
     }
 
     public void setAnimalId(final UUID animalId) {
         this.animalId = animalId;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
+    }
+
+    public void setSpecies(final String species) {
+        this.species = species;
     }
 
     public void setInShelter(final Boolean inShelter) {

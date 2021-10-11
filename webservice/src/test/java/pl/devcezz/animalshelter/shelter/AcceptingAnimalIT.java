@@ -16,7 +16,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
 import pl.devcezz.cqrs.event.EventsBus;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;

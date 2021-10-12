@@ -17,7 +17,11 @@ class AnimalFixture {
     }
 
     static AcceptAnimalCommand acceptAnimalCommand() {
-        return new AcceptAnimalCommand(UUID.randomUUID(), "Azor", "Dog", 6);
+        return acceptAnimalCommand(UUID.randomUUID());
+    }
+
+    static AcceptAnimalCommand acceptAnimalCommand(UUID animalId) {
+        return new AcceptAnimalCommand(animalId, "Azor", "Dog", 6);
     }
 
     static AdoptAnimalCommand adoptAnimalCommand(AnimalId animalId) {
@@ -30,5 +34,9 @@ class AnimalFixture {
 
     static AnimalId anyAnimalId() {
         return new AnimalId(UUID.randomUUID());
+    }
+
+    static AnimalInformation animalInformation() {
+        return new AnimalInformation("Azor", "Dog", 5);
     }
 }

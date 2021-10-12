@@ -24,6 +24,9 @@ import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 
 import javax.sql.DataSource;
 
+import java.util.UUID;
+import java.util.function.Function;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.isA;
@@ -31,11 +34,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.acceptAnimalCommand;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.animal;
+import static pl.devcezz.animalshelter.shelter.AnimalFixture.animalInformation;
+import static pl.devcezz.animalshelter.shelter.AnimalFixture.anyAnimalId;
 
 @SpringBootTest(classes = { ShelterConfig.class, AcceptingAnimalIT.Config.class })
 @ActiveProfiles("container")
 @Testcontainers
 class AcceptingAnimalIT {
+
+    private final AnimalId animalId = anyAnimalId();
 
     @Container
     private static final MySQLContainer<?> DB_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.24"))
@@ -55,13 +62,12 @@ class AcceptingAnimalIT {
             @Autowired EventsBus eventsBus,
             @Autowired ShelterDatabaseRepository repository
     ) {
-        AcceptAnimalCommand command = acceptAnimalCommand();
-
-        acceptingAnimal.handle(command);
+        acceptingAnimal.handle(acceptAnimalCommand(animalId.value()));
 
         verify(eventsBus).publish(isA(AcceptingAnimalSucceeded.class));
         assertThat(repository.queryForAvailableAnimals())
-                .containsOnly(new AvailableAnimal(new AnimalId(command.animalId())));
+                .hasSize(1)
+                .allSatisfy(animal -> assertThat(animal.animalId()).isEqualTo(animalId));
     }
 
     @Test
@@ -73,13 +79,13 @@ class AcceptingAnimalIT {
             @Autowired ShelterDatabaseRepository repository
     ) {
         addAnimalToShelter(repository);
-        AcceptAnimalCommand command = acceptAnimalCommand();
 
-        acceptingAnimal.handle(command);
+        acceptingAnimal.handle(acceptAnimalCommand(animalId.value()));
 
         verify(eventsBus).publish(isA(AcceptingAnimalWarned.class));
         assertThat(repository.queryForAvailableAnimals())
-                .contains(new AvailableAnimal(new AnimalId(command.animalId())));
+                .hasSize(2)
+                .anySatisfy(animal -> assertThat(animal.animalId()).isEqualTo(animalId));
     }
 
     @Test
@@ -92,14 +98,14 @@ class AcceptingAnimalIT {
     ) {
         addAnimalToShelter(repository);
         addAnimalToShelter(repository);
-        AcceptAnimalCommand command = acceptAnimalCommand();
 
-        assertThatThrownBy(() -> acceptingAnimal.handle(command))
+        assertThatThrownBy(() -> acceptingAnimal.handle(acceptAnimalCommand(animalId.value())))
                 .isInstanceOf(AcceptingAnimalRejectedException.class);
 
         verify(eventsBus).publish(isA(AcceptingAnimalFailed.class));
         assertThat(repository.queryForAvailableAnimals())
-                .doesNotContain(new AvailableAnimal(new AnimalId(command.animalId())));
+                .hasSize(2)
+                .noneSatisfy(animal -> assertThat(animal.animalId()).isEqualTo(animalId));
     }
 
     private void addAnimalToShelter(ShelterDatabaseRepository repository) {

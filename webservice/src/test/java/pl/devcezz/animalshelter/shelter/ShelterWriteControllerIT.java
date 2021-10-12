@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,16 +48,7 @@ class ShelterWriteControllerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("name.[*]").value("must not be blank"))
                 .andExpect(jsonPath("age.[*]").value("must not be null"))
-                .andExpect(jsonPath("species.[*]").value(containsInAnyOrder("must be one of the species: Cat, Dog", "must not be blank")));
-    }
-
-    @Test
-    void should_adopt_animal(@Autowired MockMvc mockMvc) throws Exception {
-        mockMvc.perform(post("/shelter/animals/adopt")
-                .content("38400000-8cf0-11bd-b23e-10b96e4ef00d")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("species.[*]").value("must not be blank"));
     }
 
     @Test
@@ -73,6 +63,15 @@ class ShelterWriteControllerIT {
     @Test
     void should_delete_animal(@Autowired MockMvc mockMvc) throws Exception {
         mockMvc.perform(delete("/shelter/animals")
+                .content("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_adopt_animal(@Autowired MockMvc mockMvc) throws Exception {
+        mockMvc.perform(post("/shelter/animals/adopt")
                 .content("38400000-8cf0-11bd-b23e-10b96e4ef00d")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

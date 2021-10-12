@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.animal;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.anyAnimalId;
+import static pl.devcezz.animalshelter.shelter.AnimalFixture.animalInformation;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.deleteAnimalCommand;
 
 @SpringBootTest(classes = { ShelterConfig.class, DeletingAnimalIT.Config.class })
@@ -39,6 +40,7 @@ class DeletingAnimalIT {
     private final static EventsBus EVENTS_BUS = mock(EventsBus.class);
 
     private final AnimalId animalId = anyAnimalId();
+    private final AnimalInformation animalInformation = animalInformation();
 
     @Container
     private static final MySQLContainer<?> DB_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.24"))
@@ -90,7 +92,7 @@ class DeletingAnimalIT {
             @Autowired ShelterDatabaseRepository repository
     ) {
         repository.save(animal(animalId));
-        repository.adopt(new AvailableAnimal(animalId));
+        repository.adopt(new AvailableAnimal(animalId, animalInformation));
         DeleteAnimalCommand command = deleteAnimalCommand(animalId);
 
         assertThatThrownBy(() -> deletingAnimal.handle(command))

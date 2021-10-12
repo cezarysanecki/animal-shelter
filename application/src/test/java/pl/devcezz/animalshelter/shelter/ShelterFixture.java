@@ -27,6 +27,6 @@ class ShelterFixture {
     }
 
     static AnimalInformation animalInformation() {
-        return new AnimalInformation("Azor", 5, "Dog");
+        return new AnimalInformation("Azor", "Dog", 6);
     }
 }

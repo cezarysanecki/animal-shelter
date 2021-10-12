@@ -128,11 +128,11 @@ class AvailableAnimalRow {
 
     UUID animalId;
     String name;
-    Integer age;
     String species;
+    Integer age;
 
     AvailableAnimal toAvailableAnimal() {
-        return new AvailableAnimal(new AnimalId(animalId), new AnimalInformation(name, age, species));
+        return new AvailableAnimal(new AnimalId(animalId), new AnimalInformation(name, species, age));
     }
 
     public void setAnimalId(final UUID animalId) {
@@ -143,12 +143,12 @@ class AvailableAnimalRow {
         this.name = name;
     }
 
-    public void setAge(final Integer age) {
-        this.age = age;
-    }
-
     public void setSpecies(final String species) {
         this.species = species;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
     }
 }
 
@@ -156,12 +156,12 @@ class ShelterAnimalRow {
 
     UUID animalId;
     String name;
-    Integer age;
     String species;
+    Integer age;
     Boolean inShelter;
 
     ShelterAnimal toShelterAnimal() {
-        AnimalInformation animalInformation = new AnimalInformation(name, age, species);
+        AnimalInformation animalInformation = new AnimalInformation(name, species, age);
         return inShelter ?
                 new AvailableAnimal(new AnimalId(animalId), animalInformation) :
                 new AdoptedAnimal(new AnimalId(animalId), animalInformation);

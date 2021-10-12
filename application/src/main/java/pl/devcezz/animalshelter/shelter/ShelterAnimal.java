@@ -12,11 +12,11 @@ abstract class ShelterAnimal {
 
     AnimalId animalId() {
         return animalId;
-    };
+    }
 
     AnimalInformation getAnimalInformation() {
         return animalInformation;
-    };
+    }
 
     static class AdoptedAnimal extends ShelterAnimal {
         AdoptedAnimal(final AnimalId animalId, final AnimalInformation animalInformation) {

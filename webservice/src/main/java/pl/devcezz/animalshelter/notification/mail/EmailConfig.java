@@ -1,18 +1,17 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.notification.mail;
 
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import pl.devcezz.animalshelter.commons.notification.Notifier;
-import pl.devcezz.animalshelter.mail.content.EmailContentFactory;
+import pl.devcezz.animalshelter.notification.Notifier;
 
 import java.util.Properties;
 
-@ConfigurationPropertiesScan("pl.devcezz.animalshelter.mail")
+@ConfigurationPropertiesScan("pl.devcezz.animalshelter.notification.mail")
 @Configuration
-public class EmailConfig {
+class EmailConfig {
 
     @Bean
     JavaMailSender mailSender(EmailProperties emailProperties) {

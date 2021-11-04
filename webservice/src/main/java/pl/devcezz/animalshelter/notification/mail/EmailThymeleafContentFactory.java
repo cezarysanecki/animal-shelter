@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

@@ -1,7 +1,9 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail;
 
-import pl.devcezz.animalshelter.commons.notification.Notification;
-import pl.devcezz.animalshelter.commons.notification.Notification.SuccessfulAdoptionNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification;
+import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAdoptionNotification;
+import pl.devcezz.animalshelter.notification.mail.dto.EmailData;
+import pl.devcezz.animalshelter.notification.mail.exception.SchemaCreationFailedException;
 import pl.devcezz.animalshelter.ui.AnimalProjection;
 import pl.devcezz.animalshelter.ui.query.GetAnimalInfoQuery;
 
@@ -22,7 +24,7 @@ class EmailSchemaFactory {
 
     EmailSchema createUsing(Notification notification) {
         EmailData data = emailRepository.findEmailDataBy(notification.type())
-                .getOrElseThrow(() -> new SchemaCreationFailedException("not found email data for notification: " + notification.type()));
+                .getOrElseThrow(() -> new SchemaCreationFailedException("not found value data for notification: " + notification.type()));
 
         EmailContext context = Match(notification).of(
                 Case($(instanceOf(SuccessfulAdoptionNotification.class)), this::createContext)
@@ -32,9 +34,9 @@ class EmailSchemaFactory {
     }
 
     private EmailContext createContext(SuccessfulAdoptionNotification notification) {
-        return animalProjection.handle(new GetAnimalInfoQuery(notification.animalId().value()))
+        return animalProjection.handle(new GetAnimalInfoQuery(notification.animalId()))
                 .map(animal -> EmailContext.create()
                         .append("animalName", animal.getName()))
-                .getOrElseThrow(() -> new SchemaCreationFailedException("not found animal of id: " + notification.animalId().value()));
+                .getOrElseThrow(() -> new SchemaCreationFailedException("not found animal of id: " + notification.animalId()));
     }
 }

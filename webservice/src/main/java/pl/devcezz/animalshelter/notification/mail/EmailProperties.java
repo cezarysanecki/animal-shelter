@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.notification.mail;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;

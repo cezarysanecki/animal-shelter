@@ -1,8 +1,8 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.notification.mail;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import pl.devcezz.animalshelter.mail.content.EmailContent;
+import pl.devcezz.animalshelter.notification.mail.dto.EmailContent;
 
 import javax.mail.internet.MimeMessage;
 

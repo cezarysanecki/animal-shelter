@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

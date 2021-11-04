@@ -1,10 +1,11 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail;
 
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.devcezz.animalshelter.commons.notification.Notification;
+import pl.devcezz.animalshelter.notification.dto.Notification;
+import pl.devcezz.animalshelter.notification.mail.dto.EmailData;
 
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;

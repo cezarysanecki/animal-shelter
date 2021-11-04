@@ -2,7 +2,6 @@ package pl.devcezz.animalshelter.notification;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.devcezz.animalshelter.commons.notification.Notifier;
 import pl.devcezz.cqrs.event.EventHandler;
 
 @Configuration
@@ -21,10 +20,5 @@ class NotificationConfig {
     @Bean
     EventHandler handleSucceededAcceptance() {
         return new HandleSucceededAcceptance();
-    }
-
-    @Bean
-    EventHandler handleSuccessfulAdoption(Notifier notifier) {
-        return new HandleSuccessfulAdoption(notifier);
     }
 }

@@ -9,7 +9,7 @@ class HandleFailedAcceptance implements EventHandler<AcceptingAnimalFailed> {
 
     @Override
     public void handle(final AcceptingAnimalFailed event) {
-        System.out.println(event.getReason());
+        System.out.println(event.reason());
     }
 }
 

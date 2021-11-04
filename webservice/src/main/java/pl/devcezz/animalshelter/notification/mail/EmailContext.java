@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail;
 
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;

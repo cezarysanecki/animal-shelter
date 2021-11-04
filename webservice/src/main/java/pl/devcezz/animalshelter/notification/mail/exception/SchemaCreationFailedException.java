@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail.exception;
 
 public class SchemaCreationFailedException extends RuntimeException {
 

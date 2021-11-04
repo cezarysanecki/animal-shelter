@@ -1,6 +1,7 @@
-package pl.devcezz.animalshelter.mail.content;
+package pl.devcezz.animalshelter.notification.mail;
 
-import pl.devcezz.animalshelter.commons.notification.Notification;
+import pl.devcezz.animalshelter.notification.dto.Notification;
+import pl.devcezz.animalshelter.notification.mail.dto.EmailContent;
 
 public abstract class EmailContentFactory {
 

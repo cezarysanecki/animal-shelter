@@ -1,6 +1,6 @@
-package pl.devcezz.animalshelter.commons.notification;
+package pl.devcezz.animalshelter.notification.dto;
 
-import pl.devcezz.animalshelter.shelter.model.AnimalId;
+import java.util.UUID;
 
 public interface Notification {
 
@@ -10,7 +10,7 @@ public interface Notification {
 
     NotificationType type();
 
-    record SuccessfulAdoptionNotification(AnimalId animalId) implements Notification {
+    record SuccessfulAdoptionNotification(UUID animalId) implements Notification {
 
         @Override
         public NotificationType type() {

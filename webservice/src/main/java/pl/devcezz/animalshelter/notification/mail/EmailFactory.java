@@ -1,8 +1,7 @@
-package pl.devcezz.animalshelter.mail;
+package pl.devcezz.animalshelter.notification.mail;
 
-import pl.devcezz.animalshelter.commons.notification.Notification;
-import pl.devcezz.animalshelter.mail.content.EmailContent;
-import pl.devcezz.animalshelter.mail.content.EmailContentFactory;
+import pl.devcezz.animalshelter.notification.dto.Notification;
+import pl.devcezz.animalshelter.notification.mail.dto.EmailContent;
 
 class EmailFactory {
 
@@ -14,7 +13,7 @@ class EmailFactory {
         this.contentProperties = contentProperties;
     }
 
-    Email createEmailFor(final Notification notification) {
+    public Email createEmailFor(final Notification notification) {
         EmailContent content = contentFactory.createUsing(notification);
         return Email.builder()
                 .contentProperties(contentProperties)

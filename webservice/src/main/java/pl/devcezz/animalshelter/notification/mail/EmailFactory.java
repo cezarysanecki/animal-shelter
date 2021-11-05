@@ -1,7 +1,6 @@
 package pl.devcezz.animalshelter.notification.mail;
 
 import pl.devcezz.animalshelter.notification.dto.Notification;
-import pl.devcezz.animalshelter.notification.mail.dto.EmailContent;
 
 class EmailFactory {
 

@@ -1,17 +1,32 @@
 package pl.devcezz.animalshelter.notification.mail;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import pl.devcezz.animalshelter.notification.Notifier;
+import org.thymeleaf.TemplateEngine;
 
 import java.util.Properties;
 
 @ConfigurationPropertiesScan("pl.devcezz.animalshelter.notification.mail")
 @Configuration
 class EmailConfig {
+
+    @ConstructorBinding
+    @ConfigurationProperties(prefix = "mail")
+    record EmailProperties(EmailServer server, EmailCredentials credentials, EmailSettings settings) {
+
+        record EmailServer(String host, Integer port, String encoding) {}
+
+        record EmailCredentials(String from, String password) {}
+
+        record EmailSettings(String transportProtocol, String startTlsEnabled, String sslEnabled,
+                             String authEnabled, String debugEnabled) {}
+    }
 
     @Bean
     JavaMailSender mailSender(EmailProperties emailProperties) {
@@ -35,12 +50,23 @@ class EmailConfig {
     }
 
     @Bean
-    EmailFactory emailFactory(EmailContentFactory factory, EmailContentProperties properties) {
-        return new EmailFactory(factory, properties);
+    EmailDatabaseRepository emailRepository(JdbcTemplate jdbcTemplate) {
+        return new EmailDatabaseRepository(jdbcTemplate);
     }
 
     @Bean
-    Notifier emailSender(EmailFactory factory, JavaMailSender mailSender) {
-        return new EmailNotifier(factory, mailSender);
+    EmailSchemaFactory contentFactory(EmailDatabaseRepository emailRepository) {
+        return new EmailSchemaFactory(emailRepository);
+    }
+
+    @Bean
+    EmailContentFactory emailContentFactory(EmailSchemaFactory emailSchemaFactory,
+                                            TemplateEngine templateEngine) {
+        return new EmailContentFactory(emailSchemaFactory, templateEngine);
+    }
+
+    @Bean
+    EmailFactory emailFactory(EmailContentFactory factory, EmailContentProperties properties) {
+        return new EmailFactory(factory, properties);
     }
 }

@@ -1,17 +1,20 @@
 package pl.devcezz.animalshelter.notification.mail;
 
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import pl.devcezz.animalshelter.notification.dto.Notification;
-import pl.devcezz.animalshelter.notification.mail.dto.EmailContent;
 
-public abstract class EmailContentFactory {
+class EmailContentFactory {
 
     private final EmailSchemaFactory emailSchemaFactory;
+    private final TemplateEngine templateEngine;
 
-    public EmailContentFactory(final EmailSchemaFactory emailSchemaFactory) {
+    public EmailContentFactory(final EmailSchemaFactory emailSchemaFactory, final TemplateEngine templateEngine) {
         this.emailSchemaFactory = emailSchemaFactory;
+        this.templateEngine = templateEngine;
     }
 
-    public final EmailContent createUsing(Notification notification) {
+    EmailContent createUsing(Notification notification) {
         EmailSchema schema = emailSchemaFactory.createUsing(notification);
 
         String content = generateContentFrom(schema);
@@ -19,5 +22,8 @@ public abstract class EmailContentFactory {
         return new EmailContent(schema.template().subject(), content);
     }
 
-    abstract String generateContentFrom(final EmailSchema emailSchema);
+    String generateContentFrom(final EmailSchema emailSchema) {
+        Context context = new Context(null, emailSchema.context().collect().toJavaMap());
+        return templateEngine.process(emailSchema.template().templateFile(), context);
+    }
 }

@@ -10,7 +10,8 @@ public interface Notification {
 
     NotificationType type();
 
-    record SuccessfulAdoptionNotification(UUID animalId) implements Notification {
+    record SuccessfulAdoptionNotification(UUID animalId, String animalName,
+                                          Integer animalAge, String animalSpecies) implements Notification {
 
         @Override
         public NotificationType type() {

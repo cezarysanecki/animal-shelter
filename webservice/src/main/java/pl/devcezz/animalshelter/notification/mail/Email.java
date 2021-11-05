@@ -2,7 +2,6 @@ package pl.devcezz.animalshelter.notification.mail;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-import pl.devcezz.animalshelter.notification.mail.dto.EmailContent;
 
 import javax.mail.internet.MimeMessage;
 
@@ -21,7 +20,7 @@ class Email {
     }
 
     MimeMessagePreparator fillWith(String userEmail) {
-        return new EmailPreparator(contentProperties, content, userEmail);
+        return new EmailPreparer(contentProperties, content, userEmail);
     }
 
     static class EmailBuilder {
@@ -44,15 +43,15 @@ class Email {
         }
     }
 
-    class EmailPreparator implements MimeMessagePreparator {
+    class EmailPreparer implements MimeMessagePreparator {
 
         private final EmailContentProperties contentProperties;
         private final EmailContent content;
         private final String userEmail;
 
-        private EmailPreparator(final EmailContentProperties contentProperties,
-                                final EmailContent content,
-                                final String userEmail) {
+        private EmailPreparer(final EmailContentProperties contentProperties,
+                              final EmailContent content,
+                              final String userEmail) {
             this.contentProperties = contentProperties;
             this.content = content;
             this.userEmail = userEmail;

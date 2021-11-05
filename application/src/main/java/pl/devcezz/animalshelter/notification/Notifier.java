@@ -1,10 +1,10 @@
 package pl.devcezz.animalshelter.notification;
 
 import io.vavr.collection.Set;
-import pl.devcezz.animalshelter.administration.dto.ZookeeperContact;
 import pl.devcezz.animalshelter.notification.dto.Notification;
+import pl.devcezz.animalshelter.notification.dto.ZookeeperContactDetails;
 
-public interface Notifier {
+interface Notifier {
 
-    void notify(Notification notification, Set<ZookeeperContact> contact);
+    void notify(Set<ZookeeperContactDetails> zookeepersContactDetails, Notification notification);
 }

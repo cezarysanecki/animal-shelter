@@ -5,12 +5,11 @@ import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.animalshelter.notification.dto.Notification;
-import pl.devcezz.animalshelter.notification.mail.dto.EmailData;
 
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;
 
-class EmailDatabaseRepository implements EmailRepository {
+class EmailDatabaseRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -18,7 +17,6 @@ class EmailDatabaseRepository implements EmailRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
     public Option<EmailData> findEmailDataBy(Notification.NotificationType type) {
         return Try.ofSupplier(() -> of(
                         jdbcTemplate.queryForObject(

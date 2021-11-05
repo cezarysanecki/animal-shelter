@@ -54,4 +54,4 @@ databaseChangeLog:
                   value: 'fe8b455c-98a2-123f-556b-7b5ce99abc1e'
               - column:
                   name: email
-                  value: 'test@gmail.com'
+                  value: 'csanecki@gmail.com'

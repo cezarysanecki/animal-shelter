@@ -3,6 +3,7 @@ package pl.devcezz.animalshelter.shelter;
 import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.DeleteAnimalCommand;
+import pl.devcezz.animalshelter.shelter.command.EditAnimalCommand;
 
 import java.util.UUID;
 
@@ -30,6 +31,10 @@ class AnimalFixture {
 
     static DeleteAnimalCommand deleteAnimalCommand(AnimalId animalId) {
         return new DeleteAnimalCommand(animalId.value());
+    }
+
+    static EditAnimalCommand editAnimalCommand(Animal animal, String newName) {
+        return new EditAnimalCommand(animal.getId().value(), newName, animal.getSpecies().name(), animal.getAge().value());
     }
 
     static AnimalId anyAnimalId() {

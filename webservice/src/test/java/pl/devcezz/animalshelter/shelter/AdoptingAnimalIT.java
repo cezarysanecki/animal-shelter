@@ -68,9 +68,8 @@ class AdoptingAnimalIT {
             @Autowired ShelterDatabaseRepository repository
     ) {
         repository.save(animal(animalId));
-        AdoptAnimalCommand command = adoptAnimalCommand(animalId);
 
-        adoptingAnimal.handle(command);
+        adoptingAnimal.handle(adoptAnimalCommand(animalId));
 
         verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
         assertThat(repository.queryForAvailableAnimals()).isEmpty();
@@ -83,9 +82,7 @@ class AdoptingAnimalIT {
             @Autowired AdoptingAnimal adoptingAnimal,
             @Autowired EventsBus eventsBus
     ) {
-        AdoptAnimalCommand command = adoptAnimalCommand(animalId);
-
-        assertThatThrownBy(() -> adoptingAnimal.handle(command))
+        assertThatThrownBy(() -> adoptingAnimal.handle(adoptAnimalCommand(animalId)))
             .isInstanceOf(NotFoundAnimalInShelterException.class);
 
         verify(eventsBus, never()).publish(any());

@@ -1,7 +1,9 @@
 package pl.devcezz.animalshelter.shelter;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -14,18 +16,13 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
-import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
-import pl.devcezz.cqrs.event.EventsBus;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
+import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
+import pl.devcezz.cqrs.event.EventsBus;
 
 import javax.sql.DataSource;
-
-import java.util.UUID;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -34,13 +31,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.acceptAnimalCommand;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.animal;
-import static pl.devcezz.animalshelter.shelter.AnimalFixture.animalInformation;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.anyAnimalId;
 
 @SpringBootTest(classes = { ShelterConfig.class, AcceptingAnimalIT.Config.class })
 @ActiveProfiles("container")
 @Testcontainers
 class AcceptingAnimalIT {
+
+    private final static EventsBus EVENTS_BUS = mock(EventsBus.class);
 
     private final AnimalId animalId = anyAnimalId();
 
@@ -52,6 +50,11 @@ class AcceptingAnimalIT {
     static {
         DB_CONTAINER.start();
         System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
+    }
+
+    @BeforeEach
+    void resetMock() {
+        Mockito.reset(EVENTS_BUS);
     }
 
     @Test
@@ -118,7 +121,7 @@ class AcceptingAnimalIT {
 
         @Bean
         EventsBus eventsBus() {
-            return mock(EventsBus.class);
+            return EVENTS_BUS;
         }
 
         @Bean

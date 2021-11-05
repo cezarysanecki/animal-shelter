@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: classpath:/mail-container.yaml
   liquibase:
     change-log: classpath:db/changelog/db.changelog-test.yaml
   datasource:

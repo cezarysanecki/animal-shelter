@@ -69,4 +69,9 @@ class EmailConfig {
     EmailFactory emailFactory(EmailContentFactory factory, EmailContentProperties properties) {
         return new EmailFactory(factory, properties);
     }
+
+    @Bean
+    EmailFacade emailFacade(EmailFactory emailFactory, JavaMailSender javaMailSender) {
+        return new EmailFacade(emailFactory, javaMailSender);
+    }
 }

@@ -5,12 +5,12 @@ import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAdoption
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
 import pl.devcezz.cqrs.event.EventHandler;
 
-class SuccessfulAdoptionNotifier implements EventHandler<AnimalAdoptionSucceeded> {
+class HandleSuccessfulAdoption implements EventHandler<AnimalAdoptionSucceeded> {
 
     private final ZookeeperContactRepository zookeeperContactRepository;
     private final Set<Notifier> notifiers;
 
-    SuccessfulAdoptionNotifier(
+    HandleSuccessfulAdoption(
             final ZookeeperContactRepository zookeeperContactRepository,
             final Set<Notifier> notifiers
     ) {

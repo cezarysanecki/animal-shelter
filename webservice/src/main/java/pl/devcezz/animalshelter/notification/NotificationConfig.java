@@ -3,6 +3,7 @@ package pl.devcezz.animalshelter.notification;
 import io.vavr.collection.Set;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.animalshelter.notification.mail.EmailFacade;
 import pl.devcezz.cqrs.event.EventHandler;
 
@@ -10,23 +11,23 @@ import pl.devcezz.cqrs.event.EventHandler;
 class NotificationConfig {
 
     @Bean
-    EventHandler handleFailedAcceptance() {
-        return new HandleFailedAcceptance();
+    ZookeeperContactRepository zookeeperContactRepository(JdbcTemplate jdbcTemplate) {
+        return new ZookeeperContactDatabaseRepository(jdbcTemplate);
     }
 
     @Bean
-    EventHandler handleWarnedAcceptance() {
-        return new HandleWarnedAcceptance();
+    EventHandler handleAcceptanceFailure() {
+        return new HandleAcceptanceFailure();
     }
 
     @Bean
-    EventHandler handleSucceededAcceptance() {
-        return new HandleSucceededAcceptance();
+    EventHandler handleAcceptanceWarning() {
+        return new HandleAcceptanceWarning();
     }
 
     @Bean
-    Notifier emailNotifier(EmailFacade emailFacade) {
-        return new EmailNotifier(emailFacade);
+    EventHandler handleAcceptanceSuccess() {
+        return new HandleAcceptanceSuccess();
     }
 
     @Bean
@@ -34,6 +35,11 @@ class NotificationConfig {
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {
-        return new SuccessfulAdoptionNotifier(zookeeperContactRepository, notifiers);
+        return new HandleSuccessfulAdoption(zookeeperContactRepository, notifiers);
+    }
+
+    @Bean
+    Notifier emailNotifier(EmailFacade emailFacade) {
+        return new EmailNotifier(emailFacade);
     }
 }

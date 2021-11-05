@@ -5,7 +5,7 @@ import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
 
-class HandleFailedAcceptance implements EventHandler<AcceptingAnimalFailed> {
+class HandleAcceptanceFailure implements EventHandler<AcceptingAnimalFailed> {
 
     @Override
     public void handle(final AcceptingAnimalFailed event) {
@@ -13,7 +13,7 @@ class HandleFailedAcceptance implements EventHandler<AcceptingAnimalFailed> {
     }
 }
 
-class HandleWarnedAcceptance implements EventHandler<AcceptingAnimalWarned> {
+class HandleAcceptanceWarning implements EventHandler<AcceptingAnimalWarned> {
 
     @Override
     public void handle(final AcceptingAnimalWarned event) {
@@ -21,7 +21,7 @@ class HandleWarnedAcceptance implements EventHandler<AcceptingAnimalWarned> {
     }
 }
 
-class HandleSucceededAcceptance implements EventHandler<AcceptingAnimalSucceeded> {
+class HandleAcceptanceSuccess implements EventHandler<AcceptingAnimalSucceeded> {
 
     @Override
     public void handle(final AcceptingAnimalSucceeded event) {

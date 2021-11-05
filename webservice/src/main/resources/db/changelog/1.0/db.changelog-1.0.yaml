@@ -37,3 +37,21 @@ databaseChangeLog:
               - column:
                   name: mail_type
                   value: 'Adoption'
+
+  - changeSet:
+      id: insert_main_zookeeper_mail
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: zookeeper_contact
+      changes:
+        - insert:
+            tableName: zookeeper_contact
+            columns:
+              - column:
+                  name: zookeeper_id
+                  value: 'fe8b455c-98a2-123f-556b-7b5ce99abc1e'
+              - column:
+                  name: email
+                  value: 'test@gmail.com'

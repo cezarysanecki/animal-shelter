@@ -19,8 +19,8 @@
 	<modules>
 		<module>webservice</module>
 		<module>application</module>
-        <module>shared</module>
-    </modules>
+        <module>cqrs</module>
+	</modules>
 
 	<dependencies>
 		<dependency>

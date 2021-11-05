@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>pl.csanecki</groupId>
-            <artifactId>shared</artifactId>
+            <artifactId>cqrs</artifactId>
             <version>${project.version}</version>
         </dependency>
 

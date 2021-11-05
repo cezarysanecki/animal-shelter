@@ -79,3 +79,70 @@ databaseChangeLog:
               - column:
                   name: adopted_at
                   type: DATETIME
+
+  - changeSet:
+      id: create_table_shelter_mail
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: shelter_email_data
+      changes:
+        - createTable:
+            tableName: shelter_email_data
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: shelter_email_data_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: subject
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: template_file
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: mail_type
+                  type: VARCHAR(50)
+
+  - changeSet:
+      id: create_table_zookeeper_contact
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: zookeeper_contact
+      changes:
+        - createTable:
+            tableName: zookeeper_contact
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: zookeeper_contact_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: zookeeper_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(100)

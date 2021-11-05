@@ -16,3 +16,42 @@ databaseChangeLog:
               - column:
                   name: safe_threshold
                   value: 7
+
+  - changeSet:
+      id: insert_adoption_email_data
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_email_data
+      changes:
+        - insert:
+            tableName: shelter_email_data
+            columns:
+              - column:
+                  name: subject
+                  value: '[SYSTEM] Our favourite finally find home!!!'
+              - column:
+                  name: template_file
+                  value: 'adoption-mail'
+              - column:
+                  name: mail_type
+                  value: 'Adoption'
+
+  - changeSet:
+      id: insert_main_zookeeper_mail
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: zookeeper_contact
+      changes:
+        - insert:
+            tableName: zookeeper_contact
+            columns:
+              - column:
+                  name: zookeeper_id
+                  value: 'fe8b455c-98a2-123f-556b-7b5ce99abc1e'
+              - column:
+                  name: email
+                  value: 'csanecki@gmail.com'

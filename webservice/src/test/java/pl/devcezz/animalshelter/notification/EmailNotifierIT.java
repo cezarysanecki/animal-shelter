@@ -1,6 +1,5 @@
-package pl.devcezz.animalshelter.notification.mail;
+package pl.devcezz.animalshelter.notification;
 
-import io.vavr.collection.HashSet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -23,12 +23,13 @@ import javax.sql.DataSource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static pl.devcezz.animalshelter.notification.mail.EmailFixture.successfulAdoptionNotification;
+import static pl.devcezz.animalshelter.notification.NotificationFixture.successfulAdoptionNotification;
+import static pl.devcezz.animalshelter.notification.NotificationFixture.zookeeperContactsDetails;
 
-@SpringBootTest(classes = { EmailFacadeIT.Config.class })
+@SpringBootTest(classes = { EmailNotifierIT.Config.class, NotificationConfig.class })
 @ActiveProfiles("container")
 @Testcontainers
-class EmailFacadeIT {
+class EmailNotifierIT {
 
     private final static JavaMailSender JAVA_MAIL_SENDER = mock(JavaMailSender.class);
 
@@ -46,16 +47,17 @@ class EmailFacadeIT {
     @Transactional
     @DisplayName("Should send email about animal adoption")
     void should_send_email_about_animal_adoption(
-            @Autowired EmailFacade emailFacade
+            @Autowired EmailNotifier emailNotifier
     ) {
-        emailFacade.sendEmail(HashSet.of("zookeeper@mail.com"), successfulAdoptionNotification());
+        emailNotifier.notify(zookeeperContactsDetails(), successfulAdoptionNotification());
 
         verify(JAVA_MAIL_SENDER).send(any(MimeMessagePreparator.class));
     }
 
     @Configuration(proxyBeanMethods = false)
     @EnableAutoConfiguration
-    static class Config extends EmailConfig {
+    @ComponentScan("pl.devcezz.animalshelter.notification.mail")
+    static class Config {
 
         @Bean
         JavaMailSender javaMailSender() {

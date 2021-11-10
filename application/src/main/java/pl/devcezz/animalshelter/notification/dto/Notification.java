@@ -5,7 +5,7 @@ import java.util.UUID;
 public interface Notification {
 
     enum NotificationType {
-        Adoption, SuccessfulAcceptance, WarningAcceptance, FailureAcceptance
+        Adoption, SuccessfulAcceptance, WarnedAcceptance, FailureAcceptance
     }
 
     NotificationType type();
@@ -33,7 +33,7 @@ public interface Notification {
 
         @Override
         public NotificationType type() {
-            return NotificationType.WarningAcceptance;
+            return NotificationType.WarnedAcceptance;
         }
     }
 

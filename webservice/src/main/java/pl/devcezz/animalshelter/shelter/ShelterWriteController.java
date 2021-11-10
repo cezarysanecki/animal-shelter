@@ -11,6 +11,7 @@ import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.DeleteAnimalCommand;
 import pl.devcezz.animalshelter.shelter.command.EditAnimalCommand;
+import pl.devcezz.common.Gender;
 import pl.devcezz.cqrs.command.CommandsBus;
 
 import javax.validation.Valid;
@@ -76,10 +77,12 @@ class ShelterWriteController {
 record AcceptAnimalRequest(
         @NotBlank @Size(min=2, max=11) String name,
         @NotNull @PositiveOrZero @Max(30) Integer age,
-        @NotBlank String species) {}
+        @NotBlank String species,
+        @ShelterGender String gender) {}
 
 record EditAnimalRequest(
         @NotNull UUID animalId,
         @NotBlank @Size(min=2, max=11) String name,
         @NotNull @PositiveOrZero @Max(30) Integer age,
-        @NotBlank String species) {}
+        @NotBlank String species,
+        @ShelterGender String gender) {}

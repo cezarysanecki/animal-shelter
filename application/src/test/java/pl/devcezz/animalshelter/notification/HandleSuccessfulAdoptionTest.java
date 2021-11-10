@@ -4,7 +4,7 @@ import io.vavr.collection.HashSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAdoption;
 
 import java.util.UUID;
 
@@ -39,7 +39,7 @@ class HandleSuccessfulAdoptionTest {
         verify(notifier).notify(any(), any());
     }
 
-    AnimalAdoptionSucceeded event() {
-        return new AnimalAdoptionSucceeded(UUID.randomUUID(), "Azor", 2, "Dog");
+    SuccessfulAnimalAdoption event() {
+        return new SuccessfulAnimalAdoption(UUID.randomUUID(), "Azor", 2, "Dog");
     }
 }

@@ -4,9 +4,9 @@ import io.vavr.collection.Set;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.cqrs.event.Event;
 
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.FailedAnimalAcceptance;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAcceptance;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.WarnedAnimalAcceptance;
 
 class Shelter {
 
@@ -39,22 +39,22 @@ class Shelter {
         return shelterLimits.safeThreshold() <= shelterAnimals.length() + 1;
     }
 
-    private AcceptingAnimalFailed acceptingAnimalFailed() {
-        return new AcceptingAnimalFailed(AcceptingAnimalFailed.Reason.NotEnoughSpace.value);
+    private FailedAnimalAcceptance acceptingAnimalFailed() {
+        return new FailedAnimalAcceptance(FailedAnimalAcceptance.Reason.NotEnoughSpace.value);
     }
 
-    private AcceptingAnimalWarned acceptingAnimalWarned(final Animal animal) {
-        return new AcceptingAnimalWarned(
+    private WarnedAnimalAcceptance acceptingAnimalWarned(final Animal animal) {
+        return new WarnedAnimalAcceptance(
                 animal.getId().value(),
                 animal.getName().value(),
                 animal.getAge().value(),
                 animal.getSpecies().name(),
-                AcceptingAnimalWarned.Message.SafeThresholdIsReached.value
+                WarnedAnimalAcceptance.Message.SafeThresholdIsReached.value
         );
     }
 
-    private AcceptingAnimalSucceeded acceptingAnimalSucceeded(final Animal animal) {
-        return new AcceptingAnimalSucceeded(
+    private SuccessfulAnimalAcceptance acceptingAnimalSucceeded(final Animal animal) {
+        return new SuccessfulAnimalAcceptance(
                 animal.getId().value(),
                 animal.getName().value(),
                 animal.getAge().value(),

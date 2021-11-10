@@ -2,7 +2,7 @@ package pl.devcezz.animalshelter.shelter;
 
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAdoption;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
@@ -49,7 +49,7 @@ class AdoptingAnimal implements CommandHandler<AdoptAnimalCommand> {
     }
 
     private AnimalEvent adoptionSuccessful(final AvailableAnimal animal) {
-        return new AnimalAdoptionSucceeded(
+        return new SuccessfulAnimalAdoption(
                 animal.animalId().value(),
                 animal.getAnimalInformation().name(),
                 animal.getAnimalInformation().age(),

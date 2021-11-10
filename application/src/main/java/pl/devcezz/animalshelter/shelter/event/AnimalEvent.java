@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface AnimalEvent extends Event {
 
-    record AcceptingAnimalFailed(String reason) implements AnimalEvent {
+    record FailedAnimalAcceptance(String reason) implements AnimalEvent {
         public enum Reason {
             NotEnoughSpace("not enough space in shelter");
 
@@ -18,9 +18,9 @@ public interface AnimalEvent extends Event {
         }
     }
 
-    record AcceptingAnimalWarned(UUID animalId, String animalName,
-                                 Integer animalAge, String animalSpecies,
-                                 String message) implements AnimalEvent {
+    record WarnedAnimalAcceptance(UUID animalId, String animalName,
+                                  Integer animalAge, String animalSpecies,
+                                  String message) implements AnimalEvent {
         public enum Message {
             SafeThresholdIsReached("safe threshold is reached or exceeded");
 
@@ -32,9 +32,9 @@ public interface AnimalEvent extends Event {
         }
     }
 
-    record AcceptingAnimalSucceeded(UUID animalId, String animalName,
-                                    Integer animalAge, String animalSpecies) implements AnimalEvent {}
+    record SuccessfulAnimalAcceptance(UUID animalId, String animalName,
+                                      Integer animalAge, String animalSpecies) implements AnimalEvent {}
 
-    record AnimalAdoptionSucceeded(UUID animalId, String animalName,
-                                   Integer animalAge, String animalSpecies) implements AnimalEvent {}
+    record SuccessfulAnimalAdoption(UUID animalId, String animalName,
+                                    Integer animalAge, String animalSpecies) implements AnimalEvent {}
 }

@@ -99,7 +99,7 @@ databaseChangeLog:
                   value: 'WarnedAcceptance'
 
   - changeSet:
-      id: insert_failure_acceptance_email_data
+      id: insert_failed_acceptance_email_data
       author: devcezz
       preConditions:
         - onFail: MARK_RAN
@@ -114,7 +114,7 @@ databaseChangeLog:
                   value: '[SYSTEM] Cannot accept new animal into shelter...'
               - column:
                   name: template_file
-                  value: 'failure-acceptance-mail'
+                  value: 'failed-acceptance-mail'
               - column:
                   name: mail_type
-                  value: 'FailureAcceptance'
+                  value: 'FailedAcceptance'

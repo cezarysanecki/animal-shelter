@@ -1,15 +1,15 @@
 package pl.devcezz.animalshelter.notification;
 
 import io.vavr.collection.Set;
-import pl.devcezz.animalshelter.notification.dto.Notification.FailureAcceptanceNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification.FailedAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.WarnedAcceptanceNotification;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.FailedAnimalAcceptance;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAcceptance;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.WarnedAnimalAcceptance;
 import pl.devcezz.cqrs.event.EventHandler;
 
-class HandleSuccessfulAcceptance implements EventHandler<AcceptingAnimalSucceeded> {
+class HandleSuccessfulAcceptance implements EventHandler<SuccessfulAnimalAcceptance> {
 
     private final ZookeeperContactRepository zookeeperContactRepository;
     private final Set<Notifier> notifiers;
@@ -20,7 +20,7 @@ class HandleSuccessfulAcceptance implements EventHandler<AcceptingAnimalSucceede
     }
 
     @Override
-    public void handle(final AcceptingAnimalSucceeded event) {
+    public void handle(final SuccessfulAnimalAcceptance event) {
         Set<ZookeeperContact> contacts = zookeeperContactRepository.findAll();
 
         notifiers.forEach(notifier -> notifier.notify(
@@ -29,7 +29,7 @@ class HandleSuccessfulAcceptance implements EventHandler<AcceptingAnimalSucceede
         );
     }
 
-    private SuccessfulAcceptanceNotification createNotification(final AcceptingAnimalSucceeded event) {
+    private SuccessfulAcceptanceNotification createNotification(final SuccessfulAnimalAcceptance event) {
         return new SuccessfulAcceptanceNotification(
                 event.animalId(),
                 event.animalName(),
@@ -39,18 +39,18 @@ class HandleSuccessfulAcceptance implements EventHandler<AcceptingAnimalSucceede
     }
 }
 
-class HandleAcceptanceWarning implements EventHandler<AcceptingAnimalWarned> {
+class HandleWarnedAcceptance implements EventHandler<WarnedAnimalAcceptance> {
 
     private final ZookeeperContactRepository zookeeperContactRepository;
     private final Set<Notifier> notifiers;
 
-    HandleAcceptanceWarning(final ZookeeperContactRepository zookeeperContactRepository, final Set<Notifier> notifiers) {
+    HandleWarnedAcceptance(final ZookeeperContactRepository zookeeperContactRepository, final Set<Notifier> notifiers) {
         this.zookeeperContactRepository = zookeeperContactRepository;
         this.notifiers = notifiers;
     }
 
     @Override
-    public void handle(final AcceptingAnimalWarned event) {
+    public void handle(final WarnedAnimalAcceptance event) {
         Set<ZookeeperContact> contacts = zookeeperContactRepository.findAll();
 
         notifiers.forEach(notifier -> notifier.notify(
@@ -59,7 +59,7 @@ class HandleAcceptanceWarning implements EventHandler<AcceptingAnimalWarned> {
         );
     }
 
-    private WarnedAcceptanceNotification createNotification(final AcceptingAnimalWarned event) {
+    private WarnedAcceptanceNotification createNotification(final WarnedAnimalAcceptance event) {
         return new WarnedAcceptanceNotification(
                 event.animalId(),
                 event.animalName(),
@@ -70,18 +70,18 @@ class HandleAcceptanceWarning implements EventHandler<AcceptingAnimalWarned> {
     }
 }
 
-class HandleAcceptanceFailure implements EventHandler<AcceptingAnimalFailed> {
+class HandleFailedAcceptance implements EventHandler<FailedAnimalAcceptance> {
 
     private final ZookeeperContactRepository zookeeperContactRepository;
     private final Set<Notifier> notifiers;
 
-    HandleAcceptanceFailure(final ZookeeperContactRepository zookeeperContactRepository, final Set<Notifier> notifiers) {
+    HandleFailedAcceptance(final ZookeeperContactRepository zookeeperContactRepository, final Set<Notifier> notifiers) {
         this.zookeeperContactRepository = zookeeperContactRepository;
         this.notifiers = notifiers;
     }
 
     @Override
-    public void handle(final AcceptingAnimalFailed event) {
+    public void handle(final FailedAnimalAcceptance event) {
         Set<ZookeeperContact> contacts = zookeeperContactRepository.findAll();
 
         notifiers.forEach(notifier -> notifier.notify(
@@ -90,7 +90,7 @@ class HandleAcceptanceFailure implements EventHandler<AcceptingAnimalFailed> {
         );
     }
 
-    private FailureAcceptanceNotification createNotification(final AcceptingAnimalFailed event) {
-        return new FailureAcceptanceNotification(event.reason());
+    private FailedAcceptanceNotification createNotification(final FailedAnimalAcceptance event) {
+        return new FailedAcceptanceNotification(event.reason());
     }
 }

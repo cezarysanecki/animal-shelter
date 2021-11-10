@@ -16,9 +16,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.FailedAnimalAcceptance;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAcceptance;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.WarnedAnimalAcceptance;
 import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
 import pl.devcezz.cqrs.event.EventsBus;
 
@@ -67,7 +67,7 @@ class AcceptingAnimalIT {
     ) {
         acceptingAnimal.handle(acceptAnimalCommand(animalId.value()));
 
-        verify(eventsBus).publish(isA(AcceptingAnimalSucceeded.class));
+        verify(eventsBus).publish(isA(SuccessfulAnimalAcceptance.class));
         assertThat(repository.queryForAvailableAnimals())
                 .hasSize(1)
                 .allSatisfy(animal -> assertThat(animal.animalId()).isEqualTo(animalId));
@@ -85,7 +85,7 @@ class AcceptingAnimalIT {
 
         acceptingAnimal.handle(acceptAnimalCommand(animalId.value()));
 
-        verify(eventsBus).publish(isA(AcceptingAnimalWarned.class));
+        verify(eventsBus).publish(isA(WarnedAnimalAcceptance.class));
         assertThat(repository.queryForAvailableAnimals())
                 .hasSize(2)
                 .anySatisfy(animal -> assertThat(animal.animalId()).isEqualTo(animalId));
@@ -105,7 +105,7 @@ class AcceptingAnimalIT {
         assertThatThrownBy(() -> acceptingAnimal.handle(acceptAnimalCommand(animalId.value())))
                 .isInstanceOf(AcceptingAnimalRejectedException.class);
 
-        verify(eventsBus).publish(isA(AcceptingAnimalFailed.class));
+        verify(eventsBus).publish(isA(FailedAnimalAcceptance.class));
         assertThat(repository.queryForAvailableAnimals())
                 .hasSize(2)
                 .noneSatisfy(animal -> assertThat(animal.animalId()).isEqualTo(animalId));

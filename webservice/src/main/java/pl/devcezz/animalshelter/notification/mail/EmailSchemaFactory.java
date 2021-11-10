@@ -4,7 +4,7 @@ import pl.devcezz.animalshelter.notification.dto.Notification;
 import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAdoptionNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.WarnedAcceptanceNotification;
-import pl.devcezz.animalshelter.notification.dto.Notification.FailureAcceptanceNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification.FailedAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.mail.exception.SchemaCreationFailedException;
 import pl.devcezz.animalshelter.notification.mail.exception.UnknownTypeOfNotificationException;
 
@@ -29,7 +29,7 @@ class EmailSchemaFactory {
                 Case($(instanceOf(SuccessfulAdoptionNotification.class)), this::createContext),
                 Case($(instanceOf(SuccessfulAcceptanceNotification.class)), this::createContext),
                 Case($(instanceOf(WarnedAcceptanceNotification.class)), this::createContext),
-                Case($(instanceOf(FailureAcceptanceNotification.class)), this::createContext),
+                Case($(instanceOf(FailedAcceptanceNotification.class)), this::createContext),
                 Case($(), () -> { throw new UnknownTypeOfNotificationException(); })
         );
 
@@ -52,7 +52,7 @@ class EmailSchemaFactory {
                 .append("message", notification.message());
     }
 
-    private EmailContext createContext(FailureAcceptanceNotification notification) {
+    private EmailContext createContext(FailedAcceptanceNotification notification) {
         return EmailContext.create()
                 .append("reason", notification.reason());
     }

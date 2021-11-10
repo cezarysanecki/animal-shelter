@@ -4,7 +4,6 @@ import io.vavr.collection.HashSet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.devcezz.cqrs.event.EventHandler;
 
 import java.util.Set;
 
@@ -17,23 +16,23 @@ class NotificationHandlerConfig {
     }
 
     @Bean
-    HandleAcceptanceFailure handleAcceptanceFailure(
+    HandleFailedAcceptance handleFailedAcceptance(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {
-        return new HandleAcceptanceFailure(zookeeperContactRepository, HashSet.ofAll(notifiers));
+        return new HandleFailedAcceptance(zookeeperContactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
-    HandleAcceptanceWarning handleAcceptanceWarning(
+    HandleWarnedAcceptance handleWarnedAcceptance(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {
-        return new HandleAcceptanceWarning(zookeeperContactRepository, HashSet.ofAll(notifiers));
+        return new HandleWarnedAcceptance(zookeeperContactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
-    HandleSuccessfulAcceptance handleAcceptanceSuccess(
+    HandleSuccessfulAcceptance handleSuccessfulAcceptance(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {

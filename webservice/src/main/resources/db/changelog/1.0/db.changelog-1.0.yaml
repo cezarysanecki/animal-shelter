@@ -55,3 +55,66 @@ databaseChangeLog:
               - column:
                   name: email
                   value: 'csanecki@gmail.com'
+
+  - changeSet:
+      id: insert_successful_acceptance_email_data
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_email_data
+      changes:
+        - insert:
+            tableName: shelter_email_data
+            columns:
+              - column:
+                  name: subject
+                  value: '[SYSTEM] Welcome new animal in shelter!'
+              - column:
+                  name: template_file
+                  value: 'successful-acceptance-mail'
+              - column:
+                  name: mail_type
+                  value: 'SuccessfulAcceptance'
+
+  - changeSet:
+      id: insert_warned_acceptance_email_data
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_email_data
+      changes:
+        - insert:
+            tableName: shelter_email_data
+            columns:
+              - column:
+                  name: subject
+                  value: '[SYSTEM] Welcome new animal in shelter!'
+              - column:
+                  name: template_file
+                  value: 'warned-acceptance-mail'
+              - column:
+                  name: mail_type
+                  value: 'WarnedAcceptance'
+
+  - changeSet:
+      id: insert_failure_acceptance_email_data
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_email_data
+      changes:
+        - insert:
+            tableName: shelter_email_data
+            columns:
+              - column:
+                  name: subject
+                  value: '[SYSTEM] Cannot accept new animal into shelter...'
+              - column:
+                  name: template_file
+                  value: 'failure-acceptance-mail'
+              - column:
+                  name: mail_type
+                  value: 'FailureAcceptance'

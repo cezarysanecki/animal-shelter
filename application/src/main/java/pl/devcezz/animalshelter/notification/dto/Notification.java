@@ -28,8 +28,8 @@ public interface Notification {
         }
     }
 
-    record WarningAcceptanceNotification(UUID animalId, String animalName,
-                                         Integer animalAge, String animalSpecies) implements Notification {
+    record WarnedAcceptanceNotification(UUID animalId, String animalName,
+                                        Integer animalAge, String animalSpecies) implements Notification {
 
         @Override
         public NotificationType type() {

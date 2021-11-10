@@ -3,7 +3,7 @@ package pl.devcezz.animalshelter.notification;
 import io.vavr.collection.Set;
 import pl.devcezz.animalshelter.notification.dto.Notification.FailureAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAcceptanceNotification;
-import pl.devcezz.animalshelter.notification.dto.Notification.WarningAcceptanceNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification.WarnedAcceptanceNotification;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
 import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
@@ -59,8 +59,8 @@ class HandleAcceptanceWarning implements EventHandler<AcceptingAnimalWarned> {
         );
     }
 
-    private WarningAcceptanceNotification createNotification(final AcceptingAnimalWarned event) {
-        return new WarningAcceptanceNotification(
+    private WarnedAcceptanceNotification createNotification(final AcceptingAnimalWarned event) {
+        return new WarnedAcceptanceNotification(
                 event.animalId(),
                 event.animalName(),
                 event.animalAge(),

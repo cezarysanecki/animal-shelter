@@ -6,7 +6,9 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.devcezz.animalshelter.ui.dto.AnimalInShelterDto;
 import pl.devcezz.animalshelter.ui.query.GetAnimalInfoQuery;
+import pl.devcezz.animalshelter.ui.query.GetAnimalsInShelterQuery;
 import pl.devcezz.animalshelter.ui.query.GetAnimalsQuery;
 import pl.devcezz.animalshelter.ui.dto.AnimalDto;
 import pl.devcezz.animalshelter.ui.dto.AnimalInfoDto;
@@ -33,6 +35,17 @@ class AnimalDatabaseProjection implements AnimalProjection {
                         new BeanPropertyRowMapper<>(AnimalRow.class)
                 ))
                 .map(AnimalRow::toAnimalDto)
+                .toList();
+    }
+
+    @Override
+    public List<AnimalInShelterDto> handle(final GetAnimalsInShelterQuery query) {
+        return Stream.ofAll(
+                jdbcTemplate.query(
+                        "SELECT a.animal_id, a.name, a.species, a.age FROM shelter_animal a WHERE a.adopted_at IS NULL",
+                        new BeanPropertyRowMapper<>(AnimalInShelterRow.class)
+                ))
+                .map(AnimalInShelterRow::toAnimalInShelterDto)
                 .toList();
     }
 
@@ -81,6 +94,33 @@ class AnimalRow {
     }
 }
 
+class AnimalInShelterRow {
+
+    UUID animalId;
+    String name;
+    String species;
+    Integer age;
+
+    AnimalInShelterDto toAnimalInShelterDto() {
+        return new AnimalInShelterDto(animalId, name, species, age);
+    }
+
+    public void setAnimalId(final UUID animalId) {
+        this.animalId = animalId;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setSpecies(final String species) {
+        this.species = species;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
+    }
+}
 
 class AnimalInfoRow {
 

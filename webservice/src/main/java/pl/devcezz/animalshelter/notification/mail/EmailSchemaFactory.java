@@ -48,7 +48,8 @@ class EmailSchemaFactory {
 
     private EmailContext createContext(WarnedAcceptanceNotification notification) {
         return EmailContext.create()
-                .append("animalName", notification.animalName());
+                .append("animalName", notification.animalName())
+                .append("message", notification.message());
     }
 
     private EmailContext createContext(FailureAcceptanceNotification notification) {

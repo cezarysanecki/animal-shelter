@@ -2,11 +2,13 @@ package pl.devcezz.animalshelter.notification;
 
 import io.vavr.collection.HashSet;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.cqrs.event.EventHandler;
 
 import java.util.Set;
 
+@Configuration(proxyBeanMethods = false)
 class NotificationHandlerConfig {
 
     @Bean
@@ -15,7 +17,7 @@ class NotificationHandlerConfig {
     }
 
     @Bean
-    EventHandler handleAcceptanceFailure(
+    HandleAcceptanceFailure handleAcceptanceFailure(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {
@@ -23,7 +25,7 @@ class NotificationHandlerConfig {
     }
 
     @Bean
-    EventHandler handleAcceptanceWarning(
+    HandleAcceptanceWarning handleAcceptanceWarning(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {
@@ -31,7 +33,7 @@ class NotificationHandlerConfig {
     }
 
     @Bean
-    EventHandler handleAcceptanceSuccess(
+    HandleSuccessfulAcceptance handleAcceptanceSuccess(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {
@@ -39,7 +41,7 @@ class NotificationHandlerConfig {
     }
 
     @Bean
-    EventHandler handleSuccessfulAdoption(
+    HandleSuccessfulAdoption handleSuccessfulAdoption(
             ZookeeperContactRepository zookeeperContactRepository,
             Set<Notifier> notifiers
     ) {

@@ -7,9 +7,8 @@
         <groupId>pl.csanecki</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>application</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>application</name>
     <description>New way of creating AnimalShelter - application</description>
 
     <dependencies>

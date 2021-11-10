@@ -18,27 +18,6 @@ databaseChangeLog:
                   value: 7
 
   - changeSet:
-      id: insert_adoption_email_data
-      author: devcezz
-      preConditions:
-        - onFail: MARK_RAN
-          tableExists:
-            tableName: shelter_email_data
-      changes:
-        - insert:
-            tableName: shelter_email_data
-            columns:
-              - column:
-                  name: subject
-                  value: '[SYSTEM] Our favourite finally find home!!!'
-              - column:
-                  name: template_file
-                  value: 'adoption-mail'
-              - column:
-                  name: mail_type
-                  value: 'Adoption'
-
-  - changeSet:
       id: insert_main_zookeeper_mail
       author: devcezz
       preConditions:

@@ -4,7 +4,7 @@ import io.vavr.collection.HashSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAdoption;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.WarnedAnimalAcceptance;
 
 import java.util.UUID;
 
@@ -14,19 +14,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static pl.devcezz.animalshelter.notification.NotificationFixture.zookeeperContact;
 
-class HandleSuccessfulAdoptionTest {
+class HandleWarnedAcceptanceTest {
 
     private ZookeeperContactRepository zookeeperContactRepository;
     private Notifier notifier;
 
-    private HandleSuccessfulAdoption handleSuccessfulAdoption;
+    private HandleWarnedAcceptance handleWarnedAcceptance;
 
     @BeforeEach
     void setUp() {
         zookeeperContactRepository = mock(ZookeeperContactRepository.class);
         notifier = mock(Notifier.class);
 
-        handleSuccessfulAdoption = new HandleSuccessfulAdoption(zookeeperContactRepository, HashSet.of(notifier));
+        handleWarnedAcceptance = new HandleWarnedAcceptance(zookeeperContactRepository, HashSet.of(notifier));
     }
 
     @DisplayName("Should successfully notify all notifiers")
@@ -34,12 +34,14 @@ class HandleSuccessfulAdoptionTest {
     void should_successfully_notify_all_notifiers() {
         when(zookeeperContactRepository.findAll()).thenReturn(HashSet.of(zookeeperContact()));
 
-        handleSuccessfulAdoption.handle(event());
+        handleWarnedAcceptance.handle(event());
 
         verify(notifier).notify(any(), any());
     }
 
-    SuccessfulAnimalAdoption event() {
-        return new SuccessfulAnimalAdoption(UUID.randomUUID(), "Azor", 2, "Dog");
+    WarnedAnimalAcceptance event() {
+        return new WarnedAnimalAcceptance(
+                UUID.randomUUID(), "Azor", 2, "Dog", "safe threshold reached"
+        );
     }
 }

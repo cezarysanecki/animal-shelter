@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AdoptedAnimal;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAdoption;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
 
@@ -46,7 +46,7 @@ class AdoptingAnimalTest {
         adoptingAnimal.handle(command(animalId));
 
         verify(animals).adopt(availableAnimal);
-        verify(animals).publish(isA(AnimalAdoptionSucceeded.class));
+        verify(animals).publish(isA(SuccessfulAnimalAdoption.class));
     }
 
     @DisplayName("Should fail adoption when not found animal in shelter")

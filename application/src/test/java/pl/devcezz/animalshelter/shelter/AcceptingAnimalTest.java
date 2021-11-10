@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.devcezz.animalshelter.shelter.command.AcceptAnimalCommand;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.FailedAnimalAcceptance;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAcceptance;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.WarnedAnimalAcceptance;
 import pl.devcezz.animalshelter.shelter.exception.AcceptingAnimalRejectedException;
 
 import java.util.UUID;
@@ -44,7 +44,7 @@ class AcceptingAnimalTest {
         acceptingAnimal.handle(command());
 
         verify(animals).save(any(Animal.class));
-        verify(animals).publish(any(AcceptingAnimalSucceeded.class));
+        verify(animals).publish(any(SuccessfulAnimalAcceptance.class));
     }
 
     @DisplayName("Should accept animal with warning when shelter space reached safe threshold")
@@ -56,7 +56,7 @@ class AcceptingAnimalTest {
         acceptingAnimal.handle(command());
 
         verify(animals).save(any(Animal.class));
-        verify(animals).publish(any(AcceptingAnimalWarned.class));
+        verify(animals).publish(any(WarnedAnimalAcceptance.class));
     }
 
     @DisplayName("Should fail when accepting animal because of running out of space")
@@ -69,7 +69,7 @@ class AcceptingAnimalTest {
                 .isThrownBy(() -> acceptingAnimal.handle(command()));
 
         verify(animals, never()).save(any(Animal.class));
-        verify(animals).publish(any(AcceptingAnimalFailed.class));
+        verify(animals).publish(any(FailedAnimalAcceptance.class));
     }
 
     private AcceptAnimalCommand command() {

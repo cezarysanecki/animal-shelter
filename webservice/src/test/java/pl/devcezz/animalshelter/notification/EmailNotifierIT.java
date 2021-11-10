@@ -1,7 +1,9 @@
 package pl.devcezz.animalshelter.notification;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -23,7 +25,10 @@ import javax.sql.DataSource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static pl.devcezz.animalshelter.notification.NotificationFixture.failedAcceptanceNotification;
+import static pl.devcezz.animalshelter.notification.NotificationFixture.successfulAcceptanceNotification;
 import static pl.devcezz.animalshelter.notification.NotificationFixture.successfulAdoptionNotification;
+import static pl.devcezz.animalshelter.notification.NotificationFixture.warnedAcceptanceNotification;
 import static pl.devcezz.animalshelter.notification.NotificationFixture.zookeeperContactsDetails;
 
 @SpringBootTest(classes = { EmailNotifierIT.Config.class, NotificationConfig.class })
@@ -43,6 +48,11 @@ class EmailNotifierIT {
         System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
     }
 
+    @BeforeEach
+    void resetMock() {
+        Mockito.reset(JAVA_MAIL_SENDER);
+    }
+
     @Test
     @Transactional
     @DisplayName("Should send email about animal adoption")
@@ -50,6 +60,39 @@ class EmailNotifierIT {
             @Autowired EmailNotifier emailNotifier
     ) {
         emailNotifier.notify(zookeeperContactsDetails(), successfulAdoptionNotification());
+
+        verify(JAVA_MAIL_SENDER).send(any(MimeMessagePreparator.class));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("Should send email about animal successful acceptance")
+    void should_send_email_about_animal_successful_acceptance(
+            @Autowired EmailNotifier emailNotifier
+    ) {
+        emailNotifier.notify(zookeeperContactsDetails(), successfulAcceptanceNotification());
+
+        verify(JAVA_MAIL_SENDER).send(any(MimeMessagePreparator.class));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("Should send email about animal warned acceptance")
+    void should_send_email_about_animal_warned_acceptance(
+            @Autowired EmailNotifier emailNotifier
+    ) {
+        emailNotifier.notify(zookeeperContactsDetails(), warnedAcceptanceNotification());
+
+        verify(JAVA_MAIL_SENDER).send(any(MimeMessagePreparator.class));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("Should send email about animal failed acceptance")
+    void should_send_email_about_animal_failed_acceptance(
+            @Autowired EmailNotifier emailNotifier
+    ) {
+        emailNotifier.notify(zookeeperContactsDetails(), failedAcceptanceNotification());
 
         verify(JAVA_MAIL_SENDER).send(any(MimeMessagePreparator.class));
     }

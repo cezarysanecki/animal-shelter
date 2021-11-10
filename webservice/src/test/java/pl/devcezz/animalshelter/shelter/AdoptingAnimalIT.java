@@ -17,7 +17,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import pl.devcezz.animalshelter.shelter.command.AdoptAnimalCommand;
-import pl.devcezz.animalshelter.shelter.event.AnimalEvent.AnimalAdoptionSucceeded;
+import pl.devcezz.animalshelter.shelter.event.AnimalEvent.SuccessfulAnimalAdoption;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.cqrs.event.EventsBus;
@@ -71,7 +71,7 @@ class AdoptingAnimalIT {
 
         adoptingAnimal.handle(adoptAnimalCommand(animalId));
 
-        verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
+        verify(eventsBus).publish(isA(SuccessfulAnimalAdoption.class));
         assertThat(repository.queryForAvailableAnimals()).isEmpty();
     }
 
@@ -103,7 +103,7 @@ class AdoptingAnimalIT {
         assertThatThrownBy(() -> adoptingAnimal.handle(command))
                 .isInstanceOf(AnimalAlreadyAdoptedException.class);
 
-        verify(eventsBus).publish(isA(AnimalAdoptionSucceeded.class));
+        verify(eventsBus).publish(isA(SuccessfulAnimalAdoption.class));
     }
 
     @Configuration(proxyBeanMethods = false)

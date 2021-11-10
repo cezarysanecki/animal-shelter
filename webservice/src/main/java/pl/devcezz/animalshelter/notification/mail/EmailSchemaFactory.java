@@ -2,6 +2,9 @@ package pl.devcezz.animalshelter.notification.mail;
 
 import pl.devcezz.animalshelter.notification.dto.Notification;
 import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAdoptionNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAcceptanceNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification.WarnedAcceptanceNotification;
+import pl.devcezz.animalshelter.notification.dto.Notification.FailedAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.mail.exception.SchemaCreationFailedException;
 import pl.devcezz.animalshelter.notification.mail.exception.UnknownTypeOfNotificationException;
 
@@ -24,6 +27,9 @@ class EmailSchemaFactory {
 
         EmailContext context = Match(notification).of(
                 Case($(instanceOf(SuccessfulAdoptionNotification.class)), this::createContext),
+                Case($(instanceOf(SuccessfulAcceptanceNotification.class)), this::createContext),
+                Case($(instanceOf(WarnedAcceptanceNotification.class)), this::createContext),
+                Case($(instanceOf(FailedAcceptanceNotification.class)), this::createContext),
                 Case($(), () -> { throw new UnknownTypeOfNotificationException(); })
         );
 
@@ -33,5 +39,21 @@ class EmailSchemaFactory {
     private EmailContext createContext(SuccessfulAdoptionNotification notification) {
         return EmailContext.create()
                 .append("animalName", notification.animalName());
+    }
+
+    private EmailContext createContext(SuccessfulAcceptanceNotification notification) {
+        return EmailContext.create()
+                .append("animalName", notification.animalName());
+    }
+
+    private EmailContext createContext(WarnedAcceptanceNotification notification) {
+        return EmailContext.create()
+                .append("animalName", notification.animalName())
+                .append("message", notification.message());
+    }
+
+    private EmailContext createContext(FailedAcceptanceNotification notification) {
+        return EmailContext.create()
+                .append("reason", notification.reason());
     }
 }

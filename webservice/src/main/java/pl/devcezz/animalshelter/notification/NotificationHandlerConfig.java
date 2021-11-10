@@ -15,18 +15,27 @@ class NotificationHandlerConfig {
     }
 
     @Bean
-    EventHandler handleAcceptanceFailure() {
-        return new HandleAcceptanceFailure();
+    EventHandler handleAcceptanceFailure(
+            ZookeeperContactRepository zookeeperContactRepository,
+            Set<Notifier> notifiers
+    ) {
+        return new HandleAcceptanceFailure(zookeeperContactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
-    EventHandler handleAcceptanceWarning() {
-        return new HandleAcceptanceWarning();
+    EventHandler handleAcceptanceWarning(
+            ZookeeperContactRepository zookeeperContactRepository,
+            Set<Notifier> notifiers
+    ) {
+        return new HandleAcceptanceWarning(zookeeperContactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
-    EventHandler handleAcceptanceSuccess() {
-        return new HandleAcceptanceSuccess();
+    EventHandler handleAcceptanceSuccess(
+            ZookeeperContactRepository zookeeperContactRepository,
+            Set<Notifier> notifiers
+    ) {
+        return new HandleSuccessfulAcceptance(zookeeperContactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean

@@ -5,7 +5,7 @@ import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
 import pl.devcezz.cqrs.event.Event;
 
 import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalFailed;
-import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded.AcceptingAnimalSucceeded;
+import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalSucceeded;
 import static pl.devcezz.animalshelter.shelter.event.AnimalEvent.AcceptingAnimalWarned;
 
 class Shelter {
@@ -40,7 +40,7 @@ class Shelter {
     }
 
     private AcceptingAnimalFailed acceptingAnimalFailed() {
-        return new AcceptingAnimalFailed("not enough space in shelter");
+        return new AcceptingAnimalFailed(AcceptingAnimalFailed.Reason.NotEnoughSpace.value);
     }
 
     private AcceptingAnimalWarned acceptingAnimalWarned(final Animal animal) {
@@ -48,7 +48,8 @@ class Shelter {
                 animal.getId().value(),
                 animal.getName().value(),
                 animal.getAge().value(),
-                animal.getSpecies().name()
+                animal.getSpecies().name(),
+                AcceptingAnimalWarned.Message.SafeThresholdIsReached.value
         );
     }
 

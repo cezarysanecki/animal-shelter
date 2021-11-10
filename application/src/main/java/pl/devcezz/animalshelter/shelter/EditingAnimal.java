@@ -26,8 +26,8 @@ class EditingAnimal implements CommandHandler<EditAnimalCommand> {
                 command.animalId(),
                 command.animalName(),
                 command.animalSpecies(),
-                command.animalAge()
-        );
+                command.animalAge(),
+                command.animalGender());
 
         animals.findBy(editAnimal.getId())
                 .peek(animal -> tryEditAnimal(animal, editAnimal))

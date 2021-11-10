@@ -33,8 +33,8 @@ class AcceptingAnimal implements CommandHandler<AcceptAnimalCommand> {
                 command.animalId(),
                 command.animalName(),
                 command.animalSpecies(),
-                command.animalAge()
-        );
+                command.animalAge(),
+                command.animalGender());
 
         Shelter shelter = shelterFactory.create();
         Result result = Match(shelter.accept(animal)).of(

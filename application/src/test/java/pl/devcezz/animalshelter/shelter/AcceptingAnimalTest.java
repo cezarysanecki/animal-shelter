@@ -77,7 +77,8 @@ class AcceptingAnimalTest {
                 UUID.randomUUID(),
                 "Azor",
                 "Dog",
-                2
+                2,
+                "Male"
         );
     }
 }

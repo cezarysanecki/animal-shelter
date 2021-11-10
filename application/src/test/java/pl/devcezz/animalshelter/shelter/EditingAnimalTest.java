@@ -72,7 +72,8 @@ class EditingAnimalTest {
                 animalId.value(),
                 "Azor",
                 "Dog",
-                2
+                2,
+                "Male"
         );
     }
 }

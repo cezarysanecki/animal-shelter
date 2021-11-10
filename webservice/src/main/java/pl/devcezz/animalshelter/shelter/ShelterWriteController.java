@@ -38,7 +38,8 @@ class ShelterWriteController {
                         UUID.randomUUID(),
                         request.name(),
                         request.species(),
-                        request.age()
+                        request.age(),
+                        request.gender()
                 )
         );
 
@@ -52,7 +53,8 @@ class ShelterWriteController {
                         request.animalId(),
                         request.name(),
                         request.species(),
-                        request.age()
+                        request.age(),
+                        request.gender()
                 )
         );
 

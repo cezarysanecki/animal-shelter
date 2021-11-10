@@ -3,7 +3,7 @@ package pl.devcezz.common;
 import io.vavr.collection.List;
 
 public enum Gender {
-    Male, Female;
+    Male, Female, NotSpecified;
 
     public static Gender of(String value) {
         if (value == null) {

@@ -64,7 +64,8 @@ class HandleAcceptanceWarning implements EventHandler<AcceptingAnimalWarned> {
                 event.animalId(),
                 event.animalName(),
                 event.animalAge(),
-                event.animalSpecies()
+                event.animalSpecies(),
+                event.message()
         );
     }
 }

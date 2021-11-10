@@ -29,7 +29,8 @@ public interface Notification {
     }
 
     record WarnedAcceptanceNotification(UUID animalId, String animalName,
-                                        Integer animalAge, String animalSpecies) implements Notification {
+                                        Integer animalAge, String animalSpecies,
+                                        String message) implements Notification {
 
         @Override
         public NotificationType type() {

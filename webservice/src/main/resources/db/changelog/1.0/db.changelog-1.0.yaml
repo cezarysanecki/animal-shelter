@@ -34,3 +34,18 @@ databaseChangeLog:
               - column:
                   name: email
                   value: 'csanecki@gmail.com'
+
+  - changeSet:
+      id: set_not_specified_gender_for_current_animals
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_animal
+      changes:
+        - update:
+            tableName: shelter_animal
+            columns:
+              - column:
+                  name: gender
+                  value: NotSpecified

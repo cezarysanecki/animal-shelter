@@ -8,10 +8,10 @@
         <version>2.4.5</version>
         <relativePath/>
     </parent>
+
     <groupId>pl.csanecki</groupId>
     <artifactId>webservice</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>webservice</name>
     <description>New way of creating AnimalShelter - webservice</description>
 
     <properties>
@@ -32,6 +32,11 @@
         <dependency>
             <groupId>pl.csanecki</groupId>
             <artifactId>application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.csanecki</groupId>
+            <artifactId>shared</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -1,5 +1,6 @@
 {
   "name": "Azor",
   "species": "Dog",
-  "age": 2
+  "age": 2,
+  "gender": "Male"
 }

@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,7 +50,7 @@ class ShelterWriteControllerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("name.[*]").value("must not be blank"))
                 .andExpect(jsonPath("age.[*]").value("must not be null"))
-                .andExpect(jsonPath("species.[*]").value("must not be blank"));
+                .andExpect(jsonPath("species.[*]").value(contains(startsWith("must be one of the species"))));
     }
 
     @Test

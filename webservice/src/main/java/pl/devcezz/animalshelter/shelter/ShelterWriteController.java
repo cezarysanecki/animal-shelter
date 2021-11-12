@@ -38,7 +38,8 @@ class ShelterWriteController {
                         UUID.randomUUID(),
                         request.name(),
                         request.species(),
-                        request.age()
+                        request.age(),
+                        request.gender()
                 )
         );
 
@@ -52,7 +53,8 @@ class ShelterWriteController {
                         request.animalId(),
                         request.name(),
                         request.species(),
-                        request.age()
+                        request.age(),
+                        request.gender()
                 )
         );
 
@@ -76,10 +78,12 @@ class ShelterWriteController {
 record AcceptAnimalRequest(
         @NotBlank @Size(min=2, max=11) String name,
         @NotNull @PositiveOrZero @Max(30) Integer age,
-        @NotBlank String species) {}
+        @ShelterSpecies String species,
+        @ShelterGender String gender) {}
 
 record EditAnimalRequest(
         @NotNull UUID animalId,
         @NotBlank @Size(min=2, max=11) String name,
         @NotNull @PositiveOrZero @Max(30) Integer age,
-        @NotBlank String species) {}
+        @ShelterSpecies String species,
+        @ShelterGender String gender) {}

@@ -146,3 +146,21 @@ databaseChangeLog:
                     nullable: false
                   name: email
                   type: VARCHAR(100)
+
+  - changeSet:
+      id: add_gender_column_to_animals
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: shelter_animal
+      changes:
+        - addColumn:
+            tableName: shelter_animal
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: gender
+                  type: VARCHAR(50)
+                  afterColumn: age

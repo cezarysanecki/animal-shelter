@@ -1,5 +1,7 @@
 package pl.devcezz.animalshelter.shelter;
 
+import pl.devcezz.common.Gender;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -9,12 +11,14 @@ final class Animal {
     private final Name name;
     private final Species species;
     private final Age age;
+    private final Gender gender;
 
-    Animal(final UUID id, final String name, final String species, final Integer age) {
+    Animal(final UUID id, final String name, final String species, final Integer age, final String gender) {
         this.id = new AnimalId(id);
         this.name = new Name(name);
         this.species = Species.of(species);
         this.age = new Age(age);
+        this.gender = Gender.of(gender);
     }
 
     record Name(String value) {
@@ -61,6 +65,10 @@ final class Animal {
 
     Species getSpecies() {
         return species;
+    }
+
+    Gender getGender() {
+        return gender;
     }
 
     @Override

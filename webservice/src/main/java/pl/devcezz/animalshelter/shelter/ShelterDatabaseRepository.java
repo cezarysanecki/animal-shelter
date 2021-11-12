@@ -47,8 +47,8 @@ class ShelterDatabaseRepository implements ShelterRepository, Animals {
                 animal.getName().value(),
                 animal.getSpecies().name(),
                 animal.getAge().value(),
-                animal.getId().value().toString(),
-                animal.getGender().name());
+                animal.getGender().name(),
+                animal.getId().value().toString());
     }
 
     @Override

@@ -152,9 +152,8 @@ databaseChangeLog:
       author: devcezz
       preConditions:
         - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: shelter_animal
+          tableExists:
+            tableName: shelter_animal
       changes:
         - addColumn:
             tableName: shelter_animal

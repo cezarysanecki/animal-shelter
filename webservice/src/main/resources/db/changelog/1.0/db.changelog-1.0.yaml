@@ -40,8 +40,9 @@ databaseChangeLog:
       author: devcezz
       preConditions:
         - onFail: MARK_RAN
-          tableExists:
+          columnExists:
             tableName: shelter_animal
+            columnName: gender
       changes:
         - update:
             tableName: shelter_animal

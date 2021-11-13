@@ -8,12 +8,14 @@ public class AnimalInShelterDto {
     private final String name;
     private final String species;
     private final Integer age;
+    private final String gender;
 
-    public AnimalInShelterDto(final UUID animalId, final String name, final String species, final Integer age) {
+    public AnimalInShelterDto(final UUID animalId, final String name, final String species, final Integer age, final String gender) {
         this.animalId = animalId;
         this.name = name;
         this.species = species;
         this.age = age;
+        this.gender = gender;
     }
 
     public UUID getAnimalId() {
@@ -30,5 +32,9 @@ public class AnimalInShelterDto {
 
     public Integer getAge() {
         return age;
+    }
+
+    public String getGender() {
+        return gender;
     }
 }

@@ -31,7 +31,8 @@ class AnimalDatabaseProjection implements AnimalProjection {
     public List<AnimalDto> handle(final GetAnimalsQuery query) {
         return Stream.ofAll(
                 jdbcTemplate.query(
-                        "SELECT a.animal_id, a.name, a.species, a.age, a.adopted_at IS NULL as in_shelter FROM shelter_animal a",
+                        "SELECT a.animal_id, a.name, a.species, a.age, a.gender, a.adopted_at IS NULL as in_shelter " +
+                                "FROM shelter_animal a",
                         new BeanPropertyRowMapper<>(AnimalRow.class)
                 ))
                 .map(AnimalRow::toAnimalDto)
@@ -42,7 +43,9 @@ class AnimalDatabaseProjection implements AnimalProjection {
     public List<AnimalInShelterDto> handle(final GetAnimalsInShelterQuery query) {
         return Stream.ofAll(
                 jdbcTemplate.query(
-                        "SELECT a.animal_id, a.name, a.species, a.age FROM shelter_animal a WHERE a.adopted_at IS NULL",
+                        "SELECT a.animal_id, a.name, a.species, a.age, a.gender " +
+                                "FROM shelter_animal a " +
+                                "WHERE a.adopted_at IS NULL",
                         new BeanPropertyRowMapper<>(AnimalInShelterRow.class)
                 ))
                 .map(AnimalInShelterRow::toAnimalInShelterDto)
@@ -53,7 +56,9 @@ class AnimalDatabaseProjection implements AnimalProjection {
     public Option<AnimalInfoDto> handle(final GetAnimalInfoQuery query) {
         return Try.ofSupplier(() -> of(
                         jdbcTemplate.queryForObject(
-                                "SELECT a.animal_id, a.name, a.species, a.age, a.admitted_at, a.adopted_at FROM shelter_animal a WHERE a.animal_id = ?",
+                                "SELECT a.animal_id, a.name, a.species, a.age, a.gender, a.admitted_at, a.adopted_at " +
+                                        "FROM shelter_animal a " +
+                                        "WHERE a.animal_id = ?",
                                 new BeanPropertyRowMapper<>(AnimalInfoRow.class),
                                 query.animalId().toString()))
                         .map(AnimalInfoRow::toAnimalInfoDto))
@@ -67,10 +72,11 @@ class AnimalRow {
     String name;
     String species;
     Integer age;
+    String gender;
     Boolean inShelter;
 
     AnimalDto toAnimalDto() {
-        return new AnimalDto(animalId, name, species, age, inShelter);
+        return new AnimalDto(animalId, name, species, age, gender, inShelter);
     }
 
     public void setAnimalId(final UUID animalId) {
@@ -87,6 +93,10 @@ class AnimalRow {
 
     public void setAge(final Integer age) {
         this.age = age;
+    }
+
+    public void setGender(final String gender) {
+        this.gender = gender;
     }
 
     public void setInShelter(final Boolean inShelter) {
@@ -100,9 +110,10 @@ class AnimalInShelterRow {
     String name;
     String species;
     Integer age;
+    String gender;
 
     AnimalInShelterDto toAnimalInShelterDto() {
-        return new AnimalInShelterDto(animalId, name, species, age);
+        return new AnimalInShelterDto(animalId, name, species, age, gender);
     }
 
     public void setAnimalId(final UUID animalId) {
@@ -119,6 +130,10 @@ class AnimalInShelterRow {
 
     public void setAge(final Integer age) {
         this.age = age;
+    }
+
+    public void setGender(final String gender) {
+        this.gender = gender;
     }
 }
 
@@ -128,11 +143,12 @@ class AnimalInfoRow {
     String name;
     String species;
     Integer age;
+    String gender;
     Instant admittedAt;
     Instant adoptedAt;
 
     AnimalInfoDto toAnimalInfoDto() {
-        return new AnimalInfoDto(animalId, name, species, age, admittedAt, adoptedAt);
+        return new AnimalInfoDto(animalId, name, species, age, gender, admittedAt, adoptedAt);
     }
 
     public void setAnimalId(final UUID animalId) {
@@ -149,6 +165,10 @@ class AnimalInfoRow {
 
     public void setAge(final Integer age) {
         this.age = age;
+    }
+
+    public void setGender(final String gender) {
+        this.gender = gender;
     }
 
     public void setAdmittedAt(final Instant admittedAt) {

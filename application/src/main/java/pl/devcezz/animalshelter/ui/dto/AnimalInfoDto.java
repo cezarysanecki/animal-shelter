@@ -9,14 +9,16 @@ public class AnimalInfoDto {
     private final String name;
     private final String species;
     private final Integer age;
+    private final String gender;
     private final Instant admittedAt;
     private final Instant adoptedAt;
 
-    public AnimalInfoDto(final UUID animalId, final String name, final String species, final Integer age, final Instant admittedAt, final Instant adoptedAt) {
+    public AnimalInfoDto(final UUID animalId, final String name, final String species, final Integer age, final String gender, final Instant admittedAt, final Instant adoptedAt) {
         this.animalId = animalId;
         this.name = name;
         this.species = species;
         this.age = age;
+        this.gender = gender;
         this.admittedAt = admittedAt;
         this.adoptedAt = adoptedAt;
     }
@@ -35,6 +37,10 @@ public class AnimalInfoDto {
 
     public Integer getAge() {
         return age;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public Instant getAdmittedAt() {

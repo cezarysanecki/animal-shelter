@@ -47,11 +47,6 @@ class AcceptingAnimalIT {
             .withUsername("test")
             .withPassword("test");
 
-    static {
-        DB_CONTAINER.start();
-        System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
-    }
-
     @BeforeEach
     void resetMock() {
         Mockito.reset(EVENTS_BUS);

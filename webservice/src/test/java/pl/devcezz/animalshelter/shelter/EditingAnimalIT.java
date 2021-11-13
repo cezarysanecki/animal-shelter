@@ -17,7 +17,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import pl.devcezz.animalshelter.shelter.ShelterAnimal.AvailableAnimal;
-import pl.devcezz.animalshelter.shelter.command.DeleteAnimalCommand;
 import pl.devcezz.animalshelter.shelter.exception.AnimalAlreadyAdoptedException;
 import pl.devcezz.animalshelter.shelter.exception.NotFoundAnimalInShelterException;
 import pl.devcezz.cqrs.event.EventsBus;
@@ -30,7 +29,6 @@ import static org.mockito.Mockito.mock;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.animal;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.animalInformation;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.anyAnimalId;
-import static pl.devcezz.animalshelter.shelter.AnimalFixture.deleteAnimalCommand;
 import static pl.devcezz.animalshelter.shelter.AnimalFixture.editAnimalCommand;
 
 @SpringBootTest(classes = { ShelterConfig.class, EditingAnimalIT.Config.class })
@@ -47,11 +45,6 @@ class EditingAnimalIT {
     private static final MySQLContainer<?> DB_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.24"))
             .withUsername("test")
             .withPassword("test");
-
-    static {
-        DB_CONTAINER.start();
-        System.setProperty("DB_PORT", String.valueOf(DB_CONTAINER.getFirstMappedPort()));
-    }
 
     @BeforeEach
     void resetMock() {

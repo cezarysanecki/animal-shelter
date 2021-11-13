@@ -21,7 +21,8 @@
 		<module>application</module>
         <module>cqrs</module>
         <module>shared</module>
-    </modules>
+		<module>crud</module>
+	</modules>
 
 	<dependencies>
 		<dependency>

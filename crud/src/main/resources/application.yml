@@ -1,0 +1,4 @@
+spring:
+  data:
+    rest:
+      detection-strategy: annotated

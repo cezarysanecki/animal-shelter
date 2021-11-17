@@ -11,7 +11,7 @@ import java.util.Set;
 class NotificationHandlerConfig {
 
     @Bean
-    ZookeeperContactRepository zookeeperContactRepository(JdbcTemplate jdbcTemplate) {
+    ZookeeperContactDatabaseRepository zookeeperContactRepository(JdbcTemplate jdbcTemplate) {
         return new ZookeeperContactDatabaseRepository(jdbcTemplate);
     }
 

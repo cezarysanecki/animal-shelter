@@ -46,4 +46,16 @@ class NotificationHandlerConfig {
     ) {
         return new HandleSuccessfulAdoption(zookeeperContactRepository, HashSet.ofAll(notifiers));
     }
+
+    @Bean
+    HandleZookeeperAdded handleZookeeperAdded(
+            ZookeeperContactDatabaseRepository zookeeperContactRepository
+    ) {
+        return new HandleZookeeperAdded(zookeeperContactRepository);
+    }
+
+    @Bean
+    HandleZookeeperDeleted handleZookeeperDeleted(ZookeeperContactDatabaseRepository zookeeperContactRepository) {
+        return new HandleZookeeperDeleted(zookeeperContactRepository);
+    }
 }

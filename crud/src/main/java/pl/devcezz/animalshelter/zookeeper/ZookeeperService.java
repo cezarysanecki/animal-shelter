@@ -22,14 +22,14 @@ class ZookeeperService {
         Zookeeper savedZookeeper = zookeeperRepository.save(new Zookeeper(name, email));
 
         eventsBus.publish(new AddedZookeeperEvent(
-                savedZookeeper.getZookeeperId(),
+                savedZookeeper.toZookeeperId(),
                 savedZookeeper.getName(),
                 savedZookeeper.getEmail()
         ));
     }
 
     void deleteZookeeper(UUID zookeeperId) {
-        zookeeperRepository.deleteById(zookeeperId);
+        zookeeperRepository.deleteById(zookeeperId.toString());
         eventsBus.publish(new DeletedZookeeperEvent(zookeeperId));
     }
 }

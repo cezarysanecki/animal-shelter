@@ -18,7 +18,7 @@ class Zookeeper {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "zookeeper_id", updatable = false, nullable = false)
-    private UUID zookeeperId;
+    private String zookeeperId;
 
     private String name;
     private String email;
@@ -30,7 +30,11 @@ class Zookeeper {
         this.email = email;
     }
 
-    public UUID getZookeeperId() {
+    public UUID toZookeeperId() {
+        return UUID.fromString(zookeeperId);
+    }
+
+    public String getZookeeperId() {
         return zookeeperId;
     }
 

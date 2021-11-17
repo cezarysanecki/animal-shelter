@@ -18,10 +18,10 @@
 
 	<modules>
 		<module>webservice</module>
-		<module>application</module>
+		<module>shelter</module>
         <module>cqrs</module>
         <module>shared</module>
-		<module>crud</module>
+		<module>administration</module>
 	</modules>
 
 	<dependencies>

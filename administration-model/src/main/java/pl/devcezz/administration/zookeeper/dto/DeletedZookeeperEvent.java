@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.zookeeper.dto;
+package pl.devcezz.administration.zookeeper.dto;
 
 import pl.devcezz.cqrs.event.Event;
 

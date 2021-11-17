@@ -22,6 +22,7 @@
         <module>cqrs</module>
         <module>shared</module>
 		<module>administration</module>
+		<module>administration-model</module>
 	</modules>
 
 	<dependencies>

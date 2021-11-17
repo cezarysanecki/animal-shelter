@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.zookeeper;
+package pl.devcezz.administration.zookeeper;
 
 import org.springframework.data.repository.CrudRepository;
 

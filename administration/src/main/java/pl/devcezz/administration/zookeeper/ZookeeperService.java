@@ -1,8 +1,8 @@
-package pl.devcezz.animalshelter.zookeeper;
+package pl.devcezz.administration.zookeeper;
 
 import org.springframework.stereotype.Service;
-import pl.devcezz.animalshelter.zookeeper.dto.AddedZookeeperEvent;
-import pl.devcezz.animalshelter.zookeeper.dto.DeletedZookeeperEvent;
+import pl.devcezz.administration.zookeeper.dto.AddedZookeeperEvent;
+import pl.devcezz.administration.zookeeper.dto.DeletedZookeeperEvent;
 import pl.devcezz.cqrs.event.EventsBus;
 
 import java.util.UUID;

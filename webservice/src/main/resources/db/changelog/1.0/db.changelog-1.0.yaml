@@ -50,3 +50,14 @@ databaseChangeLog:
               - column:
                   name: gender
                   value: NotSpecified
+
+  - changeSet:
+      id: clear_zookeeper_contact
+      author: devcezz
+      preConditions:
+        - onFail: MARK_RAN
+          tableExists:
+            tableName: zookeeper_contact
+      changes:
+        - delete:
+            tableName: zookeeper_contact

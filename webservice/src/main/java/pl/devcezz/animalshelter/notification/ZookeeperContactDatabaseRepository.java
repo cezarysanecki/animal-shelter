@@ -25,6 +25,24 @@ class ZookeeperContactDatabaseRepository implements ZookeeperContactRepository {
                 .map(ZookeeperContactRow::toZookeeperContact)
                 .toSet();
     }
+
+    public void save(ZookeeperContact zookeeperContact) {
+        jdbcTemplate.update("" +
+                        "INSERT INTO zookeeper_contact " +
+                        "(zookeeper_id, email) VALUES" +
+                        "(?, ?)",
+                zookeeperContact.zookeeperId().value().toString(),
+                zookeeperContact.email()
+        );
+    }
+
+    public void delete(ZookeeperId zookeeperId) {
+        jdbcTemplate.update("" +
+                        "DELETE FROM zookeeper_contact " +
+                        "WHERE zookeeper_id = ?",
+                zookeeperId.value().toString()
+        );
+    }
 }
 
 class ZookeeperContactRow {

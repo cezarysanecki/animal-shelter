@@ -3,11 +3,11 @@ package pl.devcezz.animalshelter.notification;
 import java.util.Objects;
 import java.util.UUID;
 
-record ZookeeperId(UUID value) {
+record ContactId(UUID value) {
 
-    ZookeeperId {
+    ContactId {
         if (value == null) {
-            throw new IllegalArgumentException("id cannot be null");
+            throw new IllegalArgumentException("contactId cannot be null");
         }
     }
 
@@ -15,8 +15,8 @@ record ZookeeperId(UUID value) {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final ZookeeperId zookeeperId = (ZookeeperId) o;
-        return Objects.equals(value, zookeeperId.value);
+        final ContactId contactId = (ContactId) o;
+        return Objects.equals(value, contactId.value);
     }
 
     @Override

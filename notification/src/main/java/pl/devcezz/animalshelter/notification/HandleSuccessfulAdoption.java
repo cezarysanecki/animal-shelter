@@ -7,23 +7,23 @@ import pl.devcezz.cqrs.event.EventHandler;
 
 class HandleSuccessfulAdoption implements EventHandler<SuccessfulAnimalAdoption> {
 
-    private final ZookeeperContactRepository zookeeperContactRepository;
+    private final ContactRepository contactRepository;
     private final Set<Notifier> notifiers;
 
     HandleSuccessfulAdoption(
-            final ZookeeperContactRepository zookeeperContactRepository,
+            final ContactRepository contactRepository,
             final Set<Notifier> notifiers
     ) {
-        this.zookeeperContactRepository = zookeeperContactRepository;
+        this.contactRepository = contactRepository;
         this.notifiers = notifiers;
     }
 
     @Override
     public void handle(final SuccessfulAnimalAdoption event) {
-        Set<ZookeeperContact> contacts = zookeeperContactRepository.findAll();
+        Set<Contact> contacts = contactRepository.findAll();
 
         notifiers.forEach(notifier -> notifier.notify(
-                contacts.map(ZookeeperContact::toZookeeperContactDetails),
+                contacts.map(Contact::toContactDetails),
                 createNotification(event))
         );
     }

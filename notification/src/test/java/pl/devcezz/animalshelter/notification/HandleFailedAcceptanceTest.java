@@ -14,23 +14,23 @@ import static pl.devcezz.animalshelter.notification.NotificationFixture.zookeepe
 
 class HandleFailedAcceptanceTest {
 
-    private ZookeeperContactRepository zookeeperContactRepository;
+    private ContactRepository contactRepository;
     private Notifier notifier;
 
     private HandleFailedAcceptance handleFailedAcceptance;
 
     @BeforeEach
     void setUp() {
-        zookeeperContactRepository = mock(ZookeeperContactRepository.class);
+        contactRepository = mock(ContactRepository.class);
         notifier = mock(Notifier.class);
 
-        handleFailedAcceptance = new HandleFailedAcceptance(zookeeperContactRepository, HashSet.of(notifier));
+        handleFailedAcceptance = new HandleFailedAcceptance(contactRepository, HashSet.of(notifier));
     }
 
     @DisplayName("Should successfully notify all notifiers")
     @Test
     void should_successfully_notify_all_notifiers() {
-        when(zookeeperContactRepository.findAll()).thenReturn(HashSet.of(zookeeperContact()));
+        when(contactRepository.findAll()).thenReturn(HashSet.of(zookeeperContact()));
 
         handleFailedAcceptance.handle(event());
 

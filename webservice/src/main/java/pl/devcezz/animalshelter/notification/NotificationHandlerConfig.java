@@ -11,51 +11,51 @@ import java.util.Set;
 class NotificationHandlerConfig {
 
     @Bean
-    ZookeeperContactDatabaseRepository zookeeperContactRepository(JdbcTemplate jdbcTemplate) {
-        return new ZookeeperContactDatabaseRepository(jdbcTemplate);
+    ContactDatabaseRepository zookeeperContactRepository(JdbcTemplate jdbcTemplate) {
+        return new ContactDatabaseRepository(jdbcTemplate);
     }
 
     @Bean
     HandleFailedAcceptance handleFailedAcceptance(
-            ZookeeperContactRepository zookeeperContactRepository,
+            ContactRepository contactRepository,
             Set<Notifier> notifiers
     ) {
-        return new HandleFailedAcceptance(zookeeperContactRepository, HashSet.ofAll(notifiers));
+        return new HandleFailedAcceptance(contactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
     HandleWarnedAcceptance handleWarnedAcceptance(
-            ZookeeperContactRepository zookeeperContactRepository,
+            ContactRepository contactRepository,
             Set<Notifier> notifiers
     ) {
-        return new HandleWarnedAcceptance(zookeeperContactRepository, HashSet.ofAll(notifiers));
+        return new HandleWarnedAcceptance(contactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
     HandleSuccessfulAcceptance handleSuccessfulAcceptance(
-            ZookeeperContactRepository zookeeperContactRepository,
+            ContactRepository contactRepository,
             Set<Notifier> notifiers
     ) {
-        return new HandleSuccessfulAcceptance(zookeeperContactRepository, HashSet.ofAll(notifiers));
+        return new HandleSuccessfulAcceptance(contactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
     HandleSuccessfulAdoption handleSuccessfulAdoption(
-            ZookeeperContactRepository zookeeperContactRepository,
+            ContactRepository contactRepository,
             Set<Notifier> notifiers
     ) {
-        return new HandleSuccessfulAdoption(zookeeperContactRepository, HashSet.ofAll(notifiers));
+        return new HandleSuccessfulAdoption(contactRepository, HashSet.ofAll(notifiers));
     }
 
     @Bean
     HandleZookeeperAdded handleZookeeperAdded(
-            ZookeeperContactDatabaseRepository zookeeperContactRepository
+            ContactDatabaseRepository zookeeperContactRepository
     ) {
         return new HandleZookeeperAdded(zookeeperContactRepository);
     }
 
     @Bean
-    HandleZookeeperDeleted handleZookeeperDeleted(ZookeeperContactDatabaseRepository zookeeperContactRepository) {
+    HandleZookeeperDeleted handleZookeeperDeleted(ContactDatabaseRepository zookeeperContactRepository) {
         return new HandleZookeeperDeleted(zookeeperContactRepository);
     }
 }

@@ -1,7 +1,7 @@
 package pl.devcezz.animalshelter.notification;
 
-import pl.devcezz.animalshelter.zookeeper.dto.AddedZookeeperEvent;
-import pl.devcezz.animalshelter.zookeeper.dto.DeletedZookeeperEvent;
+import pl.devcezz.animalshelter.administration.dto.AddedZookeeperEvent;
+import pl.devcezz.animalshelter.administration.dto.DeletedZookeeperEvent;
 import pl.devcezz.cqrs.event.EventHandler;
 
 class HandleZookeeperAdded implements EventHandler<AddedZookeeperEvent> {

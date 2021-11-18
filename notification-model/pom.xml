@@ -8,8 +8,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>administration-model</artifactId>
-    <description>New way of creating AnimalShelter - administration-model</description>
+    <artifactId>notification-model</artifactId>
+    <description>New way of creating AnimalShelter - notification-model</description>
 
     <dependencies>
         <dependency>

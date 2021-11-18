@@ -1,7 +1,5 @@
 package pl.devcezz.animalshelter.shelter;
 
-import pl.devcezz.common.Gender;
-
 import java.util.Objects;
 import java.util.UUID;
 

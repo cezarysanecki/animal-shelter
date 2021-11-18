@@ -1,8 +1,8 @@
-package pl.devcezz.common;
+package pl.devcezz.animalshelter.shelter;
 
 import io.vavr.collection.List;
 
-public enum Gender {
+enum Gender {
     Male, Female, NotSpecified;
 
     public static Gender of(String value) {

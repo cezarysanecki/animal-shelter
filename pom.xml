@@ -20,7 +20,6 @@
 		<module>webservice</module>
 		<module>shelter</module>
         <module>cqrs</module>
-        <module>shared</module>
 		<module>administration</module>
 		<module>administration-model</module>
 	</modules>

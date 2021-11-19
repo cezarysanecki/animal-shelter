@@ -18,24 +18,6 @@ databaseChangeLog:
                   value: 7
 
   - changeSet:
-      id: insert_main_zookeeper_mail
-      author: devcezz
-      preConditions:
-        - onFail: MARK_RAN
-          tableExists:
-            tableName: zookeeper_contact
-      changes:
-        - insert:
-            tableName: zookeeper_contact
-            columns:
-              - column:
-                  name: zookeeper_id
-                  value: 'fe8b455c-98a2-123f-556b-7b5ce99abc1e'
-              - column:
-                  name: email
-                  value: 'csanecki@gmail.com'
-
-  - changeSet:
       id: set_not_specified_gender_for_current_animals
       author: devcezz
       preConditions:

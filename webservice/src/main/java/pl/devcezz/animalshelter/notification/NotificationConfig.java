@@ -8,7 +8,7 @@ import pl.devcezz.animalshelter.notification.mail.EmailFacade;
 class NotificationConfig {
 
     @Bean
-    Notifier emailNotifier(EmailFacade emailFacade) {
+    EmailNotifier emailNotifier(EmailFacade emailFacade) {
         return new EmailNotifier(emailFacade);
     }
 }

@@ -31,17 +31,17 @@
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
-            <artifactId>application</artifactId>
+            <artifactId>shelter-application</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
-            <artifactId>crud</artifactId>
+            <artifactId>notification-application</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
-            <artifactId>shared</artifactId>
+            <artifactId>administration-spring</artifactId>
             <version>${project.version}</version>
         </dependency>
 

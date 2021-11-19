@@ -6,14 +6,14 @@ import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAcceptan
 import pl.devcezz.animalshelter.notification.dto.Notification.WarnedAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.FailedAcceptanceNotification;
 import pl.devcezz.animalshelter.notification.dto.Notification.SuccessfulAdoptionNotification;
-import pl.devcezz.animalshelter.notification.dto.ZookeeperContactDetails;
+import pl.devcezz.animalshelter.notification.dto.ContactDetails;
 
 import java.util.UUID;
 
 class NotificationFixture {
 
-    static Set<ZookeeperContactDetails> zookeeperContactsDetails() {
-        return HashSet.of(new ZookeeperContactDetails("test@mail.com"));
+    static Set<ContactDetails> zookeeperContactsDetails() {
+        return HashSet.of(new ContactDetails("test@mail.com"));
     }
 
     static SuccessfulAdoptionNotification successfulAdoptionNotification() {

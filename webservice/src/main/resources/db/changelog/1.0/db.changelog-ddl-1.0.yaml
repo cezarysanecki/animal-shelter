@@ -17,7 +17,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: shelter_config_pkey
-                  name: id
+                  name: contactId
                   type: INTEGER
               - column:
                   constraints:
@@ -48,7 +48,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: shelter_animal_pkey
-                  name: id
+                  name: contactId
                   type: INTEGER
               - column:
                   constraints:
@@ -98,7 +98,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: shelter_email_data_pkey
-                  name: id
+                  name: contactId
                   type: INTEGER
               - column:
                   constraints:
@@ -123,29 +123,34 @@ databaseChangeLog:
         - onFail: MARK_RAN
           not:
             tableExists:
-              tableName: zookeeper_contact
+              tableName: contact
       changes:
         - createTable:
-            tableName: zookeeper_contact
+            tableName: contact
             columns:
               - column:
                   autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: zookeeper_contact_pkey
+                    primaryKeyName: contact_pkey
                   name: id
                   type: INTEGER
               - column:
                   constraints:
                     nullable: false
-                  name: zookeeper_id
+                  name: contact_id
                   type: UUID
               - column:
                   constraints:
                     nullable: false
                   name: email
                   type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: source
+                  type: VARCHAR(25)
 
   - changeSet:
       id: add_gender_column_to_animals
@@ -183,7 +188,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
                     primaryKeyName: zookeeper_pkey
-                  name: id
+                  name: contactId
                   type: INTEGER
               - column:
                   constraints:

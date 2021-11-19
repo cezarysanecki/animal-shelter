@@ -20,9 +20,9 @@
 
 	<modules>
 		<module>cqrs</module>
-		<module>shelter</module>
+		<module>shelter-application</module>
 		<module>shelter-model</module>
-		<module>notification</module>
+		<module>notification-application</module>
 		<module>notification-model</module>
 		<module>administration-spring</module>
 		<module>administration-model</module>

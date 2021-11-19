@@ -41,7 +41,7 @@ class ContactDatabaseRepository implements ContactRepository {
     @Override
     public void delete(ContactId contactId, Contact.Source source) {
         jdbcTemplate.update("" +
-                        "DELETE FROM contact z " +
+                        "DELETE FROM contact c " +
                         "WHERE c.contact_id = ? and c.source = ?",
                 contactId.value().toString(),
                 source.name()

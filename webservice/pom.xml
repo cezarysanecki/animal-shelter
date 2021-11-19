@@ -31,12 +31,12 @@
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
-            <artifactId>shelter</artifactId>
+            <artifactId>shelter-application</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
-            <artifactId>notification</artifactId>
+            <artifactId>notification-application</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

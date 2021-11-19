@@ -8,8 +8,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>shelter</artifactId>
-    <description>New way of creating AnimalShelter - shelter</description>
+    <artifactId>notification-application</artifactId>
+    <description>New way of creating AnimalShelter - notification-application</description>
 
     <dependencies>
         <dependency>
@@ -19,7 +19,17 @@
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
+            <artifactId>notification-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.devcezz</groupId>
             <artifactId>shelter-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.devcezz</groupId>
+            <artifactId>administration-model</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -48,17 +58,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

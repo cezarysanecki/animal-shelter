@@ -27,6 +27,7 @@
 		<module>administration-spring</module>
 		<module>administration-model</module>
 		<module>webservice</module>
+		<module>generator</module>
 	</modules>
 
 	<dependencies>

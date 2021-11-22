@@ -2,12 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>animalshelter</artifactId>
         <groupId>pl.devcezz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>animalshelter</artifactId>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>generator</artifactId>
-    <description>New way of creating AnimalShelter - generator</description>
+    <version>1.0-SNAPSHOT</version>
+    <description>Generator module to generate documents about shelter</description>
 </project>

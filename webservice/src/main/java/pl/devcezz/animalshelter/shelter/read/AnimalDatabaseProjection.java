@@ -7,11 +7,13 @@ import io.vavr.control.Try;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.animalshelter.shelter.read.dto.AnimalInShelterDto;
+import pl.devcezz.animalshelter.shelter.read.dto.DataToReportDto;
 import pl.devcezz.animalshelter.shelter.read.query.GetAnimalInfoQuery;
 import pl.devcezz.animalshelter.shelter.read.query.GetAnimalsInShelterQuery;
 import pl.devcezz.animalshelter.shelter.read.query.GetAnimalsQuery;
 import pl.devcezz.animalshelter.shelter.read.dto.AnimalDto;
 import pl.devcezz.animalshelter.shelter.read.dto.AnimalInfoDto;
+import pl.devcezz.animalshelter.shelter.read.query.GetDataToReportQuery;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -63,6 +65,15 @@ class AnimalDatabaseProjection implements AnimalProjection {
                                 query.animalId().toString()))
                         .map(AnimalInfoRow::toAnimalInfoDto))
                 .getOrElse(none());
+    }
+
+    @Override
+    public DataToReportDto handle(final GetDataToReportQuery query) {
+        Integer capacity = jdbcTemplate.queryForObject(
+                "SELECT c.capacity FROM shelter_config c",
+                new BeanPropertyRowMapper<>(Integer.class));
+
+        return new DataToReportDto(handle(new GetAnimalsInShelterQuery()), capacity);
     }
 }
 

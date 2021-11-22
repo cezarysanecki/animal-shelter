@@ -5,9 +5,11 @@ import io.vavr.control.Option;
 import pl.devcezz.animalshelter.shelter.read.dto.AnimalDto;
 import pl.devcezz.animalshelter.shelter.read.dto.AnimalInShelterDto;
 import pl.devcezz.animalshelter.shelter.read.dto.AnimalInfoDto;
+import pl.devcezz.animalshelter.shelter.read.dto.DataToReportDto;
 import pl.devcezz.animalshelter.shelter.read.query.GetAnimalInfoQuery;
 import pl.devcezz.animalshelter.shelter.read.query.GetAnimalsInShelterQuery;
 import pl.devcezz.animalshelter.shelter.read.query.GetAnimalsQuery;
+import pl.devcezz.animalshelter.shelter.read.query.GetDataToReportQuery;
 
 public interface AnimalProjection {
 
@@ -16,4 +18,6 @@ public interface AnimalProjection {
     List<AnimalInShelterDto> handle(GetAnimalsInShelterQuery query);
 
     Option<AnimalInfoDto> handle(GetAnimalInfoQuery query);
+
+    DataToReportDto handle(GetDataToReportQuery query);
 }

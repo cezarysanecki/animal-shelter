@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 
 class PdfCreator {
 
@@ -19,12 +19,14 @@ class PdfCreator {
     }
 
     byte[] process(HtmlContent htmlContent) {
-        try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(tempFilename()))) {
+        String pdfTempFilename = tempFilename();
+
+        try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(pdfTempFilename))) {
             renderer.setDocumentFromString(htmlContent.value());
             renderer.layout();
             renderer.createPDF(outputStream);
 
-            return Files.readAllBytes(Path.of(tempFilename()));
+            return Files.readAllBytes(Paths.get(pdfTempFilename));
         } catch (IOException | DocumentException e) {
             throw new IllegalArgumentException(e);
         }

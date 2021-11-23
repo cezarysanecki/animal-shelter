@@ -20,7 +20,11 @@
             .tg .tg-yq6s{background-color:#FCFBE3;text-align:center;vertical-align:top;width:30%}
         </style>
     </head>
-    <body>
+    <body style="text-align: center">
+        <h1 style="text-decoration: underline">List of animals in shelter</h1>
+
+        <p>Available space: <span th:text="${animals.size()}"></span>/<span th:text="${shelterCapacity}"></span></p>
+
         <table class="tg">
             <thead>
             <tr>

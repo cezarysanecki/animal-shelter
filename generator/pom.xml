@@ -17,7 +17,7 @@
         <shelter.application.version>1.0-SNAPSHOT</shelter.application.version>
 
         <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
-        <flying.saucer.pdf.version>9.1.22</flying.saucer.pdf.version>
+        <itextpdf.version>4.0.0</itextpdf.version>
     </properties>
 
     <dependencies>
@@ -33,9 +33,9 @@
             <version>${thymeleaf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.xhtmlrenderer</groupId>
-            <artifactId>flying-saucer-pdf</artifactId>
-            <version>${flying.saucer.pdf.version}</version>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>${itextpdf.version}</version>
         </dependency>
     </dependencies>
 

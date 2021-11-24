@@ -1,7 +1,8 @@
 package pl.devcezz.animalshelter.generator;
 
-import com.lowagie.text.DocumentException;
-import org.xhtmlrenderer.pdf.ITextRenderer;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -12,22 +13,16 @@ import java.nio.file.Paths;
 
 class PdfCreator {
 
-    private final ITextRenderer renderer;
-
-    PdfCreator(final ITextRenderer renderer) {
-        this.renderer = renderer;
-    }
-
     byte[] process(HtmlContent htmlContent) {
         String pdfTempFilename = tempFilename();
 
         try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(pdfTempFilename))) {
-            renderer.setDocumentFromString(htmlContent.value());
-            renderer.layout();
-            renderer.createPDF(outputStream);
+            ConverterProperties converterProperties = new ConverterProperties();
+            converterProperties.setFontProvider(new DefaultFontProvider(true, true, true));
+            HtmlConverter.convertToPdf(htmlContent.value(), outputStream, converterProperties);
 
             return Files.readAllBytes(Paths.get(pdfTempFilename));
-        } catch (IOException | DocumentException e) {
+        } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }

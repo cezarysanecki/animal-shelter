@@ -37,3 +37,6 @@ webservice/src/main/resources/application.properties
 
 ### logs
 log.txt
+
+### generated
+*.pdf

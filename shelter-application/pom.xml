@@ -2,49 +2,60 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>animalshelter</artifactId>
         <groupId>pl.devcezz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <artifactId>animalshelter</artifactId>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>shelter-application</artifactId>
-    <description>New way of creating AnimalShelter - shelter-application</description>
+    <version>1.0-SNAPSHOT</version>
+    <description>Shelter application to handle shelter domain</description>
+
+    <properties>
+        <cqrs.version>1.0-SNAPSHOT</cqrs.version>
+        <shelter.model.version>1.0-SNAPSHOT</shelter.model.version>
+
+        <junit.version>5.7.2</junit.version>
+        <assertj.version>3.20.2</assertj.version>
+        <mockito.version>3.11.2</mockito.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>cqrs</artifactId>
-            <version>${project.version}</version>
+            <version>${cqrs.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>shelter-model</artifactId>
-            <version>${project.version}</version>
+            <version>${shelter.model.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.7.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.20.2</version>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.11.2</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -12,10 +13,16 @@
     <groupId>pl.devcezz</groupId>
     <artifactId>webservice</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <description>New way of creating AnimalShelter - webservice</description>
+    <description>Webservice module for run Spring app</description>
 
     <properties>
         <java.version>16</java.version>
+
+        <cqrs.version>1.0-SNAPSHOT</cqrs.version>
+        <generator.version>1.0-SNAPSHOT</generator.version>
+        <shelter.application.version>1.0-SNAPSHOT</shelter.application.version>
+        <notification.application.version>1.0-SNAPSHOT</notification.application.version>
+        <administration.spring.version>1.0-SNAPSHOT</administration.spring.version>
 
         <liquidbase.version>4.2.0</liquidbase.version>
         <mysql.version>8.0.22</mysql.version>
@@ -27,22 +34,27 @@
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>cqrs</artifactId>
-            <version>${project.version}</version>
+            <version>${cqrs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.devcezz</groupId>
+            <artifactId>generator</artifactId>
+            <version>${generator.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>shelter-application</artifactId>
-            <version>${project.version}</version>
+            <version>${shelter.application.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>notification-application</artifactId>
-            <version>${project.version}</version>
+            <version>${notification.application.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>administration-spring</artifactId>
-            <version>${project.version}</version>
+            <version>${administration.spring.version}</version>
         </dependency>
 
         <dependency>

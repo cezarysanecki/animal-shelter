@@ -2,61 +2,60 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
-        <relativePath/>
+        <groupId>pl.devcezz</groupId>
+        <artifactId>animalshelter</artifactId>
+        <version>${revision}</version>
     </parent>
 
-    <groupId>pl.devcezz</groupId>
     <artifactId>administration-spring</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <description>New way of creating AnimalShelter - administration-spring</description>
+    <description>Administration application using Spring</description>
 
     <properties>
-        <java.version>16</java.version>
+        <cqrs.version>1.0-SNAPSHOT</cqrs.version>
+        <administration.model.version>1.0-SNAPSHOT</administration.model.version>
+
+        <spring.version>5.3.6</spring.version>
+        <spring.data.jpa.version>2.4.8</spring.data.jpa.version>
+
+        <hibernate.version>5.4.30.Final</hibernate.version>
+        <hibernate.validator.version>6.1.7.Final</hibernate.validator.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>cqrs</artifactId>
-            <version>${project.version}</version>
+            <version>${cqrs.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
             <artifactId>administration-model</artifactId>
-            <version>${project.version}</version>
+            <version>${administration.model.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.jpa.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
     </dependencies>
 

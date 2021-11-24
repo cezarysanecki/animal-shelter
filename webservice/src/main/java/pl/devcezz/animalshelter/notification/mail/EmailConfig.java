@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.TemplateEngine;
+import pl.devcezz.animalshelter.generator.FileGeneratorFacade;
 
 import java.util.Properties;
 
@@ -71,7 +72,12 @@ class EmailConfig {
     }
 
     @Bean
-    EmailFacade emailFacade(EmailFactory emailFactory, JavaMailSender javaMailSender) {
-        return new EmailFacade(emailFactory, javaMailSender);
+    EmailAttachmentFactory emailAttachmentFactory(FileGeneratorFacade fileGeneratorFacade) {
+        return new EmailAttachmentFactory(fileGeneratorFacade);
+    }
+
+    @Bean
+    EmailFacade emailFacade(EmailFactory emailFactory, JavaMailSender javaMailSender, EmailAttachmentFactory emailAttachmentFactory) {
+        return new EmailFacade(emailFactory, emailAttachmentFactory, javaMailSender);
     }
 }

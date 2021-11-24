@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>pl.devcezz</groupId>
+        <artifactId>animalshelter</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>generator</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <description>Generator module to generate documents about shelter</description>
+
+    <properties>
+        <shelter.application.version>1.0-SNAPSHOT</shelter.application.version>
+
+        <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
+        <itextpdf.version>4.0.0</itextpdf.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>pl.devcezz</groupId>
+            <artifactId>shelter-application</artifactId>
+            <version>${shelter.application.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>${itextpdf.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

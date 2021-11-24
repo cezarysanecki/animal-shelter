@@ -5,15 +5,15 @@
 
 	<groupId>pl.devcezz</groupId>
 	<artifactId>animalshelter</artifactId>
-	<version>1.0-SNAPSHOT</version>
-
-	<name>animalshelter</name>
-	<description>New way of creating AnimalShelter</description>
+	<version>${revision}</version>
+	<description>New way of creating project AnimalShelter</description>
 
 	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>16</java.version>
+
+		<revision>1.0-SNAPSHOT</revision>
 
 		<vavr.version>0.10.3</vavr.version>
 	</properties>
@@ -27,6 +27,7 @@
 		<module>administration-spring</module>
 		<module>administration-model</module>
 		<module>webservice</module>
+		<module>generator</module>
 	</modules>
 
 	<dependencies>

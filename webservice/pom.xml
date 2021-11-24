@@ -19,7 +19,7 @@
         <java.version>16</java.version>
 
         <cqrs.version>1.0-SNAPSHOT</cqrs.version>
-        <pdfCreator.version>1.0-SNAPSHOT</pdfCreator.version>
+        <generator.version>1.0-SNAPSHOT</generator.version>
         <shelter.application.version>1.0-SNAPSHOT</shelter.application.version>
         <notification.application.version>1.0-SNAPSHOT</notification.application.version>
         <administration.spring.version>1.0-SNAPSHOT</administration.spring.version>
@@ -38,8 +38,8 @@
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>
-            <artifactId>pdfCreator</artifactId>
-            <version>${pdfCreator.version}</version>
+            <artifactId>generator</artifactId>
+            <version>${generator.version}</version>
         </dependency>
         <dependency>
             <groupId>pl.devcezz</groupId>

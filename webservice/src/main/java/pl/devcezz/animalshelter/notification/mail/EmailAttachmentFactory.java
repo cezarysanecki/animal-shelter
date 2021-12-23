@@ -29,10 +29,12 @@ class EmailAttachmentFactory {
     }
 
     private List<EmailAttachment> shelterReports() {
-        GeneratedFileDto generatedFile = fileGeneratorFacade.generateShelterListPdf();
+        GeneratedFileDto generatedPdfFile = fileGeneratorFacade.generateShelterListPdf();
+        GeneratedFileDto generatedCsvFile = fileGeneratorFacade.generateShelterListCsv();
 
         return List.of(
-                new EmailAttachment(generatedFile.content(), generatedFile.filename())
+                new EmailAttachment(generatedPdfFile.content(), generatedPdfFile.filename()),
+                new EmailAttachment(generatedCsvFile.content(), generatedCsvFile.filename())
         );
     }
 }

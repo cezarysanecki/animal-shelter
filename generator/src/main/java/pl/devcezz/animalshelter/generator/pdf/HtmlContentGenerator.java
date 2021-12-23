@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.generator;
+package pl.devcezz.animalshelter.generator.pdf;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

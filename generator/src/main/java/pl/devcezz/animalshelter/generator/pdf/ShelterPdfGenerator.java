@@ -1,6 +1,6 @@
-package pl.devcezz.animalshelter.generator;
+package pl.devcezz.animalshelter.generator.pdf;
 
-class ShelterPdfGenerator {
+public class ShelterPdfGenerator {
 
     private final ShelterHtmlPreparer shelterHtmlPreparer;
     private final HtmlContentGenerator htmlContentGenerator;
@@ -14,7 +14,7 @@ class ShelterPdfGenerator {
         this.pdfCreator = pdfCreator;
     }
 
-    byte[] generate() {
+    public byte[] generate() {
         HtmlInput htmlInput = shelterHtmlPreparer.process();
         HtmlContent htmlContent = htmlContentGenerator.process(htmlInput);
         return pdfCreator.process(htmlContent);

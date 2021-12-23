@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.generator;
+package pl.devcezz.animalshelter.generator.pdf;
 
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;

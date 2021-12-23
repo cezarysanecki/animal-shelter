@@ -18,6 +18,7 @@
 
         <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
         <itextpdf.version>4.0.0</itextpdf.version>
+        <commons.csv.version>1.9.0</commons.csv.version>
     </properties>
 
     <dependencies>
@@ -36,6 +37,11 @@
             <groupId>com.itextpdf</groupId>
             <artifactId>html2pdf</artifactId>
             <version>${itextpdf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${commons.csv.version}</version>
         </dependency>
     </dependencies>
 

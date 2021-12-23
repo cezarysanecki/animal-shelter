@@ -2,20 +2,15 @@ package pl.devcezz.animalshelter.generator;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.TemplateEngine;
-import pl.devcezz.animalshelter.shelter.read.AnimalProjection;
+import pl.devcezz.animalshelter.generator.csv.ShelterCsvGenerator;
+import pl.devcezz.animalshelter.generator.pdf.ShelterPdfGenerator;
 
 @Configuration
 class GeneratorConfig {
 
     @Bean
-    FileGeneratorFacade fileGeneratorFacade(final TemplateEngine templateEngine,
-                                            final AnimalProjection animalProjection) {
-        ShelterPdfGenerator shelterPdfGenerator = new ShelterPdfGenerator(
-                new ShelterHtmlPreparer(animalProjection),
-                new HtmlContentGenerator(templateEngine),
-                new PdfCreator()
-        );
-        return new FileGeneratorFacade(shelterPdfGenerator);
+    FileGeneratorFacade fileGeneratorFacade(final ShelterPdfGenerator shelterPdfGenerator,
+                                            final ShelterCsvGenerator shelterCsvGenerator) {
+        return new FileGeneratorFacade(shelterPdfGenerator, shelterCsvGenerator);
     }
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Adoption mail</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <style type="text/css">
+            .tg {
+                border-collapse:collapse;
+                border-color:#aaa;
+                border-spacing:0;
+                width: 100%;
+            }
+            .tg td{background-color:#fff;border-color:#aaa;border-style:solid;border-width:1px;color:#333;
+                font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg th{background-color:#f38630;border-color:#aaa;border-style:solid;border-width:1px;color:#fff;
+                font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg .tg-baqh{text-align:center;vertical-align:top}
+            .tg .tg-zczf{background-color:#FCFBE3;text-align:right;vertical-align:top;width:10%}
+            .tg .tg-lqy6{text-align:right;vertical-align:top}
+            .tg .tg-yq6s{background-color:#FCFBE3;text-align:center;vertical-align:top;width:30%}
+        </style>
+        <table class="tg">
+            <thead>
+            <tr>
+                <th class="tg-lqy6">no</th>
+                <th class="tg-baqh">Name</th>
+                <th class="tg-baqh">Species</th>
+                <th class="tg-baqh">Age</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="animal, itemStat : ${animals}">
+                <td class="tg-zczf" th:text="${itemStat.index + 1}"></td>
+                <td class="tg-yq6s" th:text="${animal.getName()}"></td>
+                <td class="tg-yq6s" th:text="${animal.getSpecies()}"></td>
+                <td class="tg-yq6s" th:text="${animal.getAge()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

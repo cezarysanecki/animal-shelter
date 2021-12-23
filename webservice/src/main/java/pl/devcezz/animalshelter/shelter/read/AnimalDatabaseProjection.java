@@ -71,7 +71,7 @@ class AnimalDatabaseProjection implements AnimalProjection {
     public DataToReportDto handle(final GetDataToReportQuery query) {
         Integer capacity = jdbcTemplate.queryForObject(
                 "SELECT c.capacity FROM shelter_config c",
-                new BeanPropertyRowMapper<>(Integer.class));
+                Integer.class);
 
         return new DataToReportDto(handle(new GetAnimalsInShelterQuery()), capacity);
     }

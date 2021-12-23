@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>generator</artifactId>
+    <artifactId>pdfCreator</artifactId>
     <version>1.0-SNAPSHOT</version>
     <description>Generator module to generate documents about shelter</description>
 

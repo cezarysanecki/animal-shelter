@@ -1,6 +1,7 @@
 package pl.devcezz.animalshelter.generator;
 
 import pl.devcezz.animalshelter.generator.dto.GeneratedFileDto;
+import pl.devcezz.animalshelter.generator.pdf.ShelterPdfGenerator;
 
 public class FileGeneratorFacade {
 

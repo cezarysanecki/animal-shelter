@@ -8,3 +8,6 @@ spring:
     password: xxx
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+
+graphql:
+  url: graphql/shelter/animals

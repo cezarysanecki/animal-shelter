@@ -1,0 +1,23 @@
+type Query {
+    animalById(id: ID): AnimalInfo
+    allAnimals: [Animal]
+}
+
+type AnimalInfo {
+    animalId: ID
+    name: String
+    species: String
+    age: Int
+    gender: String
+    admittedAt: String
+    adoptedAt: String
+}
+
+type Animal {
+    animalId: ID
+    name: String
+    species: String
+    age: Int
+    gender: String
+    inShelter: Boolean
+}

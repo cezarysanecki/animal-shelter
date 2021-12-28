@@ -11,4 +11,9 @@ class AnimalReadConfig {
     AnimalProjection animalProjection(JdbcTemplate jdbcTemplate) {
         return new AnimalDatabaseProjection(jdbcTemplate);
     }
+
+    @Bean
+    AnimalsGraphQLDataFetchers animalsGraphQLDataFetchers(final AnimalProjection animalProjection) {
+        return new AnimalsGraphQLDataFetchers(animalProjection);
+    }
 }

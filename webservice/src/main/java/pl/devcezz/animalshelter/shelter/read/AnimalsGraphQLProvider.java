@@ -1,4 +1,4 @@
-package pl.devcezz.animalshelter.infrastructure;
+package pl.devcezz.animalshelter.shelter.read;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -9,7 +9,6 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import graphql.schema.idl.TypeRuntimeWiring;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +17,14 @@ import java.io.IOException;
 import java.net.URL;
 
 @Component
-public class GraphQLProvider {
+class AnimalsGraphQLProvider {
 
-    @Autowired
-    GraphQLDataFetchers graphQLDataFetchers;
-
+    private final AnimalsGraphQLDataFetchers animalsGraphQLDataFetchers;
     private GraphQL graphQL;
+
+    AnimalsGraphQLProvider(AnimalsGraphQLDataFetchers animalsGraphQLDataFetchers) {
+        this.animalsGraphQLDataFetchers = animalsGraphQLDataFetchers;
+    }
 
     @Bean
     GraphQL graphQL() {
@@ -32,7 +33,7 @@ public class GraphQLProvider {
 
     @PostConstruct
     public void init() throws IOException {
-        URL url = Resources.getResource("schema.graphqls");
+        URL url = Resources.getResource("animal-schema.graphqls");
         String sdl = Resources.toString(url, Charsets.UTF_8);
         GraphQLSchema graphQLSchema = buildSchema(sdl);
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
@@ -48,7 +49,9 @@ public class GraphQLProvider {
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("animalById", graphQLDataFetchers.getAnimalByIdDataFetcher()))
+                        .dataFetcher("animalById", animalsGraphQLDataFetchers.getAnimalByIdDataFetcher()))
+                .type(TypeRuntimeWiring.newTypeWiring("Query")
+                        .dataFetcher("allAnimals", animalsGraphQLDataFetchers.getAnimalsDataFetcher()))
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package pl.devcezz.animalshelter.notification;
 
 import io.vavr.collection.Set;
+import org.springframework.scheduling.annotation.Async;
 import pl.devcezz.animalshelter.notification.dto.Notification;
 import pl.devcezz.animalshelter.notification.dto.ContactDetails;
 import pl.devcezz.animalshelter.notification.mail.EmailFacade;
@@ -14,6 +15,7 @@ class EmailNotifier implements Notifier {
     }
 
     @Override
+    @Async
     public void notify(final Set<ContactDetails> zookeepersContactDetails, final Notification notification) {
         emailFacade.sendEmail(getEmailAddresses(zookeepersContactDetails), notification);
     }

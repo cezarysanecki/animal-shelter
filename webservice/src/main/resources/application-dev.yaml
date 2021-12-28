@@ -10,4 +10,10 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
 graphql:
-  url: graphql/shelter/animals
+  servlet:
+    mapping: /graphql/shelter/animals
+  graphiql:
+    mapping: /graphiql
+    enabled: true
+    endpoint:
+      graphql: ${graphql.servlet.mapping}

@@ -1,6 +1,6 @@
 type Query {
     animalById(id: ID): AnimalInfo
-    allAnimals: [Animal]
+    allAnimals(filter: AnimalFilter): [Animal]
 }
 
 type AnimalInfo {
@@ -11,6 +11,10 @@ type AnimalInfo {
     gender: String
     admittedAt: String
     adoptedAt: String
+}
+
+input AnimalFilter {
+    inShelter: Boolean!
 }
 
 type Animal {

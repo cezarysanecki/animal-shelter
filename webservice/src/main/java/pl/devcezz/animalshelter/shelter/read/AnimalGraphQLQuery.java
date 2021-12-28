@@ -25,7 +25,26 @@ class AnimalGraphQLQuery implements GraphQLQueryResolver {
                 .getOrElse(() -> null);
     }
 
-    public List<AnimalDto> allAnimals() {
-        return animalProjection.handle(new GetAnimalsQuery()).asJava();
+    public List<AnimalDto> allAnimals(AnimalFilter filter) {
+        var animals = animalProjection.handle(new GetAnimalsQuery());
+
+        if (filter != null) {
+            animals = animals.filter(animal -> animal.getInShelter().equals(filter.getInShelter()));
+        }
+
+        return animals.asJava();
+    }
+}
+
+class AnimalFilter {
+
+    private Boolean inShelter;
+
+    Boolean getInShelter() {
+        return inShelter;
+    }
+
+    void setInShelter(Boolean inShelter) {
+        this.inShelter = inShelter;
     }
 }

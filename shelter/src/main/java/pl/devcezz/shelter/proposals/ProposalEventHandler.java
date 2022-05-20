@@ -6,7 +6,7 @@ import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 
 @RequiredArgsConstructor
-class ShelterEventHandler {
+class ProposalEventHandler {
 
     private final AnimalProposalRepository animalProposalRepository;
 

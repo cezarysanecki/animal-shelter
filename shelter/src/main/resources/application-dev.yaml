@@ -1,8 +1,13 @@
 spring:
-  datasource:
+  datasource-animal:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/animalshelter
+    username: root
+    password: root
+  datasource-animal-proposal:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/animalshelter
     username: root
     password: root
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml
+    change-log: classpath:db/changelog/animal/db.changelog-master.xml

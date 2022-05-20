@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/shelter/catalogue")
 @RequiredArgsConstructor
-class ShelterCatalogueController {
+class CatalogueController {
 
     private final AnimalService animalService;
 

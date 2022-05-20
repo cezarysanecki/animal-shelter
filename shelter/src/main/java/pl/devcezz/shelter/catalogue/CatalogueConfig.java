@@ -29,7 +29,7 @@ import javax.sql.DataSource;
         basePackages = {"pl.devcezz.shelter.catalogue"}
 )
 @ConfigurationPropertiesScan("pl.devcezz.shelter.catalogue")
-class ShelterCatalogueConfig {
+class CatalogueConfig {
 
     @Bean
     AnimalService animalService(

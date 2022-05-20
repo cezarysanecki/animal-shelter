@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposals;
+package pl.devcezz.shelter.proposal;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "proposalEntityManagerFactory",
         transactionManagerRef = "proposalTransactionManager",
-        basePackages = {"pl.devcezz.shelter.proposals"}
+        basePackages = {"pl.devcezz.shelter.proposal"}
 )
 class ProposalConfig {
 
@@ -50,7 +50,7 @@ class ProposalConfig {
             @Qualifier("proposalDataSource") DataSource dataSource,
             @Qualifier("proposalJpaProperties") JpaProperties jpaProperties) {
         return entityManagerFactoryBuilder.dataSource(dataSource)
-                .packages("pl.devcezz.shelter.proposals")
+                .packages("pl.devcezz.shelter.proposal")
                 .properties(jpaProperties.getProperties())
                 .build();
     }

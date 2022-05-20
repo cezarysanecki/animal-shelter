@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposals;
+package pl.devcezz.shelter.proposal;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;

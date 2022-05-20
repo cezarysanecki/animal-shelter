@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposals;
+package pl.devcezz.shelter.proposal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

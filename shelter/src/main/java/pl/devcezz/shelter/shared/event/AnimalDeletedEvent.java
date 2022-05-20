@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.catalogue.shared.event;
+package pl.devcezz.shelter.shared.event;
 
 import lombok.Value;
 

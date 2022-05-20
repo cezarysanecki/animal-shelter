@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: "mysql-animalshelter"
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: animalshelter
+    ports:
+      - "3306:3306"

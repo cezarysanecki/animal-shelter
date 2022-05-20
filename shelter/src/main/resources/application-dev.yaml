@@ -1,13 +1,25 @@
 spring:
-  datasource-animal:
+  datasource-catalogue:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/animalshelter
+    jdbc-url: jdbc:mysql://localhost:3307/shelter-catalogue
     username: root
     password: root
-  datasource-animal-proposal:
+    liquibase:
+      change-log: classpath:db/changelog/catalogue/db.changelog-master.xml
+    jpa:
+      properties:
+        hibernate:
+          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+          implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  datasource-proposal:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/animalshelter
+    jdbc-url: jdbc:mysql://localhost:3308/shelter-proposal
     username: root
     password: root
-  liquibase:
-    change-log: classpath:db/changelog/animal/db.changelog-master.xml
+    liquibase:
+      change-log: classpath:db/changelog/proposal/db.changelog-master.xml
+    jpa:
+      properties:
+        hibernate:
+          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+          implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy

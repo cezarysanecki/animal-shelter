@@ -2,19 +2,19 @@ version: '3.8'
 
 services:
   database_animal:
-    container_name: "mysql-shelter-animal"
+    container_name: "mysql-shelter-catalogue"
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: shelteranimal
+      MYSQL_DATABASE: shelter-catalogue
     ports:
       - "3307:3306"
 
   database_animal_proposal:
-    container_name: "mysql-shelter-animal-proposal"
+    container_name: "mysql-shelter-proposal"
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: shelterproposal
+      MYSQL_DATABASE: shelter-proposal
     ports:
       - "3308:3306"

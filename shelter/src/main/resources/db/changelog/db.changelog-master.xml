@@ -6,5 +6,6 @@
 		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <include file="1.0/20220520_create_animal_table.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220520_create_animal_proposal_table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

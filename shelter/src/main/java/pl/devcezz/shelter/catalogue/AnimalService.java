@@ -18,7 +18,7 @@ class AnimalService {
     @Transactional
     void update(Animal animal) {
         Animal foundAnimal = animalRepository.findByAnimalId(animal.getAnimalId())
-                .orElseThrow(() -> new AnimalNotFound(animal.getAnimalId()));
+                .orElseThrow(() -> new AnimalNotFound(animal.getAnimalId().getValue()));
 
         animalRepository.save(Animal.of(
                 foundAnimal.getId(),
@@ -33,7 +33,7 @@ class AnimalService {
     @Transactional
     void delete(AnimalId animalId) {
         Animal foundAnimal = animalRepository.findByAnimalId(animalId)
-                .orElseThrow(() -> new AnimalNotFound(animalId));
+                .orElseThrow(() -> new AnimalNotFound(animalId.getValue()));
         animalRepository.delete(foundAnimal);
     }
 }

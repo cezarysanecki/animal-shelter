@@ -1,11 +1,12 @@
 package pl.devcezz.shelter.catalogue.exception;
 
 import pl.devcezz.shelter.ShelterException;
-import pl.devcezz.shelter.catalogue.AnimalId;
+
+import java.util.UUID;
 
 public class AnimalNotFound extends ShelterException {
 
-    public AnimalNotFound(AnimalId animalId) {
-        super("animal not found: " + animalId.getValue());
+    public AnimalNotFound(UUID animalId) {
+        super("animal not found: " + animalId);
     }
 }

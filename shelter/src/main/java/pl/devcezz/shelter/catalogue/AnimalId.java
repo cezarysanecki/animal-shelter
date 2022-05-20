@@ -11,7 +11,7 @@ import java.util.UUID;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
-public class AnimalId {
+class AnimalId {
 
     private String value;
 
@@ -19,11 +19,11 @@ public class AnimalId {
         this.value = value.toString();
     }
 
-    public static AnimalId of(UUID value) {
+    static AnimalId of(UUID value) {
         return new AnimalId(value);
     }
 
-    public UUID getValue() {
+    UUID getValue() {
         return UUID.fromString(value);
     }
 }

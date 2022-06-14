@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.controller;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.devcezz.shelter.proposal.AnimalProposalFacade;
 
 import java.util.UUID;
 
@@ -19,13 +20,13 @@ class ProposalController {
 
     @PostMapping("/accept")
     ResponseEntity<Void> acceptProposal(@RequestBody String animalProposalId) {
-        animalProposalFacade.acceptProposal(AnimalProposalId.of(UUID.fromString(animalProposalId)));
+        animalProposalFacade.acceptProposal(UUID.fromString(animalProposalId));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/decline")
     ResponseEntity<Void> declineProposal(@RequestBody String animalProposalId) {
-        animalProposalFacade.declineProposal(AnimalProposalId.of(UUID.fromString(animalProposalId)));
+        animalProposalFacade.declineProposal(UUID.fromString(animalProposalId));
         return ResponseEntity.ok().build();
     }
 }

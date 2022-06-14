@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.catalogue;
+package pl.devcezz.shelter.catalogue.controller;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.devcezz.shelter.catalogue.AnimalFacade;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -28,33 +29,33 @@ class CatalogueController {
     ResponseEntity<UUID> createAnimal(@RequestBody AcceptAnimalRequest request) {
         UUID animalId = UUID.randomUUID();
 
-        animalFacade.save(Animal.ofNew(
-                AnimalId.of(animalId),
+        animalFacade.save(
+                animalId,
                 request.name(),
                 request.age(),
                 request.species(),
                 request.gender()
-        ));
+        );
 
         return ResponseEntity.ok(animalId);
     }
 
     @PutMapping
     ResponseEntity<Void> updateAnimal(@RequestBody EditAnimalRequest request) {
-        animalFacade.update(Animal.ofNew(
-                AnimalId.of(request.animalId()),
+        animalFacade.update(
+                request.animalId(),
                 request.name(),
                 request.age(),
                 request.species(),
                 request.gender()
-        ));
+        );
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
     ResponseEntity<Void> deleteAnimal(@RequestBody String animalId) {
-        animalFacade.delete(AnimalId.of(UUID.fromString(animalId)));
+        animalFacade.delete(UUID.fromString(animalId));
         return ResponseEntity.ok().build();
     }
 }

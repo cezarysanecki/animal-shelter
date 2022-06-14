@@ -15,17 +15,17 @@ import java.util.UUID;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class ProposalController {
 
-    private final AnimalProposalService animalProposalService;
+    private final AnimalProposalFacade animalProposalFacade;
 
     @PostMapping("/accept")
     ResponseEntity<Void> acceptProposal(@RequestBody String animalProposalId) {
-        animalProposalService.acceptProposal(AnimalProposalId.of(UUID.fromString(animalProposalId)));
+        animalProposalFacade.acceptProposal(AnimalProposalId.of(UUID.fromString(animalProposalId)));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/decline")
     ResponseEntity<Void> declineProposal(@RequestBody String animalProposalId) {
-        animalProposalService.declineProposal(AnimalProposalId.of(UUID.fromString(animalProposalId)));
+        animalProposalFacade.declineProposal(AnimalProposalId.of(UUID.fromString(animalProposalId)));
         return ResponseEntity.ok().build();
     }
 }

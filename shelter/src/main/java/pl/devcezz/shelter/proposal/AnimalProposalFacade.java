@@ -7,7 +7,7 @@ import pl.devcezz.shelter.proposal.exception.AnimalProposalNotFound;
 
 @Transactional("proposalTransactionManager")
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class AnimalProposalService {
+class AnimalProposalFacade {
 
     private final AnimalProposalRepository animalProposalRepository;
 

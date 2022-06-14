@@ -21,7 +21,7 @@ import javax.persistence.Id;
 class AnimalProposal {
 
     enum Status {
-        PENDING
+        PENDING, DECLINED, ACCEPTED
     }
 
     @Id
@@ -42,5 +42,13 @@ class AnimalProposal {
 
     static AnimalProposal newOne(AnimalProposalId animalProposalId) {
         return new AnimalProposal(animalProposalId, Status.PENDING);
+    }
+
+    void accept() {
+        this.status = Status.ACCEPTED;
+    }
+
+    void decline() {
+        this.status = Status.DECLINED;
     }
 }

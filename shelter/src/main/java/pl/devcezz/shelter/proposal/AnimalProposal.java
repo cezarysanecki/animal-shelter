@@ -43,16 +43,4 @@ class AnimalProposal {
     static AnimalProposal newOne(AnimalProposalId animalProposalId) {
         return new AnimalProposal(animalProposalId, Status.PENDING);
     }
-
-    Long getId() {
-        return id;
-    }
-
-    AnimalProposalId getAnimalProposalId() {
-        return animalProposalId;
-    }
-
-    Status getStatus() {
-        return status;
-    }
 }

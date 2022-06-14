@@ -1,5 +1,6 @@
 package pl.devcezz.shelter.catalogue;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/shelter/catalogue")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CatalogueController {
 
     private final AnimalService animalService;
@@ -27,7 +28,7 @@ class CatalogueController {
     ResponseEntity<UUID> createAnimal(@RequestBody AcceptAnimalRequest request) {
         UUID animalId = UUID.randomUUID();
 
-        animalService.save(Animal.of(
+        animalService.save(Animal.ofNew(
                 AnimalId.of(animalId),
                 request.name(),
                 request.age(),
@@ -40,7 +41,7 @@ class CatalogueController {
 
     @PutMapping
     ResponseEntity<Void> updateAnimal(@RequestBody EditAnimalRequest request) {
-        animalService.update(Animal.of(
+        animalService.update(Animal.ofNew(
                 AnimalId.of(request.animalId()),
                 request.name(),
                 request.age(),

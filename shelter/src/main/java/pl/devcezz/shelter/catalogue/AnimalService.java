@@ -1,5 +1,6 @@
 package pl.devcezz.shelter.catalogue;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,7 +8,7 @@ import pl.devcezz.shelter.catalogue.exception.AnimalNotFound;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class AnimalService {
 
     private final AnimalRepository animalRepository;
@@ -25,7 +26,7 @@ class AnimalService {
         Animal foundAnimal = animalRepository.findByAnimalId(animal.getAnimalId())
                 .orElseThrow(() -> new AnimalNotFound(animal.getAnimalId().getValue()));
 
-        animalRepository.save(Animal.of(
+        animalRepository.save(Animal.ofExisting(
                 foundAnimal.getId(),
                 animal.getAnimalId(),
                 animal.getName(),

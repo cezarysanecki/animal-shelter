@@ -60,11 +60,11 @@ class Animal {
         this.id = id;
     }
 
-    static Animal of(AnimalId animalId, String name, Integer age, String species, String gender) {
+    static Animal ofNew(AnimalId animalId, String name, Integer age, String species, String gender) {
         return new Animal(animalId, name, age, species, gender);
     }
 
-    static Animal of(Long id, AnimalId animalId, String name, Integer age, String species, String gender) {
+    static Animal ofExisting(Long id, AnimalId animalId, String name, Integer age, String species, String gender) {
         return new Animal(id, animalId, name, age, species, gender);
     }
 

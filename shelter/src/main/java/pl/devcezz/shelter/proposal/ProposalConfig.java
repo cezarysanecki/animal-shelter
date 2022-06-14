@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 class ProposalConfig {
 
     @Bean
-    AnimalProposalService animalProposalService(AnimalProposalRepository repository) {
-        return new AnimalProposalService(repository);
+    AnimalProposalService animalProposalService(AnimalProposalRepository animalProposalRepository) {
+        return new AnimalProposalService(animalProposalRepository);
     }
 
     @Bean

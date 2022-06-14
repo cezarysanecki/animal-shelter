@@ -22,7 +22,7 @@ class ProposalEventHandler {
     @EventListener
     @Transactional("proposalTransactionManager")
     public void handleDeletedAnimal(AnimalDeletedEvent event) {
-        animalProposalRepository.deleteByAnimalProposalId(
+        animalProposalRepository.deleteAnimalProposalByAnimalProposalId(
                 AnimalProposalId.of(event.getAnimalId()));
     }
 }

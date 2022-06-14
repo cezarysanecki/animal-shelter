@@ -28,6 +28,11 @@ import javax.sql.DataSource;
 class ProposalConfig {
 
     @Bean
+    AnimalProposalService animalProposalService(AnimalProposalRepository repository) {
+        return new AnimalProposalService(repository);
+    }
+
+    @Bean
     ProposalEventHandler proposalEventHandler(AnimalProposalRepository animalProposalRepository) {
         return new ProposalEventHandler(animalProposalRepository);
     }

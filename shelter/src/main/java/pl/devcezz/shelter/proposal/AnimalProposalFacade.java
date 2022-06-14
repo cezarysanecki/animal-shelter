@@ -2,15 +2,15 @@ package pl.devcezz.shelter.proposal;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import pl.devcezz.shelter.proposal.exception.AnimalProposalNotFound;
+import pl.devcezz.shelter.shared.infrastructure.ProposalTransaction;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class AnimalProposalFacade {
 
     private final AnimalProposalRepository animalProposalRepository;
 
-    @Transactional("proposalTransactionManager")
+    @ProposalTransaction
     public void acceptProposal(AnimalProposalId animalProposalId) {
         AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(animalProposalId)
                 .orElseThrow(() -> new AnimalProposalNotFound(animalProposalId.getValue()));
@@ -18,7 +18,7 @@ public class AnimalProposalFacade {
         animalProposal.accept();
     }
 
-    @Transactional("proposalTransactionManager")
+    @ProposalTransaction
     public void declineProposal(AnimalProposalId animalProposalId) {
         AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(animalProposalId)
                 .orElseThrow(() -> new AnimalProposalNotFound(animalProposalId.getValue()));

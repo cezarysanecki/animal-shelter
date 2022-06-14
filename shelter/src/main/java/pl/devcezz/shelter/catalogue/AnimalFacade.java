@@ -3,10 +3,10 @@ package pl.devcezz.shelter.catalogue;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.transaction.annotation.Transactional;
 import pl.devcezz.shelter.catalogue.exception.AnimalNotFound;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
+import pl.devcezz.shelter.shared.infrastructure.CatalogueTransaction;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class AnimalFacade {
@@ -14,14 +14,14 @@ public class AnimalFacade {
     private final AnimalRepository animalRepository;
     private final ApplicationEventPublisher eventPublisher;
 
-    @Transactional("catalogueTransactionManager")
+    @CatalogueTransaction
     public void save(Animal animal) {
         animalRepository.save(animal);
 
         eventPublisher.publishEvent(new AnimalCreatedEvent(animal.getAnimalId().getValue()));
     }
 
-    @Transactional("catalogueTransactionManager")
+    @CatalogueTransaction
     public void update(Animal animal) {
         Animal foundAnimal = animalRepository.findByAnimalId(animal.getAnimalId())
                 .orElseThrow(() -> new AnimalNotFound(animal.getAnimalId().getValue()));
@@ -36,7 +36,7 @@ public class AnimalFacade {
         ));
     }
 
-    @Transactional("catalogueTransactionManager")
+    @CatalogueTransaction
     public void delete(AnimalId animalId) {
         Animal foundAnimal = animalRepository.findByAnimalId(animalId)
                 .orElseThrow(() -> new AnimalNotFound(animalId.getValue()));

@@ -5,20 +5,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import pl.devcezz.shelter.proposal.exception.AnimalProposalNotFound;
 
-@Transactional("proposalTransactionManager")
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class AnimalProposalFacade {
+public class AnimalProposalFacade {
 
     private final AnimalProposalRepository animalProposalRepository;
 
-    void acceptProposal(AnimalProposalId animalProposalId) {
+    @Transactional("proposalTransactionManager")
+    public void acceptProposal(AnimalProposalId animalProposalId) {
         AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(animalProposalId)
                 .orElseThrow(() -> new AnimalProposalNotFound(animalProposalId.getValue()));
 
         animalProposal.accept();
     }
 
-    void declineProposal(AnimalProposalId animalProposalId) {
+    @Transactional("proposalTransactionManager")
+    public void declineProposal(AnimalProposalId animalProposalId) {
         AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(animalProposalId)
                 .orElseThrow(() -> new AnimalProposalNotFound(animalProposalId.getValue()));
 

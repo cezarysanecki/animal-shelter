@@ -8,20 +8,21 @@ import pl.devcezz.shelter.catalogue.exception.AnimalNotFound;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 
-@Transactional("catalogueTransactionManager")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-class AnimalFacade {
+public class AnimalFacade {
 
     private final AnimalRepository animalRepository;
     private final ApplicationEventPublisher eventPublisher;
 
-    void save(Animal animal) {
+    @Transactional("catalogueTransactionManager")
+    public void save(Animal animal) {
         animalRepository.save(animal);
 
         eventPublisher.publishEvent(new AnimalCreatedEvent(animal.getAnimalId().getValue()));
     }
 
-    void update(Animal animal) {
+    @Transactional("catalogueTransactionManager")
+    public void update(Animal animal) {
         Animal foundAnimal = animalRepository.findByAnimalId(animal.getAnimalId())
                 .orElseThrow(() -> new AnimalNotFound(animal.getAnimalId().getValue()));
 
@@ -35,7 +36,8 @@ class AnimalFacade {
         ));
     }
 
-    void delete(AnimalId animalId) {
+    @Transactional("catalogueTransactionManager")
+    public void delete(AnimalId animalId) {
         Animal foundAnimal = animalRepository.findByAnimalId(animalId)
                 .orElseThrow(() -> new AnimalNotFound(animalId.getValue()));
         animalRepository.delete(foundAnimal);

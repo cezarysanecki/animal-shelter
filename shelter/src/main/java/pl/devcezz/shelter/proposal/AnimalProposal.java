@@ -21,7 +21,7 @@ import javax.persistence.Id;
 class AnimalProposal {
 
     enum Status {
-        PENDING, DECLINED, ACCEPTED
+        PENDING, DECLINED, ACCEPTED, DELETED
     }
 
     @Id

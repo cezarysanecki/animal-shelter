@@ -10,7 +10,7 @@ import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 
 @Transactional("catalogueTransactionManager")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-class AnimalService {
+class AnimalFacade {
 
     private final AnimalRepository animalRepository;
     private final ApplicationEventPublisher eventPublisher;

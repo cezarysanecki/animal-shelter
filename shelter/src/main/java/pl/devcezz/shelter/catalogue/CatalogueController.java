@@ -22,13 +22,13 @@ import java.util.UUID;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CatalogueController {
 
-    private final AnimalService animalService;
+    private final AnimalFacade animalFacade;
 
     @PostMapping
     ResponseEntity<UUID> createAnimal(@RequestBody AcceptAnimalRequest request) {
         UUID animalId = UUID.randomUUID();
 
-        animalService.save(Animal.ofNew(
+        animalFacade.save(Animal.ofNew(
                 AnimalId.of(animalId),
                 request.name(),
                 request.age(),
@@ -41,7 +41,7 @@ class CatalogueController {
 
     @PutMapping
     ResponseEntity<Void> updateAnimal(@RequestBody EditAnimalRequest request) {
-        animalService.update(Animal.ofNew(
+        animalFacade.update(Animal.ofNew(
                 AnimalId.of(request.animalId()),
                 request.name(),
                 request.age(),
@@ -54,7 +54,7 @@ class CatalogueController {
 
     @DeleteMapping
     ResponseEntity<Void> deleteAnimal(@RequestBody String animalId) {
-        animalService.delete(AnimalId.of(UUID.fromString(animalId)));
+        animalFacade.delete(AnimalId.of(UUID.fromString(animalId)));
         return ResponseEntity.ok().build();
     }
 }

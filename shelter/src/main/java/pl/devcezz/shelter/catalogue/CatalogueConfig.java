@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 class CatalogueConfig {
 
     @Bean
-    AnimalService animalService(
+    AnimalFacade animalFacade(
             AnimalRepository animalRepository,
             ApplicationEventPublisher eventPublisher) {
-        return new AnimalService(animalRepository, eventPublisher);
+        return new AnimalFacade(animalRepository, eventPublisher);
     }
 }

@@ -45,10 +45,14 @@ class AnimalProposal {
     }
 
     void accept() {
-        this.status = Status.ACCEPTED;
+        if (this.status == Status.PENDING) {
+            this.status = Status.ACCEPTED;
+        }
     }
 
     void decline() {
-        this.status = Status.DECLINED;
+        if (this.status == Status.PENDING) {
+            this.status = Status.DECLINED;
+        }
     }
 }

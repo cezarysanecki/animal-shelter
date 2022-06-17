@@ -20,11 +20,7 @@ public class AnimalFacade {
     public void save(UUID animalId, String name, Integer age, String species, String gender) {
         animalRepository.save(Animal.ofNew(
                 AnimalId.of(animalId),
-                name,
-                age,
-                species,
-                gender
-        ));
+                name, age, species, gender));
 
         eventPublisher.publishEvent(new AnimalCreatedEvent(animalId));
     }
@@ -37,11 +33,7 @@ public class AnimalFacade {
         animalRepository.save(Animal.ofExisting(
                 foundAnimal.getId(),
                 foundAnimal.getAnimalId(),
-                name,
-                age,
-                species,
-                gender
-        ));
+                name, age, species, gender));
     }
 
     @CatalogueTransaction

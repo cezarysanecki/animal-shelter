@@ -7,12 +7,12 @@ import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 
 @RequiredArgsConstructor
+@Transactional("proposalTransactionManager")
 class ProposalEventHandler {
 
     private final AnimalProposalRepository animalProposalRepository;
 
     @EventListener
-    @Transactional("proposalTransactionManager")
     public void handleCreatedAnimal(AnimalCreatedEvent event) {
         AnimalProposal animalProposal = AnimalProposal.newOne(
                 AnimalProposalId.of(event.getAnimalId()));
@@ -20,7 +20,6 @@ class ProposalEventHandler {
     }
 
     @EventListener
-    @Transactional("proposalTransactionManager")
     public void handleDeletedAnimal(AnimalDeletedEvent event) {
         animalProposalRepository.deleteAnimalProposalByAnimalProposalId(
                 AnimalProposalId.of(event.getAnimalId()));

@@ -1,5 +1,6 @@
-package pl.devcezz.shelter.catalogue;
+package pl.devcezz.shelter.catalogue.controller;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.devcezz.shelter.catalogue.AnimalFacade;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -18,42 +20,42 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/shelter/catalogue")
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CatalogueController {
 
-    private final AnimalService animalService;
+    private final AnimalFacade animalFacade;
 
     @PostMapping
     ResponseEntity<UUID> createAnimal(@RequestBody AcceptAnimalRequest request) {
         UUID animalId = UUID.randomUUID();
 
-        animalService.save(Animal.of(
-                AnimalId.of(animalId),
+        animalFacade.save(
+                animalId,
                 request.name(),
                 request.age(),
                 request.species(),
                 request.gender()
-        ));
+        );
 
         return ResponseEntity.ok(animalId);
     }
 
     @PutMapping
     ResponseEntity<Void> updateAnimal(@RequestBody EditAnimalRequest request) {
-        animalService.update(Animal.of(
-                AnimalId.of(request.animalId()),
+        animalFacade.update(
+                request.animalId(),
                 request.name(),
                 request.age(),
                 request.species(),
                 request.gender()
-        ));
+        );
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
     ResponseEntity<Void> deleteAnimal(@RequestBody String animalId) {
-        animalService.delete(AnimalId.of(UUID.fromString(animalId)));
+        animalFacade.delete(UUID.fromString(animalId));
         return ResponseEntity.ok().build();
     }
 }

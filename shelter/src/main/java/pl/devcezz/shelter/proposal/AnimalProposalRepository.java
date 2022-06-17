@@ -9,7 +9,7 @@ import java.util.UUID;
 
 interface AnimalProposalRepository extends JpaRepository<AnimalProposal, UUID> {
 
-    @Query("UPDATE AnimalProposal ap SET ap.status = 'DELETED'")
+    @Query("UPDATE AnimalProposal ap SET ap.status = 'DELETED' WHERE ap.animalProposalId = ?1")
     @Modifying
     void deleteAnimalProposalByAnimalProposalId(AnimalProposalId animalProposalId);
 

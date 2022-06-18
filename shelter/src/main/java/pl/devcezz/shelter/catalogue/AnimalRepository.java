@@ -3,7 +3,6 @@ package pl.devcezz.shelter.catalogue;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import pl.devcezz.shelter.proposal.AnimalProposalId;
 
 import java.util.Optional;
 import java.util.UUID;

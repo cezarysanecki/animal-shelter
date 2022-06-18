@@ -54,8 +54,9 @@ class Animal {
     private String name;
     private Integer age;
     private String species;
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @CreationTimestamp

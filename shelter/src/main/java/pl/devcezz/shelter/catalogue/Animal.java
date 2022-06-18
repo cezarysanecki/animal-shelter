@@ -2,6 +2,8 @@ package pl.devcezz.shelter.catalogue;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -14,6 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -51,6 +54,12 @@ class Animal {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
     private Status status;
+
+    @CreationTimestamp
+    private Instant creationTimestamp;
+
+    @UpdateTimestamp
+    private Instant modificationTimestamp;
 
     private Animal(AnimalId animalId, String name, Integer age, String species, String gender) {
         this.animalId = animalId;

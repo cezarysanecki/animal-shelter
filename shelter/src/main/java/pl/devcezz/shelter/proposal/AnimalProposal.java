@@ -2,7 +2,7 @@ package pl.devcezz.shelter.proposal;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -15,8 +15,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.Instant;
 
-import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException.*;
+import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException.exceptionCannotAccept;
+import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException.exceptionCannotDecline;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -37,6 +39,9 @@ class AnimalProposal {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @CreationTimestamp
+    private Instant creationTimestamp;
 
     private AnimalProposal(AnimalProposalId animalProposalId, Status status) {
         this.animalProposalId = animalProposalId;

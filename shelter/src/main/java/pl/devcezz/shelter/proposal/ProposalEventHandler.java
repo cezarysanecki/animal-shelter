@@ -21,7 +21,7 @@ class ProposalEventHandler {
 
     @EventListener
     public void handleDeletedAnimal(AnimalDeletedEvent event) {
-        animalProposalRepository.deleteAnimalProposalByAnimalProposalId(
+        animalProposalRepository.declineAnimalProposalFor(
                 AnimalProposalId.of(event.getAnimalId()));
     }
 }

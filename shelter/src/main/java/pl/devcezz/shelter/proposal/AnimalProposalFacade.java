@@ -14,7 +14,7 @@ public class AnimalProposalFacade {
 
     @ProposalTransaction
     public void acceptProposal(UUID animalProposalId) {
-        AnimalProposal animalProposal = animalProposalRepository.findLatestAnimalProposalBy(
+        AnimalProposal animalProposal = animalProposalRepository.findLatestAnimalProposalFor(
                         AnimalProposalId.of(animalProposalId))
                 .orElseThrow(() -> new AnimalProposalNotFoundException(animalProposalId));
 
@@ -25,7 +25,7 @@ public class AnimalProposalFacade {
 
     @ProposalTransaction
     public void declineProposal(UUID animalProposalId) {
-        AnimalProposal animalProposal = animalProposalRepository.findLatestAnimalProposalBy(
+        AnimalProposal animalProposal = animalProposalRepository.findLatestAnimalProposalFor(
                         AnimalProposalId.of(animalProposalId))
                 .orElseThrow(() -> new AnimalProposalNotFoundException(animalProposalId));
 

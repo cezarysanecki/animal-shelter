@@ -11,11 +11,11 @@ interface AnimalProposalRepository extends JpaRepository<AnimalProposal, UUID> {
 
     @Query("UPDATE AnimalProposal ap SET ap.status = 'DELETED' WHERE ap.animalProposalId = ?1")
     @Modifying
-    void deleteAnimalProposalByAnimalProposalId(AnimalProposalId animalProposalId);
+    void declineAnimalProposalFor(AnimalProposalId animalProposalId);
 
     Optional<AnimalProposal> findFirstByAnimalProposalIdOrderByIdDesc(AnimalProposalId animalProposalId);
 
-    default Optional<AnimalProposal> findLatestAnimalProposalBy(AnimalProposalId animalProposalId) {
+    default Optional<AnimalProposal> findLatestAnimalProposalFor(AnimalProposalId animalProposalId) {
         return findFirstByAnimalProposalIdOrderByIdDesc(animalProposalId);
     }
 }

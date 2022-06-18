@@ -1,5 +1,6 @@
 package pl.devcezz.shelter.proposal;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,8 +8,10 @@ import org.springframework.context.annotation.Configuration;
 class ProposalConfig {
 
     @Bean
-    AnimalProposalFacade animalProposalFacade(AnimalProposalRepository animalProposalRepository) {
-        return new AnimalProposalFacade(animalProposalRepository);
+    AnimalProposalFacade animalProposalFacade(
+            AnimalProposalRepository animalProposalRepository,
+            ApplicationEventPublisher eventPublisher) {
+        return new AnimalProposalFacade(animalProposalRepository, eventPublisher);
     }
 
     @Bean

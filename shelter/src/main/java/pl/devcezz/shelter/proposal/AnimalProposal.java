@@ -23,7 +23,7 @@ import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateEx
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 class AnimalProposal {
 
-    enum Status {
+    private enum Status {
         PENDING, DECLINED, ACCEPTED, DELETED
     }
 

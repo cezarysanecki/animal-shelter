@@ -47,17 +47,17 @@ class AnimalProposal {
         return new AnimalProposal(animalProposalId, Status.PENDING);
     }
 
-    void accept() {
+    AnimalProposal accept() {
         if (this.status != Status.PENDING) {
             throw exceptionCannotAccept();
         }
-        this.status = Status.ACCEPTED;
+        return new AnimalProposal(animalProposalId, Status.ACCEPTED);
     }
 
-    void decline() {
+    AnimalProposal decline() {
         if (this.status != Status.PENDING) {
             throw exceptionCannotDecline();
         }
-        this.status = Status.DECLINED;
+        return new AnimalProposal(animalProposalId, Status.DECLINED);
     }
 }

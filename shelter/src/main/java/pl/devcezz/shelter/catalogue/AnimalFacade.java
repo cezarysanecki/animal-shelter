@@ -37,7 +37,7 @@ public class AnimalFacade {
     public void delete(UUID animalUuidId) {
         Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
                 .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
-        animalRepository.deleteAnimalByAnimalId(foundAnimal.getAnimalId());
+        animalRepository.deleteAnimalDataFor(foundAnimal.getAnimalId());
 
         eventPublisher.publishEvent(
                 new AnimalDeletedEvent(animalUuidId));

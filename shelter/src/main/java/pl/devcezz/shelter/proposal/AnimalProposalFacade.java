@@ -14,19 +14,23 @@ public class AnimalProposalFacade {
 
     @ProposalTransaction
     public void acceptProposal(UUID animalProposalId) {
-        AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(
+        AnimalProposal animalProposal = animalProposalRepository.findLatestAnimalProposalFor(
                         AnimalProposalId.of(animalProposalId))
                 .orElseThrow(() -> new AnimalProposalNotFoundException(animalProposalId));
 
-        animalProposal.accept();
+        AnimalProposal acceptedAnimalProposal = animalProposal.accept();
+
+        animalProposalRepository.save(acceptedAnimalProposal);
     }
 
     @ProposalTransaction
     public void declineProposal(UUID animalProposalId) {
-        AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(
+        AnimalProposal animalProposal = animalProposalRepository.findLatestAnimalProposalFor(
                         AnimalProposalId.of(animalProposalId))
                 .orElseThrow(() -> new AnimalProposalNotFoundException(animalProposalId));
 
-        animalProposal.decline();
+        AnimalProposal declinedAnimalProposal = animalProposal.decline();
+
+        animalProposalRepository.save(declinedAnimalProposal);
     }
 }

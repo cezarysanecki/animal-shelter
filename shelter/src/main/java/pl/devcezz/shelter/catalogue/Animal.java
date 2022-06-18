@@ -37,7 +37,7 @@ class Animal {
     }
 
     private enum Status {
-        DELETED
+        DELETED, REGISTERED
     }
 
     @Id

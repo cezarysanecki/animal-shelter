@@ -5,7 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <include file="1.0/20220520_create_animal_proposal_table.xml" relativeToChangelogFile="true"/>
-    <include file="1.0/20220618_add_creation_timestamp_column.xml" relativeToChangelogFile="true"/>
+    <changeSet id="add-creation-timestamp-column" author="csanecki">
+        <addColumn tableName="animal_proposal">
+            <column name="creation_timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

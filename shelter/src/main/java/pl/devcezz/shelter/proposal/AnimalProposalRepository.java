@@ -13,5 +13,9 @@ interface AnimalProposalRepository extends JpaRepository<AnimalProposal, UUID> {
     @Modifying
     void deleteAnimalProposalByAnimalProposalId(AnimalProposalId animalProposalId);
 
-    Optional<AnimalProposal> findByAnimalProposalId(AnimalProposalId animalProposalId);
+    Optional<AnimalProposal> findFirstByAnimalProposalIdOrderByIdDesc(AnimalProposalId animalProposalId);
+
+    default Optional<AnimalProposal> findLatestAnimalProposalBy(AnimalProposalId animalProposalId) {
+        return findFirstByAnimalProposalIdOrderByIdDesc(animalProposalId);
+    }
 }

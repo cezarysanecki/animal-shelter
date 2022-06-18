@@ -2,7 +2,7 @@ package pl.devcezz.shelter.proposal;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import pl.devcezz.shelter.proposal.exception.AnimalProposalNotFound;
+import pl.devcezz.shelter.proposal.exception.AnimalProposalNotFoundException;
 import pl.devcezz.shelter.shared.infrastructure.ProposalTransaction;
 
 import java.util.UUID;
@@ -16,7 +16,7 @@ public class AnimalProposalFacade {
     public void acceptProposal(UUID animalProposalId) {
         AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(
                         AnimalProposalId.of(animalProposalId))
-                .orElseThrow(() -> new AnimalProposalNotFound(animalProposalId));
+                .orElseThrow(() -> new AnimalProposalNotFoundException(animalProposalId));
 
         animalProposal.accept();
     }
@@ -25,7 +25,7 @@ public class AnimalProposalFacade {
     public void declineProposal(UUID animalProposalId) {
         AnimalProposal animalProposal = animalProposalRepository.findByAnimalProposalId(
                         AnimalProposalId.of(animalProposalId))
-                .orElseThrow(() -> new AnimalProposalNotFound(animalProposalId));
+                .orElseThrow(() -> new AnimalProposalNotFoundException(animalProposalId));
 
         animalProposal.decline();
     }

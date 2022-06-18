@@ -4,9 +4,9 @@ import pl.devcezz.shelter.ShelterException;
 
 import java.util.UUID;
 
-public class AnimalNotFound extends ShelterException {
+public class AnimalNotFoundException extends ShelterException {
 
-    public AnimalNotFound(UUID animalId) {
+    public AnimalNotFoundException(UUID animalId) {
         super("animal not found: " + animalId);
     }
 }

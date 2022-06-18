@@ -30,10 +30,7 @@ public class AnimalFacade {
         Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
                 .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
 
-        animalRepository.save(Animal.ofExisting(
-                foundAnimal.getId(),
-                foundAnimal.getAnimalId(),
-                name, age, species, gender));
+        foundAnimal.updateFields(name, age, species, gender);
     }
 
     @CatalogueTransaction

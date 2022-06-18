@@ -14,4 +14,8 @@ interface AnimalRepository extends CrudRepository<Animal, UUID> {
     @Query("UPDATE Animal a SET a.status = 'DELETED' WHERE a.animalId = ?1")
     @Modifying
     void deleteAnimalDataFor(AnimalId animalId);
+
+    @Query("UPDATE Animal a SET a.status = 'REGISTERED' WHERE a.animalId = ?1")
+    @Modifying
+    void registerAnimalDataFor(AnimalId animalId);
 }

@@ -13,4 +13,10 @@ class CatalogueConfig {
             ApplicationEventPublisher eventPublisher) {
         return new AnimalFacade(animalRepository, eventPublisher);
     }
+
+    @Bean
+    AnimalEventHandler animalEventHandler(
+            AnimalRepository animalRepository) {
+        return new AnimalEventHandler(animalRepository);
+    }
 }

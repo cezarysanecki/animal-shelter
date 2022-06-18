@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -19,6 +20,8 @@ import javax.persistence.Id;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.stream.Stream;
+
+import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotUpdate;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -37,7 +40,7 @@ class Animal {
     }
 
     private enum Status {
-        DELETED
+        DELETED, REGISTERED
     }
 
     @Id
@@ -51,8 +54,9 @@ class Animal {
     private String name;
     private Integer age;
     private String species;
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @CreationTimestamp
@@ -74,10 +78,18 @@ class Animal {
     }
 
     void updateFields(String name, Integer age, String species, String gender) {
+        if (cannotBeChanged()) {
+            throw exceptionCannotUpdate(animalId.getValue());
+        }
+
         this.name = name;
         this.age = age;
         this.species = species;
         this.gender = Gender.of(gender);
+    }
+
+    boolean cannotBeChanged() {
+        return status != null;
     }
 
     Long getId() {

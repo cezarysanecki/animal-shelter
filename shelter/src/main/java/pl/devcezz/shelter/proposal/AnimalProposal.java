@@ -65,4 +65,8 @@ class AnimalProposal {
         }
         return new AnimalProposal(animalProposalId, Status.DECLINED);
     }
+
+    AnimalProposalId getAnimalProposalId() {
+        return animalProposalId;
+    }
 }

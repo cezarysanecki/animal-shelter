@@ -3,12 +3,15 @@ package pl.devcezz.shelter.catalogue;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException;
 import pl.devcezz.shelter.catalogue.exception.AnimalNotFoundException;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 import pl.devcezz.shelter.shared.infrastructure.CatalogueTransaction;
 
 import java.util.UUID;
+
+import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.*;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class AnimalFacade {
@@ -37,6 +40,10 @@ public class AnimalFacade {
     public void delete(UUID animalUuidId) {
         Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
                 .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
+
+        if (foundAnimal.cannotBeChanged()) {
+            throw exceptionCannotDelete(animalUuidId);
+        }
         animalRepository.deleteAnimalDataFor(foundAnimal.getAnimalId());
 
         eventPublisher.publishEvent(

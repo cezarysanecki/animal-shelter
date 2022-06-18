@@ -3,7 +3,7 @@ package pl.devcezz.shelter.catalogue;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import pl.devcezz.shelter.catalogue.exception.AnimalNotFound;
+import pl.devcezz.shelter.catalogue.exception.AnimalNotFoundException;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 import pl.devcezz.shelter.shared.infrastructure.CatalogueTransaction;
@@ -28,7 +28,7 @@ public class AnimalFacade {
     @CatalogueTransaction
     public void update(UUID animalId, String name, Integer age, String species, String gender) {
         Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalId))
-                .orElseThrow(() -> new AnimalNotFound(animalId));
+                .orElseThrow(() -> new AnimalNotFoundException(animalId));
 
         animalRepository.save(Animal.ofExisting(
                 foundAnimal.getId(),
@@ -39,7 +39,7 @@ public class AnimalFacade {
     @CatalogueTransaction
     public void delete(UUID animalId) {
         Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalId))
-                .orElseThrow(() -> new AnimalNotFound(animalId));
+                .orElseThrow(() -> new AnimalNotFoundException(animalId));
         animalRepository.delete(foundAnimal);
 
         eventPublisher.publishEvent(new AnimalDeletedEvent(animalId));

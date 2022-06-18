@@ -2,6 +2,7 @@ package pl.devcezz.shelter.proposal;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -14,6 +15,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException.*;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -45,14 +48,16 @@ class AnimalProposal {
     }
 
     void accept() {
-        if (this.status == Status.PENDING) {
-            this.status = Status.ACCEPTED;
+        if (this.status != Status.PENDING) {
+            throw exceptionCannotAccept();
         }
+        this.status = Status.ACCEPTED;
     }
 
     void decline() {
-        if (this.status == Status.PENDING) {
-            this.status = Status.DECLINED;
+        if (this.status != Status.PENDING) {
+            throw exceptionCannotDecline();
         }
+        this.status = Status.DECLINED;
     }
 }

@@ -60,11 +60,6 @@ class Animal {
         this.gender = Gender.of(gender);
     }
 
-    private Animal(Long id, AnimalId animalId, String name, Integer age, String species, String gender) {
-        this(animalId, name, age, species, gender);
-        this.id = id;
-    }
-
     static Animal ofNew(AnimalId animalId, String name, Integer age, String species, String gender) {
         return new Animal(animalId, name, age, species, gender);
     }

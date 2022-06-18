@@ -5,7 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <include file="1.0/20220520_create_animal_table.xml" relativeToChangelogFile="true"/>
-    <include file="1.0/20220618_add_column_for_status.xml" relativeToChangelogFile="true"/>
+    <changeSet id="add-status-column" author="csanecki">
+        <addColumn tableName="animal">
+            <column name="status" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

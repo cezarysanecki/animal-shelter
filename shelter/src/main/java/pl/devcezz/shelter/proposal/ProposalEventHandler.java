@@ -2,12 +2,12 @@ package pl.devcezz.shelter.proposal;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.transaction.annotation.Transactional;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
+import pl.devcezz.shelter.shared.infrastructure.ProposalTransaction;
 
 @RequiredArgsConstructor
-@Transactional("proposalTransactionManager")
+@ProposalTransaction
 class ProposalEventHandler {
 
     private final AnimalProposalRepository animalProposalRepository;

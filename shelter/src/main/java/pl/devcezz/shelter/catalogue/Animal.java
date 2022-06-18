@@ -33,6 +33,10 @@ class Animal {
         }
     }
 
+    private enum Status {
+        DELETED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,6 +50,7 @@ class Animal {
     private String species;
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
+    private Status status;
 
     private Animal(AnimalId animalId, String name, Integer age, String species, String gender) {
         this.animalId = animalId;

@@ -13,9 +13,9 @@ interface AnimalProposalRepository extends JpaRepository<AnimalProposal, UUID> {
     @Modifying
     void declineAnimalProposalFor(AnimalProposalId animalProposalId);
 
-    Optional<AnimalProposal> findFirstByAnimalProposalIdOrderByIdDesc(AnimalProposalId animalProposalId);
+    Optional<AnimalProposal> findFirstByAnimalProposalIdOrderByCreationTimestampDesc(AnimalProposalId animalProposalId);
 
     default Optional<AnimalProposal> findLatestAnimalProposalFor(AnimalProposalId animalProposalId) {
-        return findFirstByAnimalProposalIdOrderByIdDesc(animalProposalId);
+        return findFirstByAnimalProposalIdOrderByCreationTimestampDesc(animalProposalId);
     }
 }

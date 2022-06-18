@@ -17,31 +17,29 @@ public class AnimalFacade {
     private final ApplicationEventPublisher eventPublisher;
 
     @CatalogueTransaction
-    public void save(UUID animalId, String name, Integer age, String species, String gender) {
+    public void save(UUID animalUuidId, String name, Integer age, String species, String gender) {
         animalRepository.save(Animal.ofNew(
-                AnimalId.of(animalId),
+                AnimalId.of(animalUuidId),
                 name, age, species, gender));
 
-        eventPublisher.publishEvent(new AnimalCreatedEvent(animalId));
+        eventPublisher.publishEvent(new AnimalCreatedEvent(animalUuidId));
     }
 
     @CatalogueTransaction
-    public void update(UUID animalId, String name, Integer age, String species, String gender) {
-        Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalId))
-                .orElseThrow(() -> new AnimalNotFoundException(animalId));
+    public void update(UUID animalUuidId, String name, Integer age, String species, String gender) {
+        Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
+                .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
 
-        animalRepository.save(Animal.ofExisting(
-                foundAnimal.getId(),
-                foundAnimal.getAnimalId(),
-                name, age, species, gender));
+        foundAnimal.updateFields(name, age, species, gender);
     }
 
     @CatalogueTransaction
-    public void delete(UUID animalId) {
-        Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalId))
-                .orElseThrow(() -> new AnimalNotFoundException(animalId));
-        animalRepository.delete(foundAnimal);
+    public void delete(UUID animalUuidId) {
+        Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
+                .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
+        animalRepository.deleteAnimalByAnimalId(foundAnimal.getAnimalId());
 
-        eventPublisher.publishEvent(new AnimalDeletedEvent(animalId));
+        eventPublisher.publishEvent(
+                new AnimalDeletedEvent(animalUuidId));
     }
 }

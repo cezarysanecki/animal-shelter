@@ -33,6 +33,10 @@ class Animal {
         }
     }
 
+    private enum Status {
+        DELETED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,6 +50,7 @@ class Animal {
     private String species;
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
+    private Status status;
 
     private Animal(AnimalId animalId, String name, Integer age, String species, String gender) {
         this.animalId = animalId;
@@ -55,17 +60,15 @@ class Animal {
         this.gender = Gender.of(gender);
     }
 
-    private Animal(Long id, AnimalId animalId, String name, Integer age, String species, String gender) {
-        this(animalId, name, age, species, gender);
-        this.id = id;
-    }
-
     static Animal ofNew(AnimalId animalId, String name, Integer age, String species, String gender) {
         return new Animal(animalId, name, age, species, gender);
     }
 
-    static Animal ofExisting(Long id, AnimalId animalId, String name, Integer age, String species, String gender) {
-        return new Animal(id, animalId, name, age, species, gender);
+    void updateFields(String name, Integer age, String species, String gender) {
+        this.name = name;
+        this.age = age;
+        this.species = species;
+        this.gender = Gender.of(gender);
     }
 
     Long getId() {

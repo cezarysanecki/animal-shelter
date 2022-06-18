@@ -7,5 +7,6 @@
 
     <include file="1.0/20220520_create_animal_table.xml" relativeToChangelogFile="true"/>
     <include file="1.0/20220618_add_column_for_status.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220618_add_timestamp_columns.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

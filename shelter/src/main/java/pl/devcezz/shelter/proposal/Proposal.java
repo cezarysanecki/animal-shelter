@@ -48,6 +48,7 @@ class Proposal {
     private SubjectId subjectId;
 
     @Enumerated(EnumType.STRING)
+    @Getter(value = AccessLevel.PACKAGE)
     private Status status;
 
     @Version

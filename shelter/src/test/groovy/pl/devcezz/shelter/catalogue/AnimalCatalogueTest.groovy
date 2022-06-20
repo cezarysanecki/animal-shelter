@@ -11,7 +11,7 @@ class AnimalCatalogueTest extends Specification {
     def facade = new CatalogueConfig()
             .animalFacade(repository, publisher)
 
-    def 'should update animal data'() {
+    def 'should map fields of animal data after saving and updating'() {
         given:
             def animalUuid = anyAnimalUuid()
 

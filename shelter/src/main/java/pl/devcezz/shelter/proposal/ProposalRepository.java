@@ -4,9 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 import pl.devcezz.shelter.proposal.exception.ProposalNotFoundException;
 
 import java.util.Optional;
-import java.util.UUID;
 
-interface ProposalRepository extends CrudRepository<Proposal, UUID> {
+interface ProposalRepository extends CrudRepository<Proposal, Long> {
 
     Optional<Proposal> findFirstBySubjectIdOrderByCreationTimestampDesc(SubjectId subjectId);
 

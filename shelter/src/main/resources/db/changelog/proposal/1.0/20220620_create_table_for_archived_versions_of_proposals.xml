@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="fit-naming-of-animal-proposal-table" author="csanecki">
+        <renameColumn tableName="animal_proposal"
+                      oldColumnName="animal_proposal_id"
+                      newColumnName="subject_id"
+                      columnDataType="uuid"/>
+        <renameTable oldTableName="animal_proposal" newTableName="proposal"/>
+    </changeSet>
+
+    <changeSet id="create-table-for-archived-versions-of-proposals" author="csanecki">
+        <createTable tableName="proposal_archive">
+            <column name="proposal_id" type="int">
+                <constraints nullable="false" foreignKeyName="proposal_id_archive_fk" references="proposal(id)"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creation_timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -7,5 +7,8 @@
 
     <include file="1.0/20220520_create_animal_proposal_table.xml" relativeToChangelogFile="true"/>
     <include file="1.0/20220618_add_creation_timestamp_column.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220620_create_table_for_archived_versions_of_proposals.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220620_modify_timestamp_columns.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220620_add_version_column_for_proposal.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

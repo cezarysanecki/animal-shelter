@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="add-modification-timestamp-for-proposal" author="csanecki">
+        <addColumn tableName="proposal">
+            <column name="modification_timestamp" afterColumn="creation_timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="change-naming-of-creation-timestamp-in-proposal-archive" author="csanecki">
+        <renameColumn tableName="proposal_archive"
+                      oldColumnName="creation_timestamp"
+                      newColumnName="change_timestamp"
+                      columnDataType="timestamp"/>
+    </changeSet>
+
+</databaseChangeLog>

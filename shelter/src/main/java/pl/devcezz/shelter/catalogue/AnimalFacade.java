@@ -38,13 +38,10 @@ public class AnimalFacade {
 
     @CatalogueTransaction
     public void delete(UUID animalUuidId) {
-        Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
+        Animal animal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
                 .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
 
-        if (foundAnimal.cannotBeChanged()) {
-            throw exceptionCannotDelete(animalUuidId);
-        }
-        animalRepository.deleteAnimalDataFor(foundAnimal.getAnimalId());
+        animal.delete();
 
         eventPublisher.publishEvent(
                 new AnimalDeletedEvent(animalUuidId));

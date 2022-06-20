@@ -1,10 +1,10 @@
 package pl.devcezz.shelter.catalogue;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -21,11 +21,13 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotDelete;
 import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotUpdate;
 
 @Entity
 @Access(AccessType.FIELD)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 class Animal {
 
     private enum Gender {
@@ -48,7 +50,7 @@ class Animal {
     private Long id;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "animalId"))
+    @AttributeOverride(name = "value", column = @Column(name = "animal_id"))
     private AnimalId animalId;
 
     private String name;
@@ -88,31 +90,21 @@ class Animal {
         this.gender = Gender.of(gender);
     }
 
-    boolean cannotBeChanged() {
+    void register() {
+        if (cannotBeChanged()) {
+            throw exceptionCannotUpdate(animalId.getValue());
+        }
+        this.status = Status.REGISTERED;
+    }
+
+    void delete() {
+        if (cannotBeChanged()) {
+            throw exceptionCannotDelete(animalId.getValue());
+        }
+        this.status = Status.DELETED;
+    }
+
+    private boolean cannotBeChanged() {
         return status != null;
-    }
-
-    Long getId() {
-        return id;
-    }
-
-    AnimalId getAnimalId() {
-        return animalId;
-    }
-
-    String getName() {
-        return name;
-    }
-
-    Integer getAge() {
-        return age;
-    }
-
-    String getSpecies() {
-        return species;
-    }
-
-    String getGender() {
-        return gender.name();
     }
 }

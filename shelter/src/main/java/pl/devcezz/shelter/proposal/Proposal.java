@@ -61,18 +61,20 @@ class Proposal {
         return new Proposal(subjectId, Status.PENDING);
     }
 
-    Proposal accept() {
+    void accept() {
+        archives.add(new ProposalArchive(id, status.name()));
         if (this.status != Status.PENDING) {
             throw exceptionCannotAccept(subjectId.getValue());
         }
-        return new Proposal(subjectId, Status.ACCEPTED);
+        this.status = Status.ACCEPTED;
     }
 
-    Proposal decline() {
+    void decline() {
+        archives.add(new ProposalArchive(id, status.name()));
         if (this.status != Status.PENDING) {
             throw exceptionCannotDecline(subjectId.getValue());
         }
-        return new Proposal(subjectId, Status.DECLINED);
+        this.status = Status.DECLINED;
     }
 
     SubjectId getSubjectId() {

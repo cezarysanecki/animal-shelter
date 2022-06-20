@@ -21,12 +21,10 @@ public class ProposalFacade {
                         SubjectId.of(subjectId))
                 .orElseThrow(() -> new ProposalNotFoundException(subjectId));
 
-        Proposal acceptedProposal = proposal.accept();
-
-        proposalRepository.save(acceptedProposal);
+        proposal.accept();
 
         eventPublisher.publishEvent(new ProposalDecidedEvent(
-                acceptedProposal.getSubjectId().getValue()));
+                proposal.getSubjectId().getValue()));
     }
 
     @ProposalTransaction
@@ -35,11 +33,9 @@ public class ProposalFacade {
                         SubjectId.of(subjectId))
                 .orElseThrow(() -> new ProposalNotFoundException(subjectId));
 
-        Proposal declinedProposal = proposal.decline();
-
-        proposalRepository.save(declinedProposal);
+        proposal.decline();
 
         eventPublisher.publishEvent(new ProposalDecidedEvent(
-                declinedProposal.getSubjectId().getValue()));
+                proposal.getSubjectId().getValue()));
     }
 }

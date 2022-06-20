@@ -3,6 +3,7 @@ package pl.devcezz.shelter.proposal;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -53,6 +54,9 @@ class Proposal {
     @CreationTimestamp
     private Instant creationTimestamp;
 
+    @UpdateTimestamp
+    private Instant modificationTimestamp;
+
     private Proposal(SubjectId subjectId, Status status) {
         this.subjectId = subjectId;
         this.status = status;
@@ -97,7 +101,7 @@ class Proposal {
 
         private String status;
 
-        private final Instant creationTimestamp = Instant.now();
+        private final Instant changeTimestamp = Instant.now();
 
         private ProposalArchive(String status) {
             this.status = status;

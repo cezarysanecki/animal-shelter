@@ -7,7 +7,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.AttributeOverride;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +18,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import java.time.Instant;
+import java.util.List;
 
 import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotAccept;
 import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotDecline;
@@ -39,6 +44,10 @@ class Proposal {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @ElementCollection
+    @CollectionTable(name = "proposal_archive", joinColumns = @JoinColumn(name = "proposal_id"))
+    private List<ProposalArchive> archives;
 
     @CreationTimestamp
     private Instant creationTimestamp;
@@ -68,5 +77,23 @@ class Proposal {
 
     SubjectId getSubjectId() {
         return subjectId;
+    }
+
+    @Embeddable
+    @Access(AccessType.FIELD)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    private class ProposalArchive {
+
+        private Long proposalId;
+
+        private String status;
+
+        @CreationTimestamp
+        private Instant creationTimestamp;
+
+        private ProposalArchive(Long proposalId, String status) {
+            this.proposalId = proposalId;
+            this.status = status;
+        }
     }
 }

@@ -48,7 +48,7 @@ class Animal {
     private Long id;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "animalId"))
+    @AttributeOverride(name = "value", column = @Column(name = "animal_id"))
     private AnimalId animalId;
 
     private String name;

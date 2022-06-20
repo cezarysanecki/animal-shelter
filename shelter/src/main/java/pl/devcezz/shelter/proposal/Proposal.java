@@ -39,7 +39,7 @@ class Proposal {
     private Long id;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "subjectId"))
+    @AttributeOverride(name = "value", column = @Column(name = "subject_id"))
     private SubjectId subjectId;
 
     @Enumerated(EnumType.STRING)

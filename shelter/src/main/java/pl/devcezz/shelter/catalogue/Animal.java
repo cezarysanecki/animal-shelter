@@ -1,6 +1,7 @@
 package pl.devcezz.shelter.catalogue;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,6 +27,7 @@ import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException
 @Entity
 @Access(AccessType.FIELD)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 class Animal {
 
     private enum Gender {
@@ -104,29 +106,5 @@ class Animal {
 
     private boolean cannotBeChanged() {
         return status != null;
-    }
-
-    Long getId() {
-        return id;
-    }
-
-    AnimalId getAnimalId() {
-        return animalId;
-    }
-
-    String getName() {
-        return name;
-    }
-
-    Integer getAge() {
-        return age;
-    }
-
-    String getSpecies() {
-        return species;
-    }
-
-    String getGender() {
-        return gender.name();
     }
 }

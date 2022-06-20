@@ -5,7 +5,7 @@ spring:
     username: root
     password: root
     liquibase:
-      change-log: classpath:db/changelog/catalogue/db.changelog-master.xml
+      change-log: classpath:db/changelog/catalogue/db.changelog-catalogue-master.xml
     jpa:
       properties:
         hibernate:
@@ -17,7 +17,7 @@ spring:
     username: root
     password: root
     liquibase:
-      change-log: classpath:db/changelog/proposal/db.changelog-master.xml
+      change-log: classpath:db/changelog/proposal/db.changelog-proposal-master.xml
     jpa:
       properties:
         hibernate:

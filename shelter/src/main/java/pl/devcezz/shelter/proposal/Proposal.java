@@ -24,6 +24,7 @@ import java.util.List;
 
 import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotAccept;
 import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotDecline;
+import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotDelete;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -75,6 +76,14 @@ class Proposal {
             throw exceptionCannotDecline(subjectId.getValue());
         }
         this.status = Status.DECLINED;
+    }
+
+    void delete() {
+        archives.add(new ProposalArchive(status.name()));
+        if (this.status != Status.PENDING) {
+            throw exceptionCannotDelete(subjectId.getValue());
+        }
+        this.status = Status.DELETED;
     }
 
     SubjectId getSubjectId() {

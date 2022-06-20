@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotAccept;
@@ -46,7 +47,7 @@ class Proposal {
 
     @ElementCollection
     @CollectionTable(name = "proposal_archive")
-    private List<ProposalArchive> archives;
+    private final List<ProposalArchive> archives = new ArrayList<>();
 
     @CreationTimestamp
     private Instant creationTimestamp;

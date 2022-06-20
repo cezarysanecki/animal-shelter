@@ -116,6 +116,12 @@
                 <configuration>
                     <testSources>
                         <testSource>
+                            <directory>src/test/groovy</directory>
+                            <includes>
+                                <include>**/*.groovy</include>
+                            </includes>
+                        </testSource>
+                        <testSource>
                             <directory>src/integration-test/groovy</directory>
                             <includes>
                                 <include>**/*.groovy</include>

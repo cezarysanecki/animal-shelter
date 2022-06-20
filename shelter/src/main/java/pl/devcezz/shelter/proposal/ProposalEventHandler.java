@@ -2,6 +2,7 @@ package pl.devcezz.shelter.proposal;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import pl.devcezz.shelter.proposal.exception.ProposalNotFoundException;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
 import pl.devcezz.shelter.shared.infrastructure.ProposalTransaction;
@@ -21,7 +22,7 @@ class ProposalEventHandler {
 
     @EventListener
     public void handleDeletedAnimal(AnimalDeletedEvent event) {
-        proposalRepository.declineProposalFor(
-                SubjectId.of(event.getAnimalId()));
+        Proposal proposal = proposalRepository.findLatestProposalFor(SubjectId.of(event.getAnimalId()));
+        proposal.delete();
     }
 }

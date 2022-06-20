@@ -2,6 +2,7 @@ package pl.devcezz.shelter.catalogue;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import pl.devcezz.shelter.catalogue.exception.AnimalNotFoundException;
 import pl.devcezz.shelter.shared.event.ProposalDecidedEvent;
 import pl.devcezz.shelter.shared.infrastructure.CatalogueTransaction;
 
@@ -13,6 +14,9 @@ class AnimalEventHandler {
 
     @EventListener
     public void handleAnimalProposalDecided(ProposalDecidedEvent event) {
-        animalRepository.registerAnimalDataFor(AnimalId.of(event.getSubjectId()));
+        Animal animal = animalRepository.findByAnimalId(AnimalId.of(event.getSubjectId()))
+                .orElseThrow(() -> new AnimalNotFoundException(event.getSubjectId()));
+
+        animal.register();
     }
 }

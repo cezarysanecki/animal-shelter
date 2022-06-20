@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="increase-precision-of-timestamps" author="csanecki">
+        <renameColumn tableName="proposal"
+                      oldColumnName="creation_timestamp"
+                      newColumnName="creation_timestamp"
+                      columnDataType="timestamp(3)"/>
+
+        <renameColumn tableName="proposal"
+                      oldColumnName="modification_timestamp"
+                      newColumnName="modification_timestamp"
+                      columnDataType="timestamp(3)"/>
+
+        <renameColumn tableName="proposal_archive"
+                      oldColumnName="change_timestamp"
+                      newColumnName="change_timestamp"
+                      columnDataType="timestamp(3)"/>
+    </changeSet>
+
+</databaseChangeLog>

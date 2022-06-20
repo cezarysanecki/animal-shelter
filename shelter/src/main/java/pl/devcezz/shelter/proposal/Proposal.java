@@ -18,7 +18,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import java.time.Instant;
 import java.util.List;
 
@@ -46,7 +45,7 @@ class Proposal {
     private Status status;
 
     @ElementCollection
-    @CollectionTable(name = "proposal_archive", joinColumns = @JoinColumn(name = "proposal_id"))
+    @CollectionTable(name = "proposal_archive")
     private List<ProposalArchive> archives;
 
     @CreationTimestamp
@@ -62,7 +61,7 @@ class Proposal {
     }
 
     void accept() {
-        archives.add(new ProposalArchive(id, status.name()));
+        archives.add(new ProposalArchive(status.name()));
         if (this.status != Status.PENDING) {
             throw exceptionCannotAccept(subjectId.getValue());
         }
@@ -70,7 +69,7 @@ class Proposal {
     }
 
     void decline() {
-        archives.add(new ProposalArchive(id, status.name()));
+        archives.add(new ProposalArchive(status.name()));
         if (this.status != Status.PENDING) {
             throw exceptionCannotDecline(subjectId.getValue());
         }
@@ -84,17 +83,13 @@ class Proposal {
     @Embeddable
     @Access(AccessType.FIELD)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    private class ProposalArchive {
-
-        private Long proposalId;
+    private static class ProposalArchive {
 
         private String status;
 
-        @CreationTimestamp
-        private Instant creationTimestamp;
+        private final Instant creationTimestamp = Instant.now();
 
-        private ProposalArchive(Long proposalId, String status) {
-            this.proposalId = proposalId;
+        private ProposalArchive(String status) {
             this.status = status;
         }
     }

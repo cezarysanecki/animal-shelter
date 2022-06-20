@@ -15,7 +15,7 @@ class CatalogueTimestampsIT extends Specification {
     @Autowired
     AnimalRepository animalRepository
 
-    def 'test'() {
+    def 'should modification timestamp be greater than creation timestamp after update'() {
         given:
             def animalUuid = anyAnimalUuid()
 
@@ -30,24 +30,24 @@ class CatalogueTimestampsIT extends Specification {
             animal.creationTimestamp < animal.modificationTimestamp
     }
 
-    void saveAnimalData(UUID animalUuid, AnimalData data) {
+    private void saveAnimalData(UUID animalUuid, AnimalData data) {
         animalFacade.save(animalUuid, data.getName(), data.getAge(), data.getSpecies(), data.getGender())
     }
 
-    void updateAnimalData(UUID animalUuid, AnimalData data) {
+    private void updateAnimalData(UUID animalUuid, AnimalData data) {
         animalFacade.update(animalUuid, data.getName(), data.getAge(), data.getSpecies(), data.getGender())
     }
 
-    Animal getAnimal(UUID animalUuid) {
+    private Animal getAnimal(UUID animalUuid) {
         animalRepository.findByAnimalId(AnimalId.of(animalUuid))
-                .orElseThrow(IllegalArgumentException::new)
+                .orElseThrow(IllegalStateException::new)
     }
 
-    UUID anyAnimalUuid() {
+    private UUID anyAnimalUuid() {
         UUID.randomUUID()
     }
 
-    AnimalData dog(String name = "Azor") {
+    private AnimalData dog(String name = "Azor") {
         new AnimalData(name, 12, "Dog", "Male")
     }
 }

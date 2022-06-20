@@ -17,4 +17,8 @@ public class ProposalIllegalStateException extends ShelterException {
     public static ProposalIllegalStateException exceptionCannotDecline(UUID subjectId) {
         return new ProposalIllegalStateException("decline", subjectId);
     }
+
+    public static ProposalIllegalStateException exceptionCannotDelete(UUID subjectId) {
+        return new ProposalIllegalStateException("delete", subjectId);
+    }
 }

@@ -19,6 +19,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,9 @@ class Proposal {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Version
+    private Long version;
 
     @ElementCollection
     @CollectionTable(name = "proposal_archive")

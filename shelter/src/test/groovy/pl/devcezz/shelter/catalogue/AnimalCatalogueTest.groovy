@@ -1,7 +1,9 @@
 package pl.devcezz.shelter.catalogue
 
 import org.springframework.context.ApplicationEventPublisher
+import pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent
+import pl.devcezz.shelter.shared.event.AnimalDeletedEvent
 import spock.lang.Specification
 
 class AnimalCatalogueTest extends Specification {
@@ -48,6 +50,39 @@ class AnimalCatalogueTest extends Specification {
             animal.getGender().name() == "FEMALE"
         and:
             0 * publisher.publishEvent(_)
+    }
+
+    def 'should delete animal from catalogue'() {
+        given:
+            def animalUuid = anyAnimalUuid()
+        and:
+            facade.save(animalUuid, "Azor", 11, "Dog", "male")
+
+        when:
+            facade.delete(animalUuid)
+        and:
+            def animal = getAnimal(animalUuid)
+
+        then:
+            animal.getStatus().name() == "DELETED"
+        and:
+            1 * publisher.publishEvent(_ as AnimalDeletedEvent)
+    }
+
+    def 'should fail when updating deleted animal in catalogue'() {
+        given:
+            def animalUuid = anyAnimalUuid()
+        and:
+            facade.save(animalUuid, "Azor", 11, "Dog", "male")
+        and:
+            facade.delete(animalUuid)
+
+        when:
+            facade.update(animalUuid, "Tweety", 2, "Canary", "female")
+
+        then:
+            def error = thrown(AnimalIllegalStateException.class)
+            error.getMessage().contains('update')
     }
 
     private Animal getAnimal(UUID animalUuid) {

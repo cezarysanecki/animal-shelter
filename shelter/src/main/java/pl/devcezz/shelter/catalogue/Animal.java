@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -21,6 +20,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotDelete;
 import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotUpdate;
 
 @Entity
@@ -88,7 +88,21 @@ class Animal {
         this.gender = Gender.of(gender);
     }
 
-    boolean cannotBeChanged() {
+    void register() {
+        if (cannotBeChanged()) {
+            throw exceptionCannotUpdate(animalId.getValue());
+        }
+        this.status = Status.REGISTERED;
+    }
+
+    void delete() {
+        if (cannotBeChanged()) {
+            throw exceptionCannotDelete(animalId.getValue());
+        }
+        this.status = Status.DELETED;
+    }
+
+    private boolean cannotBeChanged() {
         return status != null;
     }
 

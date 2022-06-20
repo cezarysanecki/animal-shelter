@@ -11,16 +11,16 @@ import java.util.UUID;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
-class AnimalProposalId {
+class SubjectId {
 
     private String value;
 
-    private AnimalProposalId(UUID value) {
+    private SubjectId(UUID value) {
         this.value = value.toString();
     }
 
-    static AnimalProposalId of(UUID value) {
-        return new AnimalProposalId(value);
+    static SubjectId of(UUID value) {
+        return new SubjectId(value);
     }
 
     UUID getValue() {

@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Configuration;
 class ProposalConfig {
 
     @Bean
-    AnimalProposalFacade animalProposalFacade(
-            AnimalProposalRepository animalProposalRepository,
+    ProposalFacade proposalFacade(
+            ProposalRepository proposalRepository,
             ApplicationEventPublisher eventPublisher) {
-        return new AnimalProposalFacade(animalProposalRepository, eventPublisher);
+        return new ProposalFacade(proposalRepository, eventPublisher);
     }
 
     @Bean
-    ProposalEventHandler proposalEventHandler(AnimalProposalRepository animalProposalRepository) {
-        return new ProposalEventHandler(animalProposalRepository);
+    ProposalEventHandler proposalEventHandler(ProposalRepository proposalRepository) {
+        return new ProposalEventHandler(proposalRepository);
     }
 }

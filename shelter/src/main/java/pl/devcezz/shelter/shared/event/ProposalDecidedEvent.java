@@ -5,7 +5,7 @@ import lombok.Value;
 import java.util.UUID;
 
 @Value
-public class AnimalProposalDecidedEvent {
+public class ProposalDecidedEvent {
 
-    UUID animalId;
+    UUID subjectId;
 }

@@ -17,13 +17,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.Instant;
 
-import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException.exceptionCannotAccept;
-import static pl.devcezz.shelter.proposal.exception.AnimalProposalIllegalStateException.exceptionCannotDecline;
+import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotAccept;
+import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotDecline;
 
 @Entity
 @Access(AccessType.FIELD)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class AnimalProposal {
+class Proposal {
 
     private enum Status {
         PENDING, DECLINED, ACCEPTED, DELETED
@@ -34,8 +34,8 @@ class AnimalProposal {
     private Long id;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "animalProposalId"))
-    private AnimalProposalId animalProposalId;
+    @AttributeOverride(name = "value", column = @Column(name = "subjectId"))
+    private SubjectId subjectId;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -43,30 +43,30 @@ class AnimalProposal {
     @CreationTimestamp
     private Instant creationTimestamp;
 
-    private AnimalProposal(AnimalProposalId animalProposalId, Status status) {
-        this.animalProposalId = animalProposalId;
+    private Proposal(SubjectId subjectId, Status status) {
+        this.subjectId = subjectId;
         this.status = status;
     }
 
-    static AnimalProposal newOne(AnimalProposalId animalProposalId) {
-        return new AnimalProposal(animalProposalId, Status.PENDING);
+    static Proposal newOne(SubjectId subjectId) {
+        return new Proposal(subjectId, Status.PENDING);
     }
 
-    AnimalProposal accept() {
+    Proposal accept() {
         if (this.status != Status.PENDING) {
-            throw exceptionCannotAccept();
+            throw exceptionCannotAccept(subjectId.getValue());
         }
-        return new AnimalProposal(animalProposalId, Status.ACCEPTED);
+        return new Proposal(subjectId, Status.ACCEPTED);
     }
 
-    AnimalProposal decline() {
+    Proposal decline() {
         if (this.status != Status.PENDING) {
-            throw exceptionCannotDecline();
+            throw exceptionCannotDecline(subjectId.getValue());
         }
-        return new AnimalProposal(animalProposalId, Status.DECLINED);
+        return new Proposal(subjectId, Status.DECLINED);
     }
 
-    AnimalProposalId getAnimalProposalId() {
-        return animalProposalId;
+    SubjectId getSubjectId() {
+        return subjectId;
     }
 }

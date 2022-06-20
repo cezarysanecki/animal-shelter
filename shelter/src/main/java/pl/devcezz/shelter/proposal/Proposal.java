@@ -1,6 +1,7 @@
 package pl.devcezz.shelter.proposal;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -39,6 +40,7 @@ class Proposal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter(value = AccessLevel.PACKAGE)
     private Long id;
 
     @Embedded

@@ -1,24 +1,25 @@
 package pl.devcezz.shelter.proposal.exception;
 
 import pl.devcezz.shelter.ShelterException;
+import pl.devcezz.shelter.proposal.ProposalId;
 
 import java.util.UUID;
 
 public class ProposalIllegalStateException extends ShelterException {
 
-    private ProposalIllegalStateException(String action, UUID subjectId) {
-        super("cannot " + action + " proposal: " + subjectId);
+    private ProposalIllegalStateException(String action, ProposalId proposalId) {
+        super("cannot " + action + " proposal: " + proposalId.getValue());
     }
 
-    public static ProposalIllegalStateException exceptionCannotAccept(UUID subjectId) {
-        return new ProposalIllegalStateException("accept", subjectId);
+    public static ProposalIllegalStateException exceptionCannotAccept(ProposalId proposalId) {
+        return new ProposalIllegalStateException("accept", proposalId);
     }
 
-    public static ProposalIllegalStateException exceptionCannotDecline(UUID subjectId) {
-        return new ProposalIllegalStateException("decline", subjectId);
+    public static ProposalIllegalStateException exceptionCannotDecline(ProposalId proposalId) {
+        return new ProposalIllegalStateException("decline", proposalId);
     }
 
-    public static ProposalIllegalStateException exceptionCannotDelete(UUID subjectId) {
-        return new ProposalIllegalStateException("delete", subjectId);
+    public static ProposalIllegalStateException exceptionCannotDelete(ProposalId proposalId) {
+        return new ProposalIllegalStateException("delete", proposalId);
     }
 }

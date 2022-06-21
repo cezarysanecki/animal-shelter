@@ -5,8 +5,6 @@ import lombok.NonNull;
 import lombok.Value;
 import pl.devcezz.shelter.shared.Version;
 
-import java.util.UUID;
-
 @Value
 @AllArgsConstructor
 public class AcceptedProposal implements Proposal {
@@ -16,9 +14,4 @@ public class AcceptedProposal implements Proposal {
 
     @NonNull
     Version version;
-
-    public AcceptedProposal(UUID subjectId, int version) {
-        this.subjectId = SubjectId.of(subjectId);
-        this.version = new Version(version);
-    }
 }

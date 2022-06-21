@@ -149,7 +149,7 @@ class ProposalTest extends Specification {
     }
 
     private Proposal getProposal(UUID subjectUuid) {
-        repository.findProposalBy(SubjectId.of(subjectUuid))
+        repository.findProposalBySubjectId(SubjectId.of(subjectUuid))
                 .orElseThrow(IllegalStateException::new)
     }
 

@@ -1,16 +1,10 @@
 package pl.devcezz.shelter.proposal;
 
-import org.springframework.data.repository.CrudRepository;
-import pl.devcezz.shelter.proposal.exception.ProposalNotFoundException;
+import io.vavr.control.Option;
 
-import java.util.Optional;
+public interface ProposalRepository {
 
-interface ProposalRepository extends CrudRepository<Proposal, Long> {
+    Option<Proposal> findBy(ProposalId proposalId);
 
-    Optional<Proposal> findProposalBySubjectId(SubjectId subjectId);
-
-    default Proposal findProposalFor(SubjectId subjectId) {
-        return findProposalBySubjectId(subjectId)
-                .orElseThrow(() -> new ProposalNotFoundException(subjectId.getValue()));
-    }
+    void save(Proposal proposal);
 }

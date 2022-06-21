@@ -20,7 +20,7 @@ public class InMemoryProposalRepository extends InMemoryRepository<Proposal, Lon
     }
 
     @Override
-    public Optional<Proposal> findProposalBy(SubjectId subjectId) {
+    public Optional<Proposal> findProposalBySubjectId(SubjectId subjectId) {
         return entities.values()
                 .stream()
                 .filter(proposal -> proposal.getSubjectId().equals(subjectId))

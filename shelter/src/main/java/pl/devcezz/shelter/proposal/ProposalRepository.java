@@ -7,10 +7,10 @@ import java.util.Optional;
 
 interface ProposalRepository extends CrudRepository<Proposal, Long> {
 
-    Optional<Proposal> findProposalBy(SubjectId subjectId);
+    Optional<Proposal> findProposalBySubjectId(SubjectId subjectId);
 
     default Proposal findProposalFor(SubjectId subjectId) {
-        return findProposalBy(subjectId)
+        return findProposalBySubjectId(subjectId)
                 .orElseThrow(() -> new ProposalNotFoundException(subjectId.getValue()));
     }
 }

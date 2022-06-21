@@ -56,6 +56,7 @@ class Proposal {
 
     @ElementCollection
     @CollectionTable(name = "proposal_archive")
+    @Getter(AccessLevel.PACKAGE)
     private final List<ProposalArchive> archives = new ArrayList<>();
 
     @CreationTimestamp

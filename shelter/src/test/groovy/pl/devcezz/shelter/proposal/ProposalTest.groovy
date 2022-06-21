@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationEventPublisher
 import pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent
+import pl.devcezz.shelter.shared.event.ProposalDecidedEvent
 import spock.lang.Specification
 
 class ProposalTest extends Specification {
@@ -27,6 +28,8 @@ class ProposalTest extends Specification {
 
         then:
             proposal.getStatus().name() == "PENDING"
+        and:
+            proposal.getArchives().isEmpty()
 
         when:
             facade.acceptProposal(subjectUuid)
@@ -35,6 +38,8 @@ class ProposalTest extends Specification {
 
         then:
             proposal.getStatus().name() == "ACCEPTED"
+        and:
+            proposal.getArchives().size() == 1
     }
 
     def 'should decline proposal'() {
@@ -48,6 +53,8 @@ class ProposalTest extends Specification {
 
         then:
             proposal.getStatus().name() == "PENDING"
+        and:
+            proposal.getArchives().isEmpty()
 
         when:
             facade.declineProposal(subjectUuid)
@@ -56,6 +63,8 @@ class ProposalTest extends Specification {
 
         then:
             proposal.getStatus().name() == "DECLINED"
+        and:
+            proposal.getArchives().size() == 1
     }
 
     def 'should fail when accept or decline proposal which is deleted'() {
@@ -71,6 +80,8 @@ class ProposalTest extends Specification {
 
         then:
             proposal.getStatus().name() == "DELETED"
+        and:
+            proposal.getArchives().size() == 1
 
         when:
             facade.acceptProposal(subjectUuid)
@@ -101,6 +112,32 @@ class ProposalTest extends Specification {
         then:
             def error = thrown(ProposalIllegalStateException.class)
             error.getMessage().contains("delete")
+    }
+
+    def 'should emit event when accepting proposal'() {
+        given:
+            def subjectUuid = anySubjectUuid()
+
+        when:
+            handleCreationOfProposalFor(subjectUuid)
+        and:
+            facade.acceptProposal(subjectUuid)
+
+        then:
+            1 * publisher.publishEvent(_ as ProposalDecidedEvent)
+    }
+
+    def 'should emit event when declining proposal'() {
+        given:
+            def subjectUuid = anySubjectUuid()
+
+        when:
+            handleCreationOfProposalFor(subjectUuid)
+        and:
+            facade.declineProposal(subjectUuid)
+
+        then:
+            1 * publisher.publishEvent(_ as ProposalDecidedEvent)
     }
 
     private handleCreationOfProposalFor(UUID subjectUuid) {

@@ -10,7 +10,7 @@ import pl.devcezz.shelter.shared.Version;
 public class DeclinedProposal implements Proposal {
 
     @NonNull
-    SubjectId subjectId;
+    ProposalId proposalId;
 
     @NonNull
     Version version;

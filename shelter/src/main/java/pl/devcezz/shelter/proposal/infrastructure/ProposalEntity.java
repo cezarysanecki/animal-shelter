@@ -8,7 +8,7 @@ import pl.devcezz.shelter.proposal.DeclinedProposal;
 import pl.devcezz.shelter.proposal.DeletedProposal;
 import pl.devcezz.shelter.proposal.PendingProposal;
 import pl.devcezz.shelter.proposal.Proposal;
-import pl.devcezz.shelter.proposal.SubjectId;
+import pl.devcezz.shelter.proposal.ProposalId;
 import pl.devcezz.shelter.shared.Version;
 
 import java.util.UUID;
@@ -25,6 +25,7 @@ class ProposalEntity {
         Pending, Accepted, Declined, Deleted
     }
 
+    UUID proposal_id;
     UUID subject_id;
     int version;
     ProposalState proposal_state;
@@ -39,18 +40,18 @@ class ProposalEntity {
     }
 
     private PendingProposal toPendingProposal() {
-        return new PendingProposal(SubjectId.of(subject_id), new Version(version));
+        return new PendingProposal(ProposalId.of(subject_id), new Version(version));
     }
 
     private AcceptedProposal toAcceptedProposal() {
-        return new AcceptedProposal(SubjectId.of(subject_id), new Version(version));
+        return new AcceptedProposal(ProposalId.of(subject_id), new Version(version));
     }
 
     private DeclinedProposal toDeclinedProposal() {
-        return new DeclinedProposal(SubjectId.of(subject_id), new Version(version));
+        return new DeclinedProposal(ProposalId.of(subject_id), new Version(version));
     }
 
     private DeletedProposal toDeletedProposal() {
-        return new DeletedProposal(SubjectId.of(subject_id), new Version(version));
+        return new DeletedProposal(ProposalId.of(subject_id), new Version(version));
     }
 }

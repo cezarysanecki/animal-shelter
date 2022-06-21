@@ -13,19 +13,19 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
 @EqualsAndHashCode
-class SubjectId {
+public class ProposalId {
 
-    private String value;
+    private UUID value;
 
-    private SubjectId(UUID value) {
-        this.value = value.toString();
+    private ProposalId(UUID value) {
+        this.value = value;
     }
 
-    static SubjectId of(UUID value) {
-        return new SubjectId(value);
+    public static ProposalId of(UUID value) {
+        return new ProposalId(value);
     }
 
-    UUID getValue() {
-        return UUID.fromString(value);
+    public UUID getValue() {
+        return value;
     }
 }

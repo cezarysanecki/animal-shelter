@@ -4,7 +4,7 @@ import pl.devcezz.shelter.shared.Version;
 
 public interface Proposal {
 
-    SubjectId getSubjectId();
+    ProposalId getProposalId();
 
     Version getVersion();
 }

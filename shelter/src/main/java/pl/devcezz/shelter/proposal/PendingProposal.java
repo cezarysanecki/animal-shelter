@@ -8,20 +8,20 @@ import pl.devcezz.shelter.shared.Version;
 public class PendingProposal implements Proposal {
 
     @NonNull
-    SubjectId subjectId;
+    ProposalId proposalId;
 
     @NonNull
     Version version;
 
     AcceptedProposal accept() {
-        return new AcceptedProposal(subjectId, version);
+        return new AcceptedProposal(proposalId, version);
     }
 
     DeclinedProposal decline() {
-        return new DeclinedProposal(subjectId, version);
+        return new DeclinedProposal(proposalId, version);
     }
 
     DeclinedProposal delete() {
-        return new DeclinedProposal(subjectId, version);
+        return new DeclinedProposal(proposalId, version);
     }
 }

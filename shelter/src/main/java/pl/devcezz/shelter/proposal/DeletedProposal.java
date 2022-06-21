@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Value
 @AllArgsConstructor
-public class DeletedProposal implements ProposalI {
+public class DeletedProposal implements Proposal {
 
     @NonNull
     SubjectId subjectId;

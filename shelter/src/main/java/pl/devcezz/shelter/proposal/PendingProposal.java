@@ -7,7 +7,7 @@ import pl.devcezz.shelter.shared.Version;
 import java.util.UUID;
 
 @Value
-public class PendingProposal implements ProposalI {
+public class PendingProposal implements Proposal {
 
     @NonNull
     SubjectId subjectId;

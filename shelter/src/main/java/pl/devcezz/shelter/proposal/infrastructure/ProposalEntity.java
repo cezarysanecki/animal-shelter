@@ -1,6 +1,5 @@
 package pl.devcezz.shelter.proposal.infrastructure;
 
-import io.vavr.API;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import pl.devcezz.shelter.proposal.AcceptedProposal;
 import pl.devcezz.shelter.proposal.DeclinedProposal;
 import pl.devcezz.shelter.proposal.DeletedProposal;
 import pl.devcezz.shelter.proposal.PendingProposal;
-import pl.devcezz.shelter.proposal.ProposalI;
+import pl.devcezz.shelter.proposal.Proposal;
 
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ class ProposalEntity {
     int version;
     ProposalState proposal_state;
 
-    ProposalI toDomainModel() {
+    Proposal toDomainModel() {
         return Match(proposal_state).of(
                         Case($(ProposalState.Pending), this::toPendingProposal),
                         Case($(ProposalState.Accepted), this::toAcceptedProposal),

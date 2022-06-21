@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.infrastructure;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,10 +10,12 @@ import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import pl.devcezz.shelter.proposal.ProposalRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -25,7 +27,12 @@ import javax.sql.DataSource;
         transactionManagerRef = "proposalTransactionManager",
         basePackages = {"pl.devcezz.shelter.proposal"}
 )
-class ProposalDbConfig {
+public class ProposalDatabaseConfiguration {
+
+    @Bean
+    ProposalRepository proposalRepository(JdbcTemplate jdbcTemplate) {
+        return new ProposalDatabaseRepository(jdbcTemplate);
+    }
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource-proposal")

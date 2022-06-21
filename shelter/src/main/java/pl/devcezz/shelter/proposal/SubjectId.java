@@ -1,6 +1,7 @@
 package pl.devcezz.shelter.proposal;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Access;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Access(AccessType.FIELD)
+@EqualsAndHashCode
 class SubjectId {
 
     private String value;

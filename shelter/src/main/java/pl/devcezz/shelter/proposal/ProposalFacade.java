@@ -16,7 +16,7 @@ public class ProposalFacade {
 
     @ProposalTransaction
     public void acceptProposal(UUID subjectId) {
-        Proposal proposal = proposalRepository.findLatestProposalFor(SubjectId.of(subjectId));
+        Proposal proposal = proposalRepository.findProposalFor(SubjectId.of(subjectId));
         proposal.accept();
 
         eventPublisher.publishEvent(new ProposalDecidedEvent(
@@ -25,7 +25,7 @@ public class ProposalFacade {
 
     @ProposalTransaction
     public void declineProposal(UUID subjectId) {
-        Proposal proposal = proposalRepository.findLatestProposalFor(SubjectId.of(subjectId));
+        Proposal proposal = proposalRepository.findProposalFor(SubjectId.of(subjectId));
         proposal.decline();
 
         eventPublisher.publishEvent(new ProposalDecidedEvent(

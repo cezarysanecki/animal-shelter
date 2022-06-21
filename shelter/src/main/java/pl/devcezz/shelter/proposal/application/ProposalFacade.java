@@ -1,8 +1,12 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.application;
 
-import lombok.AccessLevel;
+import io.vavr.API;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import pl.devcezz.shelter.proposal.model.PendingProposal;
+import pl.devcezz.shelter.proposal.model.Proposal;
+import pl.devcezz.shelter.proposal.model.ProposalId;
+import pl.devcezz.shelter.proposal.model.ProposalRepository;
 import pl.devcezz.shelter.shared.event.ProposalDecidedEvent;
 import pl.devcezz.shelter.shared.infrastructure.ProposalTransaction;
 
@@ -12,10 +16,8 @@ import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotAccept;
-import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotDecline;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 public class ProposalFacade {
 
     private final ProposalRepository proposalRepository;
@@ -32,9 +34,9 @@ public class ProposalFacade {
 
     private Proposal acceptProposal(Proposal proposal) {
         return Match(proposal).of(
-                Case($(instanceOf(PendingProposal.class)), PendingProposal::accept),
+                API.Case(API.$(instanceOf(PendingProposal.class)), PendingProposal::accept),
                 Case($(), () -> {
-                    throw exceptionCannotAccept(proposal.getProposalId());
+                    throw new IllegalStateException("Cannot accept proposal: " + proposal.getProposalId());
                 })
         );
     }
@@ -52,7 +54,7 @@ public class ProposalFacade {
         return Match(proposal).of(
                 Case($(instanceOf(PendingProposal.class)), PendingProposal::decline),
                 Case($(), () -> {
-                    throw exceptionCannotDecline(proposal.getProposalId());
+                    throw new IllegalStateException("Cannot decline proposal: " + proposal.getProposalId());
                 })
         );
     }

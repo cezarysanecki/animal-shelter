@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.controller;
+package pl.devcezz.shelter.proposal.web;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.devcezz.shelter.proposal.ProposalFacade;
+import pl.devcezz.shelter.proposal.application.ProposalFacade;
 
 import java.util.UUID;
 

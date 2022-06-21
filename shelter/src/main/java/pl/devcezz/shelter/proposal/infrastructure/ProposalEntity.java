@@ -3,12 +3,12 @@ package pl.devcezz.shelter.proposal.infrastructure;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.devcezz.shelter.proposal.AcceptedProposal;
-import pl.devcezz.shelter.proposal.DeclinedProposal;
-import pl.devcezz.shelter.proposal.DeletedProposal;
-import pl.devcezz.shelter.proposal.PendingProposal;
-import pl.devcezz.shelter.proposal.Proposal;
-import pl.devcezz.shelter.proposal.ProposalId;
+import pl.devcezz.shelter.proposal.model.AcceptedProposal;
+import pl.devcezz.shelter.proposal.model.DeclinedProposal;
+import pl.devcezz.shelter.proposal.model.DeletedProposal;
+import pl.devcezz.shelter.proposal.model.PendingProposal;
+import pl.devcezz.shelter.proposal.model.Proposal;
+import pl.devcezz.shelter.proposal.model.ProposalId;
 import pl.devcezz.shelter.shared.Version;
 
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.model;
 
 import lombok.NonNull;
 import lombok.Value;
@@ -13,15 +13,15 @@ public class PendingProposal implements Proposal {
     @NonNull
     Version version;
 
-    AcceptedProposal accept() {
+    public AcceptedProposal accept() {
         return new AcceptedProposal(proposalId, version);
     }
 
-    DeclinedProposal decline() {
+    public DeclinedProposal decline() {
         return new DeclinedProposal(proposalId, version);
     }
 
-    DeclinedProposal delete() {
+    public DeclinedProposal delete() {
         return new DeclinedProposal(proposalId, version);
     }
 }

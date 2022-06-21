@@ -1,7 +1,11 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import pl.devcezz.shelter.proposal.model.PendingProposal;
+import pl.devcezz.shelter.proposal.model.Proposal;
+import pl.devcezz.shelter.proposal.model.ProposalId;
+import pl.devcezz.shelter.proposal.model.ProposalRepository;
 import pl.devcezz.shelter.shared.Version;
 import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
 import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
@@ -11,11 +15,10 @@ import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.shelter.proposal.exception.ProposalIllegalStateException.exceptionCannotDelete;
 
 @RequiredArgsConstructor
 @ProposalTransaction
-class ProposalEventHandler {
+public class ProposalEventHandler {
 
     private final ProposalRepository proposalRepository;
 
@@ -37,7 +40,7 @@ class ProposalEventHandler {
         return Match(proposal).of(
                 Case($(instanceOf(PendingProposal.class)), PendingProposal::delete),
                 Case($(), () -> {
-                    throw exceptionCannotDelete(proposal.getProposalId());
+                    throw new IllegalStateException("Cannot delete proposal: " + proposal.getProposalId());
                 })
         );
     }

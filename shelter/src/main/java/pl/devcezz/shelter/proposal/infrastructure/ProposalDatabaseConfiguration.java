@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import pl.devcezz.shelter.proposal.ProposalRepository;
+import pl.devcezz.shelter.proposal.model.ProposalRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;

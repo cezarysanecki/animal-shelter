@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.model;
 
 import pl.devcezz.shelter.shared.Version;
 

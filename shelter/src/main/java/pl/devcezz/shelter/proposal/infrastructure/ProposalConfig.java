@@ -1,11 +1,14 @@
-package pl.devcezz.shelter.proposal;
+package pl.devcezz.shelter.proposal.infrastructure;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.devcezz.shelter.proposal.model.ProposalRepository;
+import pl.devcezz.shelter.proposal.application.ProposalEventHandler;
+import pl.devcezz.shelter.proposal.application.ProposalFacade;
 
 @Configuration
-class ProposalConfig {
+public class ProposalConfig {
 
     @Bean
     ProposalFacade proposalFacade(

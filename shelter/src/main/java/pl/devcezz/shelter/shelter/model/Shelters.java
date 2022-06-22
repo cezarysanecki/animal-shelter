@@ -4,5 +4,5 @@ public interface Shelters {
 
     Shelter prepareShelter();
 
-    void publish(ShelterEvent event);
+    Shelter publish(ShelterEvent event);
 }

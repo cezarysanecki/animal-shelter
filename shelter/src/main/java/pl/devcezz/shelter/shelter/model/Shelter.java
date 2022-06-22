@@ -19,11 +19,11 @@ import static pl.devcezz.shelter.shared.event.EitherResult.announceSuccess;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Shelter {
 
-    private static final int CAPACITY = 10;
-    private static final int SAFE_THRESHOLD = 7;
+    private static final long CAPACITY = 10;
+    private static final long SAFE_THRESHOLD = 7;
 
     @NonNull
-    private final int acceptedProposalsCount;
+    private final long acceptedProposalsCount;
 
     public Either<ProposalAcceptedFailed, ProposalAcceptedEvents> accept(PendingProposal pendingProposal) {
         if (enoughSpaceInShelterAfterAccepting()) {
@@ -36,7 +36,7 @@ public class Shelter {
         return announceFailure(proposalAcceptedFailedNow("no space left for animals in shelter", pendingProposal.getProposalId()));
     }
 
-    private int countSpaceLeft() {
+    private long countSpaceLeft() {
         return CAPACITY - (acceptedProposalsCount + 1);
     }
 

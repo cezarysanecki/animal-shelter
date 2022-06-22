@@ -26,9 +26,9 @@ public interface ShelterEvent {
     class SafeThresholdExceeded implements ShelterEvent {
         @NonNull Instant when;
         @NonNull UUID proposalId;
-        int spaceLeft;
+        long spaceLeft;
 
-        public static SafeThresholdExceeded now(ProposalId proposalId, int spaceLeft) {
+        public static SafeThresholdExceeded now(ProposalId proposalId, long spaceLeft) {
             return new SafeThresholdExceeded(
                     Instant.now(),
                     proposalId.getValue(),

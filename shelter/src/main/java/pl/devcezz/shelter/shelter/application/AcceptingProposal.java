@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.application;
+package pl.devcezz.shelter.shelter.application;
 
 import io.vavr.control.Either;
 import io.vavr.control.Try;
@@ -6,8 +6,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import pl.devcezz.shelter.proposal.model.PendingProposal;
 import pl.devcezz.shelter.proposal.model.ProposalId;
-import pl.devcezz.shelter.proposal.model.Shelter;
-import pl.devcezz.shelter.proposal.model.Shelters;
+import pl.devcezz.shelter.shelter.model.Shelter;
+import pl.devcezz.shelter.shelter.model.Shelters;
 import pl.devcezz.shelter.shared.Result;
 
 import static io.vavr.API.$;
@@ -15,8 +15,8 @@ import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Patterns.$Left;
 import static io.vavr.Patterns.$Right;
-import static pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAcceptedEvents;
-import static pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAcceptedFailed;
+import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedEvents;
+import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedFailed;
 import static pl.devcezz.shelter.shared.Result.Rejection;
 import static pl.devcezz.shelter.shared.Result.Success;
 

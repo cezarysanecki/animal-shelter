@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.application;
+package pl.devcezz.shelter.shelter.application;
 
 import lombok.NonNull;
 import lombok.Value;

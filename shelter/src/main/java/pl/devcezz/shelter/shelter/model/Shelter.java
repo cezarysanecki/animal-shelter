@@ -1,17 +1,18 @@
-package pl.devcezz.shelter.proposal.model;
+package pl.devcezz.shelter.shelter.model;
 
 import io.vavr.control.Either;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAcceptedEvents;
-import pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAcceptedFailed;
-import pl.devcezz.shelter.proposal.model.ShelterEvent.SafeThresholdExceeded;
+import pl.devcezz.shelter.proposal.model.PendingProposal;
+import pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedEvents;
+import pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedFailed;
+import pl.devcezz.shelter.shelter.model.ShelterEvent.SafeThresholdExceeded;
 
-import static pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAccepted;
-import static pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAccepted.*;
-import static pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAcceptedEvents.events;
-import static pl.devcezz.shelter.proposal.model.ShelterEvent.ProposalAcceptedFailed.proposalAcceptedFailedNow;
+import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAccepted;
+import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAccepted.*;
+import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedEvents.events;
+import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedFailed.proposalAcceptedFailedNow;
 import static pl.devcezz.shelter.shared.event.EitherResult.announceFailure;
 import static pl.devcezz.shelter.shared.event.EitherResult.announceSuccess;
 

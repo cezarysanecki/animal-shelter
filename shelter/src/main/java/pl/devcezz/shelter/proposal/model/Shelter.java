@@ -24,7 +24,7 @@ public class Shelter {
     @NonNull
     private final int acceptedProposalsCount;
 
-    Either<ProposalAcceptedFailed, ProposalAcceptedEvents> accept(PendingProposal pendingProposal) {
+    public Either<ProposalAcceptedFailed, ProposalAcceptedEvents> accept(PendingProposal pendingProposal) {
         if (enoughSpaceInShelterAfterAccepting()) {
             ProposalAccepted proposalAccepted = proposalAcceptedNow(pendingProposal.getProposalId());
             if (safeThresholdExceededAfterAccepting()) {

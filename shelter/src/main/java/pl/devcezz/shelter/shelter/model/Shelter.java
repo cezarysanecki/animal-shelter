@@ -29,14 +29,14 @@ public class Shelter {
         if (enoughSpaceInShelterAfterAccepting()) {
             ProposalAccepted proposalAccepted = proposalAcceptedNow(pendingProposal.getProposalId());
             if (safeThresholdExceededAfterAccepting()) {
-                return announceSuccess(events(proposalAccepted, SafeThresholdExceeded.now(pendingProposal.getProposalId(), countSpaceLeft())));
+                return announceSuccess(events(proposalAccepted, SafeThresholdExceeded.now(pendingProposal.getProposalId(), countLeftSpace())));
             }
             return announceSuccess(events(proposalAccepted));
         }
         return announceFailure(proposalAcceptedFailedNow("no space left for animals in shelter", pendingProposal.getProposalId()));
     }
 
-    private long countSpaceLeft() {
+    private long countLeftSpace() {
         return CAPACITY - (acceptedProposalsCount + 1);
     }
 

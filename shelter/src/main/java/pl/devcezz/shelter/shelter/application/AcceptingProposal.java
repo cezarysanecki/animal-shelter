@@ -38,14 +38,14 @@ public class AcceptingProposal {
         });
     }
 
-    private Result publishEvents(ProposalAcceptedEvents proposalAcceptedEvents) {
-        shelterRepository.publish(proposalAcceptedEvents);
-        return Success;
-    }
-
     private Result publishEvents(ProposalAcceptedFailed proposalAcceptedFailed) {
         shelterRepository.publish(proposalAcceptedFailed);
         return Rejection;
+    }
+
+    private Result publishEvents(ProposalAcceptedEvents proposalAcceptedEvents) {
+        shelterRepository.publish(proposalAcceptedEvents);
+        return Success;
     }
 
     private PendingProposal find(ProposalId proposalId) {

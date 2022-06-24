@@ -13,7 +13,7 @@ import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import java.util.Set;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class SheltersDatabaseRepository implements Shelters {
+class ShelterDatabaseRepository implements Shelters {
 
     private final AcceptedProposalsDatabaseRepository acceptedProposalsDatabaseRepository;
     private final DomainModelMapper domainModelMapper;

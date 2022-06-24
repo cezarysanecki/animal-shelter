@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.adoption.proposal.infrastructure;
+package pl.devcezz.shelter.adoption;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +15,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -23,56 +22,56 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "proposalEntityManagerFactory",
-        transactionManagerRef = "proposalTransactionManager",
-        basePackages = {"pl.devcezz.shelter.proposal"}
+        entityManagerFactoryRef = "adoptionEntityManagerFactory",
+        transactionManagerRef = "adoptionTransactionManager",
+        basePackages = {"pl.devcezz.shelter.adoption"}
 )
-public class ProposalDatabaseConfiguration {
+class AdoptionDatabaseConfig {
 
     @Bean
-    Proposals proposalRepository(JdbcTemplate jdbcTemplate) {
-        return new ProposalDatabaseRepository(jdbcTemplate);
-    }
-
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource-proposal")
-    DataSource proposalDataSource() {
+    @ConfigurationProperties(prefix = "spring.datasource-adoption")
+    DataSource adoptionDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource-proposal.jpa")
-    JpaProperties proposalJpaProperties() {
+    JdbcTemplate adoptionJdbcTemplate(@Qualifier("adoptionDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource-adoption.jpa")
+    JpaProperties adoptionJpaProperties() {
         return new JpaProperties();
     }
 
     @Bean
-    LocalContainerEntityManagerFactoryBean proposalEntityManagerFactory(
+    LocalContainerEntityManagerFactoryBean adoptionEntityManagerFactory(
             EntityManagerFactoryBuilder entityManagerFactoryBuilder,
-            @Qualifier("proposalDataSource") DataSource dataSource,
-            @Qualifier("proposalJpaProperties") JpaProperties jpaProperties) {
+            @Qualifier("adoptionDataSource") DataSource dataSource,
+            @Qualifier("adoptionJpaProperties") JpaProperties jpaProperties) {
         return entityManagerFactoryBuilder.dataSource(dataSource)
-                .packages("pl.devcezz.shelter.proposal")
+                .packages("pl.devcezz.shelter.adoption")
                 .properties(jpaProperties.getProperties())
                 .build();
     }
 
     @Bean
-    PlatformTransactionManager proposalTransactionManager(
-            @Qualifier("proposalEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    PlatformTransactionManager adoptionTransactionManager(
+            @Qualifier("adoptionEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource-proposal.liquibase")
-    LiquibaseProperties proposalLiquibaseProperties() {
+    @ConfigurationProperties(prefix = "spring.datasource-adoption.liquibase")
+    LiquibaseProperties adoptionLiquibaseProperties() {
         return new LiquibaseProperties();
     }
 
     @Bean
-    SpringLiquibase proposalSpringLiquibase(
-            @Qualifier("proposalDataSource") DataSource dataSource,
-            @Qualifier("proposalLiquibaseProperties") LiquibaseProperties properties) {
+    SpringLiquibase adoptionSpringLiquibase(
+            @Qualifier("adoptionDataSource") DataSource dataSource,
+            @Qualifier("adoptionLiquibaseProperties") LiquibaseProperties properties) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog(properties.getChangeLog());

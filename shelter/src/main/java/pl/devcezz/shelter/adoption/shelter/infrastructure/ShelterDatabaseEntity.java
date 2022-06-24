@@ -1,11 +1,9 @@
-package pl.devcezz.shelter.shelter.infrastructure;
+package pl.devcezz.shelter.adoption.shelter.infrastructure;
 
 import io.vavr.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import pl.devcezz.shelter.shelter.model.ShelterEvent;
-import pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAccepted;
-import pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedEvents;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,17 +28,17 @@ class ShelterDatabaseEntity {
 
     ShelterDatabaseEntity handle(ShelterEvent event) {
         return API.Match(event).of(
-                Case($(instanceOf(ProposalAcceptedEvents.class)), this::handle),
-                Case($(instanceOf(ProposalAccepted.class)), this::handle)
+                API.Case(API.$(instanceOf(ShelterEvent.ProposalAcceptedEvents.class)), this::handle),
+                API.Case(API.$(instanceOf(ShelterEvent.ProposalAccepted.class)), this::handle)
         );
     }
 
-    private ShelterDatabaseEntity handle(ProposalAcceptedEvents events) {
-        ProposalAccepted event = events.getProposalAccepted();
+    private ShelterDatabaseEntity handle(ShelterEvent.ProposalAcceptedEvents events) {
+        ShelterEvent.ProposalAccepted event = events.getProposalAccepted();
         return handle(event);
     }
 
-    private ShelterDatabaseEntity handle(ProposalAccepted event) {
+    private ShelterDatabaseEntity handle(ShelterEvent.ProposalAccepted event) {
         return acceptProposal(event.getProposalId());
     }
 

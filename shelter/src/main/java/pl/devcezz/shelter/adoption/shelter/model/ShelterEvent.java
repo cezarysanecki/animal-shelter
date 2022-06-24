@@ -1,9 +1,9 @@
-package pl.devcezz.shelter.shelter.model;
+package pl.devcezz.shelter.adoption.shelter.model;
 
 import io.vavr.control.Option;
 import lombok.NonNull;
 import lombok.Value;
-import pl.devcezz.shelter.proposal.model.ProposalId;
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 
 import java.time.Instant;
 import java.util.UUID;

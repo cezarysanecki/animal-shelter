@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.shelter.infrastructure;
+package pl.devcezz.shelter.adoption.shelter.infrastructure;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

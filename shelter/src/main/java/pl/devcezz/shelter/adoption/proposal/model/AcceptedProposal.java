@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.model;
+package pl.devcezz.shelter.adoption.proposal.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -7,7 +7,7 @@ import pl.devcezz.shelter.shared.Version;
 
 @Value
 @AllArgsConstructor
-public class DeletedProposal implements Proposal {
+public class AcceptedProposal implements Proposal {
 
     @NonNull
     ProposalId proposalId;

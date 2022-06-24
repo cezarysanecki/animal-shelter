@@ -1,20 +1,20 @@
-package pl.devcezz.shelter.proposal.application;
+package pl.devcezz.shelter.adoption.proposal.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
-import pl.devcezz.shelter.proposal.model.PendingProposal;
-import pl.devcezz.shelter.proposal.model.Proposal;
-import pl.devcezz.shelter.proposal.model.ProposalId;
-import pl.devcezz.shelter.proposal.model.Proposals;
+import pl.devcezz.shelter.adoption.proposal.model.Proposal;
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
+import pl.devcezz.shelter.adoption.proposal.model.Proposals;
+import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.shared.infrastructure.ProposalTransaction;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.shelter.proposal.model.ProposalEvent.ProposalAlreadyProcessed.proposalAlreadyProcessedNow;
-import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAccepted;
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyProcessed.proposalAlreadyProcessedNow;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 
 @RequiredArgsConstructor
 @ProposalTransaction

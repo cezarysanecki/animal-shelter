@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.infrastructure;
+package pl.devcezz.shelter.adoption.proposal.infrastructure;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import pl.devcezz.shelter.proposal.model.Proposals;
+import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;

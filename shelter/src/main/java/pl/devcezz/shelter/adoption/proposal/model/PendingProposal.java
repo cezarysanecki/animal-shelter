@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.model;
+package pl.devcezz.shelter.adoption.proposal.model;
 
 import lombok.NonNull;
 import lombok.Value;

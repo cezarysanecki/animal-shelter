@@ -1,8 +1,8 @@
-package pl.devcezz.shelter.shelter.application;
+package pl.devcezz.shelter.adoption.shelter.application;
 
 import lombok.NonNull;
 import lombok.Value;
-import pl.devcezz.shelter.proposal.model.ProposalId;
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 
 @Value
 public class AcceptProposalCommand {

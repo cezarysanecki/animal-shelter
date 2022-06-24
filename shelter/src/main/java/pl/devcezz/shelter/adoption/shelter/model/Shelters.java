@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.shelter.model;
+package pl.devcezz.shelter.adoption.shelter.model;
 
 public interface Shelters {
 

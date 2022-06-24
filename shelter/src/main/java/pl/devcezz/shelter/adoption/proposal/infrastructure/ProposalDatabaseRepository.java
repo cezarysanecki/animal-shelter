@@ -1,18 +1,19 @@
-package pl.devcezz.shelter.proposal.infrastructure;
+package pl.devcezz.shelter.adoption.proposal.infrastructure;
 
+import io.vavr.API;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import pl.devcezz.shelter.proposal.model.AcceptedProposal;
-import pl.devcezz.shelter.proposal.model.DeletedProposal;
-import pl.devcezz.shelter.proposal.model.PendingProposal;
-import pl.devcezz.shelter.proposal.model.Proposal;
-import pl.devcezz.shelter.proposal.model.ProposalId;
-import pl.devcezz.shelter.proposal.model.Proposals;
-import pl.devcezz.shelter.shelter.application.FindPendingProposal;
+import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
+import pl.devcezz.shelter.adoption.proposal.model.DeletedProposal;
+import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
+import pl.devcezz.shelter.adoption.proposal.model.Proposal;
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
+import pl.devcezz.shelter.adoption.proposal.model.Proposals;
+import pl.devcezz.shelter.adoption.shelter.application.FindPendingProposal;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -22,10 +23,10 @@ import static io.vavr.Predicates.instanceOf;
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;
 import static java.time.Instant.now;
-import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState;
-import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Accepted;
-import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Deleted;
-import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
+import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState;
+import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Accepted;
+import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Deleted;
+import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
@@ -68,9 +69,9 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
 
     private int updateOptimistically(Proposal proposal) {
         int result = Match(proposal).of(
-                Case($(instanceOf(PendingProposal.class)), this::update),
-                Case($(instanceOf(AcceptedProposal.class)), this::update),
-                Case($(instanceOf(DeletedProposal.class)), this::update)
+                API.Case(API.$(instanceOf(PendingProposal.class)), this::update),
+                API.Case(API.$(instanceOf(AcceptedProposal.class)), this::update),
+                API.Case(API.$(instanceOf(DeletedProposal.class)), this::update)
         );
         if (result == 0) {
             throw new IllegalStateException("in the meantime proposal has been updated: " + proposal.getProposalId());

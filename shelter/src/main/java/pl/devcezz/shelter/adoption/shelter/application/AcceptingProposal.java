@@ -1,13 +1,14 @@
-package pl.devcezz.shelter.shelter.application;
+package pl.devcezz.shelter.adoption.shelter.application;
 
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.devcezz.shelter.proposal.model.PendingProposal;
-import pl.devcezz.shelter.proposal.model.ProposalId;
-import pl.devcezz.shelter.shelter.model.Shelter;
-import pl.devcezz.shelter.shelter.model.Shelters;
+import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
+import pl.devcezz.shelter.adoption.shelter.model.Shelter;
+import pl.devcezz.shelter.adoption.shelter.model.Shelters;
 import pl.devcezz.shelter.shared.Result;
 
 import static io.vavr.API.$;
@@ -15,8 +16,6 @@ import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Patterns.$Left;
 import static io.vavr.Patterns.$Right;
-import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedEvents;
-import static pl.devcezz.shelter.shelter.model.ShelterEvent.ProposalAcceptedFailed;
 import static pl.devcezz.shelter.shared.Result.Rejection;
 import static pl.devcezz.shelter.shared.Result.Success;
 
@@ -30,7 +29,7 @@ public class AcceptingProposal {
         return Try.of(() -> {
             PendingProposal pendingProposal = find(command.getProposalId());
             Shelter shelter = prepare();
-            Either<ProposalAcceptedFailed, ProposalAcceptedEvents> result = shelter.accept(pendingProposal);
+            Either<ShelterEvent.ProposalAcceptedFailed, ShelterEvent.ProposalAcceptedEvents> result = shelter.accept(pendingProposal);
             return Match(result).of(
                     Case($Left($()), this::publishEvents),
                     Case($Right($()), this::publishEvents)
@@ -38,12 +37,12 @@ public class AcceptingProposal {
         });
     }
 
-    private Result publishEvents(ProposalAcceptedFailed proposalAcceptedFailed) {
+    private Result publishEvents(ShelterEvent.ProposalAcceptedFailed proposalAcceptedFailed) {
         shelterRepository.publish(proposalAcceptedFailed);
         return Rejection;
     }
 
-    private Result publishEvents(ProposalAcceptedEvents proposalAcceptedEvents) {
+    private Result publishEvents(ShelterEvent.ProposalAcceptedEvents proposalAcceptedEvents) {
         shelterRepository.publish(proposalAcceptedEvents);
         return Success;
     }

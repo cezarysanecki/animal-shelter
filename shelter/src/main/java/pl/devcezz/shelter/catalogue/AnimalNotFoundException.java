@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.catalogue.exception;
+package pl.devcezz.shelter.catalogue;
 
 import pl.devcezz.shelter.ShelterException;
 

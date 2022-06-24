@@ -2,7 +2,7 @@ package pl.devcezz.shelter.adoption.proposal.model;
 
 import lombok.NonNull;
 import lombok.Value;
-import pl.devcezz.shelter.shared.Version;
+import pl.devcezz.shelter.commons.aggregates.Version;
 
 @Value
 public class PendingProposal implements Proposal {

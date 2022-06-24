@@ -9,7 +9,7 @@ import pl.devcezz.shelter.adoption.proposal.model.DeletedProposal;
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
-import pl.devcezz.shelter.shared.Version;
+import pl.devcezz.shelter.commons.aggregates.Version;
 
 import java.util.UUID;
 

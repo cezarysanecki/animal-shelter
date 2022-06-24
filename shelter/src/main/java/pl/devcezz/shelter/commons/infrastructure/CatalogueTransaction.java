@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.shared.infrastructure;
+package pl.devcezz.shelter.commons.infrastructure;
 
 import org.springframework.transaction.annotation.Transactional;
 

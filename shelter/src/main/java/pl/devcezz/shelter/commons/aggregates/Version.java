@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.shared;
+package pl.devcezz.shelter.commons.aggregates;
 
 import lombok.Value;
 

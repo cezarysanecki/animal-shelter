@@ -14,6 +14,7 @@ import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 import pl.devcezz.shelter.adoption.shelter.application.FindPendingProposal;
+import pl.devcezz.shelter.commons.aggregates.AggregateRootIsStale;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -74,7 +75,7 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
                 API.Case(API.$(instanceOf(DeletedProposal.class)), this::update)
         );
         if (result == 0) {
-            throw new IllegalStateException("in the meantime proposal has been updated: " + proposal.getProposalId());
+            throw new AggregateRootIsStale("in the meantime proposal has been updated: " + proposal.getProposalId());
         }
         return result;
     }

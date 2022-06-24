@@ -3,15 +3,12 @@ package pl.devcezz.shelter.catalogue;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException;
-import pl.devcezz.shelter.catalogue.exception.AnimalNotFoundException;
-import pl.devcezz.shelter.shared.event.AnimalCreatedEvent;
-import pl.devcezz.shelter.shared.event.AnimalDeletedEvent;
-import pl.devcezz.shelter.shared.infrastructure.CatalogueTransaction;
+import pl.devcezz.shelter.commons.infrastructure.CatalogueTransaction;
 
 import java.util.UUID;
 
-import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.*;
+import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalCreatedEvent.animalCreatedNow;
+import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent.animalDeletedNow;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class AnimalFacade {
@@ -25,7 +22,8 @@ public class AnimalFacade {
                 AnimalId.of(animalUuidId),
                 name, age, species, gender));
 
-        eventPublisher.publishEvent(new AnimalCreatedEvent(animalUuidId));
+        eventPublisher.publishEvent(
+                animalCreatedNow(AnimalId.of(animalUuidId)));
     }
 
     @CatalogueTransaction
@@ -44,6 +42,6 @@ public class AnimalFacade {
         animal.delete();
 
         eventPublisher.publishEvent(
-                new AnimalDeletedEvent(animalUuidId));
+                animalDeletedNow(AnimalId.of(animalUuidId)));
     }
 }

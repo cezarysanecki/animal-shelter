@@ -1,6 +1,5 @@
 package pl.devcezz.shelter.adoption.shelter.infrastructure;
 
-import io.vavr.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
@@ -11,7 +10,11 @@ import java.util.UUID;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
+import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class ShelterDatabaseEntity {
@@ -27,23 +30,33 @@ class ShelterDatabaseEntity {
     }
 
     ShelterDatabaseEntity handle(ShelterEvent event) {
-        return API.Match(event).of(
-                API.Case(API.$(instanceOf(ShelterEvent.ProposalAcceptedEvents.class)), this::handle),
-                API.Case(API.$(instanceOf(ShelterEvent.ProposalAccepted.class)), this::handle)
+        return Match(event).of(
+                Case($(instanceOf(ProposalAcceptedEvents.class)), this::handle),
+                Case($(instanceOf(ProposalAccepted.class)), this::handle),
+                Case($(instanceOf(ProposalCanceled.class)), this::handle)
         );
     }
 
-    private ShelterDatabaseEntity handle(ShelterEvent.ProposalAcceptedEvents events) {
-        ShelterEvent.ProposalAccepted event = events.getProposalAccepted();
+    private ShelterDatabaseEntity handle(ProposalAcceptedEvents events) {
+        ProposalAccepted event = events.getProposalAccepted();
         return handle(event);
     }
 
-    private ShelterDatabaseEntity handle(ShelterEvent.ProposalAccepted event) {
+    private ShelterDatabaseEntity handle(ProposalAccepted event) {
         return acceptProposal(event.getProposalId());
+    }
+
+    private ShelterDatabaseEntity handle(ProposalCanceled event) {
+        return cancelProposal(event.getProposalId());
     }
 
     private ShelterDatabaseEntity acceptProposal(UUID proposalId) {
         acceptedProposals.add(new AcceptedProposalDatabaseEntity(proposalId));
+        return this;
+    }
+
+    private ShelterDatabaseEntity cancelProposal(UUID proposalId) {
+        acceptedProposals.removeIf(acceptedProposal -> acceptedProposal.proposalId.equals(proposalId));
         return this;
     }
 }

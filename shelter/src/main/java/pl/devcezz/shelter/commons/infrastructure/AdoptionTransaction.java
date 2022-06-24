@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.shared.infrastructure;
+package pl.devcezz.shelter.commons.infrastructure;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Transactional("proposalTransactionManager")
-public @interface ProposalTransaction {
+@Transactional("adoptionTransactionManager")
+public @interface AdoptionTransaction {
 }

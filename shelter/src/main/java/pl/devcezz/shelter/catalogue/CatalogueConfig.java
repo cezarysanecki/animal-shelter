@@ -3,9 +3,11 @@ package pl.devcezz.shelter.catalogue;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
-class CatalogueConfig {
+@Import({CatalogueDatabaseConfig.class})
+public class CatalogueConfig {
 
     @Bean
     AnimalFacade animalFacade(

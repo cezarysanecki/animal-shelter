@@ -26,7 +26,7 @@ import javax.sql.DataSource;
         transactionManagerRef = "catalogueTransactionManager",
         basePackages = {"pl.devcezz.shelter.catalogue"}
 )
-class CatalogueDbConfig {
+class CatalogueDatabaseConfig {
 
     @Primary
     @Bean

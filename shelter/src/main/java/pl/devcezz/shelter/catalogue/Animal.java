@@ -21,8 +21,8 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotDelete;
-import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotUpdate;
+import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotDelete;
+import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotUpdate;
 
 @Entity
 @Access(AccessType.FIELD)

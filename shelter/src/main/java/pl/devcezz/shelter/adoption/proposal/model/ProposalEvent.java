@@ -9,6 +9,18 @@ import java.util.UUID;
 public interface ProposalEvent {
 
     @Value
+    class ProposalAlreadyConfirmed implements ProposalEvent {
+        @NonNull Instant when;
+        @NonNull UUID proposalId;
+
+        public static ProposalAlreadyConfirmed proposalAlreadyConfirmedNow(ProposalId proposalId) {
+            return new ProposalAlreadyConfirmed(
+                    Instant.now(),
+                    proposalId.getValue());
+        }
+    }
+
+    @Value
     class ProposalAlreadyProcessed implements ProposalEvent {
         @NonNull Instant when;
         @NonNull UUID proposalId;

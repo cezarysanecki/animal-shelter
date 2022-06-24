@@ -1,6 +1,6 @@
 package pl.devcezz.shelter.adoption.proposal.model;
 
-import pl.devcezz.shelter.shared.Version;
+import pl.devcezz.shelter.commons.aggregates.Version;
 
 public interface Proposal {
 

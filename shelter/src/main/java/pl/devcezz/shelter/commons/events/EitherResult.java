@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.shared.event;
+package pl.devcezz.shelter.commons.events;
 
 import io.vavr.control.Either;
 

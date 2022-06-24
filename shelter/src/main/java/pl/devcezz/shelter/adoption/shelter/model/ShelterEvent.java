@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface ShelterEvent {
 
-    @Value
+        @Value
     class ProposalAccepted implements ShelterEvent {
         @NonNull Instant when;
         @NonNull UUID proposalId;
@@ -60,6 +60,30 @@ public interface ShelterEvent {
         static ProposalAcceptedFailed proposalAcceptedFailedNow(String reason, ProposalId proposalId) {
             return new ProposalAcceptedFailed(
                     reason,
+                    Instant.now(),
+                    proposalId.getValue());
+        }
+    }
+
+    @Value
+    class ProposalCanceled implements ShelterEvent {
+        @NonNull Instant when;
+        @NonNull UUID proposalId;
+
+        public static ProposalCanceled proposalCanceledNow(ProposalId proposalId) {
+            return new ProposalCanceled(
+                    Instant.now(),
+                    proposalId.getValue());
+        }
+    }
+
+    @Value
+    class ProposalCancelingFailed implements ShelterEvent {
+        @NonNull Instant when;
+        @NonNull UUID proposalId;
+
+        static ProposalCancelingFailed proposalCancelingFailedNow(ProposalId proposalId) {
+            return new ProposalCancelingFailed(
                     Instant.now(),
                     proposalId.getValue());
         }

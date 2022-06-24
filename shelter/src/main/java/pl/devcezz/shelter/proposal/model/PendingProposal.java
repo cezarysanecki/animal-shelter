@@ -17,11 +17,7 @@ public class PendingProposal implements Proposal {
         return new AcceptedProposal(proposalId, version);
     }
 
-    public DeclinedProposal decline() {
-        return new DeclinedProposal(proposalId, version);
-    }
-
-    public DeclinedProposal delete() {
-        return new DeclinedProposal(proposalId, version);
+    public DeletedProposal delete() {
+        return new DeletedProposal(proposalId, version);
     }
 }

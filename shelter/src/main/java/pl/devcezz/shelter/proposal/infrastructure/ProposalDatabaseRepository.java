@@ -7,27 +7,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.shelter.proposal.model.AcceptedProposal;
-import pl.devcezz.shelter.proposal.model.DeclinedProposal;
 import pl.devcezz.shelter.proposal.model.DeletedProposal;
 import pl.devcezz.shelter.proposal.model.PendingProposal;
 import pl.devcezz.shelter.proposal.model.Proposal;
 import pl.devcezz.shelter.proposal.model.ProposalId;
-import pl.devcezz.shelter.proposal.model.ProposalRepository;
+import pl.devcezz.shelter.proposal.model.Proposals;
+import pl.devcezz.shelter.shelter.application.FindPendingProposal;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
+import static io.vavr.Patterns.$Some;
 import static io.vavr.Predicates.instanceOf;
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;
 import static java.time.Instant.now;
+import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState;
 import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Accepted;
-import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Declined;
 import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Deleted;
 import static pl.devcezz.shelter.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ProposalDatabaseRepository implements ProposalRepository {
+class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -55,20 +56,20 @@ class ProposalDatabaseRepository implements ProposalRepository {
                 .onEmpty(() -> insertNew(proposal));
     }
 
-    private int insertArchive(ProposalEntity entity) {
-        return jdbcTemplate.update("INSERT INTO proposal_archive " +
+    private ProposalEntity insertArchive(ProposalEntity entity) {
+        jdbcTemplate.update("INSERT INTO proposal_archive " +
                         "(proposal_id, " +
                         "status, " +
                         "change_timestamp) VALUES " +
                         "(?, ?, ?)",
                 entity.getProposal_id(), entity.getProposal_state().toString(), now());
+        return entity;
     }
 
     private int updateOptimistically(Proposal proposal) {
         int result = Match(proposal).of(
                 Case($(instanceOf(PendingProposal.class)), this::update),
                 Case($(instanceOf(AcceptedProposal.class)), this::update),
-                Case($(instanceOf(DeclinedProposal.class)), this::update),
                 Case($(instanceOf(DeletedProposal.class)), this::update)
         );
         if (result == 0) {
@@ -97,16 +98,6 @@ class ProposalDatabaseRepository implements ProposalRepository {
                 acceptedProposal.getProposalId().getValue());
     }
 
-    private int update(DeclinedProposal declinedProposal) {
-        return jdbcTemplate.update("UPDATE proposal p SET " +
-                        "p.status = ?, p.modification_timestamp = ?, p.version = ? " +
-                        "WHERE p.proposal_id = ?",
-                Declined,
-                now(),
-                declinedProposal.getVersion().getVersion() + 1,
-                declinedProposal.getProposalId().getValue());
-    }
-
     private int update(DeletedProposal deletedProposal) {
         return jdbcTemplate.update("UPDATE proposal p SET " +
                         "p.status = ?, p.modification_timestamp = ?, p.version = ? " +
@@ -121,7 +112,6 @@ class ProposalDatabaseRepository implements ProposalRepository {
         Match(proposal).of(
                 Case($(instanceOf(PendingProposal.class)), this::insert),
                 Case($(instanceOf(AcceptedProposal.class)), this::insert),
-                Case($(instanceOf(DeclinedProposal.class)), this::insert),
                 Case($(instanceOf(DeletedProposal.class)), this::insert)
         );
     }
@@ -134,15 +124,11 @@ class ProposalDatabaseRepository implements ProposalRepository {
         return insert(acceptedProposal.getProposalId(), Accepted);
     }
 
-    private int insert(DeclinedProposal declinedProposal) {
-        return insert(declinedProposal.getProposalId(), Declined);
-    }
-
     private int insert(DeletedProposal deletedProposal) {
         return insert(deletedProposal.getProposalId(), Deleted);
     }
 
-    private int insert(ProposalId proposalId, ProposalEntity.ProposalState state) {
+    private int insert(ProposalId proposalId, ProposalState state) {
         return jdbcTemplate.update("INSERT INTO proposal " +
                         "(proposal_id, " +
                         "status, " +
@@ -151,5 +137,13 @@ class ProposalDatabaseRepository implements ProposalRepository {
                         "version VALUES " +
                         "(?, ?, ?, ?, 0)",
                 proposalId.getValue(), state.toString(), now(), now());
+    }
+
+    @Override
+    public Option<PendingProposal> findPendingProposalBy(ProposalId proposalId) {
+        return Match(findBy(proposalId)).of(
+                Case($Some($(instanceOf(PendingProposal.class))), Option::of),
+                Case($(), Option::none)
+        );
     }
 }

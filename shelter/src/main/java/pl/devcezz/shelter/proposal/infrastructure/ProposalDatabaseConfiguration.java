@@ -15,7 +15,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import pl.devcezz.shelter.proposal.model.ProposalRepository;
+import pl.devcezz.shelter.proposal.model.Proposals;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -30,7 +30,7 @@ import javax.sql.DataSource;
 public class ProposalDatabaseConfiguration {
 
     @Bean
-    ProposalRepository proposalRepository(JdbcTemplate jdbcTemplate) {
+    Proposals proposalRepository(JdbcTemplate jdbcTemplate) {
         return new ProposalDatabaseRepository(jdbcTemplate);
     }
 

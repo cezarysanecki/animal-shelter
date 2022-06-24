@@ -7,7 +7,7 @@ import java.util.UUID;
 public class AnimalIllegalStateException extends ShelterException {
 
     private AnimalIllegalStateException(String action, UUID animalId) {
-        super("cannot " + action + " animal data: " + animalId);
+        super("cannot " + action + " animal data with id: " + animalId);
     }
 
     public static AnimalIllegalStateException exceptionCannotUpdate(UUID animalId) {

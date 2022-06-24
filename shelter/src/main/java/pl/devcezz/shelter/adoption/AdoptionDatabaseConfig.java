@@ -6,25 +6,24 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(
-        entityManagerFactoryRef = "adoptionEntityManagerFactory",
+@EnableJdbcRepositories(
         transactionManagerRef = "adoptionTransactionManager",
-        basePackages = {"pl.devcezz.shelter.adoption"}
+        basePackages = {"pl.devcezz.shelter.adoption"},
+        jdbcOperationsRef = "adoptionNamedParameterJdbcTemplate"
 )
 class AdoptionDatabaseConfig {
 
@@ -40,26 +39,21 @@ class AdoptionDatabaseConfig {
     }
 
     @Bean
+    NamedParameterJdbcOperations adoptionNamedParameterJdbcTemplate(
+            @Qualifier("adoptionDataSource") DataSource dataSource) {
+        return new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    @Bean
     @ConfigurationProperties(prefix = "spring.datasource-adoption.jpa")
     JpaProperties adoptionJpaProperties() {
         return new JpaProperties();
     }
 
     @Bean
-    LocalContainerEntityManagerFactoryBean adoptionEntityManagerFactory(
-            EntityManagerFactoryBuilder entityManagerFactoryBuilder,
-            @Qualifier("adoptionDataSource") DataSource dataSource,
-            @Qualifier("adoptionJpaProperties") JpaProperties jpaProperties) {
-        return entityManagerFactoryBuilder.dataSource(dataSource)
-                .packages("pl.devcezz.shelter.adoption")
-                .properties(jpaProperties.getProperties())
-                .build();
-    }
-
-    @Bean
     PlatformTransactionManager adoptionTransactionManager(
-            @Qualifier("adoptionEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager(entityManagerFactory);
+            @Qualifier("adoptionDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean

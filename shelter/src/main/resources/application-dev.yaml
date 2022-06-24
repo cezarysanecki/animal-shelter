@@ -4,7 +4,7 @@ spring:
     jdbc-url: jdbc:mysql://localhost:3307/shelter-catalogue
     username: root
     password: root
-  datasource-proposal:
+  datasource-adoption:
     driver-class-name: com.mysql.cj.jdbc.Driver
     jdbc-url: jdbc:mysql://localhost:3308/shelter-proposal
     username: root

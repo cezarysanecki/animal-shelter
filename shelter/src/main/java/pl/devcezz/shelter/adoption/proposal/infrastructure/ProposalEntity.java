@@ -28,8 +28,8 @@ class ProposalEntity {
         Pending, Accepted, Deleted
     }
 
+    int id;
     UUID proposal_id;
-    UUID subject_id;
     int version;
     ProposalState proposal_state;
 
@@ -42,14 +42,14 @@ class ProposalEntity {
     }
 
     private PendingProposal toPendingProposal() {
-        return new PendingProposal(ProposalId.of(subject_id), new Version(version));
+        return new PendingProposal(ProposalId.of(proposal_id), new Version(version));
     }
 
     private AcceptedProposal toAcceptedProposal() {
-        return new AcceptedProposal(ProposalId.of(subject_id), new Version(version));
+        return new AcceptedProposal(ProposalId.of(proposal_id), new Version(version));
     }
 
     private DeletedProposal toDeletedProposal() {
-        return new DeletedProposal(ProposalId.of(subject_id), new Version(version));
+        return new DeletedProposal(ProposalId.of(proposal_id), new Version(version));
     }
 }

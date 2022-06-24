@@ -1,14 +1,15 @@
 package pl.devcezz.shelter.adoption.shelter.infrastructure;
 
+import io.vavr.collection.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.repository.CrudRepository;
+import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterFactory;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
-import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 
 import java.util.Set;
 
@@ -61,6 +62,6 @@ class DomainModelMapper {
 
     Shelter map(ShelterDatabaseEntity entity) {
         return shelterFactory.create(
-                entity.countAcceptedProposals());
+                List.ofAll(entity.extractAcceptedProposalsIds()).toSet());
     }
 }

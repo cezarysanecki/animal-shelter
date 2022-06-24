@@ -46,7 +46,7 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
                         jdbcTemplate.queryForObject(
                                 "SELECT p.* FROM proposal p WHERE p.proposal_id = ?",
                                 new BeanPropertyRowMapper<>(ProposalEntity.class),
-                                proposalId.getValue())))
+                                proposalId.getValue().toString())))
                 .getOrElse(none());
     }
 
@@ -59,12 +59,11 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
     }
 
     private ProposalEntity insertArchive(ProposalEntity entity) {
-        jdbcTemplate.update("INSERT INTO proposal_archive " +
-                        "(proposal_id, " +
-                        "status, " +
-                        "change_timestamp) VALUES " +
+        jdbcTemplate.update("" +
+                        "INSERT INTO proposal_archive " +
+                        "(proposal_id, proposal_state, change_timestamp) VALUES " +
                         "(?, ?, ?)",
-                entity.getProposal_id(), entity.getProposal_state().toString(), now());
+                entity.getId(), entity.getProposal_state().name(), now());
         return entity;
     }
 
@@ -81,33 +80,36 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
     }
 
     private int update(PendingProposal pendingProposal) {
-        return jdbcTemplate.update("UPDATE proposal p SET " +
-                        "p.status = ?, p.modification_timestamp = ?, p.version = ? " +
+        return jdbcTemplate.update("" +
+                        "UPDATE proposal p SET " +
+                        "p.proposal_state = ?, p.modification_timestamp = ?, p.version = ? " +
                         "WHERE p.proposal_id = ?",
-                Pending,
+                Pending.name(),
                 now(),
                 pendingProposal.getVersion().getVersion() + 1,
-                pendingProposal.getProposalId().getValue());
+                pendingProposal.getProposalId().getValue().toString());
     }
 
     private int update(AcceptedProposal acceptedProposal) {
-        return jdbcTemplate.update("UPDATE proposal p SET " +
-                        "p.status = ?, p.modification_timestamp = ?, p.version = ? " +
+        return jdbcTemplate.update("" +
+                        "UPDATE proposal p SET " +
+                        "p.proposal_state = ?, p.modification_timestamp = ?, p.version = ? " +
                         "WHERE p.proposal_id = ?",
-                Accepted,
+                Accepted.name(),
                 now(),
                 acceptedProposal.getVersion().getVersion() + 1,
-                acceptedProposal.getProposalId().getValue());
+                acceptedProposal.getProposalId().getValue().toString());
     }
 
     private int update(DeletedProposal deletedProposal) {
-        return jdbcTemplate.update("UPDATE proposal p SET " +
-                        "p.status = ?, p.modification_timestamp = ?, p.version = ? " +
+        return jdbcTemplate.update("" +
+                        "UPDATE proposal p SET " +
+                        "p.proposal_state = ?, p.modification_timestamp = ?, p.version = ? " +
                         "WHERE p.proposal_id = ?",
-                Deleted,
+                Deleted.name(),
                 now(),
                 deletedProposal.getVersion().getVersion() + 1,
-                deletedProposal.getProposalId().getValue());
+                deletedProposal.getProposalId().getValue().toString());
     }
 
     private void insertNew(Proposal proposal) {
@@ -131,14 +133,11 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
     }
 
     private int insert(ProposalId proposalId, ProposalState state) {
-        return jdbcTemplate.update("INSERT INTO proposal " +
-                        "(proposal_id, " +
-                        "status, " +
-                        "creation_timestamp, " +
-                        "modification_timestamp, " +
-                        "version VALUES " +
+        return jdbcTemplate.update("" +
+                        "INSERT INTO proposal " +
+                        "(proposal_id, proposal_state, creation_timestamp, modification_timestamp, version) VALUES " +
                         "(?, ?, ?, ?, 0)",
-                proposalId.getValue(), state.toString(), now(), now());
+                proposalId.getValue().toString(), state.name(), now(), now());
     }
 
     @Override

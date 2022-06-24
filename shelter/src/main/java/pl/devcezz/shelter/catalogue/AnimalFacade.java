@@ -18,9 +18,8 @@ public class AnimalFacade {
 
     @CatalogueTransaction
     public void save(UUID animalUuidId, String name, Integer age, String species, String gender) {
-        animalRepository.save(Animal.ofNew(
-                AnimalId.of(animalUuidId),
-                name, age, species, gender));
+        animalRepository.saveNew(Animal.ofNew(
+                animalUuidId, name, age, species, gender));
 
         eventPublisher.publishEvent(
                 animalCreatedNow(AnimalId.of(animalUuidId)));
@@ -28,18 +27,21 @@ public class AnimalFacade {
 
     @CatalogueTransaction
     public void update(UUID animalUuidId, String name, Integer age, String species, String gender) {
-        Animal foundAnimal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
-                .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
+        Animal animal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
+                .getOrElseThrow(() -> new AnimalNotFoundException(animalUuidId));
 
-        foundAnimal.updateFields(name, age, species, gender);
+        animal.updateFields(name, age, species, gender);
+
+        animalRepository.update(animal);
     }
 
     @CatalogueTransaction
     public void delete(UUID animalUuidId) {
         Animal animal = animalRepository.findByAnimalId(AnimalId.of(animalUuidId))
-                .orElseThrow(() -> new AnimalNotFoundException(animalUuidId));
+                .getOrElseThrow(() -> new AnimalNotFoundException(animalUuidId));
 
         animal.delete();
+        animalRepository.updateStatus(animal);
 
         eventPublisher.publishEvent(
                 animalDeletedNow(AnimalId.of(animalUuidId)));

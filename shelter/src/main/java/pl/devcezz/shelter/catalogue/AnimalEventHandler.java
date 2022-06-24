@@ -28,6 +28,6 @@ class AnimalEventHandler {
 
     Animal findBy(AnimalId animalId) {
         return animalRepository.findByAnimalId(animalId)
-                .orElseThrow(() -> new AnimalNotFoundException(animalId.getValue()));
+                .getOrElseThrow(() -> new AnimalNotFoundException(animalId.getValue()));
     }
 }

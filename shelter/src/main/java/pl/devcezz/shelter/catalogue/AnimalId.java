@@ -1,17 +1,13 @@
 package pl.devcezz.shelter.catalogue;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Embeddable;
 import java.util.UUID;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Access(AccessType.FIELD)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 class AnimalId {
 

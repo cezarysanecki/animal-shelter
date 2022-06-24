@@ -7,6 +7,7 @@ import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -25,8 +26,10 @@ class ShelterDatabaseEntity {
         this.acceptedProposals = new HashSet<>();
     }
 
-    int countAcceptedProposals() {
-        return acceptedProposals.size();
+    Set<UUID> extractAcceptedProposalsIds() {
+        return acceptedProposals.stream()
+                .map(a -> a.proposalId)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     ShelterDatabaseEntity handle(ShelterEvent event) {

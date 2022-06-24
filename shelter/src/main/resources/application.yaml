@@ -3,14 +3,16 @@ spring:
     liquibase:
       change-log: classpath:db/changelog/catalogue/db.changelog-catalogue-master.xml
     jpa:
+      show-sql: true
       properties:
         hibernate:
           physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
           implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-  datasource-proposal:
+  datasource-adoption:
     liquibase:
       change-log: classpath:db/changelog/proposal/db.changelog-proposal-master.xml
     jpa:
+      show-sql: true
       properties:
         hibernate:
           physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy

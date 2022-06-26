@@ -25,9 +25,4 @@ public class ProposalConfig {
             ApplicationEventPublisher publisher) {
         return new ShelterOperationsEventsHandler(proposalRepository, publisher);
     }
-
-    @Bean
-    ProposalDatabaseRepository proposalDatabaseRepository(@Qualifier("adoptionJdbcTemplate") JdbcTemplate jdbcTemplate) {
-        return new ProposalDatabaseRepository(jdbcTemplate);
-    }
 }

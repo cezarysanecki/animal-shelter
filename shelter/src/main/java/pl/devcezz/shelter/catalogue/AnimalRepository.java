@@ -13,8 +13,8 @@ import java.util.UUID;
 
 import static java.time.Instant.now;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class AnimalRepository {
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+public class AnimalRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

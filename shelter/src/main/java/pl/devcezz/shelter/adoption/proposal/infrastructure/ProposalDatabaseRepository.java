@@ -29,8 +29,8 @@ import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Deleted;
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+public class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
 
     private final JdbcTemplate jdbcTemplate;
 

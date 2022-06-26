@@ -29,7 +29,7 @@ class ShelterController {
     ResponseEntity<Void> acceptProposal(@RequestBody AcceptProposalRequest request) throws Throwable {
         Try<Result> results = acceptingProposal.acceptProposal(
                 new AcceptProposalCommand(ProposalId.of(request.getProposalId())));
-        throw results.getCause();
+        return ResponseEntity.ok().build();
     }
 }
 

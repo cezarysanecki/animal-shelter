@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.proposal.controller;
+package pl.devcezz.shelter.adoption.shelter.web;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.vavr.control.Try;

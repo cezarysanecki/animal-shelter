@@ -30,7 +30,7 @@ import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
-public class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
+class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
 
     private final JdbcTemplate jdbcTemplate;
 

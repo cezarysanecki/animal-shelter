@@ -11,15 +11,13 @@ import org.springframework.data.relational.core.mapping.NamingStrategy;
 import java.util.Optional;
 
 @Configuration
-public class CommonDbConfig {
+public class AppDatabaseConfig {
 
     @Bean
     public JdbcCustomConversions jdbcCustomConversions() {
         return new JdbcCustomConversions();
     }
 
-    // Because @EnableJdbcRepositories does not have an option to specify JdbcConverer ref,
-    // we have to use only one SQL dialects.
     @Bean
     public Dialect jdbcDialect() {
         return MySqlDialect.INSTANCE;

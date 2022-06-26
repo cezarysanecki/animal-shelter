@@ -14,7 +14,7 @@ import java.util.UUID;
 import static java.time.Instant.now;
 
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
-public class AnimalRepository {
+class AnimalRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

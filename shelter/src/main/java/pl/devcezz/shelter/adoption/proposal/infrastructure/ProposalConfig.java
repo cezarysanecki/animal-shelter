@@ -13,6 +13,11 @@ import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 public class ProposalConfig {
 
     @Bean
+    ProposalDatabaseRepository proposalDatabaseRepository(@Qualifier("adoption") JdbcTemplate jdbcTemplate) {
+        return new ProposalDatabaseRepository(jdbcTemplate);
+    }
+
+    @Bean
     AnimalOperationsEventsHandler animalOperationsEventHandler(
             Proposals proposalRepository,
             ApplicationEventPublisher publisher) {

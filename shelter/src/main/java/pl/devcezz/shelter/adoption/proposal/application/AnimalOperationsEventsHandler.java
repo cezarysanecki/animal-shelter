@@ -8,7 +8,6 @@ import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 import pl.devcezz.shelter.commons.aggregates.Version;
-import pl.devcezz.shelter.commons.infrastructure.AdoptionTransaction;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -19,7 +18,6 @@ import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalCreatedEvent;
 import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent;
 
 @RequiredArgsConstructor
-@AdoptionTransaction
 public class AnimalOperationsEventsHandler {
 
     private final Proposals proposalRepository;

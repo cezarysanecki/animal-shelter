@@ -1,6 +1,5 @@
 package pl.devcezz.shelter.adoption.proposal.infrastructure;
 
-import io.vavr.API;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +34,9 @@ class ProposalEntity {
 
     Proposal toDomainModel() {
         return Match(proposal_state).of(
-                API.Case(API.$(Pending), this::toPendingProposal),
-                API.Case(API.$(Accepted), this::toAcceptedProposal),
-                API.Case(API.$(Deleted), this::toDeletedProposal)
+                Case($(Pending), this::toPendingProposal),
+                Case($(Accepted), this::toAcceptedProposal),
+                Case($(Deleted), this::toDeletedProposal)
         );
     }
 

@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyConfirmed;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
-import pl.devcezz.shelter.commons.infrastructure.CatalogueTransaction;
 
 @RequiredArgsConstructor
-@CatalogueTransaction
 class AnimalEventHandler {
 
     private final AnimalRepository animalRepository;
@@ -26,7 +24,7 @@ class AnimalEventHandler {
         animal.register();
     }
 
-    Animal findBy(AnimalId animalId) {
+    private Animal findBy(AnimalId animalId) {
         return animalRepository.findByAnimalId(animalId)
                 .getOrElseThrow(() -> new AnimalNotFoundException(animalId.getValue()));
     }

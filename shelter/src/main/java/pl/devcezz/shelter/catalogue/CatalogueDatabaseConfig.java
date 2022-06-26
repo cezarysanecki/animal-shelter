@@ -45,11 +45,6 @@ import javax.sql.DataSource;
 class CatalogueDatabaseConfig {
 
     @Bean
-    AnimalRepository animalRepository(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
-        return new AnimalRepository(jdbcTemplate);
-    }
-
-    @Bean
     @Qualifier("catalogue")
     JdbcTemplate catalogueJdbcTemplate(@Qualifier("catalogue") DataSource dataSource) {
         return new JdbcTemplate(dataSource);

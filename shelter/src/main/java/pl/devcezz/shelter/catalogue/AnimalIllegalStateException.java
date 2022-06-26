@@ -1,10 +1,8 @@
 package pl.devcezz.shelter.catalogue;
 
-import pl.devcezz.shelter.ShelterException;
-
 import java.util.UUID;
 
-public class AnimalIllegalStateException extends ShelterException {
+public class AnimalIllegalStateException extends RuntimeException {
 
     private AnimalIllegalStateException(String action, UUID animalId) {
         super("cannot " + action + " animal data with id: " + animalId);

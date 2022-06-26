@@ -13,5 +13,6 @@
     <include file="1.0/20220620_modify_timestamp_columns.xml" relativeToChangelogFile="true"/>
     <include file="1.0/20220624_modify_subject_id_column.xml" relativeToChangelogFile="true"/>
     <include file="1.0/20220624_modify_status_column.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220626_create_table_for_accepted_proposals.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

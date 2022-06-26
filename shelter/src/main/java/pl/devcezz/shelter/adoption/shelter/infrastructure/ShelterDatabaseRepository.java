@@ -4,12 +4,12 @@ import io.vavr.collection.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.repository.CrudRepository;
 import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterFactory;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
+import pl.devcezz.shelter.commons.events.DomainEvents;
 
 import java.util.Set;
 
@@ -18,7 +18,7 @@ class ShelterDatabaseRepository implements Shelters {
 
     private final AcceptedProposalsDatabaseRepository acceptedProposalsDatabaseRepository;
     private final DomainModelMapper domainModelMapper;
-    private final ApplicationEventPublisher publisher;
+    private final DomainEvents publisher;
 
     @Override
     public Shelter prepareShelter() {
@@ -29,7 +29,7 @@ class ShelterDatabaseRepository implements Shelters {
     @Override
     public Shelter publish(ShelterEvent event) {
         Shelter result = handleEvent(event);
-        publisher.publishEvent(event);
+        publisher.publish(event.normalize());
         return result;
     }
 

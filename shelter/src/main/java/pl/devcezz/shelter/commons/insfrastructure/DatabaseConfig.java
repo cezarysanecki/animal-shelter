@@ -1,4 +1,4 @@
-package pl.devcezz.shelter;
+package pl.devcezz.shelter.commons.insfrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.NamingStrategy;
 import java.util.Optional;
 
 @Configuration
-public class AppDatabaseConfig {
+public class DatabaseConfig {
 
     @Bean
     public JdbcCustomConversions jdbcCustomConversions() {

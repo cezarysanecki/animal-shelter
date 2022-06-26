@@ -8,7 +8,7 @@ import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents;
-import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedFailed;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
 import pl.devcezz.shelter.commons.commands.Result;
 
@@ -30,7 +30,7 @@ public class AcceptingProposal {
         return Try.of(() -> {
             PendingProposal pendingProposal = find(command.getProposalId());
             Shelter shelter = prepare();
-            Either<ProposalAcceptedFailed, ProposalAcceptedEvents> result = shelter.accept(pendingProposal);
+            Either<ProposalAcceptingFailed, ProposalAcceptedEvents> result = shelter.accept(pendingProposal);
             return Match(result).of(
                     Case($Left($()), this::publishEvents),
                     Case($Right($()), this::publishEvents)
@@ -38,8 +38,8 @@ public class AcceptingProposal {
         });
     }
 
-    private Result publishEvents(ProposalAcceptedFailed proposalAcceptedFailed) {
-        shelterRepository.publish(proposalAcceptedFailed);
+    private Result publishEvents(ProposalAcceptingFailed proposalAcceptingFailed) {
+        shelterRepository.publish(proposalAcceptingFailed);
         return Rejection;
     }
 

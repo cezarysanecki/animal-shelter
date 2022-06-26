@@ -1,11 +1,11 @@
 package pl.devcezz.shelter.catalogue;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.devcezz.shelter.commons.events.DomainEvents;
 
 @Configuration
 @Import({CatalogueDatabaseConfig.class})
@@ -19,8 +19,8 @@ public class CatalogueConfig {
     @Bean
     AnimalFacade animalFacade(
             AnimalRepository animalRepository,
-            ApplicationEventPublisher eventPublisher) {
-        return new AnimalFacade(animalRepository, eventPublisher);
+            DomainEvents publisher) {
+        return new AnimalFacade(animalRepository, publisher);
     }
 
     @Bean

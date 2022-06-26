@@ -2,7 +2,7 @@ package pl.devcezz.shelter.catalogue;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
+import pl.devcezz.shelter.commons.events.DomainEvents;
 
 import java.util.UUID;
 
@@ -13,13 +13,13 @@ import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent.animal
 class AnimalFacade {
 
     private final AnimalRepository animalRepository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final DomainEvents publisher;
 
     void save(UUID animalUuidId, String name, Integer age, String species, String gender) {
         animalRepository.saveNew(Animal.ofNew(
                 animalUuidId, name, age, species, gender));
 
-        eventPublisher.publishEvent(
+        publisher.publish(
                 animalCreatedNow(AnimalId.of(animalUuidId)));
     }
 
@@ -39,7 +39,7 @@ class AnimalFacade {
         animal.delete();
         animalRepository.updateStatus(animal);
 
-        eventPublisher.publishEvent(
+        publisher.publish(
                 animalDeletedNow(AnimalId.of(animalUuidId)));
     }
 }

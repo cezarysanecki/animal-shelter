@@ -1,17 +1,26 @@
 package pl.devcezz.shelter.adoption.shelter.model;
 
+import io.vavr.collection.List;
 import io.vavr.control.Option;
 import lombok.NonNull;
 import lombok.Value;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
+import pl.devcezz.shelter.commons.events.DomainEvent;
 
 import java.time.Instant;
 import java.util.UUID;
 
-public interface ShelterEvent {
+public interface ShelterEvent extends DomainEvent {
 
-        @Value
+    default ProposalId proposalId() {
+        return ProposalId.of(getProposalId());
+    }
+
+    UUID getProposalId();
+
+    @Value
     class ProposalAccepted implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
         @NonNull Instant when;
         @NonNull UUID proposalId;
 
@@ -24,6 +33,7 @@ public interface ShelterEvent {
 
     @Value
     class SafeThresholdExceeded implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
         @NonNull Instant when;
         @NonNull UUID proposalId;
         long spaceLeft;
@@ -38,9 +48,15 @@ public interface ShelterEvent {
 
     @Value
     class ProposalAcceptedEvents implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
         @NonNull UUID proposalId;
         @NonNull ProposalAccepted proposalAccepted;
         @NonNull Option<SafeThresholdExceeded> safeThresholdExceeded;
+
+        @Override
+        public Instant getWhen() {
+            return proposalAccepted.when;
+        }
 
         public static ProposalAcceptedEvents events(ProposalAccepted proposalAccepted) {
             return new ProposalAcceptedEvents(proposalAccepted.getProposalId(), proposalAccepted, Option.none());
@@ -49,16 +65,22 @@ public interface ShelterEvent {
         public static ProposalAcceptedEvents events(ProposalAccepted proposalAccepted, SafeThresholdExceeded safeThresholdExceeded) {
             return new ProposalAcceptedEvents(proposalAccepted.getProposalId(), proposalAccepted, Option.of(safeThresholdExceeded));
         }
+
+        @Override
+        public List<DomainEvent> normalize() {
+            return List.<DomainEvent>of(proposalAccepted).appendAll(safeThresholdExceeded.toList());
+        }
     }
 
     @Value
-    class ProposalAcceptedFailed implements ShelterEvent {
+    class ProposalAcceptingFailed implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
         @NonNull String reason;
         @NonNull Instant when;
         @NonNull UUID proposalId;
 
-        static ProposalAcceptedFailed proposalAcceptedFailedNow(String reason, ProposalId proposalId) {
-            return new ProposalAcceptedFailed(
+        static ProposalAcceptingFailed proposalAcceptingFailedNow(String reason, ProposalId proposalId) {
+            return new ProposalAcceptingFailed(
                     reason,
                     Instant.now(),
                     proposalId.getValue());
@@ -67,6 +89,7 @@ public interface ShelterEvent {
 
     @Value
     class ProposalCanceled implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
         @NonNull Instant when;
         @NonNull UUID proposalId;
 
@@ -79,6 +102,7 @@ public interface ShelterEvent {
 
     @Value
     class ProposalCancelingFailed implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
         @NonNull Instant when;
         @NonNull UUID proposalId;
 

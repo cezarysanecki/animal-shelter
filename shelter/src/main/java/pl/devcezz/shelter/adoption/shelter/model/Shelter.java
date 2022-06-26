@@ -11,8 +11,8 @@ import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted.proposalAcceptedNow;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents;
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedFailed;
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedFailed.proposalAcceptedFailedNow;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed.proposalAcceptingFailedNow;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled.ProposalCanceled;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled.ProposalCancelingFailed;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled.proposalCanceledNow;
@@ -30,7 +30,7 @@ public class Shelter {
     @NonNull
     private final Set<ProposalId> acceptedProposals;
 
-    public Either<ProposalAcceptedFailed, ProposalAcceptedEvents> accept(PendingProposal pendingProposal) {
+    public Either<ProposalAcceptingFailed, ProposalAcceptedEvents> accept(PendingProposal pendingProposal) {
         if (enoughSpaceInShelterAfterAccepting()) {
             ProposalAccepted proposalAccepted = proposalAcceptedNow(pendingProposal.getProposalId());
             if (safeThresholdExceededAfterAccepting()) {
@@ -38,7 +38,7 @@ public class Shelter {
             }
             return announceSuccess(ProposalAcceptedEvents.events(proposalAccepted));
         }
-        return announceFailure(proposalAcceptedFailedNow("no space left for animals in shelter", pendingProposal.getProposalId()));
+        return announceFailure(proposalAcceptingFailedNow("no space left for animals in shelter", pendingProposal.getProposalId()));
     }
 
     public Either<ProposalCancelingFailed, ProposalCanceled> cancel(PendingProposal pendingProposal) {

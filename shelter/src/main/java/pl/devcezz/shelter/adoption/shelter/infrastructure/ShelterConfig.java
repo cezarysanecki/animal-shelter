@@ -1,12 +1,12 @@
 package pl.devcezz.shelter.adoption.shelter.infrastructure;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.devcezz.shelter.adoption.shelter.application.AcceptingProposal;
 import pl.devcezz.shelter.adoption.shelter.application.FindPendingProposal;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterFactory;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
+import pl.devcezz.shelter.commons.events.DomainEvents;
 
 @Configuration
 public class ShelterConfig {
@@ -21,7 +21,7 @@ public class ShelterConfig {
     @Bean
     ShelterDatabaseRepository shelterDatabaseRepository(
             AcceptedProposalsDatabaseRepository acceptedProposalsDatabaseRepository,
-            ApplicationEventPublisher publisher) {
+            DomainEvents publisher) {
         ShelterFactory shelterFactory = new ShelterFactory();
         return new ShelterDatabaseRepository(
                 acceptedProposalsDatabaseRepository,

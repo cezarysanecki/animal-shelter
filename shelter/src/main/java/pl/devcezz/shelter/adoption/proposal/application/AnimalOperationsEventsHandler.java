@@ -1,13 +1,13 @@
 package pl.devcezz.shelter.adoption.proposal.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 import pl.devcezz.shelter.commons.aggregates.Version;
+import pl.devcezz.shelter.commons.events.DomainEvents;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -21,7 +21,7 @@ import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent;
 public class AnimalOperationsEventsHandler {
 
     private final Proposals proposalRepository;
-    private final ApplicationEventPublisher publisher;
+    private final DomainEvents publisher;
 
     @EventListener
     public void handle(AnimalCreatedEvent event) {
@@ -45,7 +45,7 @@ public class AnimalOperationsEventsHandler {
     }
 
     private Proposal proposalIsAlreadyProcessed(Proposal proposal) {
-        publisher.publishEvent(proposalAlreadyConfirmedNow(proposal.getProposalId()));
+        publisher.publish(proposalAlreadyConfirmedNow(proposal.getProposalId()));
         return proposal;
     }
 

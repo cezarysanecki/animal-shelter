@@ -28,7 +28,7 @@ class ShelterDatabaseEntity {
 
     Set<UUID> extractAcceptedProposalsIds() {
         return acceptedProposals.stream()
-                .map(a -> a.proposalId)
+                .map(AcceptedProposalDatabaseEntity::getProposalId)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
@@ -59,7 +59,7 @@ class ShelterDatabaseEntity {
     }
 
     private ShelterDatabaseEntity cancelProposal(UUID proposalId) {
-        acceptedProposals.removeIf(acceptedProposal -> acceptedProposal.proposalId.equals(proposalId));
+        acceptedProposals.removeIf(acceptedProposal -> acceptedProposal.getProposalId().equals(proposalId));
         return this;
     }
 }

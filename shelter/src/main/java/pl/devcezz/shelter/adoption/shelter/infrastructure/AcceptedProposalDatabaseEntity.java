@@ -2,7 +2,6 @@ package pl.devcezz.shelter.adoption.shelter.infrastructure;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
@@ -11,10 +10,18 @@ import java.util.UUID;
 class AcceptedProposalDatabaseEntity {
 
     @Id
-    Long id;
-    UUID proposalId;
+    private Long id;
+    private String proposalId;
 
     AcceptedProposalDatabaseEntity(UUID proposalId) {
-        this.proposalId = proposalId;
+        this.proposalId = proposalId.toString();
+    }
+
+    Long getId() {
+        return id;
+    }
+
+    UUID getProposalId() {
+        return UUID.fromString(proposalId);
     }
 }

@@ -9,8 +9,10 @@ import spock.lang.Specification
 import static io.vavr.collection.HashSet.rangeClosed
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.*
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.aPendingProposal
 
-class AcceptingProposalShelterSpec extends Specification {
+class ShelterAcceptingProposalSpec extends Specification {
 
     def 'shelter should be able to accept up to 10 proposals'() {
         given:
@@ -42,19 +44,5 @@ class AcceptingProposalShelterSpec extends Specification {
             e.getReason().contains("no space left for animals in shelter")
         where:
             proposals << [10, 11, 200]
-    }
-
-    Shelter shelterWithProposals(int numberOfProposals) {
-        new Shelter(acceptedProposals(numberOfProposals))
-    }
-
-    Set<ProposalId> acceptedProposals(int numberOfProposals) {
-        rangeClosed(1, numberOfProposals)
-                .map(i -> ProposalId.of(UUID.randomUUID()))
-                .toSet()
-    }
-
-    PendingProposal aPendingProposal() {
-        new PendingProposal(ProposalId.of(UUID.randomUUID()), Version.zero())
     }
 }

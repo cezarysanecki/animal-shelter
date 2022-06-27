@@ -14,7 +14,7 @@ import java.util.UUID;
 import static java.time.Instant.now;
 
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
-class AnimalRepository {
+class CatalogueDatabase {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -68,7 +68,6 @@ class AnimalRepository {
             ).map(AnimalDatabaseRow::toAnimal);
         } catch (EmptyResultDataAccessException e) {
             return Option.none();
-
         }
     }
 }

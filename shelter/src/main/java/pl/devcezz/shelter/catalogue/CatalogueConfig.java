@@ -12,20 +12,20 @@ import pl.devcezz.shelter.commons.events.DomainEvents;
 public class CatalogueConfig {
 
     @Bean
-    AnimalRepository animalRepository(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
-        return new AnimalRepository(jdbcTemplate);
+    CatalogueDatabase catalogueDatabase(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
+        return new CatalogueDatabase(jdbcTemplate);
     }
 
     @Bean
-    AnimalFacade animalFacade(
-            AnimalRepository animalRepository,
+    Catalogue catalogue(
+            CatalogueDatabase catalogueDatabase,
             DomainEvents publisher) {
-        return new AnimalFacade(animalRepository, publisher);
+        return new Catalogue(catalogueDatabase, publisher);
     }
 
     @Bean
-    AnimalEventHandler animalEventHandler(
-            AnimalRepository animalRepository) {
-        return new AnimalEventHandler(animalRepository);
+    CatalogueEventHandler catalogueEventHandler(
+            CatalogueDatabase catalogueDatabase) {
+        return new CatalogueEventHandler(catalogueDatabase);
     }
 }

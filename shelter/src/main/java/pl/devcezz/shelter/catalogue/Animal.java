@@ -39,7 +39,7 @@ class Animal {
         return new Animal(AnimalId.of(animalId), name, age, species, gender, status);
     }
 
-    void updateFields(String name, Integer age, String species, String gender) {
+    Animal updateFields(String name, Integer age, String species, String gender) {
         if (cannotBeChanged()) {
             throw exceptionCannotUpdate(animalId.getValue());
         }
@@ -48,20 +48,22 @@ class Animal {
         this.age = age;
         this.species = species;
         this.gender = Gender.of(gender);
+
+        return this;
     }
 
-    void register() {
+    Animal register() {
         if (cannotBeChanged()) {
             throw exceptionCannotUpdate(animalId.getValue());
         }
-        this.status = Status.REGISTERED;
+        return of(animalId.getValue(), name, age, species, gender, Status.REGISTERED);
     }
 
-    void delete() {
+    Animal delete() {
         if (cannotBeChanged()) {
             throw exceptionCannotDelete(animalId.getValue());
         }
-        this.status = Status.DELETED;
+        return of(animalId.getValue(), name, age, species, gender, Status.DELETED);
     }
 
     private boolean cannotBeChanged() {

@@ -4,14 +4,14 @@ import pl.devcezz.shelter.adoption.proposal.model.ProposalId
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposal
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted.proposalAcceptedNow
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled.proposalCanceledNow
 
 class CreatingDataModelFromShelterEventsSpec extends Specification {
 
-    ProposalId proposalId = anyProposal()
+    ProposalId proposalId = anyProposalId()
 
     def 'should add proposal on proposalAccepted event'() {
         given:

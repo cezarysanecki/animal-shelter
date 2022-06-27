@@ -32,10 +32,14 @@ public class ShelterFixture {
     }
 
     public static PendingProposal aPendingProposal() {
-        return new PendingProposal(ProposalId.of(UUID.randomUUID()), Version.zero());
+        return new PendingProposal(ProposalId.of(UUID.randomUUID()), version0());
     }
 
     public static AcceptedProposal anAcceptedProposal() {
-        return new AcceptedProposal(ProposalId.of(UUID.randomUUID()), Version.zero());
+        return new AcceptedProposal(ProposalId.of(UUID.randomUUID()), version0());
+    }
+
+    public static Version version0() {
+        return Version.zero();
     }
 }

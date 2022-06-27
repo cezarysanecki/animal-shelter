@@ -1,16 +1,12 @@
 package pl.devcezz.shelter.adoption.shelter.model
 
-import io.vavr.collection.Set
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal
-import pl.devcezz.shelter.adoption.proposal.model.ProposalId
-import pl.devcezz.shelter.commons.aggregates.Version
 import spock.lang.Specification
 
-import static io.vavr.collection.HashSet.rangeClosed
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.*
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.aPendingProposal
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals
 
 class ShelterAcceptingProposalSpec extends Specification {
 

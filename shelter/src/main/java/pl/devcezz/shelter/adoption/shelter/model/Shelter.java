@@ -25,8 +25,8 @@ import static pl.devcezz.shelter.commons.events.EitherResult.announceSuccess;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Shelter {
 
-    private static final long CAPACITY = 10;
-    private static final long SAFE_THRESHOLD = 7;
+    static final long CAPACITY = 10;
+    static final long SAFE_THRESHOLD = 7;
 
     @NonNull
     private final Set<ProposalId> acceptedProposals;

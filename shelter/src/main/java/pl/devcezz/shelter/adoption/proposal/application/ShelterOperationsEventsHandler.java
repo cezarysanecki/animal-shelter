@@ -2,10 +2,14 @@ package pl.devcezz.shelter.adoption.proposal.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
+import pl.devcezz.shelter.adoption.proposal.model.ProposalEvent;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled;
 import pl.devcezz.shelter.commons.events.DomainEvents;
 
 import static io.vavr.API.$;
@@ -28,10 +32,24 @@ public class ShelterOperationsEventsHandler {
                 .map(this::saveProposal);
     }
 
+    @EventListener
+    public void handle(ProposalCanceled event) {
+        proposalRepository.findBy(ProposalId.of(event.getProposalId()))
+                .map(this::handleProposalCanceled)
+                .map(this::saveProposal);
+    }
+
     private Proposal handleProposalAccepted(Proposal proposal) {
         return Match(proposal).of(
                 Case($(instanceOf(PendingProposal.class)), PendingProposal::accept),
                 Case($(), () -> proposalIsAlreadyProcessed(proposal))
+        );
+    }
+
+    private Proposal handleProposalCanceled(Proposal proposal) {
+        return Match(proposal).of(
+                Case($(instanceOf(AcceptedProposal.class)), AcceptedProposal::cancel),
+                Case($(), () -> proposal)
         );
     }
 

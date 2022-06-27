@@ -14,4 +14,8 @@ public class AcceptedProposal implements Proposal {
 
     @NonNull
     Version version;
+
+    public PendingProposal cancel() {
+        return new PendingProposal(proposalId, version);
+    }
 }

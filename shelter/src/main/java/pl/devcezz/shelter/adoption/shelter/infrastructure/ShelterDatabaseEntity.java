@@ -36,7 +36,8 @@ class ShelterDatabaseEntity {
         return Match(event).of(
                 Case($(instanceOf(ProposalAcceptedEvents.class)), this::handle),
                 Case($(instanceOf(ProposalAccepted.class)), this::handle),
-                Case($(instanceOf(ProposalCanceled.class)), this::handle)
+                Case($(instanceOf(ProposalCanceled.class)), this::handle),
+                Case($(), () -> this)
         );
     }
 

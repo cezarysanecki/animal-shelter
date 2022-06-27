@@ -45,7 +45,15 @@ class ShelterDatabaseRepository implements Shelters {
     }
 
     private ShelterDatabaseEntity save(ShelterDatabaseEntity entity) {
+        Set<AcceptedProposalDatabaseEntity> acceptedProposals = acceptedProposalsDatabaseRepository.findAll();
+
         acceptedProposalsDatabaseRepository.saveAll(entity.acceptedProposals);
+        for (AcceptedProposalDatabaseEntity acceptedProposal : acceptedProposals) {
+            if (!entity.acceptedProposals.contains(acceptedProposal)) {
+                acceptedProposalsDatabaseRepository.delete(acceptedProposal);
+            }
+        }
+
         return entity;
     }
 }

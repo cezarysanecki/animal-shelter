@@ -13,6 +13,7 @@ import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
+import pl.devcezz.shelter.adoption.shelter.application.FindAcceptedProposal;
 import pl.devcezz.shelter.adoption.shelter.application.FindPendingProposal;
 import pl.devcezz.shelter.commons.aggregates.AggregateRootIsStale;
 
@@ -30,7 +31,7 @@ import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
-class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
+class ProposalDatabaseRepository implements Proposals, FindPendingProposal, FindAcceptedProposal {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -144,6 +145,14 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal {
     public Option<PendingProposal> findPendingProposalBy(ProposalId proposalId) {
         return Match(findBy(proposalId)).of(
                 Case($Some($(instanceOf(PendingProposal.class))), Option::of),
+                Case($(), Option::none)
+        );
+    }
+
+    @Override
+    public Option<AcceptedProposal> findAcceptedProposalBy(ProposalId proposalId) {
+        return Match(findBy(proposalId)).of(
+                Case($Some($(instanceOf(AcceptedProposal.class))), Option::of),
                 Case($(), Option::none)
         );
     }

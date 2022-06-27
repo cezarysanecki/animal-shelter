@@ -15,6 +15,8 @@ class AnimalEventHandler {
         Animal animal = findBy(AnimalId.of(event.getProposalId()));
 
         animal.register();
+
+        animalRepository.updateStatus(animal);
     }
 
     @EventListener
@@ -22,6 +24,8 @@ class AnimalEventHandler {
         Animal animal = findBy(AnimalId.of(event.getProposalId()));
 
         animal.register();
+
+        animalRepository.updateStatus(animal);
     }
 
     private Animal findBy(AnimalId animalId) {

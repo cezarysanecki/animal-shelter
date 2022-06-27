@@ -5,6 +5,7 @@ import io.vavr.control.Either;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 
@@ -41,11 +42,11 @@ public class Shelter {
         return announceFailure(proposalAcceptingFailedNow("no space left for animals in shelter", pendingProposal.getProposalId()));
     }
 
-    public Either<ProposalCancelingFailed, ProposalCanceled> cancel(PendingProposal pendingProposal) {
-        if (acceptedProposals.contains(pendingProposal.getProposalId())) {
-            return announceSuccess(proposalCanceledNow(pendingProposal.getProposalId()));
+    public Either<ProposalCancelingFailed, ProposalCanceled> cancel(AcceptedProposal acceptedProposal) {
+        if (acceptedProposals.contains(acceptedProposal.getProposalId())) {
+            return announceSuccess(proposalCanceledNow(acceptedProposal.getProposalId()));
         }
-        return announceFailure(proposalCancelingFailedNow(pendingProposal.getProposalId()));
+        return announceFailure(proposalCancelingFailedNow(acceptedProposal.getProposalId()));
     }
 
     private long countLeftSpace() {

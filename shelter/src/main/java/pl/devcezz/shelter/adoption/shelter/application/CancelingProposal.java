@@ -4,7 +4,8 @@ import io.vavr.control.Either;
 import io.vavr.control.Try;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
+import lombok.extern.slf4j.Slf4j;
+import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
@@ -21,21 +22,22 @@ import static pl.devcezz.shelter.commons.commands.Result.Rejection;
 import static pl.devcezz.shelter.commons.commands.Result.Success;
 
 @RequiredArgsConstructor
+@Slf4j
 public class CancelingProposal {
 
-    private final FindPendingProposal findPendingProposal;
+    private final FindAcceptedProposal findAcceptedProposal;
     private final Shelters shelterRepository;
 
     public Try<Result> cancelProposal(@NonNull CancelProposalCommand command) {
         return Try.of(() -> {
-            PendingProposal pendingProposal = find(command.getProposalId());
+            AcceptedProposal acceptedProposal = find(command.getProposalId());
             Shelter shelter = prepare();
-            Either<ProposalCancelingFailed, ProposalCanceled> result = shelter.cancel(pendingProposal);
+            Either<ProposalCancelingFailed, ProposalCanceled> result = shelter.cancel(acceptedProposal);
             return Match(result).of(
                     Case($Left($()), this::publishEvents),
                     Case($Right($()), this::publishEvents)
             );
-        });
+        }).onFailure(ex -> log.error("failed to cancel proposal", ex));
     }
 
     private Result publishEvents(ProposalCancelingFailed event) {
@@ -48,10 +50,10 @@ public class CancelingProposal {
         return Success;
     }
 
-    private PendingProposal find(ProposalId proposalId) {
-        return findPendingProposal
-                .findPendingProposalBy(proposalId)
-                .getOrElseThrow(() -> new IllegalArgumentException("cannot find proposal with id: " + proposalId.getValue()));
+    private AcceptedProposal find(ProposalId proposalId) {
+        return findAcceptedProposal
+                .findAcceptedProposalBy(proposalId)
+                .getOrElseThrow(() -> new IllegalArgumentException("cannot find accepted proposal with id: " + proposalId.getValue()));
     }
 
     private Shelter prepare() {

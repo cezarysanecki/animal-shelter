@@ -2,6 +2,7 @@ package pl.devcezz.shelter.catalogue;
 
 import io.vavr.control.Option;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 import static java.time.Instant.now;
 
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CatalogueDatabase {
 
     private final JdbcTemplate jdbcTemplate;

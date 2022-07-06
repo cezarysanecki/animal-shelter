@@ -3,14 +3,12 @@ package pl.devcezz.shelter.catalogue
 import io.vavr.control.Option
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import pl.devcezz.shelter.commons.events.publisher.DomainEventsConfig
-import pl.devcezz.shelter.commons.insfrastructure.DatabaseConfig
 import spock.lang.Specification
 
 import static pl.devcezz.shelter.catalogue.AnimalFixture.DOG
 import static pl.devcezz.shelter.catalogue.AnimalFixture.NON_PRESENT_ANIMAL_ID
 
-@SpringBootTest(classes = [ CatalogueConfig.class, DatabaseConfig.class, DomainEventsConfig.class ])
+@SpringBootTest(classes = CatalogueTestContext.class)
 class CatalogueDatabaseIT extends Specification {
 
     @Autowired

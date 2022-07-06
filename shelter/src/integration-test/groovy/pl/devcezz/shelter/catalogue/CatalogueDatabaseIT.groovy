@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.catalogue.AnimalFixture.DOG
 import static pl.devcezz.shelter.catalogue.AnimalFixture.NON_PRESENT_ANIMAL_ID
+import static pl.devcezz.shelter.catalogue.AnimalFixture.dog
 
 @SpringBootTest(classes = CatalogueTestContext.class)
 class CatalogueDatabaseIT extends Specification {
@@ -16,7 +16,7 @@ class CatalogueDatabaseIT extends Specification {
 
     def 'should be able to save and load new animal'() {
         given:
-            Animal animal = DOG
+            Animal animal = dog()
         when:
             catalogueDatabase.saveNew(animal)
         and:

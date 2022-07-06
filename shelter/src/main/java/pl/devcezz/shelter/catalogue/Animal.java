@@ -1,5 +1,6 @@
 package pl.devcezz.shelter.catalogue;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 
@@ -11,6 +12,7 @@ import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exception
 import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotUpdate;
 
 @Getter
+@EqualsAndHashCode(of = "animalId")
 class Animal {
 
     @Id

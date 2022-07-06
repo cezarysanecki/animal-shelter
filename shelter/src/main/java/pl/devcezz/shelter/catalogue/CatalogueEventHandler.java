@@ -15,8 +15,8 @@ class CatalogueEventHandler {
     private final CatalogueDatabase database;
 
     @EventListener
-    public void handleProposalAccepted(ProposalAccepted event) {
-        Try.of(() -> Option.of(event.getEventId())
+    public void handle(ProposalAccepted event) {
+        Try.of(() -> Option.of(event.getProposalId())
                 .map(AnimalId::of)
                 .flatMap(database::findBy)
                 .map(Animal::register)
@@ -25,8 +25,8 @@ class CatalogueEventHandler {
     }
 
     @EventListener
-    public void handleProposalAlreadyConfirmed(ProposalAlreadyConfirmed event) {
-        Try.of(() -> Option.of(event.getEventId())
+    public void handle(ProposalAlreadyConfirmed event) {
+        Try.of(() -> Option.of(event.getProposalId())
                 .map(AnimalId::of)
                 .flatMap(database::findBy)
                 .map(Animal::register)

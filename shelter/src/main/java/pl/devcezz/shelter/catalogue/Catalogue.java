@@ -37,7 +37,7 @@ public class Catalogue {
     }
 
     public Try<Result> updateExistingAnimal(UUID animalUuidId, String name, Integer age, String species, String gender) {
-        return Try.of(() -> database.findByAnimalId(AnimalId.of(animalUuidId))
+        return Try.of(() -> database.findBy(AnimalId.of(animalUuidId))
                 .map(animal -> animal.updateFields(name, age, species, gender))
                 .map(database::update)
                 .map(updatedAnimal -> Success)
@@ -46,7 +46,7 @@ public class Catalogue {
     }
 
     public Try<Result> removeExistingAnimal(UUID animalUuidId) {
-        return Try.of(() -> database.findByAnimalId(AnimalId.of(animalUuidId))
+        return Try.of(() -> database.findBy(AnimalId.of(animalUuidId))
                 .map(Animal::delete)
                 .map(this::removeAndPublishEvent)
                 .map(removedAnimal -> Success)

@@ -7,7 +7,6 @@ import pl.devcezz.shelter.commons.events.DomainEvents
 import spock.lang.Specification
 
 import static pl.devcezz.shelter.catalogue.AnimalEvent.*
-import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalCreatedEvent
 
 class RemoveAnimalFromCatalogueSpec extends Specification {
 
@@ -41,13 +40,13 @@ class RemoveAnimalFromCatalogueSpec extends Specification {
     }
 
     void databaseWorks() {
-        catalogueDatabase.findByAnimalId(animalId) >> Option.of(
+        catalogueDatabase.findBy(animalId) >> Option.of(
                 Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
         catalogueDatabase.updateStatus(_ as Animal) >> null
     }
 
     void databaseDoesNotWork() {
-        catalogueDatabase.findByAnimalId(animalId) >> Option.of(
+        catalogueDatabase.findBy(animalId) >> Option.of(
                 Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
         catalogueDatabase.updateStatus(_ as Animal) >> { throw new IllegalStateException() }
     }

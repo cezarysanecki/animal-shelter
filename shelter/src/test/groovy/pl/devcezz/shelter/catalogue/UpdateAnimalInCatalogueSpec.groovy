@@ -36,13 +36,13 @@ class UpdateAnimalInCatalogueSpec extends Specification {
     }
 
     void databaseWorks() {
-        catalogueDatabase.findByAnimalId(animalId) >> Option.of(
+        catalogueDatabase.findBy(animalId) >> Option.of(
                 Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
         catalogueDatabase.update(_ as Animal) >> null
     }
 
     void databaseDoesNotWork() {
-        catalogueDatabase.findByAnimalId(animalId) >> Option.of(
+        catalogueDatabase.findBy(animalId) >> Option.of(
                 Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
         catalogueDatabase.update(_ as Animal) >> { throw new IllegalStateException() }
     }

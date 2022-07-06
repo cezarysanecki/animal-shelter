@@ -18,7 +18,7 @@ class CatalogueEventHandler {
     public void handleProposalAccepted(ProposalAccepted event) {
         Try.of(() -> Option.of(event.getEventId())
                 .map(AnimalId::of)
-                .flatMap(database::findByAnimalId)
+                .flatMap(database::findBy)
                 .map(Animal::register)
                 .map(database::updateStatus)
         ).onFailure(ex -> log.error("failed to register animal", ex));
@@ -28,7 +28,7 @@ class CatalogueEventHandler {
     public void handleProposalAlreadyConfirmed(ProposalAlreadyConfirmed event) {
         Try.of(() -> Option.of(event.getEventId())
                 .map(AnimalId::of)
-                .flatMap(database::findByAnimalId)
+                .flatMap(database::findBy)
                 .map(Animal::register)
                 .map(database::updateStatus)
         ).onFailure(ex -> log.error("failed to register animal", ex));

@@ -2,7 +2,6 @@ package pl.devcezz.shelter.catalogue;
 
 import io.vavr.control.Option;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +58,7 @@ class CatalogueDatabase {
         return animal;
     }
 
-    Option<Animal> findByAnimalId(AnimalId animalId) {
+    Option<Animal> findBy(AnimalId animalId) {
         try {
             return Option.of(
                     jdbcTemplate.queryForObject(

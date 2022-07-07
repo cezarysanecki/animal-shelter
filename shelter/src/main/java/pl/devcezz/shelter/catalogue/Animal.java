@@ -55,14 +55,14 @@ class Animal {
     }
 
     Animal register() {
-        return of(animalId.getValue(), name, age, species, gender, Status.REGISTERED);
+        return of(animalId.getValue(), name, age, species, gender, Status.Registered);
     }
 
     Animal delete() {
         if (cannotBeChanged()) {
             throw exceptionCannotDelete(animalId.getValue());
         }
-        return of(animalId.getValue(), name, age, species, gender, Status.DELETED);
+        return of(animalId.getValue(), name, age, species, gender, Status.Deleted);
     }
 
     private boolean cannotBeChanged() {
@@ -71,11 +71,11 @@ class Animal {
 }
 
 enum Status {
-    DELETED, REGISTERED
+    Deleted, Registered
 }
 
 enum Gender {
-    MALE, FEMALE;
+    Male, Female;
 
     static Gender of(String gender) {
         return Stream.of(values())

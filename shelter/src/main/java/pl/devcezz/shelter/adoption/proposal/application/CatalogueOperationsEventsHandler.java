@@ -6,14 +6,14 @@ import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
-import pl.devcezz.shelter.commons.aggregates.Version;
 import pl.devcezz.shelter.commons.events.DomainEvents;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyConfirmed.proposalAlreadyConfirmedNow;
+import static pl.devcezz.shelter.adoption.proposal.model.PendingProposal.createNew;
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyProcessed.proposalAlreadyProcessedNow;
 import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalCreatedEvent;
 import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent;
 
@@ -25,9 +25,8 @@ public class AnimalOperationsEventsHandler {
 
     @EventListener
     public void handle(AnimalCreatedEvent event) {
-        saveProposal(new PendingProposal(
-                ProposalId.of(event.getAnimalId()),
-                Version.zero()));
+        saveProposal(
+                createNew(ProposalId.of(event.getAnimalId())));
     }
 
     @EventListener
@@ -45,7 +44,7 @@ public class AnimalOperationsEventsHandler {
     }
 
     private Proposal proposalIsAlreadyProcessed(Proposal proposal) {
-        publisher.publish(proposalAlreadyConfirmedNow(proposal.getProposalId()));
+        publisher.publish(proposalAlreadyProcessedNow(proposal.getProposalId()));
         return proposal;
     }
 

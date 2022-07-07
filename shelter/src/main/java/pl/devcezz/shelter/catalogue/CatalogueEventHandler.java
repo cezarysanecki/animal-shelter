@@ -5,7 +5,6 @@ import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
-import pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyConfirmed;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 
 @RequiredArgsConstructor
@@ -16,16 +15,6 @@ class CatalogueEventHandler {
 
     @EventListener
     public void handle(ProposalAccepted event) {
-        Try.of(() -> Option.of(event.getProposalId())
-                .map(AnimalId::of)
-                .flatMap(repository::findBy)
-                .map(Animal::register)
-                .map(repository::updateStatus)
-        ).onFailure(ex -> log.error("failed to register animal", ex));
-    }
-
-    @EventListener
-    public void handle(ProposalAlreadyConfirmed event) {
         Try.of(() -> Option.of(event.getProposalId())
                 .map(AnimalId::of)
                 .flatMap(repository::findBy)

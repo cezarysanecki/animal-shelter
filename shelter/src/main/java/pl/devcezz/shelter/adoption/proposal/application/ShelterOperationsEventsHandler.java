@@ -14,8 +14,7 @@ import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyConfirmed.proposalAlreadyConfirmedNow;
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAlreadyProcessed.proposalAlreadyProcessedNow;
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceFailed.proposalAcceptanceFailedNow;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 
 @RequiredArgsConstructor
@@ -41,24 +40,19 @@ public class ShelterOperationsEventsHandler {
     private Proposal handleProposalAccepted(Proposal proposal) {
         return Match(proposal).of(
                 Case($(instanceOf(PendingProposal.class)), PendingProposal::accept),
-                Case($(), () -> proposalIsAlreadyProcessed(proposal))
+                Case($(), () -> proposalAcceptanceFailed(proposal))
         );
     }
 
     private Proposal handleProposalCanceled(Proposal proposal) {
         return Match(proposal).of(
                 Case($(instanceOf(AcceptedProposal.class)), AcceptedProposal::cancel),
-                Case($(), () -> proposalIsAlreadyConfirmed(proposal))
+                Case($(), () -> proposal)
         );
     }
 
-    private Proposal proposalIsAlreadyProcessed(Proposal proposal) {
-        publisher.publish(proposalAlreadyProcessedNow(proposal.getProposalId()));
-        return proposal;
-    }
-
-    private Proposal proposalIsAlreadyConfirmed(Proposal proposal) {
-        publisher.publish(proposalAlreadyConfirmedNow(proposal.getProposalId()));
+    private Proposal proposalAcceptanceFailed(Proposal proposal) {
+        publisher.publish(proposalAcceptanceFailedNow("proposal already processed", proposal.getProposalId()));
         return proposal;
     }
 

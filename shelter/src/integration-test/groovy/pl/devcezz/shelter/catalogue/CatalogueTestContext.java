@@ -6,8 +6,7 @@ import pl.devcezz.shelter.commons.events.publisher.DomainEventsConfig;
 import pl.devcezz.shelter.commons.insfrastructure.DatabaseConfig;
 
 @Configuration
-@Import({
-        CatalogueConfig.class,
+@Import({CatalogueConfig.class,
         DatabaseConfig.class,
         DomainEventsConfig.class})
 class CatalogueTestContext {

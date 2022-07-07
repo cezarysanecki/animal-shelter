@@ -1,55 +1,61 @@
 package pl.devcezz.shelter.catalogue
 
-import io.vavr.control.Option
 import io.vavr.control.Try
 import pl.devcezz.shelter.commons.commands.Result
+import pl.devcezz.shelter.commons.events.DomainEvent
 import pl.devcezz.shelter.commons.events.DomainEvents
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.catalogue.AnimalEvent.*
+import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent
 
 class RemoveAnimalFromCatalogueSpec extends Specification {
 
-    CatalogueDatabase catalogueDatabase = Mock()
-    DomainEvents domainEvents = Mock()
-    Catalogue catalogue = new Catalogue(catalogueDatabase, domainEvents)
+    DomainEvents publisher = Mock()
+    CatalogueConfig config = new CatalogueConfig(new InMemoryCatalogueRepository(), publisher)
 
-    AnimalId animalId = AnimalId.of(UUID.randomUUID())
+    Catalogue catalogue = config.catalogue()
 
-    def 'should remove a new animal to catalogue'() {
+    def 'should remove existing animal from catalogue'() {
         given:
-            databaseWorks()
+            AnimalId animalId = AnimalId.of(UUID.randomUUID())
+        and:
+            catalogue.addNewAnimal(animalId.getValue(), "Azor", 5, "Dog", "Male")
         when:
             Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
         then:
             result.isSuccess()
             result.get() == Result.Success
         and:
-            1 * domainEvents.publish(_ as AnimalDeletedEvent)
+            1 * publisher.publish(_ as AnimalDeletedEvent)
     }
 
-    def 'should fail when removing an animal if database fails'() {
+    def 'should reject removing not existing animal in catalogue'() {
         given:
-            databaseDoesNotWork()
+            AnimalId animalId = AnimalId.of(UUID.randomUUID())
+        when:
+            Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
+        then:
+            result.isSuccess()
+            result.get() == Result.Rejection
+        and:
+            0 * publisher.publish(_)
+    }
+
+    def 'should fail when removing animal if publisher fails'() {
+        given:
+            publisherDoesNotWork()
+        and:
+            AnimalId animalId = AnimalId.of(UUID.randomUUID())
+        and:
+            catalogue.addNewAnimal(animalId.getValue(), "Azor", 5, "Dog", "Male")
         when:
             Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
         then:
             result.isFailure()
-        and:
-            0 * domainEvents.publish(_ as AnimalCreatedEvent)
     }
 
-    void databaseWorks() {
-        catalogueDatabase.findBy(animalId) >> Option.of(
-                Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
-        catalogueDatabase.updateStatus(_ as Animal) >> null
+    def publisherDoesNotWork() {
+        publisher.publish(_ as DomainEvent) >> { throw new IllegalArgumentException() }
     }
-
-    void databaseDoesNotWork() {
-        catalogueDatabase.findBy(animalId) >> Option.of(
-                Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
-        catalogueDatabase.updateStatus(_ as Animal) >> { throw new IllegalStateException() }
-    }
-
 
 }

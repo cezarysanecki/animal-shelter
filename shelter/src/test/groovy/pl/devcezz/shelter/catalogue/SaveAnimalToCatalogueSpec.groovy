@@ -2,46 +2,40 @@ package pl.devcezz.shelter.catalogue
 
 import io.vavr.control.Try
 import pl.devcezz.shelter.commons.commands.Result
+import pl.devcezz.shelter.commons.events.DomainEvent
 import pl.devcezz.shelter.commons.events.DomainEvents
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.catalogue.AnimalEvent.*
+import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalCreatedEvent
 
 class SaveAnimalToCatalogueSpec extends Specification {
 
-    CatalogueDatabase catalogueDatabase = Mock()
-    DomainEvents domainEvents = Mock()
-    Catalogue catalogue = new Catalogue(catalogueDatabase, domainEvents)
+    DomainEvents publisher = Mock()
+    CatalogueConfig config = new CatalogueConfig(new InMemoryCatalogueRepository(), publisher)
 
-    def 'should add a new animal to catalogue'() {
-        given:
-            databaseWorks()
+    Catalogue catalogue = config.catalogue()
+
+    def 'should add new animal to catalogue'() {
         when:
             Try<Result> result = catalogue.addNewAnimal(UUID.randomUUID(), "Azor", 5, "Dog", "Male")
         then:
             result.isSuccess()
             result.get() == Result.Success
         and:
-            1 * domainEvents.publish(_ as AnimalCreatedEvent)
+            1 * publisher.publish(_ as AnimalCreatedEvent)
     }
 
-    def 'should fail when adding an animal if database fails'() {
+    def 'should fail when adding animal if publisher fails'() {
         given:
-            databaseDoesNotWork()
+            publisherDoesNotWork()
         when:
             Try<Result> result = catalogue.addNewAnimal(UUID.randomUUID(), "Azor", 5, "Dog", "Male")
         then:
             result.isFailure()
-        and:
-            0 * domainEvents.publish(_ as AnimalCreatedEvent)
     }
 
-    void databaseWorks() {
-        catalogueDatabase.saveNew(_ as Animal) >> null
-    }
-
-    void databaseDoesNotWork() {
-        catalogueDatabase.saveNew(_ as Animal) >> { throw new IllegalStateException() }
+    def publisherDoesNotWork() {
+        publisher.publish(_ as DomainEvent) >> { throw new IllegalArgumentException() }
     }
 
 

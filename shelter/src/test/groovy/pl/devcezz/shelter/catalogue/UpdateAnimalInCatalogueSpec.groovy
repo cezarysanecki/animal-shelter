@@ -1,6 +1,5 @@
 package pl.devcezz.shelter.catalogue
 
-import io.vavr.control.Option
 import io.vavr.control.Try
 import pl.devcezz.shelter.commons.commands.Result
 import pl.devcezz.shelter.commons.events.DomainEvents
@@ -8,44 +7,35 @@ import spock.lang.Specification
 
 class UpdateAnimalInCatalogueSpec extends Specification {
 
-    CatalogueDatabase catalogueDatabase = Mock()
-    DomainEvents domainEvents = Mock()
-    Catalogue catalogue = new Catalogue(catalogueDatabase, domainEvents)
+    DomainEvents publisher = Mock()
+    CatalogueConfig config = new CatalogueConfig(new InMemoryCatalogueRepository(), publisher)
 
-    AnimalId animalId = AnimalId.of(UUID.randomUUID())
+    Catalogue catalogue = config.catalogue()
 
     def 'should not publish event when updating animal'() {
         given:
-            databaseWorks()
+            AnimalId animalId = AnimalId.of(UUID.randomUUID())
+        and:
+            catalogue.addNewAnimal(animalId.getValue(), "Azor", 5, "Dog", "Male")
         when:
             Try<Result> result = catalogue.updateExistingAnimal(animalId.getValue(), "Ciapek", 3, "Dog", "Male")
         then:
             result.isSuccess()
             result.get() == Result.Success
         and:
-            0 * domainEvents.publish(_)
+            0 * publisher.publish(_)
     }
 
-    def 'should fail when updating animal if database fails'() {
+    def 'should reject updating not existing animal in catalogue'() {
         given:
-            databaseDoesNotWork()
+            AnimalId animalId = AnimalId.of(UUID.randomUUID())
         when:
             Try<Result> result = catalogue.updateExistingAnimal(animalId.getValue(), "Ciapek", 3, "Dog", "Male")
         then:
-            result.isFailure()
+            result.isSuccess()
+            result.get() == Result.Rejection
+        and:
+            0 * publisher.publish(_)
     }
-
-    void databaseWorks() {
-        catalogueDatabase.findBy(animalId) >> Option.of(
-                Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
-        catalogueDatabase.update(_ as Animal) >> null
-    }
-
-    void databaseDoesNotWork() {
-        catalogueDatabase.findBy(animalId) >> Option.of(
-                Animal.ofNew(animalId.getValue(), "Azor", 5, "Dog", "Male"))
-        catalogueDatabase.update(_ as Animal) >> { throw new IllegalStateException() }
-    }
-
 
 }

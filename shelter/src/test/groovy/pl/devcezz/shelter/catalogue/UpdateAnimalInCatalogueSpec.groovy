@@ -16,9 +16,11 @@ class UpdateAnimalInCatalogueSpec extends Specification {
         given:
             AnimalId animalId = AnimalId.of(UUID.randomUUID())
         and:
-            catalogue.addNewAnimal(animalId.getValue(), "Azor", 5, "Dog", "Male")
+            catalogue.addNewAnimal(
+                    animalId.getValue(), "Azor", 5, "Dog", "Male")
         when:
-            Try<Result> result = catalogue.updateExistingAnimal(animalId.getValue(), "Ciapek", 3, "Dog", "Male")
+            Try<Result> result = catalogue.updateExistingAnimal(
+                    animalId.getValue(), "Ciapek", 3, "Dog", "Male")
         then:
             result.isSuccess()
             result.get() == Result.Success
@@ -30,7 +32,8 @@ class UpdateAnimalInCatalogueSpec extends Specification {
         given:
             AnimalId animalId = AnimalId.of(UUID.randomUUID())
         when:
-            Try<Result> result = catalogue.updateExistingAnimal(animalId.getValue(), "Ciapek", 3, "Dog", "Male")
+            Try<Result> result = catalogue.updateExistingAnimal(
+                    animalId.getValue(), "Ciapek", 3, "Dog", "Male")
         then:
             result.isSuccess()
             result.get() == Result.Rejection

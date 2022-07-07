@@ -17,7 +17,8 @@ class SaveAnimalToCatalogueSpec extends Specification {
 
     def 'should add new animal to catalogue'() {
         when:
-            Try<Result> result = catalogue.addNewAnimal(UUID.randomUUID(), "Azor", 5, "Dog", "Male")
+            Try<Result> result = catalogue.addNewAnimal(
+                    UUID.randomUUID(), "Azor", 5, "Dog", "Male")
         then:
             result.isSuccess()
             result.get() == Result.Success
@@ -29,7 +30,8 @@ class SaveAnimalToCatalogueSpec extends Specification {
         given:
             publisherDoesNotWork()
         when:
-            Try<Result> result = catalogue.addNewAnimal(UUID.randomUUID(), "Azor", 5, "Dog", "Male")
+            Try<Result> result = catalogue.addNewAnimal(
+                    UUID.randomUUID(), "Azor", 5, "Dog", "Male")
         then:
             result.isFailure()
     }

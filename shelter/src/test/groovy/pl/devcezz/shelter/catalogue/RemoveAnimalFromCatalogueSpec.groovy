@@ -19,7 +19,8 @@ class RemoveAnimalFromCatalogueSpec extends Specification {
         given:
             AnimalId animalId = AnimalId.of(UUID.randomUUID())
         and:
-            catalogue.addNewAnimal(animalId.getValue(), "Azor", 5, "Dog", "Male")
+            catalogue.addNewAnimal(
+                    animalId.getValue(), "Azor", 5, "Dog", "Male")
         when:
             Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
         then:
@@ -47,7 +48,8 @@ class RemoveAnimalFromCatalogueSpec extends Specification {
         and:
             AnimalId animalId = AnimalId.of(UUID.randomUUID())
         and:
-            catalogue.addNewAnimal(animalId.getValue(), "Azor", 5, "Dog", "Male")
+            catalogue.addNewAnimal(
+                    animalId.getValue(), "Azor", 5, "Dog", "Male")
         when:
             Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
         then:

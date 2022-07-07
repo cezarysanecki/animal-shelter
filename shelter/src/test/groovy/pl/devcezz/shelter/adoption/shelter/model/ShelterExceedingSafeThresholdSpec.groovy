@@ -1,21 +1,21 @@
 package pl.devcezz.shelter.adoption.shelter.model
 
-import pl.devcezz.shelter.adoption.proposal.model.PendingProposal
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId
 import spock.lang.Specification
 
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.SafeThresholdExceeded
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.aPendingProposal
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals
 
 class ShelterExceedingSafeThresholdSpec extends Specification {
 
     def 'should announce that shelter exceeds safe threshold'() {
         given:
-            PendingProposal pendingProposal = aPendingProposal()
+            ProposalId proposalId = anyProposalId()
         and:
             Shelter shelter = shelterWithProposals(proposals)
         when:
-            def acceptProposal = shelter.accept(pendingProposal)
+            def acceptProposal = shelter.accept(proposalId)
         then:
             acceptProposal.isRight()
             acceptProposal.get().with {

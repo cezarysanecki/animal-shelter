@@ -32,7 +32,7 @@ class CreatingDataModelFromShelterEventsSpec extends Specification {
         when:
             entity.handle(proposalCanceled())
         then:
-            entity.acceptedProposals.size() == 0
+            entity.acceptedProposals.isEmpty()
     }
 
     ShelterDatabaseEntity createShelter() {

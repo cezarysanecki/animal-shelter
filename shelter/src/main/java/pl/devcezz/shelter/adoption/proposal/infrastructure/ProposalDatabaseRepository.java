@@ -13,14 +13,11 @@ import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
-import pl.devcezz.shelter.adoption.shelter.application.FindAcceptedProposal;
-import pl.devcezz.shelter.adoption.shelter.application.FindPendingProposal;
 import pl.devcezz.shelter.commons.aggregates.AggregateRootIsStale;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
-import static io.vavr.Patterns.$Some;
 import static io.vavr.Predicates.instanceOf;
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.of;
@@ -31,7 +28,7 @@ import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
-class ProposalDatabaseRepository implements Proposals, FindPendingProposal, FindAcceptedProposal {
+class ProposalDatabaseRepository implements Proposals {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -139,21 +136,5 @@ class ProposalDatabaseRepository implements Proposals, FindPendingProposal, Find
                         "(proposal_id, proposal_state, creation_timestamp, modification_timestamp, version) VALUES " +
                         "(?, ?, ?, ?, 0)",
                 proposalId.getValue().toString(), state.name(), now(), now());
-    }
-
-    @Override
-    public Option<PendingProposal> findPendingProposalBy(ProposalId proposalId) {
-        return Match(findBy(proposalId)).of(
-                Case($Some($(instanceOf(PendingProposal.class))), Option::of),
-                Case($(), Option::none)
-        );
-    }
-
-    @Override
-    public Option<AcceptedProposal> findAcceptedProposalBy(ProposalId proposalId) {
-        return Match(findBy(proposalId)).of(
-                Case($Some($(instanceOf(AcceptedProposal.class))), Option::of),
-                Case($(), Option::none)
-        );
     }
 }

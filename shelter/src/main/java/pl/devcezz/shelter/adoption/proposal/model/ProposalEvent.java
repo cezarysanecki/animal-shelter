@@ -40,4 +40,19 @@ public interface ProposalEvent extends DomainEvent {
                     proposalId.getValue());
         }
     }
+
+    @Value
+    class ProposalAcceptanceFailed implements ProposalEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
+        @NonNull String reason;
+        @NonNull Instant when;
+        @NonNull UUID proposalId;
+
+        public static ProposalAcceptanceFailed proposalAcceptanceFailedNow(String reason, ProposalId proposalId) {
+            return new ProposalAcceptanceFailed(
+                    reason,
+                    Instant.now(),
+                    proposalId.getValue());
+        }
+    }
 }

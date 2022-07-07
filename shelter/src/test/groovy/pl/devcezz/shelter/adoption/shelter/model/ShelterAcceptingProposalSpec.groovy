@@ -1,27 +1,27 @@
 package pl.devcezz.shelter.adoption.shelter.model
 
-import pl.devcezz.shelter.adoption.proposal.model.PendingProposal
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId
 import spock.lang.Specification
 
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.aPendingProposal
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals
 
 class ShelterAcceptingProposalSpec extends Specification {
 
     def 'shelter should be able to accept up to 10 proposals'() {
         given:
-            PendingProposal pendingProposal = aPendingProposal()
+            ProposalId proposalId = anyProposalId()
         and:
             Shelter shelter = shelterWithProposals(proposals)
         when:
-            def acceptProposal = shelter.accept(pendingProposal)
+            def acceptProposal = shelter.accept(proposalId)
         then:
             acceptProposal.isRight()
             acceptProposal.get().with {
                 ProposalAccepted proposalAccepted = it.proposalAccepted
-                assert proposalAccepted.proposalId == pendingProposal.getProposalId().value
+                assert proposalAccepted.proposalId == proposalId.value
             }
         where:
             proposals << (0..9)
@@ -29,11 +29,11 @@ class ShelterAcceptingProposalSpec extends Specification {
 
     def 'shelter cannot accept more than 10 proposals'() {
         given:
-            PendingProposal pendingProposal = aPendingProposal()
+            ProposalId proposalId = anyProposalId()
         and:
             Shelter shelter = shelterWithProposals(proposals)
         when:
-            def acceptProposal = shelter.accept(pendingProposal)
+            def acceptProposal = shelter.accept(proposalId)
         then:
             acceptProposal.isLeft()
             ProposalAcceptingFailed e = acceptProposal.getLeft()

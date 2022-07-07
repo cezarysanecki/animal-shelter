@@ -5,8 +5,6 @@ import io.vavr.control.Try;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
-import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed;
@@ -25,14 +23,12 @@ import static pl.devcezz.shelter.commons.commands.Result.Success;
 @Slf4j
 public class AcceptingProposal {
 
-    private final FindPendingProposal findPendingProposal;
     private final Shelters shelterRepository;
 
     public Try<Result> acceptProposal(@NonNull AcceptProposalCommand command) {
         return Try.of(() -> {
-            PendingProposal pendingProposal = find(command.getProposalId());
             Shelter shelter = prepare();
-            Either<ProposalAcceptingFailed, ProposalAcceptedEvents> result = shelter.accept(pendingProposal);
+            Either<ProposalAcceptingFailed, ProposalAcceptedEvents> result = shelter.accept(command.getProposalId());
             return Match(result).of(
                     Case($Left($()), this::publishEvents),
                     Case($Right($()), this::publishEvents)
@@ -48,12 +44,6 @@ public class AcceptingProposal {
     private Result publishEvents(ProposalAcceptedEvents proposalAcceptedEvents) {
         shelterRepository.publish(proposalAcceptedEvents);
         return Success;
-    }
-
-    private PendingProposal find(ProposalId proposalId) {
-        return findPendingProposal
-                .findPendingProposalBy(proposalId)
-                .getOrElseThrow(() -> new IllegalArgumentException("cannot find pending proposal with id: " + proposalId.getValue()));
     }
 
     private Shelter prepare() {

@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
-import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
@@ -31,22 +30,22 @@ public class Shelter {
     @NonNull
     private final Set<ProposalId> acceptedProposals;
 
-    public Either<ProposalAcceptingFailed, ProposalAcceptedEvents> accept(PendingProposal pendingProposal) {
+    public Either<ProposalAcceptingFailed, ProposalAcceptedEvents> accept(ProposalId proposalId) {
         if (enoughSpaceInShelterAfterAccepting()) {
-            ProposalAccepted proposalAccepted = proposalAcceptedNow(pendingProposal.getProposalId());
+            ProposalAccepted proposalAccepted = proposalAcceptedNow(proposalId);
             if (safeThresholdExceededAfterAccepting()) {
-                return announceSuccess(ProposalAcceptedEvents.events(proposalAccepted, SafeThresholdExceeded.now(pendingProposal.getProposalId(), countLeftSpace())));
+                return announceSuccess(ProposalAcceptedEvents.events(proposalAccepted, SafeThresholdExceeded.now(proposalId, countLeftSpace())));
             }
             return announceSuccess(ProposalAcceptedEvents.events(proposalAccepted));
         }
-        return announceFailure(proposalAcceptingFailedNow("no space left for animals in shelter", pendingProposal.getProposalId()));
+        return announceFailure(proposalAcceptingFailedNow("no space left for animals in shelter", proposalId));
     }
 
-    public Either<ProposalCancelingFailed, ProposalCanceled> cancel(AcceptedProposal acceptedProposal) {
-        if (acceptedProposals.contains(acceptedProposal.getProposalId())) {
-            return announceSuccess(proposalCanceledNow(acceptedProposal.getProposalId()));
+    public Either<ProposalCancelingFailed, ProposalCanceled> cancel(ProposalId proposalId) {
+        if (acceptedProposals.contains(proposalId)) {
+            return announceSuccess(proposalCanceledNow(proposalId));
         }
-        return announceFailure(proposalCancelingFailedNow(acceptedProposal.getProposalId()));
+        return announceFailure(proposalCancelingFailedNow(proposalId));
     }
 
     private long countLeftSpace() {

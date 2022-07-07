@@ -5,7 +5,6 @@ import io.vavr.control.Either;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
@@ -48,19 +47,19 @@ public class Shelter {
         return announceFailure(proposalCancelingFailedNow(proposalId));
     }
 
+    public int numberOfProposals() {
+        return acceptedProposals.length();
+    }
+
     private long countLeftSpace() {
-        return CAPACITY - (countAcceptedProposals() + 1);
+        return CAPACITY - (numberOfProposals() + 1);
     }
 
     private boolean enoughSpaceInShelterAfterAccepting() {
-        return CAPACITY >= countAcceptedProposals() + 1;
+        return CAPACITY >= numberOfProposals() + 1;
     }
 
     private boolean safeThresholdExceededAfterAccepting() {
-        return SAFE_THRESHOLD <= countAcceptedProposals() + 1;
-    }
-
-    private int countAcceptedProposals() {
-        return acceptedProposals.length();
+        return SAFE_THRESHOLD <= numberOfProposals() + 1;
     }
 }

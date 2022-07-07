@@ -44,6 +44,11 @@ import javax.sql.DataSource;
 class CatalogueDatabaseConfig {
 
     @Bean
+    CatalogueRepository catalogueRepository(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
+        return new CatalogueDatabaseRepository(jdbcTemplate);
+    }
+
+    @Bean
     @Qualifier("catalogue")
     @ConfigurationProperties(prefix = "spring.datasource-catalogue")
     DataSource catalogueDataSource() {

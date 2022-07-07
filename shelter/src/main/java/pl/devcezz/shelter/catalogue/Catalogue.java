@@ -19,7 +19,7 @@ import static pl.devcezz.shelter.commons.commands.Result.Success;
 @Slf4j
 public class Catalogue {
 
-    private final CatalogueDatabase database;
+    private final CatalogueRepository repository;
     private final DomainEvents publisher;
 
     public Try<Result> addNewAnimal(UUID animalUuidId, String name, Integer age, String species, String gender) {
@@ -31,22 +31,22 @@ public class Catalogue {
     }
 
     private Animal saveAndPublishEvent(Animal animal) {
-        database.saveNew(animal);
+        repository.saveNew(animal);
         publisher.publish(animalCreatedNow(animal.getAnimalId()));
         return animal;
     }
 
     public Try<Result> updateExistingAnimal(UUID animalUuidId, String name, Integer age, String species, String gender) {
-        return Try.of(() -> database.findBy(AnimalId.of(animalUuidId))
+        return Try.of(() -> repository.findBy(AnimalId.of(animalUuidId))
                 .map(animal -> animal.updateFields(name, age, species, gender))
-                .map(database::update)
+                .map(repository::update)
                 .map(updatedAnimal -> Success)
                 .getOrElse(Rejection)
         ).onFailure(ex -> log.error("failed to update animal", ex));
     }
 
     public Try<Result> removeExistingAnimal(UUID animalUuidId) {
-        return Try.of(() -> database.findBy(AnimalId.of(animalUuidId))
+        return Try.of(() -> repository.findBy(AnimalId.of(animalUuidId))
                 .map(Animal::delete)
                 .map(this::removeAndPublishEvent)
                 .map(removedAnimal -> Success)
@@ -55,7 +55,7 @@ public class Catalogue {
     }
 
     private Animal removeAndPublishEvent(Animal animal) {
-        database.updateStatus(animal);
+        repository.updateStatus(animal);
         publisher.publish(animalDeletedNow(animal.getAnimalId()));
         return animal;
     }

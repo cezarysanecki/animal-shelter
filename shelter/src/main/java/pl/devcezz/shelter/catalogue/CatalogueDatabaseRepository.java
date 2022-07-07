@@ -14,11 +14,12 @@ import java.util.UUID;
 import static java.time.Instant.now;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class CatalogueDatabase {
+class CatalogueDatabaseRepository implements CatalogueRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    Animal saveNew(Animal animal) {
+    @Override
+    public Animal saveNew(Animal animal) {
         jdbcTemplate.update("" +
                         "INSERT INTO animal " +
                         "(animal_id, name, age, species, gender, creation_timestamp, modification_timestamp) VALUES " +
@@ -33,7 +34,8 @@ class CatalogueDatabase {
         return animal;
     }
 
-    Animal update(Animal animal) {
+    @Override
+    public Animal update(Animal animal) {
         jdbcTemplate.update("" +
                         "UPDATE animal a SET " +
                         "a.name = ?, a.age = ?, a.species = ?, a.gender = ?, a.modification_timestamp = ? " +
@@ -47,7 +49,8 @@ class CatalogueDatabase {
         return animal;
     }
 
-    Animal updateStatus(Animal animal) {
+    @Override
+    public Animal updateStatus(Animal animal) {
         jdbcTemplate.update("" +
                         "UPDATE animal a SET " +
                         "a.status = ?, a.modification_timestamp = ? " +
@@ -58,7 +61,8 @@ class CatalogueDatabase {
         return animal;
     }
 
-    Option<Animal> findBy(AnimalId animalId) {
+    @Override
+    public Option<Animal> findBy(AnimalId animalId) {
         try {
             return Option.of(
                     jdbcTemplate.queryForObject(

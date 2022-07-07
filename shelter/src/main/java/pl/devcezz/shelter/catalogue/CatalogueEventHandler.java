@@ -12,15 +12,15 @@ import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 @Slf4j
 class CatalogueEventHandler {
 
-    private final CatalogueDatabase database;
+    private final CatalogueRepository repository;
 
     @EventListener
     public void handle(ProposalAccepted event) {
         Try.of(() -> Option.of(event.getProposalId())
                 .map(AnimalId::of)
-                .flatMap(database::findBy)
+                .flatMap(repository::findBy)
                 .map(Animal::register)
-                .map(database::updateStatus)
+                .map(repository::updateStatus)
         ).onFailure(ex -> log.error("failed to register animal", ex));
     }
 
@@ -28,9 +28,9 @@ class CatalogueEventHandler {
     public void handle(ProposalAlreadyConfirmed event) {
         Try.of(() -> Option.of(event.getProposalId())
                 .map(AnimalId::of)
-                .flatMap(database::findBy)
+                .flatMap(repository::findBy)
                 .map(Animal::register)
-                .map(database::updateStatus)
+                .map(repository::updateStatus)
         ).onFailure(ex -> log.error("failed to register animal", ex));
     }
 }

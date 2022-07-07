@@ -1,31 +1,27 @@
 package pl.devcezz.shelter.catalogue;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
 import pl.devcezz.shelter.commons.events.DomainEvents;
 
 @Configuration
 @Import({CatalogueDatabaseConfig.class})
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class CatalogueConfig {
 
+    private final CatalogueRepository catalogueRepository;
+    private final DomainEvents publisher;
+
     @Bean
-    CatalogueDatabase catalogueDatabase(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
-        return new CatalogueDatabase(jdbcTemplate);
+    Catalogue catalogue() {
+        return new Catalogue(catalogueRepository, publisher);
     }
 
     @Bean
-    Catalogue catalogue(
-            CatalogueDatabase catalogueDatabase,
-            DomainEvents publisher) {
-        return new Catalogue(catalogueDatabase, publisher);
-    }
-
-    @Bean
-    CatalogueEventHandler catalogueEventHandler(
-            CatalogueDatabase catalogueDatabase) {
-        return new CatalogueEventHandler(catalogueDatabase);
+    CatalogueEventHandler catalogueEventHandler() {
+        return new CatalogueEventHandler(catalogueRepository);
     }
 }

@@ -2,7 +2,8 @@ package pl.devcezz.shelter.adoption.proposal.model
 
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.*
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.acceptedProposal
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.pendingProposal
 
 class ProposalStateSpec extends Specification {
 
@@ -26,7 +27,7 @@ class ProposalStateSpec extends Specification {
 
     def 'should cancel proposal when accepted'() {
         given:
-            AcceptedProposal acceptedProposal = acceptedProposal(anyProposalId())
+            AcceptedProposal acceptedProposal = acceptedProposal()
         when:
             def result = acceptedProposal.cancel()
         then:

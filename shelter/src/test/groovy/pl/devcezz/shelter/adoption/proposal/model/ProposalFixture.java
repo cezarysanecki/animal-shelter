@@ -11,11 +11,19 @@ public class ProposalFixture {
     }
 
     public static PendingProposal pendingProposal() {
-        return new PendingProposal(anyProposalId(), version0());
+        return pendingProposal(anyProposalId());
+    }
+
+    public static PendingProposal pendingProposal(ProposalId proposalId) {
+        return new PendingProposal(proposalId, version0());
     }
 
     public static AcceptedProposal acceptedProposal() {
-        return new AcceptedProposal(anyProposalId(), version0());
+        return acceptedProposal(anyProposalId());
+    }
+
+    public static AcceptedProposal acceptedProposal(ProposalId proposalId) {
+        return new AcceptedProposal(proposalId, version0());
     }
 
     public static Version version0() {

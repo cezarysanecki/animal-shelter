@@ -3,6 +3,7 @@ package pl.devcezz.shelter.adoption.shelter.infrastructure
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import pl.devcezz.shelter.adoption.AdoptionTestContext
+import pl.devcezz.shelter.adoption.proposal.model.ProposalId
 import pl.devcezz.shelter.adoption.shelter.model.Shelter
 import spock.lang.Specification
 
@@ -17,12 +18,14 @@ class ShelterDatabaseRepositoryIT extends Specification {
     ShelterDatabaseRepository shelterEntityRepository
 
     def 'persistence in real database should work for accepted proposal'() {
+        given:
+            ProposalId proposalId = anyProposalId()
         when:
-            shelterEntityRepository.publish(proposalAcceptedNow(anyProposalId()))
+            shelterEntityRepository.publish(proposalAcceptedNow(proposalId))
         then:
             shelterShouldBeFoundInDatabaseWithOneProposal()
         when:
-            shelterEntityRepository.publish(proposalCanceledNow(anyProposalId()))
+            shelterEntityRepository.publish(proposalCanceledNow(proposalId))
         then:
             shelterShouldBeFoundInDatabaseWithZeroProposals()
     }

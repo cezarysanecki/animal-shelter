@@ -29,9 +29,9 @@ class CatalogueDatabaseRepository implements CatalogueRepository {
                         "(animal_id, name, age, species, gender, creation_timestamp, modification_timestamp) VALUES " +
                         "(?, ?, ?, ?, ?, ?, ?)",
                 animal.getAnimalId().getValue().toString(),
-                animal.getName(),
-                animal.getAge(),
-                animal.getSpecies(),
+                animal.getName().getValue(),
+                animal.getAge().getValue(),
+                animal.getSpecies().getValue(),
                 animal.getGender().name(),
                 now(),
                 now());
@@ -44,9 +44,9 @@ class CatalogueDatabaseRepository implements CatalogueRepository {
                         "UPDATE animal a SET " +
                         "a.name = ?, a.age = ?, a.species = ?, a.gender = ?, a.modification_timestamp = ? " +
                         "WHERE a.animal_id = ?",
-                animal.getName(),
-                animal.getAge(),
-                animal.getSpecies(),
+                animal.getName().getValue(),
+                animal.getAge().getValue(),
+                animal.getSpecies().getValue(),
                 animal.getGender().name(),
                 now(),
                 animal.getAnimalId().getValue().toString());

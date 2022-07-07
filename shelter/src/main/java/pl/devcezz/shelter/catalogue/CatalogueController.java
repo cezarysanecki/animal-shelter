@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.devcezz.shelter.commons.commands.Result;
+import pl.devcezz.shelter.commons.model.Age;
+import pl.devcezz.shelter.commons.model.Gender;
+import pl.devcezz.shelter.commons.model.Name;
+import pl.devcezz.shelter.commons.model.Species;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -28,16 +32,25 @@ class CatalogueController {
 
     private final Catalogue catalogue;
 
+    @PostMapping("/confirm")
+    ResponseEntity<Void> confirmAnimal(@RequestBody String animalId) {
+        Try<Result> result = catalogue.confirmAnimal(
+                AnimalId.of(UUID.fromString(animalId)));
+        return result
+                .map(success -> ResponseEntity.ok().<Void>build())
+                .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
+    }
+
     @PostMapping
     ResponseEntity<UUID> createAnimal(@RequestBody AcceptAnimalRequest request) {
         UUID animalId = UUID.randomUUID();
 
-        Try<Result> result = catalogue.addNewAnimal(
-                animalId,
-                request.name(),
-                request.age(),
-                request.species(),
-                request.gender()
+        Try<Result> result = catalogue.addAnimal(
+                AnimalId.of(animalId),
+                Name.of(request.name()),
+                Age.of(request.age()),
+                Species.of(request.species()),
+                Gender.of(request.gender())
         );
         return result
                 .map(success -> ResponseEntity.ok(animalId))
@@ -46,12 +59,12 @@ class CatalogueController {
 
     @PutMapping
     ResponseEntity<Void> updateAnimal(@RequestBody EditAnimalRequest request) {
-        Try<Result> result = catalogue.updateExistingAnimal(
-                request.animalId(),
-                request.name(),
-                request.age(),
-                request.species(),
-                request.gender()
+        Try<Result> result = catalogue.updateAnimal(
+                AnimalId.of(request.animalId()),
+                Name.of(request.name()),
+                Age.of(request.age()),
+                Species.of(request.species()),
+                Gender.of(request.gender())
         );
         return result
                 .map(success -> ResponseEntity.ok().<Void>build())
@@ -60,7 +73,8 @@ class CatalogueController {
 
     @DeleteMapping
     ResponseEntity<Void> deleteAnimal(@RequestBody String animalId) {
-        Try<Result> result = catalogue.removeExistingAnimal(UUID.fromString(animalId));
+        Try<Result> result = catalogue.deleteAnimal(
+                AnimalId.of(UUID.fromString(animalId)));
         return result
                 .map(success -> ResponseEntity.ok().<Void>build())
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());

@@ -20,8 +20,4 @@ public class CatalogueConfig {
         return new Catalogue(catalogueRepository, publisher);
     }
 
-    @Bean
-    CatalogueEventHandler catalogueEventHandler() {
-        return new CatalogueEventHandler(catalogueRepository);
-    }
 }

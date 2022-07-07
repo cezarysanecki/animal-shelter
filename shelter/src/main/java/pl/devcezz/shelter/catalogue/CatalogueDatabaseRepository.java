@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import pl.devcezz.shelter.commons.model.Age;
+import pl.devcezz.shelter.commons.model.Gender;
+import pl.devcezz.shelter.commons.model.Name;
+import pl.devcezz.shelter.commons.model.Species;
 
 import java.util.UUID;
 
@@ -19,7 +23,7 @@ class CatalogueDatabaseRepository implements CatalogueRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public Animal saveNew(Animal animal) {
+    public Animal save(Animal animal) {
         jdbcTemplate.update("" +
                         "INSERT INTO animal " +
                         "(animal_id, name, age, species, gender, creation_timestamp, modification_timestamp) VALUES " +
@@ -50,13 +54,10 @@ class CatalogueDatabaseRepository implements CatalogueRepository {
     }
 
     @Override
-    public Animal updateStatus(Animal animal) {
+    public Animal delete(Animal animal) {
         jdbcTemplate.update("" +
-                        "UPDATE animal a SET " +
-                        "a.status = ?, a.modification_timestamp = ? " +
+                        "DELETE FROM animal a " +
                         "WHERE a.animal_id = ?",
-                animal.getStatus().name(),
-                now(),
                 animal.getAnimalId().getValue().toString());
         return animal;
     }
@@ -87,6 +88,6 @@ class AnimalDatabaseRow {
     Status status;
 
     Animal toAnimal() {
-        return Animal.of(animalId, name, age, species, gender, status);
+        return Animal.restore(AnimalId.of(animalId), Name.of(name), Age.of(age), Species.of(species), gender, status);
     }
 }

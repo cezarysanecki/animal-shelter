@@ -3,28 +3,38 @@ package pl.devcezz.shelter.catalogue;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
-
-import java.util.Arrays;
-import java.util.UUID;
-import java.util.stream.Stream;
+import pl.devcezz.shelter.commons.model.Age;
+import pl.devcezz.shelter.commons.model.Gender;
+import pl.devcezz.shelter.commons.model.Name;
+import pl.devcezz.shelter.commons.model.Species;
 
 import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotDelete;
 import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotUpdate;
+import static pl.devcezz.shelter.catalogue.Status.Confirmed;
+import static pl.devcezz.shelter.catalogue.Status.Draft;
 
 @Getter
 @EqualsAndHashCode(of = "animalId")
 class Animal {
 
+    static Animal create(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
+        return new Animal(animalId, name, age, species, gender, Draft);
+    }
+
+    static Animal restore(AnimalId animalId, Name name, Age age, Species species, Gender gender, Status status) {
+        return new Animal(animalId, name, age, species, gender, status);
+    }
+
     @Id
     private Long id;
     private AnimalId animalId;
-    private String name;
-    private Integer age;
-    private String species;
+    private Name name;
+    private Age age;
+    private Species species;
     private Gender gender;
     private Status status;
 
-    private Animal(AnimalId animalId, String name, Integer age, String species, Gender gender, Status status) {
+    private Animal(AnimalId animalId, Name name, Age age, Species species, Gender gender, Status status) {
         this.animalId = animalId;
         this.name = name;
         this.age = age;
@@ -33,54 +43,37 @@ class Animal {
         this.status = status;
     }
 
-    static Animal ofNew(UUID animalId, String name, Integer age, String species, String gender) {
-        return new Animal(AnimalId.of(animalId), name, age, species, Gender.of(gender), null);
+    Animal confirm() {
+        status = Confirmed;
+        return this;
     }
 
-    static Animal of(UUID animalId, String name, Integer age, String species, Gender gender, Status status) {
-        return new Animal(AnimalId.of(animalId), name, age, species, gender, status);
-    }
-
-    Animal updateFields(String name, Integer age, String species, String gender) {
-        if (cannotBeChanged()) {
+    Animal updateFields(Name name, Age age, Species species, Gender gender) {
+        if (cannotBeModified()) {
             throw exceptionCannotUpdate(animalId.getValue());
         }
 
         this.name = name;
         this.age = age;
         this.species = species;
-        this.gender = Gender.of(gender);
+        this.gender = gender;
 
         return this;
     }
 
-    Animal register() {
-        return of(animalId.getValue(), name, age, species, gender, Status.Registered);
-    }
-
     Animal delete() {
-        if (cannotBeChanged()) {
+        if (cannotBeModified()) {
             throw exceptionCannotDelete(animalId.getValue());
         }
-        return of(animalId.getValue(), name, age, species, gender, Status.Deleted);
+        return this;
     }
 
-    private boolean cannotBeChanged() {
-        return status != null;
+    private boolean cannotBeModified() {
+        return status != Draft;
     }
 }
 
 enum Status {
-    Deleted, Registered
+    Draft, Confirmed
 }
 
-enum Gender {
-    Male, Female;
-
-    static Gender of(String gender) {
-        return Stream.of(values())
-                .filter(value -> value.name().equalsIgnoreCase(gender))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("gender can be only: " + Arrays.toString(values())));
-    }
-}

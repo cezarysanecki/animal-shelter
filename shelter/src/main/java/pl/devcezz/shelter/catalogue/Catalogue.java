@@ -7,11 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.devcezz.shelter.commons.commands.Result;
 import pl.devcezz.shelter.commons.events.DomainEvents;
+import pl.devcezz.shelter.commons.model.Age;
+import pl.devcezz.shelter.commons.model.Gender;
+import pl.devcezz.shelter.commons.model.Name;
+import pl.devcezz.shelter.commons.model.Species;
 
-import java.util.UUID;
-
-import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalCreatedEvent.animalCreatedNow;
-import static pl.devcezz.shelter.catalogue.AnimalEvent.AnimalDeletedEvent.animalDeletedNow;
+import static pl.devcezz.shelter.catalogue.CatalogueEvent.AnimalConfirmedEvent.animalConfirmedNow;
 import static pl.devcezz.shelter.commons.commands.Result.Rejection;
 import static pl.devcezz.shelter.commons.commands.Result.Success;
 
@@ -22,41 +23,45 @@ public class Catalogue {
     private final CatalogueRepository repository;
     private final DomainEvents publisher;
 
-    public Try<Result> addNewAnimal(UUID animalUuidId, String name, Integer age, String species, String gender) {
-        return Try.of(() -> Option.of(Animal.ofNew(animalUuidId, name, age, species, gender))
-                .map(this::saveAndPublishEvent)
-                .map(savedAnimal -> Success)
-                .getOrElse(Rejection)
-        ).onFailure(ex -> log.error("failed to add new animal", ex));
-    }
-
-    private Animal saveAndPublishEvent(Animal animal) {
-        repository.saveNew(animal);
-        publisher.publish(animalCreatedNow(animal.getAnimalId()));
-        return animal;
-    }
-
-    public Try<Result> updateExistingAnimal(UUID animalUuidId, String name, Integer age, String species, String gender) {
-        return Try.of(() -> repository.findBy(AnimalId.of(animalUuidId))
-                .map(animal -> animal.updateFields(name, age, species, gender))
-                .map(repository::update)
-                .map(updatedAnimal -> Success)
-                .getOrElse(Rejection)
-        ).onFailure(ex -> log.error("failed to update animal", ex));
-    }
-
-    public Try<Result> removeExistingAnimal(UUID animalUuidId) {
-        return Try.of(() -> repository.findBy(AnimalId.of(animalUuidId))
-                .map(Animal::delete)
-                .map(this::removeAndPublishEvent)
-                .map(removedAnimal -> Success)
+    public Try<Result> confirmAnimal(AnimalId animalId) {
+        return Try.of(() -> repository.findBy(animalId)
+                .map(Animal::confirm)
+                .map(this::updateAndPublishConfirmationEvent)
+                .map(animal -> Success)
                 .getOrElse(Rejection)
         ).onFailure(ex -> log.error("failed to remove animal", ex));
     }
 
-    private Animal removeAndPublishEvent(Animal animal) {
-        repository.updateStatus(animal);
-        publisher.publish(animalDeletedNow(animal.getAnimalId()));
+    public Try<Result> addAnimal(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
+        return Try.of(() -> Option.of(Animal.create(animalId, name, age, species, gender))
+                .map(repository::save)
+                .map(animal -> Success)
+                .getOrElse(Rejection)
+        ).onFailure(ex -> log.error("failed to add new animal", ex));
+    }
+
+    public Try<Result> updateAnimal(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
+        return Try.of(() -> repository.findBy(animalId)
+                .map(animal -> animal.updateFields(name, age, species, gender))
+                .map(repository::update)
+                .map(animal -> Success)
+                .getOrElse(Rejection)
+        ).onFailure(ex -> log.error("failed to update animal", ex));
+    }
+
+    public Try<Result> deleteAnimal(AnimalId animalId) {
+        return Try.of(() -> repository.findBy(animalId)
+                .map(Animal::delete)
+                .map(repository::delete)
+                .map(animal -> Success)
+                .getOrElse(Rejection)
+        ).onFailure(ex -> log.error("failed to remove animal", ex));
+    }
+
+    private Animal updateAndPublishConfirmationEvent(Animal animal) {
+        repository.update(animal);
+        publisher.publish(animalConfirmedNow(animal.getAnimalId()));
         return animal;
     }
+
 }

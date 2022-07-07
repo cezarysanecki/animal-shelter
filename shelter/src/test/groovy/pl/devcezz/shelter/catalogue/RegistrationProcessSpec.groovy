@@ -2,15 +2,15 @@ package pl.devcezz.shelter.catalogue
 
 import io.vavr.control.Option
 import io.vavr.control.Try
-import pl.devcezz.shelter.adoption.proposal.model.ProposalId
 import pl.devcezz.shelter.commons.commands.Result
 import pl.devcezz.shelter.commons.events.DomainEvents
+import pl.devcezz.shelter.commons.model.Age
+import pl.devcezz.shelter.commons.model.Gender
+import pl.devcezz.shelter.commons.model.Name
+import pl.devcezz.shelter.commons.model.Species
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted.proposalAcceptedNow
-import static pl.devcezz.shelter.catalogue.Status.Deleted
-import static pl.devcezz.shelter.catalogue.Status.Registered
+import static pl.devcezz.shelter.catalogue.AnimalFixture.anyAnimalId
 
 class RegistrationProcessSpec extends Specification {
 
@@ -19,77 +19,46 @@ class RegistrationProcessSpec extends Specification {
     CatalogueConfig config = new CatalogueConfig(repository, publisher)
 
     Catalogue catalogue = config.catalogue()
-    CatalogueEventHandler handler = config.catalogueEventHandler()
 
-    def 'should not allow to update animal when is already accepted'() {
+    def 'should properly do operation on animal'() {
         given:
-            ProposalId proposalId = anyProposalId()
-        and:
-            AnimalId animalId = AnimalId.of(proposalId.getValue())
-        and:
-            catalogue.addNewAnimal(
-                    animalId.getValue(), "Azor", 4, "Dog", "Male")
+            AnimalId animalId = anyAnimalId()
         when:
-            handler.handle(proposalAcceptedNow(proposalId))
-        and:
-            Try<Result> result = catalogue.updateExistingAnimal(
-                    animalId.getValue(), "Sonia", 3, "Cat", "Female")
+            catalogue.addAnimal(
+                    animalId, Name.of("Azor"), Age.of(5), Species.of("dog"), Gender.Male)
         then:
-            result.isFailure()
-        and:
-            animalIsPersistedAs(Registered, animalId)
+            findAnimal(animalId).isDefined()
+        when:
+            catalogue.updateAnimal(
+                    animalId, Name.of("Sonia"), Age.of(4), Species.of("dog"), Gender.Female)
+        then:
+            findAnimal(animalId).isDefined()
+        when:
+            catalogue.deleteAnimal(animalId)
+        then:
+            findAnimal(animalId).isEmpty()
     }
 
-    def 'should not allow to remove animal when is already accepted'() {
+    def 'should not allow to modify confirmed animal'() {
         given:
-            ProposalId proposalId = anyProposalId()
+            AnimalId animalId = anyAnimalId()
         and:
-            AnimalId animalId = AnimalId.of(proposalId.getValue())
-        and:
-            catalogue.addNewAnimal(
-                    animalId.getValue(), "Azor", 4, "Dog", "Male")
+            catalogue.addAnimal(
+                    animalId, Name.of("Azor"), Age.of(5), Species.of("dog"), Gender.Male)
         when:
-            handler.handle(proposalAcceptedNow(proposalId))
+            catalogue.confirmAnimal(animalId)
         and:
-            Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
+            Try<Result> updateResult = catalogue.updateAnimal(
+                    animalId, Name.of("Sonia"), Age.of(4), Species.of("dog"), Gender.Female)
         then:
-            result.isFailure()
-        and:
-            animalIsPersistedAs(Registered, animalId)
+            updateResult.isFailure()
+        when:
+            Try<Result> deleteResult = catalogue.deleteAnimal(animalId)
+        then:
+            deleteResult.isFailure()
     }
 
-    def 'should accept animal even if was deleted'() {
-        given:
-            ProposalId proposalId = anyProposalId()
-        and:
-            AnimalId animalId = AnimalId.of(proposalId.getValue())
-        when:
-            catalogue.addNewAnimal(
-                    animalId.getValue(), "Azor", 4, "Dog", "Male")
-        and:
-            catalogue.removeExistingAnimal(animalId.getValue())
-        then:
-            animalIsPersistedAs(Deleted, animalId)
-        when:
-            handler.handle(proposalAcceptedNow(proposalId))
-        and:
-            Try<Result> result = catalogue.removeExistingAnimal(animalId.getValue())
-        then:
-            result.isFailure()
-        and:
-            animalIsPersistedAs(Registered, animalId)
-    }
-
-    void animalIsPersistedAs(Status status, AnimalId animalId) {
-        Animal animal = loadPersistedAnimal(animalId)
-        assert animal.getStatus() == status
-    }
-
-    Animal loadPersistedAnimal(AnimalId animalId) {
-        Option<Animal> loaded = repository.findBy(animalId)
-        Animal animal = loaded.getOrElseThrow({
-            new IllegalStateException("should have been persisted")
-        })
-        return animal
+    Option<Animal> findAnimal(AnimalId animalId) {
+        return repository.findBy(animalId)
     }
 }

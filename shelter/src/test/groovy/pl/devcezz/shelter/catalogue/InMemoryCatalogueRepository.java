@@ -10,7 +10,7 @@ class InMemoryCatalogueRepository implements CatalogueRepository {
     private final Map<AnimalId, Animal> database = new ConcurrentHashMap<>();
 
     @Override
-    public Animal saveNew(Animal animal) {
+    public Animal save(Animal animal) {
         database.put(animal.getAnimalId(), animal);
         return animal;
     }
@@ -24,10 +24,8 @@ class InMemoryCatalogueRepository implements CatalogueRepository {
     }
 
     @Override
-    public Animal updateStatus(Animal animal) {
-        if (database.containsKey(animal.getAnimalId())) {
-            database.put(animal.getAnimalId(), animal);
-        }
+    public Animal delete(Animal animal) {
+        database.remove(animal.getAnimalId());
         return animal;
     }
 

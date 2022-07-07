@@ -4,11 +4,11 @@ import io.vavr.control.Option;
 
 interface CatalogueRepository {
 
-    Animal saveNew(Animal animal);
+    Option<Animal> findBy(AnimalId animalId);
+
+    Animal save(Animal animal);
 
     Animal update(Animal animal);
 
-    Animal updateStatus(Animal animal);
-
-    Option<Animal> findBy(AnimalId animalId);
+    Animal delete(Animal animal);
 }

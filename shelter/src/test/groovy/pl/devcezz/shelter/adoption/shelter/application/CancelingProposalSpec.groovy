@@ -15,7 +15,7 @@ import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWi
 
 class CancelingProposalSpec extends Specification {
 
-    AcceptedProposal acceptedProposal = acceptedProposal()
+    AcceptedProposal acceptedProposal = acceptedProposal(anyProposalId())
 
     FindAcceptedProposal willFindProposal = { proposalId -> Option.of(acceptedProposal) }
     FindAcceptedProposal willNotFindProposal = { proposalId -> Option.none() }

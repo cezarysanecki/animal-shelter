@@ -28,7 +28,7 @@ class ProposalStateSpec extends Specification {
 
     def 'should cancel proposal when accepted'() {
         given:
-            AcceptedProposal acceptedProposal = acceptedProposal()
+            AcceptedProposal acceptedProposal = acceptedProposal(anyProposalId())
         when:
             def result = acceptedProposal.cancel()
         then:

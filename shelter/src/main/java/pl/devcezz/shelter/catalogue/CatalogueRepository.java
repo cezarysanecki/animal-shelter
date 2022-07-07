@@ -2,7 +2,7 @@ package pl.devcezz.shelter.catalogue;
 
 import io.vavr.control.Option;
 
-public interface CatalogueRepository {
+interface CatalogueRepository {
 
     Animal saveNew(Animal animal);
 

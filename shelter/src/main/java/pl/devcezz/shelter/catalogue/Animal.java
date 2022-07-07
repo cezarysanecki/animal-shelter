@@ -55,9 +55,6 @@ class Animal {
     }
 
     Animal register() {
-        if (cannotBeChanged()) {
-            throw exceptionCannotUpdate(animalId.getValue());
-        }
         return of(animalId.getValue(), name, age, species, gender, Status.REGISTERED);
     }
 

@@ -1,33 +1,30 @@
 package pl.devcezz.shelter.adoption.proposal.infrastructure;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.context.annotation.Import;
 import pl.devcezz.shelter.adoption.proposal.application.AnimalOperationsEventsHandler;
 import pl.devcezz.shelter.adoption.proposal.application.ShelterOperationsEventsHandler;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 import pl.devcezz.shelter.commons.events.DomainEvents;
 
 @Configuration
+@Import(ProposalDatabaseConfig.class)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class ProposalConfig {
 
-    @Bean
-    ProposalDatabaseRepository proposalDatabaseRepository(@Qualifier("adoption") JdbcTemplate jdbcTemplate) {
-        return new ProposalDatabaseRepository(jdbcTemplate);
-    }
+    private final Proposals proposalRepository;
+    private final DomainEvents publisher;
 
     @Bean
-    AnimalOperationsEventsHandler animalOperationsEventHandler(
-            Proposals proposalRepository,
-            DomainEvents publisher) {
+    AnimalOperationsEventsHandler animalOperationsEventHandler() {
         return new AnimalOperationsEventsHandler(proposalRepository, publisher);
     }
 
     @Bean
-    ShelterOperationsEventsHandler shelterOperationsEventHandler(
-            Proposals proposalRepository,
-            DomainEvents publisher) {
+    ShelterOperationsEventsHandler shelterOperationsEventHandler() {
         return new ShelterOperationsEventsHandler(proposalRepository, publisher);
     }
 }

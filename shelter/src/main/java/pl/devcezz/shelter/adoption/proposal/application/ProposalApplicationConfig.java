@@ -16,7 +16,7 @@ public class ProposalApplicationConfig {
 
     @Bean
     CatalogueOperationsEventsHandler catalogueOperationsEventsHandler() {
-        return new CatalogueOperationsEventsHandler(proposalRepository, publisher);
+        return new CatalogueOperationsEventsHandler(proposalRepository);
     }
 
     @Bean

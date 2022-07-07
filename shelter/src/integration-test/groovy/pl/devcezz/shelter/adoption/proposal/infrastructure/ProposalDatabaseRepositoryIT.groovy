@@ -1,19 +1,13 @@
 package pl.devcezz.shelter.adoption.proposal.infrastructure
 
-
 import io.vavr.control.Option
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import pl.devcezz.shelter.adoption.AdoptionTestContext
-import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal
-import pl.devcezz.shelter.adoption.proposal.model.PendingProposal
-import pl.devcezz.shelter.adoption.proposal.model.Proposal
-import pl.devcezz.shelter.adoption.proposal.model.ProposalId
+import pl.devcezz.shelter.adoption.proposal.model.*
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.acceptedProposal
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.pendingProposal
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.*
 
 @SpringBootTest(classes = AdoptionTestContext.class)
 class ProposalDatabaseRepositoryIT extends Specification {
@@ -23,7 +17,7 @@ class ProposalDatabaseRepositoryIT extends Specification {
 
     def 'persistence in real database should work for accepted proposal'() {
         given:
-            AcceptedProposal acceptedProposal = acceptedProposal(anyProposalId())
+            AcceptedProposal acceptedProposal = acceptedProposal()
         when:
             proposalEntityRepository.save(acceptedProposal)
         then:
@@ -32,11 +26,20 @@ class ProposalDatabaseRepositoryIT extends Specification {
 
     def 'persistence in real database should work for pending proposal'() {
         given:
-            PendingProposal pendingProposal = pendingProposal(anyProposalId())
+            PendingProposal pendingProposal = pendingProposal()
         when:
             proposalEntityRepository.save(pendingProposal)
         then:
             proposalIsPersistedAs(PendingProposal.class, pendingProposal.getProposalId())
+    }
+
+    def 'persistence in real database should work for deleted proposal'() {
+        given:
+            DeletedProposal deletedProposal = deletedProposal()
+        when:
+            proposalEntityRepository.save(deletedProposal)
+        then:
+            proposalIsPersistedAs(DeletedProposal.class, deletedProposal.getProposalId())
     }
 
     void proposalIsPersistedAs(Class<?> clazz, ProposalId proposalId) {

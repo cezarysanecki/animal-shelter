@@ -9,16 +9,18 @@ import static pl.devcezz.shelter.catalogue.AnimalFixture.NON_PRESENT_ANIMAL_ID
 import static pl.devcezz.shelter.catalogue.AnimalFixture.dog
 
 @SpringBootTest(classes = CatalogueTestContext.class)
-class CatalogueDatabaseIT extends Specification {
+class CatalogueDatabaseRepositoryIT extends Specification {
 
     @Autowired
-    CatalogueDatabase catalogueDatabase
+    CatalogueDatabaseRepository catalogueDatabase
 
-    def 'should be able to save and load new animal'() {
+    def 'should be able to save, update and load new animal'() {
         given:
             Animal animal = dog()
         when:
-            catalogueDatabase.saveNew(animal)
+            catalogueDatabase.save(animal)
+        and:
+            catalogueDatabase.update(animal)
         and:
             Option<Animal> dog = catalogueDatabase.findBy(animal.getAnimalId())
         then:

@@ -13,6 +13,10 @@ public class PendingProposal implements Proposal {
     @NonNull
     Version version;
 
+    public static PendingProposal createNew(ProposalId proposalId) {
+        return new PendingProposal(proposalId, Version.zero());
+    }
+
     public AcceptedProposal accept() {
         return new AcceptedProposal(proposalId, version);
     }

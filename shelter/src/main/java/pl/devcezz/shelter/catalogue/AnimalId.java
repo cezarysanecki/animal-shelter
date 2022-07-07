@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
-class AnimalId {
+public class AnimalId {
 
     private String value;
 
@@ -16,11 +16,11 @@ class AnimalId {
         this.value = value.toString();
     }
 
-    static AnimalId of(UUID value) {
+    public static AnimalId of(UUID value) {
         return new AnimalId(value);
     }
 
-    UUID getValue() {
+    public UUID getValue() {
         return UUID.fromString(value);
     }
 }

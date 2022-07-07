@@ -1,10 +1,8 @@
 package pl.devcezz.shelter.adoption.proposal.model
 
-
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.acceptedProposal
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.pendingProposal
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.*
 
 class ProposalStateSpec extends Specification {
 

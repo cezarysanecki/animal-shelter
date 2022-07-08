@@ -81,33 +81,36 @@ class ProposalDatabaseRepository implements Proposals {
         return jdbcTemplate.update("" +
                         "UPDATE proposal p SET " +
                         "p.proposal_state = ?, p.modification_timestamp = ?, p.version = ? " +
-                        "WHERE p.proposal_id = ?",
+                        "WHERE p.proposal_id = ? AND p.version = ?",
                 Pending.name(),
                 now(),
                 pendingProposal.getVersion().getVersion() + 1,
-                pendingProposal.getProposalId().getValue().toString());
+                pendingProposal.getProposalId().getValue().toString(),
+                pendingProposal.getVersion().getVersion());
     }
 
     private int update(AcceptedProposal acceptedProposal) {
         return jdbcTemplate.update("" +
                         "UPDATE proposal p SET " +
                         "p.proposal_state = ?, p.modification_timestamp = ?, p.version = ? " +
-                        "WHERE p.proposal_id = ?",
+                        "WHERE p.proposal_id = ? AND p.version = ?",
                 Accepted.name(),
                 now(),
                 acceptedProposal.getVersion().getVersion() + 1,
-                acceptedProposal.getProposalId().getValue().toString());
+                acceptedProposal.getProposalId().getValue().toString(),
+                acceptedProposal.getVersion().getVersion());
     }
 
     private int update(DeletedProposal deletedProposal) {
         return jdbcTemplate.update("" +
                         "UPDATE proposal p SET " +
                         "p.proposal_state = ?, p.modification_timestamp = ?, p.version = ? " +
-                        "WHERE p.proposal_id = ?",
+                        "WHERE p.proposal_id = ? AND p.version = ?",
                 Deleted.name(),
                 now(),
                 deletedProposal.getVersion().getVersion() + 1,
-                deletedProposal.getProposalId().getValue().toString());
+                deletedProposal.getProposalId().getValue().toString(),
+                deletedProposal.getVersion().getVersion());
     }
 
     private void insertNew(Proposal proposal) {

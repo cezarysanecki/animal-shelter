@@ -10,8 +10,12 @@ public class ProposalFixture {
         return ProposalId.of(UUID.randomUUID());
     }
 
+    public static PendingProposal pendingProposal(ProposalId proposalId) {
+        return new PendingProposal(proposalId, version0());
+    }
+
     public static PendingProposal pendingProposal() {
-        return new PendingProposal(anyProposalId(), version0());
+        return pendingProposal(anyProposalId());
     }
 
     public static AcceptedProposal acceptedProposal() {

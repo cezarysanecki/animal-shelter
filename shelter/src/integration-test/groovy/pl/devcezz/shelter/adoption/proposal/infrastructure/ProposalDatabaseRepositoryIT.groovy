@@ -16,29 +16,29 @@ class ProposalDatabaseRepositoryIT extends Specification {
     ProposalDatabaseRepository proposalEntityRepository
 
     def 'persistence in real database should work for accepted proposal'() {
-        given:
+        given: "Prepare accepted proposal."
             AcceptedProposal acceptedProposal = acceptedProposal()
-        when:
+        when: "Save accepted proposal."
             proposalEntityRepository.save(acceptedProposal)
-        then:
+        then: "Proposal is stored as accepted."
             proposalIsPersistedAs(AcceptedProposal.class, acceptedProposal.getProposalId())
     }
 
     def 'persistence in real database should work for pending proposal'() {
-        given:
+        given: "Prepare pending proposal."
             PendingProposal pendingProposal = pendingProposal()
-        when:
+        when: "Save pending proposal."
             proposalEntityRepository.save(pendingProposal)
-        then:
+        then: "Proposal is stored as pending."
             proposalIsPersistedAs(PendingProposal.class, pendingProposal.getProposalId())
     }
 
     def 'persistence in real database should work for deleted proposal'() {
-        given:
+        given: "Prepare deleted proposal."
             DeletedProposal deletedProposal = deletedProposal()
-        when:
+        when: "Save deleted proposal."
             proposalEntityRepository.save(deletedProposal)
-        then:
+        then: "Proposal is stored as deleted."
             proposalIsPersistedAs(DeletedProposal.class, deletedProposal.getProposalId())
     }
 

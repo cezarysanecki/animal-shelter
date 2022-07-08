@@ -15,23 +15,23 @@ class CatalogueDatabaseRepositoryIT extends Specification {
     CatalogueDatabaseRepository catalogueDatabase
 
     def 'should be able to save, update and load new animal'() {
-        given:
+        given: "Prepare dog."
             Animal animal = dog()
-        when:
+        when: "Save animal."
             catalogueDatabase.save(animal)
-        and:
+        and: "Update animal."
             catalogueDatabase.update(animal)
-        and:
+        and: "Find animal."
             Option<Animal> dog = catalogueDatabase.findBy(animal.getAnimalId())
-        then:
+        then: "Animal is present."
             dog.isDefined()
             dog.get() == animal
     }
 
     def 'should not load not present animal'() {
-        when:
+        when: "Find animal."
             Option<Animal> ddd = catalogueDatabase.findBy(NON_PRESENT_ANIMAL_ID)
-        then:
+        then: "There is no animal."
             ddd.isEmpty()
     }
 

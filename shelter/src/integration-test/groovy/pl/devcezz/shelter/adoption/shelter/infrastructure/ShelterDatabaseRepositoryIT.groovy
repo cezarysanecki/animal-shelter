@@ -18,15 +18,15 @@ class ShelterDatabaseRepositoryIT extends Specification {
     ShelterDatabaseRepository shelterEntityRepository
 
     def 'persistence in real database should work for accepted proposal'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        when:
+        when: "Accept proposal."
             shelterEntityRepository.publish(proposalAcceptedNow(proposalId))
-        then:
+        then: "There is one accepted proposal."
             shelterShouldBeFoundInDatabaseWithOneProposal()
-        when:
+        when: "Cancel proposal."
             shelterEntityRepository.publish(proposalCanceledNow(proposalId))
-        then:
+        then: "There is none accepted proposals."
             shelterShouldBeFoundInDatabaseWithZeroProposals()
     }
 

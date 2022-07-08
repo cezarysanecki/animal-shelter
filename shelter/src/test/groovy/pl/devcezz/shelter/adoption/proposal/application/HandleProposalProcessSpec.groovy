@@ -25,19 +25,19 @@ class HandleProposalProcessSpec extends Specification {
     ShelterOperationsEventsHandler shelterHandler = config.shelterOperationsEventHandler()
 
     def 'should handle proposal process'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        when: "Animal has been confirmed."
             catalogueHandler.handle(animalConfirmedNow(AnimalId.of(proposalId.getValue())))
-        when:
+        and: "Proposal is accepted."
             shelterHandler.handle(proposalAcceptedNow(proposalId))
-        and:
+        and: "Proposal is canceled."
             shelterHandler.handle(proposalCanceledNow(proposalId))
-        and:
+        and: "Proposal is accepted once again."
             shelterHandler.handle(proposalAcceptedNow(proposalId))
-        and:
+        and: "Proposal is accepted one more time."
             shelterHandler.handle(proposalAcceptedNow(proposalId))
-        then:
+        then: "Operation of accepting the same proposal is forbidden."
             1 * publisher.publish(_ as ProposalAcceptanceFailed)
     }
 

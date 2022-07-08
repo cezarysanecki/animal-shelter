@@ -10,13 +10,13 @@ import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWi
 class ShelterCancelingProposalSpec extends Specification {
 
     def 'shelter should be able to cancel accepted proposal'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        and: "Prepare shelter with specified proposal."
             Shelter shelter = shelterWithProposal(proposalId)
-        when:
+        when: "Cancel proposal."
             def cancelProposal = shelter.cancel(proposalId)
-        then:
+        then: "Operation is successful."
             cancelProposal.isRight()
             cancelProposal.get().with {
                 assert it.proposalId == proposalId.value
@@ -24,13 +24,13 @@ class ShelterCancelingProposalSpec extends Specification {
     }
 
     def 'shelter cannot cancel a proposal which does not exist'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        and: "Prepare shelter without proposals."
             Shelter shelter = shelter()
-        when:
+        when: "Cancel proposal."
             def cancelProposal = shelter.cancel(proposalId)
-        then:
+        then: "Operation has failed."
             cancelProposal.isLeft()
     }
 }

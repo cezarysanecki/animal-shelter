@@ -21,15 +21,15 @@ class CancelProposalWhenFailureSpec extends Specification {
     ShelterEventsHandler handler = config.shelterEventsHandler()
 
     def 'should cancel proposal when acceptance failed'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        and: "Accepted proposal."
             acceptingProposal.acceptProposal(anAcceptCommand(proposalId))
-        when:
+        when: "Handle response that acceptance failed by canceling it."
             handler.handle(proposalAcceptanceFailedNow("reason", proposalId))
-        then:
+        then: "Try to cancel proposal once again."
             Try<Result> cancellationResult = cancelingProposal.cancelProposal(aCancelCommand(proposalId))
-        then:
+        then: "Operation is rejected."
             cancellationResult.isSuccess()
             cancellationResult.get() == Result.Rejection
     }

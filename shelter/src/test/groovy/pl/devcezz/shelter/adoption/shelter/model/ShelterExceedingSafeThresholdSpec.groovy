@@ -10,13 +10,13 @@ import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWi
 class ShelterExceedingSafeThresholdSpec extends Specification {
 
     def 'should announce that shelter exceeds safe threshold'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        and: "Prepare shelter with some proposals."
             Shelter shelter = shelterWithProposals(proposals)
-        when:
+        when: "Accept proposal."
             def acceptProposal = shelter.accept(proposalId)
-        then:
+        then: "Operation is successful but only some space is available."
             acceptProposal.isRight()
             acceptProposal.get().with {
                 assert it.safeThresholdExceeded.isDefined()

@@ -21,40 +21,40 @@ class RegistrationProcessSpec extends Specification {
     Catalogue catalogue = config.catalogue()
 
     def 'should properly do operation on animal'() {
-        given:
+        given: "Prepare any animal id."
             AnimalId animalId = anyAnimalId()
-        when:
+        when: "Add animal to catalogue."
             catalogue.addAnimal(
                     animalId, Name.of("Azor"), Age.of(5), Species.of("dog"), Gender.Male)
-        then:
+        then: "Check if animal is in system."
             findAnimal(animalId).isDefined()
-        when:
+        when: "Update animal."
             catalogue.updateAnimal(
                     animalId, Name.of("Sonia"), Age.of(4), Species.of("dog"), Gender.Female)
-        then:
+        then: "Check if animal is still in system."
             findAnimal(animalId).isDefined()
-        when:
+        when: "Delete animal."
             catalogue.deleteAnimal(animalId)
-        then:
+        then: "Check if animal is not in system."
             findAnimal(animalId).isEmpty()
     }
 
     def 'should not allow to modify confirmed animal'() {
-        given:
+        given: "Prepare any animal id."
             AnimalId animalId = anyAnimalId()
-        and:
+        and: "Add animal to catalogue."
             catalogue.addAnimal(
                     animalId, Name.of("Azor"), Age.of(5), Species.of("dog"), Gender.Male)
-        when:
+        when: "Confirm animal."
             catalogue.confirmAnimal(animalId)
-        and:
+        and: "Try to update animal."
             Try<Result> updateResult = catalogue.updateAnimal(
                     animalId, Name.of("Sonia"), Age.of(4), Species.of("dog"), Gender.Female)
-        then:
+        then: "Operation is not allowed."
             updateResult.isFailure()
-        when:
+        when: "Try to delete animal."
             Try<Result> deleteResult = catalogue.deleteAnimal(animalId)
-        then:
+        then: "Operation is not allowed."
             deleteResult.isFailure()
     }
 

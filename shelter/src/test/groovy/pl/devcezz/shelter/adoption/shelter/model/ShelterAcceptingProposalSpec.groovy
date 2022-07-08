@@ -11,13 +11,13 @@ import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWi
 class ShelterAcceptingProposalSpec extends Specification {
 
     def 'shelter should be able to accept up to 10 proposals'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        and: "Prepare shelter with some proposals."
             Shelter shelter = shelterWithProposals(proposals)
-        when:
+        when: "Accept new proposal."
             def acceptProposal = shelter.accept(proposalId)
-        then:
+        then: "Operation is successful."
             acceptProposal.isRight()
             acceptProposal.get().with {
                 ProposalAccepted proposalAccepted = it.proposalAccepted
@@ -28,13 +28,13 @@ class ShelterAcceptingProposalSpec extends Specification {
     }
 
     def 'shelter cannot accept more than 10 proposals'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        and:
+        and: "Prepare shelter with some proposals."
             Shelter shelter = shelterWithProposals(proposals)
-        when:
+        when: "Accept new proposal."
             def acceptProposal = shelter.accept(proposalId)
-        then:
+        then: "Operation is disallowed because of no space left."
             acceptProposal.isLeft()
             ProposalAcceptingFailed e = acceptProposal.getLeft()
             e.getReason().contains("no space left for animals in shelter")

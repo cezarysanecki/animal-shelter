@@ -17,28 +17,28 @@ class ProposalProcessSpec extends Specification {
     AcceptingProposal acceptingProposal = config.acceptingProposal()
 
     def 'should process accepting and cancelling proposals'() {
-        when:
+        when: "Cancel proposal when there is none accepted."
             Try<Result> cancellationResult = cancelingProposal.cancelProposal(aCancelCommand(anyProposalId()))
-        then:
+        then: "Operation is rejected."
             cancellationResult.isSuccess()
             cancellationResult.get() == Result.Rejection
-        when:
+        when: "Prepare any proposal id."
             ProposalId acceptedProposalId = anyProposalId()
-        and:
+        and: "Accepted proposal."
             Try<Result> acceptationResult = acceptingProposal.acceptProposal(anAcceptCommand(acceptedProposalId))
-        then:
+        then: "Operation is successful."
             acceptationResult.isSuccess()
             acceptationResult.get() == Result.Success
-        when:
+        when: "Accept 9 proposals."
             acceptProposals(9)
-        and:
+        and: "Accept next proposal."
             Try<Result> secondAcceptationResult = acceptingProposal.acceptProposal(anAcceptCommand(anyProposalId()))
-        then:
+        then: "Operation is rejected because lack of space."
             secondAcceptationResult.isSuccess()
             secondAcceptationResult.get() == Result.Rejection
-        when:
+        when: "Cancel proposal."
             Try<Result> secondCancellationResult = cancelingProposal.cancelProposal(aCancelCommand(acceptedProposalId))
-        then:
+        then: "Operation is successful."
             secondCancellationResult.isSuccess()
             secondCancellationResult.get() == Result.Success
     }

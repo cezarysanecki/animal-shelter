@@ -8,29 +8,29 @@ import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.pending
 class ProposalStateSpec extends Specification {
 
     def 'should accept proposal when pending'() {
-        given:
+        given: "Prepare pending proposal."
             PendingProposal pendingProposal = pendingProposal()
-        when:
+        when: "Accept proposal."
             def result = pendingProposal.accept()
-        then:
+        then: "Proposal is accepted."
             result instanceof AcceptedProposal
     }
 
     def 'should delete proposal when pending'() {
-        given:
+        given: "Prepare pending proposal."
             PendingProposal pendingProposal = pendingProposal()
-        when:
+        when: "Delete proposal."
             def result = pendingProposal.delete()
-        then:
+        then: "Proposal is deleted."
             result instanceof DeletedProposal
     }
 
     def 'should cancel proposal when accepted'() {
-        given:
+        given: "Prepare accepted proposal."
             AcceptedProposal acceptedProposal = acceptedProposal()
-        when:
+        when: "Cancel proposal."
             def result = acceptedProposal.cancel()
-        then:
+        then: "Proposal is pending."
             result instanceof PendingProposal
     }
 }

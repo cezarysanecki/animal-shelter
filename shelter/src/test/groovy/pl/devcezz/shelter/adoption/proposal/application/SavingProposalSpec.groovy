@@ -21,11 +21,11 @@ class SavingProposalSpec extends Specification {
     CatalogueOperationsEventsHandler handler = config.catalogueOperationsEventsHandler()
 
     def 'should save pending proposal'() {
-        given:
+        given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
-        when:
+        when: "Animal has been confirmed."
             handler.handle(animalConfirmedNow(AnimalId.of(proposalId.getValue())))
-        then:
+        then: "Pending proposal is present."
             proposalIsPersistedAs(PendingProposal.class, proposalId)
     }
 

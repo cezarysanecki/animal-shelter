@@ -14,24 +14,24 @@ class CreatingDataModelFromShelterEventsSpec extends Specification {
     ProposalId proposalId = anyProposalId()
 
     def 'should add proposal on proposalAccepted event'() {
-        given:
+        given: "Create shelter."
             ShelterDatabaseEntity entity = createShelter()
-        when:
+        when: "Accept proposal."
             entity.handle(proposalAccepted())
-        then:
+        then: "There is one accepted proposal."
             entity.acceptedProposals.size() == 1
     }
 
     def 'should cancel proposal on proposalCanceled event with open ended duration '() {
-        given:
+        given: "Create shelter."
             ShelterDatabaseEntity entity = createShelter()
-        when:
+        when: "Accept proposal."
             entity.handle(proposalAccepted())
-        then:
+        then: "There is one accepted proposal."
             entity.acceptedProposals.size() == 1
-        when:
+        when: "Cancel proposal."
             entity.handle(proposalCanceled())
-        then:
+        then: "There is none accepted proposals."
             entity.acceptedProposals.isEmpty()
     }
 

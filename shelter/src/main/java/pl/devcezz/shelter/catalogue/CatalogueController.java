@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.devcezz.shelter.commons.commands.ResponseUtils;
 import pl.devcezz.shelter.commons.commands.Result;
 import pl.devcezz.shelter.commons.model.Age;
 import pl.devcezz.shelter.commons.model.Gender;
@@ -24,6 +25,7 @@ import javax.validation.constraints.Size;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static pl.devcezz.shelter.commons.commands.ResponseUtils.resolveResult;
 
 @RestController
 @RequestMapping("/shelter/catalogue")
@@ -33,11 +35,11 @@ class CatalogueController {
     private final Catalogue catalogue;
 
     @PostMapping("/confirm")
-    ResponseEntity<Void> confirmAnimal(@RequestBody String animalId) {
+    ResponseEntity<Void> confirmAnimal(@RequestBody ConfirmAnimalRequest request) {
         Try<Result> result = catalogue.confirmAnimal(
-                AnimalId.of(UUID.fromString(animalId)));
+                AnimalId.of(request.animalId()));
         return result
-                .map(success -> ResponseEntity.ok().<Void>build())
+                .map(ResponseUtils::resolveResult)
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
     }
 
@@ -53,7 +55,7 @@ class CatalogueController {
                 Gender.of(request.gender())
         );
         return result
-                .map(success -> ResponseEntity.ok(animalId))
+                .map(r -> resolveResult(r, animalId))
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
     }
 
@@ -67,18 +69,22 @@ class CatalogueController {
                 Gender.of(request.gender())
         );
         return result
-                .map(success -> ResponseEntity.ok().<Void>build())
+                .map(ResponseUtils::resolveResult)
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
     }
 
     @DeleteMapping
-    ResponseEntity<Void> deleteAnimal(@RequestBody String animalId) {
+    ResponseEntity<Void> deleteAnimal(@RequestBody DeleteAnimalRequest request) {
         Try<Result> result = catalogue.deleteAnimal(
-                AnimalId.of(UUID.fromString(animalId)));
+                AnimalId.of(request.animalId()));
         return result
-                .map(success -> ResponseEntity.ok().<Void>build())
+                .map(ResponseUtils::resolveResult)
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
     }
+}
+
+record ConfirmAnimalRequest(
+        @NotNull UUID animalId) {
 }
 
 record AcceptAnimalRequest(
@@ -94,4 +100,8 @@ record EditAnimalRequest(
         @NotNull @PositiveOrZero @Max(30) Integer age,
         @NotBlank String species,
         @NotBlank String gender) {
+}
+
+record DeleteAnimalRequest(
+        @NotNull UUID animalId) {
 }

@@ -26,13 +26,14 @@ class CatalogueDatabaseRepository implements CatalogueRepository {
     public Animal save(Animal animal) {
         jdbcTemplate.update("" +
                         "INSERT INTO animal " +
-                        "(animal_id, name, age, species, gender, creation_timestamp, modification_timestamp) VALUES " +
-                        "(?, ?, ?, ?, ?, ?, ?)",
+                        "(animal_id, name, age, species, gender, status, creation_timestamp, modification_timestamp) VALUES " +
+                        "(?, ?, ?, ?, ?, ?, ?, ?)",
                 animal.getAnimalId().getValue().toString(),
                 animal.getName().getValue(),
                 animal.getAge().getValue(),
                 animal.getSpecies().getValue(),
                 animal.getGender().name(),
+                animal.getStatus().name(),
                 now(),
                 now());
         return animal;
@@ -42,12 +43,13 @@ class CatalogueDatabaseRepository implements CatalogueRepository {
     public Animal update(Animal animal) {
         jdbcTemplate.update("" +
                         "UPDATE animal a SET " +
-                        "a.name = ?, a.age = ?, a.species = ?, a.gender = ?, a.modification_timestamp = ? " +
+                        "a.name = ?, a.age = ?, a.species = ?, a.gender = ?, a.status = ?, a.modification_timestamp = ? " +
                         "WHERE a.animal_id = ?",
                 animal.getName().getValue(),
                 animal.getAge().getValue(),
                 animal.getSpecies().getValue(),
                 animal.getGender().name(),
+                animal.getStatus().name(),
                 now(),
                 animal.getAnimalId().getValue().toString());
         return animal;

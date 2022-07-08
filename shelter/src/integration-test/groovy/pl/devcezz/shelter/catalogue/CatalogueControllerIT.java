@@ -68,7 +68,11 @@ public class CatalogueControllerIT {
     public void shouldDeleteAnimal() throws Exception {
         //given
         given(catalogue.deleteAnimal(any())).willReturn(Try.success(Result.Success));
-        var requestBody = "8a52a221-b769-443e-a6a1-8ba29ae76b0a";
+        var requestBody = """
+                    {
+                        "animalId": "8a52a221-b769-443e-a6a1-8ba29ae76b0a"
+                    }
+                """;
 
         //expect
         mvc.perform(delete("/shelter/catalogue")
@@ -81,7 +85,11 @@ public class CatalogueControllerIT {
     public void shouldConfirmAnimal() throws Exception {
         //given
         given(catalogue.confirmAnimal(any())).willReturn(Try.success(Result.Success));
-        var requestBody = "8a52a221-b769-443e-a6a1-8ba29ae76b0a";
+        var requestBody = """
+                    {
+                        "animalId": "8a52a221-b769-443e-a6a1-8ba29ae76b0a"
+                    }
+                """;
 
         //expect
         mvc.perform(post("/shelter/catalogue/confirm")

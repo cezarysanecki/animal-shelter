@@ -21,8 +21,11 @@
 
         <liquidbase.version>4.10.0</liquidbase.version>
         <mysql.version>8.0.29</mysql.version>
+        <vavr.version>0.10.4</vavr.version>
+        <lombok.version>1.18.24</lombok.version>
+        <byte.buddy.version>1.12.10</byte.buddy.version>
 
-        <spock.version>2.1-groovy-3.0</spock.version>
+        <spock.version>2.0-groovy-3.0</spock.version>
         <junit.version>5.8.2</junit.version>
         <mockito.version>4.6.1</mockito.version>
     </properties>
@@ -52,12 +55,12 @@
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
-            <version>0.10.4</version>
+            <version>${vavr.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -101,7 +104,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.12.10</version>
+            <version>${byte.buddy.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

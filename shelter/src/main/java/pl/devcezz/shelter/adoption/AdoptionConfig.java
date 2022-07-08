@@ -6,13 +6,15 @@ import pl.devcezz.shelter.adoption.proposal.application.ProposalApplicationConfi
 import pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalDatabaseConfig;
 import pl.devcezz.shelter.adoption.shelter.application.ShelterApplicationConfig;
 import pl.devcezz.shelter.adoption.shelter.infrastructure.ShelterDatabaseConfig;
+import pl.devcezz.shelter.adoption.shelter.web.ShelterWebConfig;
 
 @Configuration
 @Import({AdoptionDatabaseConfig.class,
         ProposalApplicationConfig.class,
         ProposalDatabaseConfig.class,
         ShelterApplicationConfig.class,
-        ShelterDatabaseConfig.class})
+        ShelterDatabaseConfig.class,
+        ShelterWebConfig.class})
 public class AdoptionConfig {
 }
 

@@ -16,6 +16,7 @@ import pl.devcezz.shelter.adoption.shelter.application.AcceptProposalCommand;
 import pl.devcezz.shelter.adoption.shelter.application.AcceptingProposal;
 import pl.devcezz.shelter.adoption.shelter.application.CancelProposalCommand;
 import pl.devcezz.shelter.adoption.shelter.application.CancelingProposal;
+import pl.devcezz.shelter.commons.commands.ResponseUtils;
 import pl.devcezz.shelter.commons.commands.Result;
 
 import java.util.UUID;
@@ -35,7 +36,7 @@ class ShelterController {
         Try<Result> result = acceptingProposal.acceptProposal(
                 new AcceptProposalCommand(ProposalId.of(request.getProposalId())));
         return result
-                .map(success -> ResponseEntity.ok().build())
+                .map(ResponseUtils::resolveResult)
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
     }
 
@@ -44,7 +45,7 @@ class ShelterController {
         Try<Result> result = cancelingProposal.cancelProposal(
                 new CancelProposalCommand(ProposalId.of(request.getProposalId())));
         return result
-                .map(success -> ResponseEntity.ok().build())
+                .map(ResponseUtils::resolveResult)
                 .getOrElse(ResponseEntity.status(INTERNAL_SERVER_ERROR).build());
     }
 }

@@ -37,6 +37,7 @@ public class AcceptingProposal {
     }
 
     private Result publishEvents(ProposalAcceptingFailed proposalAcceptingFailed) {
+        log.error("failed to accept proposal: {}", proposalAcceptingFailed.getReason());
         shelterRepository.publish(proposalAcceptingFailed);
         return Rejection;
     }

@@ -6,6 +6,7 @@ import spock.lang.Specification
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposal
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals
 
 class ShelterAcceptingProposalSpec extends Specification {
@@ -40,5 +41,18 @@ class ShelterAcceptingProposalSpec extends Specification {
             e.getReason().contains("no space left for animals in shelter")
         where:
             proposals << [10, 11, 200]
+    }
+
+    def 'shelter cannot accept accepted proposal'() {
+        given: "Prepare any proposal id."
+            ProposalId proposalId = anyProposalId()
+        and: "Prepare shelter with specified proposal."
+            Shelter shelter = shelterWithProposal(proposalId)
+        when: "Accept accepted proposal."
+            def acceptProposal = shelter.accept(proposalId)
+        then: "Operation is disallowed."
+            acceptProposal.isLeft()
+            ProposalAcceptingFailed e = acceptProposal.getLeft()
+            e.getReason().contains("proposal is already accepted")
     }
 }

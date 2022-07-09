@@ -30,6 +30,10 @@ public class Shelter {
     private final Set<ProposalId> acceptedProposals;
 
     public Either<ProposalAcceptingFailed, ProposalAcceptedEvents> accept(ProposalId proposalId) {
+        if (acceptedProposals.contains(proposalId)) {
+            return announceFailure(proposalAcceptingFailedNow("proposal is already accepted", proposalId));
+        }
+
         if (enoughSpaceInShelterAfterAccepting()) {
             ProposalAccepted proposalAccepted = proposalAcceptedNow(proposalId);
             if (safeThresholdExceededAfterAccepting()) {

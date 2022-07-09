@@ -8,6 +8,7 @@ import pl.devcezz.shelter.commons.model.Gender;
 import pl.devcezz.shelter.commons.model.Name;
 import pl.devcezz.shelter.commons.model.Species;
 
+import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotConfirmed;
 import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotDelete;
 import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotUpdate;
 import static pl.devcezz.shelter.catalogue.Status.Confirmed;
@@ -44,6 +45,9 @@ class Animal {
     }
 
     Animal confirm() {
+        if (cannotBeModified()) {
+            throw exceptionCannotConfirmed(animalId.getValue());
+        }
         status = Confirmed;
         return this;
     }

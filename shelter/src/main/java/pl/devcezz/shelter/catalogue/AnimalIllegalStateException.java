@@ -15,4 +15,8 @@ public class AnimalIllegalStateException extends RuntimeException {
     public static AnimalIllegalStateException exceptionCannotDelete(UUID animalId) {
         return new AnimalIllegalStateException("delete", animalId);
     }
+
+    public static AnimalIllegalStateException exceptionCannotConfirmed(UUID animalId) {
+        return new AnimalIllegalStateException("confirm", animalId);
+    }
 }

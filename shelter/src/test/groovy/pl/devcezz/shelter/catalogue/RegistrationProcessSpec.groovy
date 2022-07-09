@@ -58,6 +58,20 @@ class RegistrationProcessSpec extends Specification {
             deleteResult.isFailure()
     }
 
+    def 'should not allow to confirm confirmed animal'() {
+        given: "Prepare any animal id."
+            AnimalId animalId = anyAnimalId()
+        and: "Add animal to catalogue."
+            catalogue.addAnimal(
+                    animalId, Name.of("Azor"), Age.of(5), Species.of("dog"), Gender.Male)
+        when: "Confirm animal."
+            catalogue.confirmAnimal(animalId)
+        and: "Confirm animal once again."
+            Try<Result> result = catalogue.confirmAnimal(animalId)
+        then: "Operation is not allowed."
+            result.isFailure()
+    }
+
     Option<Animal> findAnimal(AnimalId animalId) {
         return repository.findBy(animalId)
     }

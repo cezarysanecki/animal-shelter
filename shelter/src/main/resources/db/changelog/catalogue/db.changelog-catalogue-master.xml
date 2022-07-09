@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <include file="1.0/20220520_create_animal_table.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220618_add_column_for_status.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220618_add_timestamp_columns.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220620_increase_precision_of_timestamp_columns.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220708_make_status_not_null.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

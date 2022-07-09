@@ -1,17 +1,14 @@
 package pl.devcezz.shelter.catalogue;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Embeddable;
 import java.util.UUID;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Access(AccessType.FIELD)
-class AnimalId {
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
+public class AnimalId {
 
     private String value;
 
@@ -19,11 +16,11 @@ class AnimalId {
         this.value = value.toString();
     }
 
-    static AnimalId of(UUID value) {
+    public static AnimalId of(UUID value) {
         return new AnimalId(value);
     }
 
-    UUID getValue() {
+    public UUID getValue() {
         return UUID.fromString(value);
     }
 }

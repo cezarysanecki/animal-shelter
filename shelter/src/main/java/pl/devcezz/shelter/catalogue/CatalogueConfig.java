@@ -1,22 +1,25 @@
 package pl.devcezz.shelter.catalogue;
 
-import org.springframework.context.ApplicationEventPublisher;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import pl.devcezz.shelter.commons.events.DomainEvents;
 
 @Configuration
-class CatalogueConfig {
+@Import({CatalogueDatabaseConfig.class})
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@ComponentScan(basePackages = "pl.devcezz.shelter.catalogue")
+public class CatalogueConfig {
+
+    private final CatalogueRepository catalogueRepository;
+    private final DomainEvents publisher;
 
     @Bean
-    AnimalFacade animalFacade(
-            AnimalRepository animalRepository,
-            ApplicationEventPublisher eventPublisher) {
-        return new AnimalFacade(animalRepository, eventPublisher);
+    Catalogue catalogue() {
+        return new Catalogue(catalogueRepository, publisher);
     }
 
-    @Bean
-    AnimalEventHandler animalEventHandler(
-            AnimalRepository animalRepository) {
-        return new AnimalEventHandler(animalRepository);
-    }
 }

@@ -1,41 +1,36 @@
 package pl.devcezz.shelter.catalogue;
 
-import pl.devcezz.shelter.InMemoryRepository;
+import io.vavr.control.Option;
 
-import java.lang.reflect.Field;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryCatalogueRepository extends InMemoryRepository<Animal, Long> implements AnimalRepository {
+class InMemoryCatalogueRepository implements CatalogueRepository {
 
-    private final AtomicLong idSequence = new AtomicLong();
+    private final Map<AnimalId, Animal> database = new ConcurrentHashMap<>();
 
     @Override
-    public <S extends Animal> S save(S entity) {
-        if (entity.getId() == null) {
-            setId(entity);
-        }
-        entities.put(entity.getId(), entity);
-        return entity;
+    public Animal save(Animal animal) {
+        database.put(animal.getAnimalId(), animal);
+        return animal;
     }
 
     @Override
-    public Optional<Animal> findByAnimalId(AnimalId animalId) {
-        return entities.values()
-                .stream()
-                .filter(animal -> animal.getAnimalId().equals(animalId))
-                .findFirst();
-    }
-
-    private <S extends Animal> void setId(S entity) {
-        try {
-            Class<? extends Animal> clazz = entity.getClass();
-            Field id = clazz.getDeclaredField("id");
-            id.setAccessible(true);
-            id.set(entity, idSequence.incrementAndGet());
-        } catch (Exception e) {
-            throw new IllegalStateException("cannot set id", e);
+    public Animal update(Animal animal) {
+        if (database.containsKey(animal.getAnimalId())) {
+            database.put(animal.getAnimalId(), animal);
         }
+        return animal;
     }
 
+    @Override
+    public Animal delete(Animal animal) {
+        database.remove(animal.getAnimalId());
+        return animal;
+    }
+
+    @Override
+    public Option<Animal> findBy(AnimalId animalId) {
+        return Option.of(database.get(animalId));
+    }
 }

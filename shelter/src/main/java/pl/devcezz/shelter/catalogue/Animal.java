@@ -1,110 +1,83 @@
 package pl.devcezz.shelter.catalogue;
 
-import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
+import pl.devcezz.shelter.commons.model.Age;
+import pl.devcezz.shelter.commons.model.Gender;
+import pl.devcezz.shelter.commons.model.Name;
+import pl.devcezz.shelter.commons.model.Species;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.stream.Stream;
+import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotConfirmed;
+import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotDelete;
+import static pl.devcezz.shelter.catalogue.AnimalIllegalStateException.exceptionCannotUpdate;
+import static pl.devcezz.shelter.catalogue.Status.Confirmed;
+import static pl.devcezz.shelter.catalogue.Status.Draft;
 
-import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotDelete;
-import static pl.devcezz.shelter.catalogue.exception.AnimalIllegalStateException.exceptionCannotUpdate;
-
-@Entity
-@Access(AccessType.FIELD)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode(of = "animalId")
 class Animal {
 
-    private enum Gender {
-        MALE, FEMALE;
-
-        private static Gender of(String gender) {
-            return Stream.of(values())
-                    .filter(value -> value.name().equalsIgnoreCase(gender))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("gender can be only: " + Arrays.toString(values())));
-        }
+    static Animal create(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
+        return new Animal(animalId, name, age, species, gender, Draft);
     }
 
-    private enum Status {
-        DELETED, REGISTERED
+    static Animal restore(AnimalId animalId, Name name, Age age, Species species, Gender gender, Status status) {
+        return new Animal(animalId, name, age, species, gender, status);
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "animal_id"))
     private AnimalId animalId;
-
-    private String name;
-    private Integer age;
-    private String species;
-    @Enumerated(EnumType.STRING)
+    private Name name;
+    private Age age;
+    private Species species;
     private Gender gender;
-    @Enumerated(EnumType.STRING)
     private Status status;
 
-    @CreationTimestamp
-    private Instant creationTimestamp;
-
-    @UpdateTimestamp
-    private Instant modificationTimestamp;
-
-    private Animal(AnimalId animalId, String name, Integer age, String species, String gender) {
+    private Animal(AnimalId animalId, Name name, Age age, Species species, Gender gender, Status status) {
         this.animalId = animalId;
         this.name = name;
         this.age = age;
         this.species = species;
-        this.gender = Gender.of(gender);
+        this.gender = gender;
+        this.status = status;
     }
 
-    static Animal ofNew(AnimalId animalId, String name, Integer age, String species, String gender) {
-        return new Animal(animalId, name, age, species, gender);
+    Animal confirm() {
+        if (cannotBeModified()) {
+            throw exceptionCannotConfirmed(animalId.getValue());
+        }
+        status = Confirmed;
+        return this;
     }
 
-    void updateFields(String name, Integer age, String species, String gender) {
-        if (cannotBeChanged()) {
+    Animal updateFields(Name name, Age age, Species species, Gender gender) {
+        if (cannotBeModified()) {
             throw exceptionCannotUpdate(animalId.getValue());
         }
 
         this.name = name;
         this.age = age;
         this.species = species;
-        this.gender = Gender.of(gender);
+        this.gender = gender;
+
+        return this;
     }
 
-    void register() {
-        if (cannotBeChanged()) {
-            throw exceptionCannotUpdate(animalId.getValue());
-        }
-        this.status = Status.REGISTERED;
-    }
-
-    void delete() {
-        if (cannotBeChanged()) {
+    Animal delete() {
+        if (cannotBeModified()) {
             throw exceptionCannotDelete(animalId.getValue());
         }
-        this.status = Status.DELETED;
+        return this;
     }
 
-    private boolean cannotBeChanged() {
-        return status != null;
+    private boolean cannotBeModified() {
+        return status != Draft;
     }
 }
+
+enum Status {
+    Draft, Confirmed
+}
+

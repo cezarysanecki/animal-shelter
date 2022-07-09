@@ -4,13 +4,8 @@ spring:
     jdbc-url: jdbc:h2:mem:catalogue-test-db
     username: sa
     password:
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
-  datasource-proposal:
+  datasource-adoption:
     driver-class-name: org.h2.Driver
     jdbc-url: jdbc:h2:mem:proposal-test-db
     username: sa
     password:
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
-

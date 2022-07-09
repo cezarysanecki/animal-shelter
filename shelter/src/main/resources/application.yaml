@@ -1,17 +1,15 @@
 spring:
   datasource-catalogue:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3307/shelter-catalogue
+    username: root
+    password: root
     liquibase:
       change-log: classpath:db/changelog/catalogue/db.changelog-catalogue-master.xml
-    jpa:
-      properties:
-        hibernate:
-          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-          implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-  datasource-proposal:
+  datasource-adoption:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3308/shelter-proposal
+    username: root
+    password: root
     liquibase:
       change-log: classpath:db/changelog/proposal/db.changelog-proposal-master.xml
-    jpa:
-      properties:
-        hibernate:
-          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-          implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy

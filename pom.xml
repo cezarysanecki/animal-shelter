@@ -28,6 +28,7 @@
 		<module>administration-model</module>
 		<module>webservice</module>
 		<module>generator</module>
+		<module>shelter</module>
 	</modules>
 
 	<dependencies>

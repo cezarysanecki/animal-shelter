@@ -3,13 +3,13 @@ package pl.devcezz.shelter.adoption.proposal.infrastructure
 import io.vavr.control.Option
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import pl.devcezz.shelter.adoption.AdoptionTestContext
+import pl.devcezz.shelter.adoption.proposal.ProposalTestContext
 import pl.devcezz.shelter.adoption.proposal.model.*
 import spock.lang.Specification
 
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.*
 
-@SpringBootTest(classes = AdoptionTestContext.class)
+@SpringBootTest(classes = ProposalTestContext.class)
 class ProposalDatabaseRepositoryIT extends Specification {
 
     @Autowired

@@ -74,7 +74,7 @@ class ShelterDatabaseEntity {
         acceptedProposals.stream()
                 .filter(acceptedProposal -> acceptedProposal.getProposalId().equals(proposalId))
                 .findFirst()
-                .ifPresent(acceptedProposal -> acceptedProposal.confirm());
+                .ifPresent(AcceptedProposalDatabaseEntity::confirm);
         return this;
     }
 }

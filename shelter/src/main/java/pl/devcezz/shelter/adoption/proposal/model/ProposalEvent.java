@@ -29,4 +29,17 @@ public interface ProposalEvent extends DomainEvent {
                     proposalId.getValue());
         }
     }
+
+    @Value
+    class ProposalAcceptanceConfirmed implements ProposalEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
+        @NonNull Instant when;
+        @NonNull UUID proposalId;
+
+        public static ProposalAcceptanceConfirmed proposalAcceptanceConfirmedNow(ProposalId proposalId) {
+            return new ProposalAcceptanceConfirmed(
+                    Instant.now(),
+                    proposalId.getValue());
+        }
+    }
 }

@@ -26,4 +26,8 @@ class AcceptedProposalDatabaseEntity {
     UUID getProposalId() {
         return UUID.fromString(proposalId);
     }
+
+    void confirm() {
+
+    }
 }

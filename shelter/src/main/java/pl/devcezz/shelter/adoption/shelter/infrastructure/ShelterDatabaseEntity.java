@@ -3,6 +3,7 @@ package pl.devcezz.shelter.adoption.shelter.infrastructure;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalConfirmed;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +38,7 @@ class ShelterDatabaseEntity {
                 Case($(instanceOf(ProposalAcceptedEvents.class)), this::handle),
                 Case($(instanceOf(ProposalAccepted.class)), this::handle),
                 Case($(instanceOf(ProposalCanceled.class)), this::handle),
+                Case($(instanceOf(ProposalConfirmed.class)), this::handle),
                 Case($(), () -> this)
         );
     }
@@ -54,6 +56,10 @@ class ShelterDatabaseEntity {
         return cancelProposal(event.getProposalId());
     }
 
+    private ShelterDatabaseEntity handle(ProposalConfirmed event) {
+        return confirmProposal(event.getProposalId());
+    }
+
     private ShelterDatabaseEntity acceptProposal(UUID proposalId) {
         acceptedProposals.add(new AcceptedProposalDatabaseEntity(proposalId));
         return this;
@@ -61,6 +67,14 @@ class ShelterDatabaseEntity {
 
     private ShelterDatabaseEntity cancelProposal(UUID proposalId) {
         acceptedProposals.removeIf(acceptedProposal -> acceptedProposal.getProposalId().equals(proposalId));
+        return this;
+    }
+
+    private ShelterDatabaseEntity confirmProposal(UUID proposalId) {
+        acceptedProposals.stream()
+                .filter(acceptedProposal -> acceptedProposal.getProposalId().equals(proposalId))
+                .findFirst()
+                .ifPresent(acceptedProposal -> acceptedProposal.confirm());
         return this;
     }
 }

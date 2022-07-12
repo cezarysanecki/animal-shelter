@@ -25,6 +25,7 @@ class AcceptedProposalDatabaseEntity {
 
     private AcceptedProposalDatabaseEntity(UUID proposalId, Status status) {
         this.proposalId = proposalId.toString();
+        this.status = status;
     }
 
     static AcceptedProposalDatabaseEntity ofPending(UUID proposalId) {
@@ -48,6 +49,6 @@ class AcceptedProposalDatabaseEntity {
     }
 
     boolean isConfirmed() {
-        return status == Pending;
+        return status == Confirmed;
     }
 }

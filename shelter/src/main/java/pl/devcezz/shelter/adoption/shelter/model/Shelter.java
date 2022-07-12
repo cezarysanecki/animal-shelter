@@ -50,7 +50,7 @@ public class Shelter {
     }
 
     public Either<ProposalCancelingFailed, ProposalCanceled> cancel(ProposalId proposalId) {
-        if (acceptedProposals.contains(proposalId)) {
+        if (pendingProposals.contains(proposalId) || acceptedProposals.contains(proposalId)) {
             return announceSuccess(proposalCanceledNow(proposalId));
         }
         return announceFailure(proposalCancelingFailedNow(proposalId));

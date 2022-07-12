@@ -14,6 +14,7 @@ import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceConfirmed.proposalAcceptanceConfirmedNow;
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceFailed.proposalAcceptanceFailedNow;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 
@@ -27,7 +28,8 @@ public class ShelterOperationsEventsHandler {
     public void handle(ProposalAccepted event) {
         proposalRepository.findBy(ProposalId.of(event.getProposalId()))
                 .map(this::handleProposalAccepted)
-                .map(this::saveProposal);
+                .map(this::saveProposal)
+                .onEmpty(() -> proposalAcceptanceFailed(ProposalId.of(event.getProposalId())));
     }
 
     @EventListener
@@ -39,7 +41,7 @@ public class ShelterOperationsEventsHandler {
 
     private Proposal handleProposalAccepted(Proposal proposal) {
         return Match(proposal).of(
-                Case($(instanceOf(PendingProposal.class)), PendingProposal::accept),
+                Case($(instanceOf(PendingProposal.class)), this::proposalAcceptanceAllowed),
                 Case($(), () -> proposalAcceptanceFailed(proposal))
         );
     }
@@ -49,6 +51,16 @@ public class ShelterOperationsEventsHandler {
                 Case($(instanceOf(AcceptedProposal.class)), AcceptedProposal::cancel),
                 Case($(), () -> proposal)
         );
+    }
+
+    private Proposal proposalAcceptanceAllowed(PendingProposal pendingProposal) {
+        AcceptedProposal acceptedProposal = pendingProposal.accept();
+        publisher.publish(proposalAcceptanceConfirmedNow(acceptedProposal.getProposalId()));
+        return acceptedProposal;
+    }
+
+    private void proposalAcceptanceFailed(ProposalId proposalId) {
+        publisher.publish(proposalAcceptanceFailedNow("proposal not found", proposalId));
     }
 
     private Proposal proposalAcceptanceFailed(Proposal proposal) {

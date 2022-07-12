@@ -33,7 +33,7 @@ class OptimisticLockingProposalAggregateIT extends Specification {
             someoneAcceptedProposalInTheMeantime(pendingProposal)
         when: "Save previous version of proposal."
             proposalEntityRepository.save(loaded)
-        then: "Optimistic locking mechism worked."
+        then: "Optimistic locking mechanism worked."
             thrown(AggregateRootIsStale)
             loadPersistedProposal(proposalId).version == new Version(1)
     }

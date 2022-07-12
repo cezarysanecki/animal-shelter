@@ -29,6 +29,14 @@ class ShelterDatabaseEntity {
 
     Set<UUID> extractAcceptedProposalsIds() {
         return acceptedProposals.stream()
+                .filter(AcceptedProposalDatabaseEntity::isConfirmed)
+                .map(AcceptedProposalDatabaseEntity::getProposalId)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    Set<UUID> extractPendingProposalsIds() {
+        return acceptedProposals.stream()
+                .filter(AcceptedProposalDatabaseEntity::isPending)
                 .map(AcceptedProposalDatabaseEntity::getProposalId)
                 .collect(Collectors.toUnmodifiableSet());
     }

@@ -42,4 +42,12 @@ class AcceptedProposalDatabaseEntity {
     void confirm() {
         this.status = Confirmed;
     }
+
+    boolean isPending() {
+        return status == Pending;
+    }
+
+    boolean isConfirmed() {
+        return status == Pending;
+    }
 }

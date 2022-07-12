@@ -70,6 +70,7 @@ class DomainModelMapper {
 
     Shelter map(ShelterDatabaseEntity entity) {
         return shelterFactory.create(
-                List.ofAll(entity.extractAcceptedProposalsIds()).toSet());
+                List.ofAll(entity.extractAcceptedProposalsIds()).toSet(),
+                List.ofAll(entity.extractPendingProposalsIds()).toSet());
     }
 }

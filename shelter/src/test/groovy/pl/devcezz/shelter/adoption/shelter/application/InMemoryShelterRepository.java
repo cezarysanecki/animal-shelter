@@ -16,6 +16,7 @@ import static io.vavr.API.$;
 import static io.vavr.API.Case;
 import static io.vavr.API.Match;
 import static io.vavr.Predicates.instanceOf;
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals;
 
 class InMemoryShelterRepository implements Shelters {
 
@@ -24,7 +25,7 @@ class InMemoryShelterRepository implements Shelters {
 
     @Override
     public Shelter prepareShelter() {
-        return ShelterFixture.shelterWithProposals(acceptedProposals, pendingProposals);
+        return shelterWithProposals(acceptedProposals, pendingProposals);
     }
 
     @Override

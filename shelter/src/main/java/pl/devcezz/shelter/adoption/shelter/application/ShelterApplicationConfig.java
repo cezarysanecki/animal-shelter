@@ -27,6 +27,6 @@ public class ShelterApplicationConfig {
 
     @Bean
     ShelterEventsHandler shelterEventsHandler() {
-        return new ShelterEventsHandler(cancelingProposal);
+        return new ShelterEventsHandler(cancelingProposal, shelterRepository);
     }
 }

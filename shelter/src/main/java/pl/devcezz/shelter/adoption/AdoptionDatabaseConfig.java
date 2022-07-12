@@ -42,7 +42,7 @@ import javax.sql.DataSource;
         basePackages = {"pl.devcezz.shelter.adoption"},
         dataAccessStrategyRef = "adoptionDataAccessStrategy",
         jdbcOperationsRef = "adoptionNamedParameterJdbcTemplate")
-class AdoptionDatabaseConfig {
+public class AdoptionDatabaseConfig {
 
     @Bean
     @Qualifier("adoption")

@@ -3,7 +3,7 @@ package pl.devcezz.shelter.adoption.proposal.infrastructure
 import io.vavr.control.Option
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import pl.devcezz.shelter.adoption.AdoptionTestContext
+import pl.devcezz.shelter.adoption.proposal.ProposalTestContext
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal
 import pl.devcezz.shelter.adoption.proposal.model.Proposal
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId
@@ -14,7 +14,7 @@ import spock.lang.Specification
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.pendingProposal
 
-@SpringBootTest(classes = AdoptionTestContext.class)
+@SpringBootTest(classes = ProposalTestContext.class)
 class OptimisticLockingProposalAggregateIT extends Specification {
 
     ProposalId proposalId = anyProposalId()
@@ -33,7 +33,7 @@ class OptimisticLockingProposalAggregateIT extends Specification {
             someoneAcceptedProposalInTheMeantime(pendingProposal)
         when: "Save previous version of proposal."
             proposalEntityRepository.save(loaded)
-        then: "Optimistic locking mechism worked."
+        then: "Optimistic locking mechanism worked."
             thrown(AggregateRootIsStale)
             loadPersistedProposal(proposalId).version == new Version(1)
     }

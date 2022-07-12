@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.SafeThresholdExceeded
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithAcceptedProposals
 
 class ShelterExceedingSafeThresholdSpec extends Specification {
 
@@ -13,7 +13,7 @@ class ShelterExceedingSafeThresholdSpec extends Specification {
         given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
         and: "Prepare shelter with some proposals."
-            Shelter shelter = shelterWithProposals(proposals)
+            Shelter shelter = shelterWithAcceptedProposals(proposals)
         when: "Accept proposal."
             def acceptProposal = shelter.accept(proposalId)
         then: "Operation is successful but only some space is available."

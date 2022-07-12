@@ -8,6 +8,8 @@ import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalConfirmed;
+import pl.devcezz.shelter.adoption.shelter.model.ShelterFixture;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
 
 import static io.vavr.API.$;
@@ -18,11 +20,12 @@ import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWi
 
 class InMemoryShelterRepository implements Shelters {
 
-    private Set<ProposalId> proposals = HashSet.empty();
+    private Set<ProposalId> acceptedProposals = HashSet.empty();
+    private Set<ProposalId> pendingProposals = HashSet.empty();
 
     @Override
     public Shelter prepareShelter() {
-        return shelterWithProposals(proposals);
+        return shelterWithProposals(acceptedProposals, pendingProposals);
     }
 
     @Override
@@ -31,7 +34,8 @@ class InMemoryShelterRepository implements Shelters {
                 Case($(instanceOf(ProposalAcceptedEvents.class)), this::handle),
                 Case($(instanceOf(ProposalAccepted.class)), this::handle),
                 Case($(instanceOf(ProposalCanceled.class)), this::handle),
-                Case($(), () -> shelterWithProposals(proposals))
+                Case($(instanceOf(ProposalConfirmed.class)), this::handle),
+                Case($(), () -> ShelterFixture.shelterWithAcceptedProposals(acceptedProposals))
         );
     }
 
@@ -41,12 +45,19 @@ class InMemoryShelterRepository implements Shelters {
     }
 
     private Shelter handle(ProposalAccepted event) {
-        proposals = proposals.add(event.proposalId());
-        return shelterWithProposals(proposals);
+        pendingProposals = pendingProposals.add(event.proposalId());
+        return prepareShelter();
     }
 
     private Shelter handle(ProposalCanceled event) {
-        proposals = proposals.remove(event.proposalId());
-        return shelterWithProposals(proposals);
+        pendingProposals = pendingProposals.remove(event.proposalId());
+        acceptedProposals = acceptedProposals.remove(event.proposalId());
+        return prepareShelter();
+    }
+
+    private Shelter handle(ProposalConfirmed event) {
+        pendingProposals = pendingProposals.remove(event.proposalId());
+        acceptedProposals = acceptedProposals.add(event.proposalId());
+        return prepareShelter();
     }
 }

@@ -2,8 +2,8 @@ package pl.devcezz.shelter.adoption.shelter.infrastructure
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import pl.devcezz.shelter.adoption.AdoptionTestContext
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId
+import pl.devcezz.shelter.adoption.shelter.ShelterTestContext
 import pl.devcezz.shelter.adoption.shelter.model.Shelter
 import spock.lang.Specification
 
@@ -11,7 +11,7 @@ import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProp
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted.proposalAcceptedNow
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled.proposalCanceledNow
 
-@SpringBootTest(classes = AdoptionTestContext.class)
+@SpringBootTest(classes = ShelterTestContext.class)
 class ShelterDatabaseRepositoryIT extends Specification {
 
     @Autowired

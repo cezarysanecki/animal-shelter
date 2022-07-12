@@ -28,10 +28,15 @@ public class Shelter {
 
     @NonNull
     private final Set<ProposalId> acceptedProposals;
+    @NonNull
+    private final Set<ProposalId> pendingProposals;
 
     public Either<ProposalAcceptingFailed, ProposalAcceptedEvents> accept(ProposalId proposalId) {
         if (acceptedProposals.contains(proposalId)) {
             return announceFailure(proposalAcceptingFailedNow("proposal is already accepted", proposalId));
+        }
+        if (pendingProposals.contains(proposalId)) {
+            return announceFailure(proposalAcceptingFailedNow("proposal is pending", proposalId));
         }
 
         if (enoughSpaceInShelterAfterAccepting()) {
@@ -45,14 +50,14 @@ public class Shelter {
     }
 
     public Either<ProposalCancelingFailed, ProposalCanceled> cancel(ProposalId proposalId) {
-        if (acceptedProposals.contains(proposalId)) {
+        if (pendingProposals.contains(proposalId) || acceptedProposals.contains(proposalId)) {
             return announceSuccess(proposalCanceledNow(proposalId));
         }
         return announceFailure(proposalCancelingFailedNow(proposalId));
     }
 
     public int numberOfProposals() {
-        return acceptedProposals.length();
+        return acceptedProposals.length() + pendingProposals.length();
     }
 
     private long countLeftSpace() {

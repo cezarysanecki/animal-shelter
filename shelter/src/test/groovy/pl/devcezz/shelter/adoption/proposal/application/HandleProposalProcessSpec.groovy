@@ -41,6 +41,15 @@ class HandleProposalProcessSpec extends Specification {
             1 * publisher.publish(_ as ProposalAcceptanceFailed)
     }
 
+    def 'should publish event about failure when proposal not found'() {
+        given: "Prepare any proposal id."
+            ProposalId proposalId = anyProposalId()
+        when: "Proposal is accepted."
+            shelterHandler.handle(proposalAcceptedNow(proposalId))
+        then: "Acceptance operation is forbidden for not found proposal."
+            1 * publisher.publish(_ as ProposalAcceptanceFailed)
+    }
+
     void proposalIsPersistedAs(Class<?> clazz, ProposalId proposalId) {
         Proposal proposal = loadPersistedProposal(proposalId)
         assert proposal.class == clazz

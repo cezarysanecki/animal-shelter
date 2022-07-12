@@ -16,32 +16,6 @@ public interface ProposalEvent extends DomainEvent {
     UUID getProposalId();
 
     @Value
-    class ProposalAlreadyConfirmed implements ProposalEvent {
-        @NonNull UUID eventId = UUID.randomUUID();
-        @NonNull Instant when;
-        @NonNull UUID proposalId;
-
-        public static ProposalAlreadyConfirmed proposalAlreadyConfirmedNow(ProposalId proposalId) {
-            return new ProposalAlreadyConfirmed(
-                    Instant.now(),
-                    proposalId.getValue());
-        }
-    }
-
-    @Value
-    class ProposalAlreadyProcessed implements ProposalEvent {
-        @NonNull UUID eventId = UUID.randomUUID();
-        @NonNull Instant when;
-        @NonNull UUID proposalId;
-
-        public static ProposalAlreadyProcessed proposalAlreadyProcessedNow(ProposalId proposalId) {
-            return new ProposalAlreadyProcessed(
-                    Instant.now(),
-                    proposalId.getValue());
-        }
-    }
-
-    @Value
     class ProposalAcceptanceFailed implements ProposalEvent {
         @NonNull UUID eventId = UUID.randomUUID();
         @NonNull String reason;

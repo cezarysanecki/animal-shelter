@@ -77,7 +77,7 @@ class CatalogueDatabaseConfig {
 
     @Bean
     @Qualifier("catalogue")
-    public DataAccessStrategy catalogueDataAccessStrategy(
+    DataAccessStrategy catalogueDataAccessStrategy(
             @Qualifier("catalogue") NamedParameterJdbcOperations operations,
             @Qualifier("catalogue") JdbcConverter jdbcConverter,
             JdbcMappingContext context) {
@@ -89,7 +89,7 @@ class CatalogueDatabaseConfig {
 
     @Bean
     @Qualifier("catalogue")
-    public JdbcConverter catalogueJdbcConverter(
+    JdbcConverter catalogueJdbcConverter(
             JdbcMappingContext mappingContext,
             @Qualifier("catalogue") NamedParameterJdbcOperations operations,
             @Lazy @Qualifier("catalogue") RelationResolver relationResolver,

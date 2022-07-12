@@ -22,6 +22,10 @@ public class ShelterFixture {
         return new Shelter(HashSet.of(proposalId), HashSet.of());
     }
 
+    public static Shelter shelterWithPendingProposal(ProposalId proposalId) {
+        return new Shelter(HashSet.of(), HashSet.of(proposalId));
+    }
+
     public static Shelter shelterWithAcceptedProposals(Set<ProposalId> proposals) {
         return new Shelter(proposals, HashSet.of());
     }

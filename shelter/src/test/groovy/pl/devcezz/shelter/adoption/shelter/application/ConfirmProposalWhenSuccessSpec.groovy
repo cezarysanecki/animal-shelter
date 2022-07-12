@@ -6,7 +6,7 @@ import pl.devcezz.shelter.adoption.shelter.model.Shelters
 import pl.devcezz.shelter.commons.commands.Result
 import spock.lang.Specification
 
-import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceFailed.proposalAcceptanceFailedNow
+import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceConfirmed.proposalAcceptanceConfirmedNow
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 
 class ConfirmProposalWhenSuccessSpec extends Specification {
@@ -24,7 +24,7 @@ class ConfirmProposalWhenSuccessSpec extends Specification {
         and: "Accepted proposal."
             acceptingProposal.acceptProposal(anAcceptCommand(proposalId))
         when: "Handle response that acceptance is confirmed."
-            handler.handle(proposalAcceptanceConfirmed(proposalId))
+            handler.handle(proposalAcceptanceConfirmedNow(proposalId))
         then: "Try to accept proposal once again."
             Try<Result> acceptanceResult = acceptingProposal.acceptProposal(anAcceptCommand(proposalId))
         then: "Operation is rejected."

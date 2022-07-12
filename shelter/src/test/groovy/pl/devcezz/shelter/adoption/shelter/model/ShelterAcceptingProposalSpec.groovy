@@ -6,8 +6,8 @@ import spock.lang.Specification
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAccepted
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposal
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposals
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithAcceptedProposal
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithAcceptedProposals
 
 class ShelterAcceptingProposalSpec extends Specification {
 
@@ -15,7 +15,7 @@ class ShelterAcceptingProposalSpec extends Specification {
         given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
         and: "Prepare shelter with some proposals."
-            Shelter shelter = shelterWithProposals(proposals)
+            Shelter shelter = shelterWithAcceptedProposals(proposals)
         when: "Accept new proposal."
             def acceptProposal = shelter.accept(proposalId)
         then: "Operation is successful."
@@ -32,7 +32,7 @@ class ShelterAcceptingProposalSpec extends Specification {
         given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
         and: "Prepare shelter with some proposals."
-            Shelter shelter = shelterWithProposals(proposals)
+            Shelter shelter = shelterWithAcceptedProposals(proposals)
         when: "Accept new proposal."
             def acceptProposal = shelter.accept(proposalId)
         then: "Operation is disallowed because of no space left."
@@ -47,7 +47,7 @@ class ShelterAcceptingProposalSpec extends Specification {
         given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
         and: "Prepare shelter with specified proposal."
-            Shelter shelter = shelterWithProposal(proposalId)
+            Shelter shelter = shelterWithAcceptedProposal(proposalId)
         when: "Accept accepted proposal."
             def acceptProposal = shelter.accept(proposalId)
         then: "Operation is disallowed."

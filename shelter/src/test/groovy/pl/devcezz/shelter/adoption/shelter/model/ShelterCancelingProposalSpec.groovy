@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalFixture.anyProposalId
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelter
-import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithProposal
+import static pl.devcezz.shelter.adoption.shelter.model.ShelterFixture.shelterWithAcceptedProposal
 
 class ShelterCancelingProposalSpec extends Specification {
 
@@ -13,7 +13,7 @@ class ShelterCancelingProposalSpec extends Specification {
         given: "Prepare any proposal id."
             ProposalId proposalId = anyProposalId()
         and: "Prepare shelter with specified proposal."
-            Shelter shelter = shelterWithProposal(proposalId)
+            Shelter shelter = shelterWithAcceptedProposal(proposalId)
         when: "Cancel proposal."
             def cancelProposal = shelter.cancel(proposalId)
         then: "Operation is successful."

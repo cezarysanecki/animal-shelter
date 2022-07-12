@@ -61,7 +61,7 @@ class ShelterDatabaseEntity {
     }
 
     private ShelterDatabaseEntity acceptProposal(UUID proposalId) {
-        acceptedProposals.add(new AcceptedProposalDatabaseEntity(proposalId));
+        acceptedProposals.add(AcceptedProposalDatabaseEntity.ofPending(proposalId));
         return this;
     }
 

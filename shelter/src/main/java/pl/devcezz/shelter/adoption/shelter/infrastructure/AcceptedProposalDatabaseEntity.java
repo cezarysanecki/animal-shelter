@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import java.util.UUID;
 
 import static pl.devcezz.shelter.adoption.shelter.infrastructure.AcceptedProposalDatabaseEntity.Status.Confirmed;
+import static pl.devcezz.shelter.adoption.shelter.infrastructure.AcceptedProposalDatabaseEntity.Status.Pending;
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode(of = "proposalId")
@@ -22,8 +23,12 @@ class AcceptedProposalDatabaseEntity {
     private String proposalId;
     private Status status;
 
-    AcceptedProposalDatabaseEntity(UUID proposalId) {
+    private AcceptedProposalDatabaseEntity(UUID proposalId, Status status) {
         this.proposalId = proposalId.toString();
+    }
+
+    static AcceptedProposalDatabaseEntity ofPending(UUID proposalId) {
+        return new AcceptedProposalDatabaseEntity(proposalId, Pending);
     }
 
     Long getId() {

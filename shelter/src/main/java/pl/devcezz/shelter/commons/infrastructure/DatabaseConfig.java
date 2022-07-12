@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.commons.insfrastructure;
+package pl.devcezz.shelter.commons.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

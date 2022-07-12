@@ -51,10 +51,6 @@ public class Shelter {
         return announceFailure(proposalCancelingFailedNow(proposalId));
     }
 
-    public void confirm(ProposalId proposalId) {
-
-    }
-
     public int numberOfProposals() {
         return acceptedProposals.length();
     }

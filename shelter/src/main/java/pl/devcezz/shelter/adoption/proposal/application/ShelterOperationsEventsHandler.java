@@ -9,6 +9,7 @@ import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled;
 import pl.devcezz.shelter.commons.events.DomainEvents;
 import pl.devcezz.shelter.commons.events.handler.EventsListener;
+import pl.devcezz.shelter.commons.infrastructure.AdoptionTransactional;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -25,6 +26,7 @@ public class ShelterOperationsEventsHandler {
     private final DomainEvents publisher;
 
     @EventsListener
+    @AdoptionTransactional
     public void handle(ProposalAccepted event) {
         proposalRepository.findBy(ProposalId.of(event.getProposalId()))
                 .map(this::handleProposalAccepted)
@@ -33,6 +35,7 @@ public class ShelterOperationsEventsHandler {
     }
 
     @EventsListener
+    @AdoptionTransactional
     public void handle(ProposalCanceled event) {
         proposalRepository.findBy(ProposalId.of(event.getProposalId()))
                 .map(this::handleProposalCanceled)

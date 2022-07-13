@@ -24,6 +24,8 @@
         <vavr.version>0.10.4</vavr.version>
         <lombok.version>1.18.24</lombok.version>
         <byte.buddy.version>1.12.10</byte.buddy.version>
+        <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
+        <itextpdf.version>4.0.0</itextpdf.version>
 
         <spock.version>2.0-groovy-3.0</spock.version>
         <junit.version>5.8.2</junit.version>
@@ -74,6 +76,17 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>${itextpdf.version}</version>
         </dependency>
 
         <dependency>

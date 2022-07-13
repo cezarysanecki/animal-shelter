@@ -1,10 +1,10 @@
 package pl.devcezz.shelter.adoption.shelter.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceConfirmed;
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
+import pl.devcezz.shelter.commons.events.handler.EventsListener;
 
 import static pl.devcezz.shelter.adoption.proposal.model.ProposalEvent.ProposalAcceptanceFailed;
 import static pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalConfirmed.proposalConfirmedNow;
@@ -15,12 +15,12 @@ public class ShelterEventsHandler {
     private final CancelingProposal cancelingProposal;
     private final Shelters shelterRepository;
 
-    @EventListener
+    @EventsListener
     public void handle(ProposalAcceptanceFailed event) {
         cancelingProposal.cancelProposal(cancelProposalCommandFrom(event));
     }
 
-    @EventListener
+    @EventsListener
     public void handle(ProposalAcceptanceConfirmed event) {
         shelterRepository.publish(proposalConfirmedNow(ProposalId.of(event.getProposalId())));
     }

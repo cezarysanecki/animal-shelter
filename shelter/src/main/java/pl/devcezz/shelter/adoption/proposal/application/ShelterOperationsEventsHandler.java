@@ -1,7 +1,6 @@
 package pl.devcezz.shelter.adoption.proposal.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import pl.devcezz.shelter.adoption.proposal.model.AcceptedProposal;
 import pl.devcezz.shelter.adoption.proposal.model.PendingProposal;
 import pl.devcezz.shelter.adoption.proposal.model.Proposal;
@@ -9,6 +8,7 @@ import pl.devcezz.shelter.adoption.proposal.model.ProposalId;
 import pl.devcezz.shelter.adoption.proposal.model.Proposals;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalCanceled;
 import pl.devcezz.shelter.commons.events.DomainEvents;
+import pl.devcezz.shelter.commons.events.handler.EventsListener;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -24,7 +24,7 @@ public class ShelterOperationsEventsHandler {
     private final Proposals proposalRepository;
     private final DomainEvents publisher;
 
-    @EventListener
+    @EventsListener
     public void handle(ProposalAccepted event) {
         proposalRepository.findBy(ProposalId.of(event.getProposalId()))
                 .map(this::handleProposalAccepted)
@@ -32,7 +32,7 @@ public class ShelterOperationsEventsHandler {
                 .onEmpty(() -> proposalAcceptanceFailed(ProposalId.of(event.getProposalId())));
     }
 
-    @EventListener
+    @EventsListener
     public void handle(ProposalCanceled event) {
         proposalRepository.findBy(ProposalId.of(event.getProposalId()))
                 .map(this::handleProposalCanceled)

@@ -44,6 +44,11 @@ import javax.sql.DataSource;
 class CatalogueDatabaseConfig {
 
     @Bean
+    CatalogueReadModelRepository catalogueReadModelRepository(@Qualifier("catalogue") NamedParameterJdbcOperations namedParameterJdbcOperations) {
+        return new CatalogueReadModelRepository(namedParameterJdbcOperations);
+    }
+
+    @Bean
     CatalogueRepository catalogueRepository(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
         return new CatalogueDatabaseRepository(jdbcTemplate);
     }

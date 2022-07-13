@@ -16,10 +16,6 @@ public class ShelterReadModel {
     public ShelterDto fetchShelter() {
         List<ShelterProposalDto> proposals = shelterReadModelRepository.findAcceptedProposals();
 
-        return new ShelterDto(proposals, Shelter.CAPACITY, countSpaceLeft(Shelter.CAPACITY, proposals.size()));
-    }
-
-    private Long countSpaceLeft(long capacity, long currentProposals) {
-        return capacity - currentProposals;
+        return new ShelterDto(proposals, Shelter.CAPACITY);
     }
 }

@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.adoption.shelter.readmodel;
+package pl.devcezz.shelter.adoption.shelter.readmodel.dto;
 
 import java.util.UUID;
 

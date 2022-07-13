@@ -22,7 +22,7 @@ class HtmlPreparer {
         ShelterDto shelter = shelterReadModel.fetchShelter();
         List<UUID> proposalIds = shelter.proposals()
                 .stream()
-                .map(ShelterProposalDto::proposalId)
+                .map(ShelterProposalDto::getProposalId)
                 .toList();
         List<AnimalDto> animals = catalogueReadModelRepository.findAllFor(proposalIds);
 

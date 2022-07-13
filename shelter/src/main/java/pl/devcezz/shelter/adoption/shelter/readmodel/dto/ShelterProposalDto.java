@@ -9,5 +9,4 @@ import java.util.UUID;
 @Builder
 public class ShelterProposalDto {
     UUID proposalId;
-    String status;
 }

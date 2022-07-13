@@ -18,8 +18,9 @@ class ShelterReadModelRepository {
 
     List<ShelterProposalDto> findAcceptedProposals() {
         return jdbcTemplate.query("" +
-                        "SELECT a.proposal_id, a.status " +
-                        "FROM accepted_proposal_database_entity a",
+                        "SELECT a.proposal_id " +
+                        "FROM accepted_proposal_database_entity a " +
+                        "WHERE a.status = 'Confirmed'",
                 new ShelterProposalRowMapper());
     }
 }
@@ -30,7 +31,6 @@ class ShelterProposalRowMapper implements RowMapper<ShelterProposalDto> {
     public ShelterProposalDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         return ShelterProposalDto.builder()
                 .proposalId(UUID.fromString(rs.getString("proposal_id")))
-                .status(rs.getString("status"))
                 .build();
     }
 }

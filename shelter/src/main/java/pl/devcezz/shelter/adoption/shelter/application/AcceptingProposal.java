@@ -5,6 +5,7 @@ import io.vavr.control.Try;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEvents;
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed;
@@ -25,6 +26,7 @@ public class AcceptingProposal {
 
     private final Shelters shelterRepository;
 
+    @Transactional
     public Try<Result> acceptProposal(@NonNull AcceptProposalCommand command) {
         return Try.of(() -> {
             Shelter shelter = prepare();

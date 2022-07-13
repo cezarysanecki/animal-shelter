@@ -5,6 +5,7 @@ import io.vavr.control.Try;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import pl.devcezz.shelter.commons.commands.Result;
 import pl.devcezz.shelter.commons.events.DomainEvents;
 import pl.devcezz.shelter.commons.model.Age;
@@ -23,6 +24,7 @@ public class Catalogue {
     private final CatalogueRepository repository;
     private final DomainEvents publisher;
 
+    @Transactional
     public Try<Result> confirmAnimal(AnimalId animalId) {
         return Try.of(() -> repository.findBy(animalId)
                 .map(Animal::confirm)
@@ -32,6 +34,7 @@ public class Catalogue {
         ).onFailure(ex -> log.error("failed to remove animal", ex));
     }
 
+    @Transactional
     public Try<Result> addAnimal(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
         return Try.of(() -> Option.of(Animal.create(animalId, name, age, species, gender))
                 .map(repository::save)
@@ -40,6 +43,7 @@ public class Catalogue {
         ).onFailure(ex -> log.error("failed to add new animal", ex));
     }
 
+    @Transactional
     public Try<Result> updateAnimal(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
         return Try.of(() -> repository.findBy(animalId)
                 .map(animal -> animal.updateFields(name, age, species, gender))
@@ -49,6 +53,7 @@ public class Catalogue {
         ).onFailure(ex -> log.error("failed to update animal", ex));
     }
 
+    @Transactional
     public Try<Result> deleteAnimal(AnimalId animalId) {
         return Try.of(() -> repository.findBy(animalId)
                 .map(Animal::delete)

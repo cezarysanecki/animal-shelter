@@ -10,6 +10,7 @@ import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptedEv
 import pl.devcezz.shelter.adoption.shelter.model.ShelterEvent.ProposalAcceptingFailed;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
 import pl.devcezz.shelter.commons.commands.Result;
+import pl.devcezz.shelter.commons.infrastructure.AdoptionTransactional;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -25,6 +26,7 @@ public class AcceptingProposal {
 
     private final Shelters shelterRepository;
 
+    @AdoptionTransactional
     public Try<Result> acceptProposal(@NonNull AcceptProposalCommand command) {
         return Try.of(() -> {
             Shelter shelter = prepare();

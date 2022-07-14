@@ -1,7 +1,10 @@
 package pl.devcezz.shelter.generator;
 
-@FunctionalInterface
+import pl.devcezz.shelter.generator.dto.ContentType;
+
 public interface DataFetcher {
 
-    Object fetch(ContentType contentType);
+    Object fetch();
+
+    boolean isApplicable(ContentType contentType);
 }

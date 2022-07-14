@@ -12,8 +12,7 @@ public class GeneratorExternalConfig {
     @Bean
     DataFetcher dataFetcher(ShelterReadModel shelterReadModel,
                             CatalogueReadModelRepository catalogueReadModelRepository) {
-        ShelterListDataFetcher shelterListDataFetcher = new ShelterListDataFetcher(
+        return new ShelterListDataFetcher(
                 shelterReadModel, catalogueReadModelRepository);
-        return new ShelterDataFetcher(shelterListDataFetcher);
     }
 }

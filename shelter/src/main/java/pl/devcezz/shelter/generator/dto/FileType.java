@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.generator;
+package pl.devcezz.shelter.generator.dto;
 
 import java.util.stream.Stream;
 

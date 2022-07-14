@@ -23,7 +23,7 @@ import static pl.devcezz.shelter.commons.events.EitherResult.announceSuccess;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Shelter {
 
-    static final long CAPACITY = 10;
+    public static final long CAPACITY = 10;
     static final long SAFE_THRESHOLD = 7;
 
     @NonNull

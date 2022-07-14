@@ -26,16 +26,18 @@
             <tr>
                 <th class="tg-lqy6">no</th>
                 <th class="tg-baqh">Name</th>
-                <th class="tg-baqh">Species</th>
                 <th class="tg-baqh">Age</th>
+                <th class="tg-baqh">Species</th>
+                <th class="tg-baqh">Gender</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="animal, itemStat : ${animals}">
                 <td class="tg-zczf" th:text="${itemStat.index + 1}"></td>
                 <td class="tg-yq6s" th:text="${animal.getName()}"></td>
-                <td class="tg-yq6s" th:text="${animal.getSpecies()}"></td>
                 <td class="tg-yq6s" th:text="${animal.getAge()}"></td>
+                <td class="tg-yq6s" th:text="${animal.getSpecies()}"></td>
+                <td class="tg-yq6s" th:text="${animal.getGender()}"></td>
             </tr>
             </tbody>
         </table>

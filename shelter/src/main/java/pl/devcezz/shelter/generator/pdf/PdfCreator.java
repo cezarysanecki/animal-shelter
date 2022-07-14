@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.generator;
+package pl.devcezz.shelter.generator.pdf;
 
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
@@ -18,7 +18,8 @@ class PdfCreator {
 
         try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(pdfTempFilename))) {
             ConverterProperties converterProperties = new ConverterProperties();
-            converterProperties.setFontProvider(new DefaultFontProvider(true, true, true));
+            converterProperties.setFontProvider(
+                    new DefaultFontProvider(true, true, true));
             HtmlConverter.convertToPdf(htmlContent.value(), outputStream, converterProperties);
 
             return Files.readAllBytes(Paths.get(pdfTempFilename));

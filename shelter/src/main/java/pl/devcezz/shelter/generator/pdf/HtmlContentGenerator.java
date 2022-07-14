@@ -1,4 +1,4 @@
-package pl.devcezz.shelter.generator;
+package pl.devcezz.shelter.generator.pdf;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +10,9 @@ class HtmlContentGenerator {
 
     private final TemplateEngine templateEngine;
 
-    HtmlContent process(HtmlInput htmlInput) {
-        Context context = new Context(null, htmlInput.contextMap().toJavaMap());
+    HtmlContent process(HtmlContext htmlContext) {
+        Context context = new Context(null, htmlContext.contextMap().toJavaMap());
 
-        return new HtmlContent(templateEngine.process(htmlInput.template(), context));
+        return new HtmlContent(templateEngine.process(htmlContext.template(), context));
     }
 }

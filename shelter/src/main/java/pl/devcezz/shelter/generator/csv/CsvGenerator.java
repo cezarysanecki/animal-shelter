@@ -2,6 +2,7 @@ package pl.devcezz.shelter.generator.csv;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import pl.devcezz.shelter.catalogue.AnimalDto;
 import pl.devcezz.shelter.generator.FileGenerator;
 import pl.devcezz.shelter.generator.dto.FileType;
 import pl.devcezz.shelter.generator.dto.ShelterListData;
@@ -9,6 +10,7 @@ import pl.devcezz.shelter.generator.dto.ShelterListData;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -30,14 +32,17 @@ class CsvGenerator implements FileGenerator {
 
     private ByteArrayOutputStream handleShelterList(ShelterListData data) {
         CSVFormat csvFormat = CSVFormat.Builder.create().setHeader(
-                "name", "age", "species", "gender"
+                "no", "name", "age", "species", "gender"
         ).build();
 
         try (var byteArrayOutputStream = new ByteArrayOutputStream();
              var csvPrinter = new CSVPrinter(new PrintWriter(byteArrayOutputStream), csvFormat)) {
 
-            for (var animal : data.animals()) {
+            List<AnimalDto> animals = data.animals();
+            for (int index = 0; index < animals.size(); index++) {
+                AnimalDto animal = animals.get(index);
                 csvPrinter.printRecord(
+                        index + 1,
                         animal.getName(),
                         animal.getAge(),
                         animal.getSpecies(),

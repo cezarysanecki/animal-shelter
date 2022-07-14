@@ -3,7 +3,7 @@ package pl.devcezz.shelter.generator.dto;
 import java.util.stream.Stream;
 
 public enum FileType {
-    Pdf;
+    Pdf, Csv;
 
     public static FileType of(String fileType) {
         return Stream.of(values())

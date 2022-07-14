@@ -31,7 +31,7 @@ class PdfGenerator implements FileGenerator {
         return pdfCreator.process(htmlContent);
     }
 
-    HtmlContext handleShelterList(ShelterListData data) {
+    private HtmlContext handleShelterList(ShelterListData data) {
         HashMap<String, Object> contextMap = HashMap.of(
                 "animals", data.animals(),
                 "shelterCapacity", data.shelterCapacity()

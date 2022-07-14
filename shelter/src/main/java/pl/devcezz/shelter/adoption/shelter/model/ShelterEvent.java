@@ -112,4 +112,17 @@ public interface ShelterEvent extends DomainEvent {
                     proposalId.getValue());
         }
     }
+
+    @Value
+    class ProposalConfirmed implements ShelterEvent {
+        @NonNull UUID eventId = UUID.randomUUID();
+        @NonNull Instant when;
+        @NonNull UUID proposalId;
+
+        public static ProposalConfirmed proposalConfirmedNow(ProposalId proposalId) {
+            return new ProposalConfirmed(
+                    Instant.now(),
+                    proposalId.getValue());
+        }
+    }
 }

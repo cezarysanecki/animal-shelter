@@ -23,15 +23,20 @@ import static pl.devcezz.shelter.commons.events.EitherResult.announceSuccess;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Shelter {
 
-    static final long CAPACITY = 10;
+    public static final long CAPACITY = 10;
     static final long SAFE_THRESHOLD = 7;
 
     @NonNull
     private final Set<ProposalId> acceptedProposals;
+    @NonNull
+    private final Set<ProposalId> pendingProposals;
 
     public Either<ProposalAcceptingFailed, ProposalAcceptedEvents> accept(ProposalId proposalId) {
         if (acceptedProposals.contains(proposalId)) {
             return announceFailure(proposalAcceptingFailedNow("proposal is already accepted", proposalId));
+        }
+        if (pendingProposals.contains(proposalId)) {
+            return announceFailure(proposalAcceptingFailedNow("proposal is pending", proposalId));
         }
 
         if (enoughSpaceInShelterAfterAccepting()) {
@@ -45,14 +50,14 @@ public class Shelter {
     }
 
     public Either<ProposalCancelingFailed, ProposalCanceled> cancel(ProposalId proposalId) {
-        if (acceptedProposals.contains(proposalId)) {
+        if (pendingProposals.contains(proposalId) || acceptedProposals.contains(proposalId)) {
             return announceSuccess(proposalCanceledNow(proposalId));
         }
         return announceFailure(proposalCancelingFailedNow(proposalId));
     }
 
     public int numberOfProposals() {
-        return acceptedProposals.length();
+        return acceptedProposals.length() + pendingProposals.length();
     }
 
     private long countLeftSpace() {

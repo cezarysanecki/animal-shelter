@@ -7,7 +7,9 @@ import java.util.UUID;
 
 public class ShelterFactory {
 
-    public Shelter create(Set<UUID> acceptedProposalsIds) {
-        return new Shelter(acceptedProposalsIds.map(ProposalId::of));
+    public Shelter create(Set<UUID> acceptedProposalsIds, Set<UUID> pendingProposalsIds) {
+        return new Shelter(
+                acceptedProposalsIds.map(ProposalId::of),
+                pendingProposalsIds.map(ProposalId::of));
     }
 }

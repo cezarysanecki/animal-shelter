@@ -11,19 +11,27 @@ import static io.vavr.collection.HashSet.rangeClosed;
 public class ShelterFixture {
 
     public static Shelter shelter() {
-        return new Shelter(HashSet.of());
+        return new Shelter(HashSet.of(), HashSet.of());
     }
 
-    public static Shelter shelterWithProposal(ProposalId proposalId) {
-        return new Shelter(HashSet.of(proposalId));
+    public static Shelter shelterWithProposals(Set<ProposalId> acceptedProposals, Set<ProposalId> pendingProposals) {
+        return new Shelter(acceptedProposals, pendingProposals);
     }
 
-    public static Shelter shelterWithProposals(Set<ProposalId> proposals) {
-        return new Shelter(proposals);
+    public static Shelter shelterWithAcceptedProposal(ProposalId proposalId) {
+        return new Shelter(HashSet.of(proposalId), HashSet.of());
     }
 
-    public static Shelter shelterWithProposals(int amount) {
-        return new Shelter(proposals(amount));
+    public static Shelter shelterWithPendingProposal(ProposalId proposalId) {
+        return new Shelter(HashSet.of(), HashSet.of(proposalId));
+    }
+
+    public static Shelter shelterWithAcceptedProposals(Set<ProposalId> proposals) {
+        return new Shelter(proposals, HashSet.of());
+    }
+
+    public static Shelter shelterWithAcceptedProposals(int amount) {
+        return new Shelter(proposals(amount), HashSet.of());
     }
 
     public static Set<ProposalId> proposals(int numberOfProposals) {

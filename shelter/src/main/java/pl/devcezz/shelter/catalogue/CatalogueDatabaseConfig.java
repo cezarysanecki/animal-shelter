@@ -44,6 +44,11 @@ import javax.sql.DataSource;
 class CatalogueDatabaseConfig {
 
     @Bean
+    CatalogueReadModelRepository catalogueReadModelRepository(@Qualifier("catalogue") NamedParameterJdbcOperations namedParameterJdbcOperations) {
+        return new CatalogueReadModelRepository(namedParameterJdbcOperations);
+    }
+
+    @Bean
     CatalogueRepository catalogueRepository(@Qualifier("catalogue") JdbcTemplate jdbcTemplate) {
         return new CatalogueDatabaseRepository(jdbcTemplate);
     }
@@ -77,7 +82,7 @@ class CatalogueDatabaseConfig {
 
     @Bean
     @Qualifier("catalogue")
-    public DataAccessStrategy catalogueDataAccessStrategy(
+    DataAccessStrategy catalogueDataAccessStrategy(
             @Qualifier("catalogue") NamedParameterJdbcOperations operations,
             @Qualifier("catalogue") JdbcConverter jdbcConverter,
             JdbcMappingContext context) {
@@ -89,7 +94,7 @@ class CatalogueDatabaseConfig {
 
     @Bean
     @Qualifier("catalogue")
-    public JdbcConverter catalogueJdbcConverter(
+    JdbcConverter catalogueJdbcConverter(
             JdbcMappingContext mappingContext,
             @Qualifier("catalogue") NamedParameterJdbcOperations operations,
             @Lazy @Qualifier("catalogue") RelationResolver relationResolver,

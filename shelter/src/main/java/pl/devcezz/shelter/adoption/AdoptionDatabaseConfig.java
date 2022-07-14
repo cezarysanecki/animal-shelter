@@ -42,7 +42,7 @@ import javax.sql.DataSource;
         basePackages = {"pl.devcezz.shelter.adoption"},
         dataAccessStrategyRef = "adoptionDataAccessStrategy",
         jdbcOperationsRef = "adoptionNamedParameterJdbcTemplate")
-class AdoptionDatabaseConfig {
+public class AdoptionDatabaseConfig {
 
     @Bean
     @Qualifier("adoption")
@@ -73,7 +73,7 @@ class AdoptionDatabaseConfig {
 
     @Bean
     @Qualifier("adoption")
-    public DataAccessStrategy adoptionDataAccessStrategy(
+    DataAccessStrategy adoptionDataAccessStrategy(
             @Qualifier("adoption") NamedParameterJdbcOperations operations,
             @Qualifier("adoption") JdbcConverter jdbcConverter,
             JdbcMappingContext context) {
@@ -86,7 +86,7 @@ class AdoptionDatabaseConfig {
     @Bean
     @Qualifier("adoption")
     @Primary // need to be for JdbcRepositoryFactoryBean
-    public JdbcConverter adoptionJdbcConverter(
+    JdbcConverter adoptionJdbcConverter(
             JdbcMappingContext mappingContext,
             @Qualifier("adoption") NamedParameterJdbcOperations operations,
             @Lazy @Qualifier("adoption") RelationResolver relationResolver,

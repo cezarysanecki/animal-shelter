@@ -1,7 +1,6 @@
 package pl.devcezz.shelter.adoption.shelter.application
 
 import io.vavr.control.Try
-import pl.devcezz.shelter.adoption.proposal.model.ProposalEvent
 import pl.devcezz.shelter.adoption.proposal.model.ProposalId
 import pl.devcezz.shelter.adoption.shelter.model.Shelters
 import pl.devcezz.shelter.commons.commands.Result

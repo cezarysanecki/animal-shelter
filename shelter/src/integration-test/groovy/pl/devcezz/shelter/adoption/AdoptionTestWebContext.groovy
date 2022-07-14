@@ -6,12 +6,14 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
+import pl.devcezz.shelter.adoption.proposal.ProposalTestContext
+import pl.devcezz.shelter.adoption.shelter.ShelterTestContext
 import pl.devcezz.shelter.adoption.shelter.application.AcceptingProposal
 import pl.devcezz.shelter.adoption.shelter.application.CancelingProposal
 import spock.lang.Specification
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = [AdoptionTestContext.class])
+@ContextConfiguration(classes = [ShelterTestContext.class, ProposalTestContext.class])
 class AdoptionTestWebContext extends Specification {
 
     @Autowired

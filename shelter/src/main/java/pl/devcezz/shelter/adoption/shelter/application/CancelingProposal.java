@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import pl.devcezz.shelter.adoption.shelter.model.Shelter;
 import pl.devcezz.shelter.adoption.shelter.model.Shelters;
 import pl.devcezz.shelter.commons.commands.Result;
+import pl.devcezz.shelter.commons.infrastructure.AdoptionTransactional;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -25,6 +26,7 @@ public class CancelingProposal {
 
     private final Shelters shelterRepository;
 
+    @AdoptionTransactional
     public Try<Result> cancelProposal(@NonNull CancelProposalCommand command) {
         return Try.of(() -> {
             Shelter shelter = prepare();

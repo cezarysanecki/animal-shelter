@@ -1,14 +1,16 @@
-package pl.devcezz.shelter.adoption;
+package pl.devcezz.shelter.adoption.shelter;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import pl.devcezz.shelter.adoption.AdoptionDatabaseConfig;
 import pl.devcezz.shelter.commons.events.publisher.DomainEventsConfig;
-import pl.devcezz.shelter.commons.insfrastructure.DatabaseConfig;
+import pl.devcezz.shelter.commons.infrastructure.DatabaseConfig;
 
 @Configuration
-@Import({AdoptionConfig.class,
+@Import({ShelterConfig.class,
+        AdoptionDatabaseConfig.class,
         DatabaseConfig.class,
         DomainEventsConfig.class})
-public class AdoptionTestContext {
+public class ShelterTestContext {
 }
 

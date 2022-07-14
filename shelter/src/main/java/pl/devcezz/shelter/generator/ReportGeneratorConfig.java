@@ -3,6 +3,7 @@ package pl.devcezz.shelter.generator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import pl.devcezz.shelter.generator.csv.CsvFileGeneratorConfig;
 import pl.devcezz.shelter.generator.dto.ContentType;
 import pl.devcezz.shelter.generator.dto.FileType;
 import pl.devcezz.shelter.generator.external.GeneratorExternalConfig;
@@ -15,7 +16,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Configuration
-@Import({GeneratorExternalConfig.class, PdfFileGeneratorConfig.class})
+@Import({
+        GeneratorExternalConfig.class,
+        PdfFileGeneratorConfig.class,
+        CsvFileGeneratorConfig.class})
 public class ReportGeneratorConfig {
 
     @Bean

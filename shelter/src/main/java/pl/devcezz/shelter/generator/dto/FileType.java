@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public enum FileType {
     Pdf;
 
-    static FileType of(String fileType) {
+    public static FileType of(String fileType) {
         return Stream.of(values())
                 .filter(fileTypeEnum -> fileTypeEnum.name().equalsIgnoreCase(fileType))
                 .findFirst()

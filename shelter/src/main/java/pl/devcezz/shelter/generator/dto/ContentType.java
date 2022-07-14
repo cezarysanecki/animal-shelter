@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public enum ContentType {
     ShelterList;
 
-    static ContentType of(String contentType) {
+    public static ContentType of(String contentType) {
         return Stream.of(values())
                 .filter(contentTypeEnum -> contentTypeEnum.name().equalsIgnoreCase(contentType))
                 .findFirst()

@@ -27,7 +27,7 @@ import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Deleted;
 import static pl.devcezz.shelter.adoption.proposal.infrastructure.ProposalEntity.ProposalState.Pending;
 
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class ProposalDatabaseRepository implements Proposals {
 
     private final JdbcTemplate jdbcTemplate;

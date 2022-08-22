@@ -25,16 +25,6 @@ public class Catalogue {
     private final DomainEvents publisher;
 
     @CatalogueTransactional
-    public Try<Result> confirmAnimal(AnimalId animalId) {
-        return Try.of(() -> repository.findBy(animalId)
-                .map(Animal::confirm)
-                .map(this::updateAndPublishConfirmationEvent)
-                .map(animal -> Success)
-                .getOrElse(Rejection)
-        ).onFailure(ex -> log.error("failed to remove animal", ex));
-    }
-
-    @CatalogueTransactional
     public Try<Result> addAnimal(AnimalId animalId, Name name, Age age, Species species, Gender gender) {
         return Try.of(() -> Option.of(Animal.create(animalId, name, age, species, gender))
                 .map(repository::save)
@@ -63,9 +53,20 @@ public class Catalogue {
         ).onFailure(ex -> log.error("failed to remove animal", ex));
     }
 
+    @CatalogueTransactional
+    public Try<Result> confirmAnimal(AnimalId animalId) {
+        return Try.of(() -> repository.findBy(animalId)
+                .map(Animal::confirm)
+                .map(this::updateAndPublishConfirmationEvent)
+                .map(animal -> Success)
+                .getOrElse(Rejection)
+        ).onFailure(ex -> log.error("failed to remove animal", ex));
+    }
+
     private Animal updateAndPublishConfirmationEvent(Animal animal) {
         repository.update(animal);
-        publisher.publish(animalConfirmedNow(animal.getAnimalId()));
+        publisher.publish(animalConfirmedNow(
+                animal.getAnimalId(), animal.getName(), animal.getAge(), animal.getSpecies(), animal.getGender()));
         return animal;
     }
 

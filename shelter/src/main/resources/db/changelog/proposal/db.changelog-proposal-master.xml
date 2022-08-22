@@ -15,5 +15,6 @@
     <include file="1.0/20220624_modify_status_column.xml" relativeToChangelogFile="true"/>
     <include file="1.0/20220626_create_table_for_accepted_proposals.xml" relativeToChangelogFile="true"/>
     <include file="1.0/20220712_create_status_for_accepted_proposal_entity.xml" relativeToChangelogFile="true"/>
+    <include file="1.0/20220822_create_proposal_animal_table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
